@@ -10,6 +10,7 @@ import fs from "fs";
 import { ParsedQs } from "qs";
 import axios from "axios";
 import { db } from "./db";
+import { eq } from "drizzle-orm";
 
 // Configure multer for file uploads - store files locally
 const uploadDir = path.join(process.cwd(), 'uploads');
@@ -186,6 +187,146 @@ export async function registerRoutes(app: Express): Promise<Server> {
       } else {
         res.status(500).json({ message: "Error importing services" });
       }
+    }
+  });
+  
+  // CRUD API dla ServiceCatalog (panel administracyjny)
+  
+  // Pobieranie pojedynczej usługi przez ID - dostępne dla obu aplikacji
+  app.get("/api/admin/services/:id", async (req, res) => {
+    try {
+      const apiKey = req.query.key as string;
+      
+      // Weryfikacja klucza API
+      if (!apiKey || apiKey !== "ecm-database-sharing-key") {
+        return res.status(401).json({ message: "Unauthorized: Invalid API key" });
+      }
+      
+      const { id } = req.params;
+      
+      if (!id) {
+        return res.status(400).json({ message: "Service ID is required" });
+      }
+      
+      const service = await storage.getServiceByServiceId(id);
+      
+      if (!service) {
+        return res.status(404).json({ message: "Service not found" });
+      }
+      
+      res.json(service);
+    } catch (error) {
+      console.error("Error fetching service:", error);
+      res.status(500).json({ message: "Error fetching service" });
+    }
+  });
+  
+  // Aktualizacja usługi (tylko dla ServiceCatalog)
+  app.put("/api/admin/services/:id", async (req, res) => {
+    try {
+      const apiKey = req.query.key as string;
+      const appName = req.query.app as string;
+      
+      // Weryfikacja klucza API
+      if (!apiKey || apiKey !== "ecm-database-sharing-key") {
+        return res.status(401).json({ message: "Unauthorized: Invalid API key" });
+      }
+      
+      // Sprawdź czy to jest ServiceCatalog
+      if (appName !== "ServiceCatalog") {
+        return res.status(403).json({ 
+          message: "Forbidden: Only ServiceCatalog has permission to update services" 
+        });
+      }
+      
+      const { id } = req.params;
+      const serviceData = req.body;
+      
+      if (!id) {
+        return res.status(400).json({ message: "Service ID is required" });
+      }
+      
+      // Sprawdź czy usługa istnieje
+      const existingService = await db.select().from(services).where(eq(services.serviceId, id)).limit(1);
+      
+      if (existingService.length === 0) {
+        return res.status(404).json({ message: "Service not found" });
+      }
+      
+      // Aktualizacja usługi w bazie danych
+      const updateData = {
+        serviceId: serviceData.id || id,
+        name: serviceData.name,
+        description: serviceData.description,
+        basePrice: serviceData.basePrice,
+        deliveryTime: serviceData.deliveryTime,
+        features: serviceData.features || [],
+        steps: serviceData.steps || [],
+      };
+      
+      // Aktualizuj usługę w bazie danych
+      const result = await db
+        .update(services)
+        .set(updateData)
+        .where(eq(services.serviceId, id))
+        .returning();
+      
+      res.json({ 
+        success: true,
+        message: "Service updated successfully",
+        service: result[0]
+      });
+    } catch (error) {
+      console.error("Error updating service:", error);
+      if (error instanceof z.ZodError) {
+        res.status(400).json({ message: "Invalid service data", errors: error.errors });
+      } else {
+        res.status(500).json({ message: "Error updating service" });
+      }
+    }
+  });
+  
+  // Usuwanie usługi (tylko dla ServiceCatalog)
+  app.delete("/api/admin/services/:id", async (req, res) => {
+    try {
+      const apiKey = req.query.key as string;
+      const appName = req.query.app as string;
+      
+      // Weryfikacja klucza API
+      if (!apiKey || apiKey !== "ecm-database-sharing-key") {
+        return res.status(401).json({ message: "Unauthorized: Invalid API key" });
+      }
+      
+      // Sprawdź czy to jest ServiceCatalog
+      if (appName !== "ServiceCatalog") {
+        return res.status(403).json({ 
+          message: "Forbidden: Only ServiceCatalog has permission to delete services" 
+        });
+      }
+      
+      const { id } = req.params;
+      
+      if (!id) {
+        return res.status(400).json({ message: "Service ID is required" });
+      }
+      
+      // Sprawdź czy usługa istnieje
+      const existingService = await db.select().from(services).where(eq(services.serviceId, id)).limit(1);
+      
+      if (existingService.length === 0) {
+        return res.status(404).json({ message: "Service not found" });
+      }
+      
+      // Usuń usługę z bazy danych
+      await db.delete(services).where(eq(services.serviceId, id));
+      
+      res.json({ 
+        success: true,
+        message: "Service deleted successfully" 
+      });
+    } catch (error) {
+      console.error("Error deleting service:", error);
+      res.status(500).json({ message: "Error deleting service" });
     }
   });
 
@@ -430,6 +571,71 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(500).json({
         success: false,
         message: "Failed to synchronize data",
+        error: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+  
+  // Endpoint do zarządzania uprawnieniami - określa role aplikacji
+  app.get("/api/admin/roles", async (req, res) => {
+    try {
+      const apiKey = req.query.key as string;
+      const appName = req.query.app as string;
+      
+      // Weryfikacja klucza API
+      if (!apiKey || apiKey !== "ecm-database-sharing-key") {
+        return res.status(401).json({ message: "Unauthorized: Invalid API key" });
+      }
+      
+      if (!appName) {
+        return res.status(400).json({ message: "Bad request: Missing application name" });
+      }
+      
+      // Określenie ról i uprawnień dla aplikacji
+      const roles = {
+        "ECM Digital": {
+          name: "ECM Digital",
+          description: "Aplikacja kliencka do prezentacji i zamawiania usług",
+          role: "client",
+          permissions: [
+            { resource: "services", action: "read" },
+            { resource: "orders", action: "create" },
+            { resource: "orders", action: "read" }
+          ]
+        },
+        "ServiceCatalog": {
+          name: "ServiceCatalog",
+          description: "Panel administracyjny do zarządzania usługami",
+          role: "admin",
+          permissions: [
+            { resource: "services", action: "read" },
+            { resource: "services", action: "create" },
+            { resource: "services", action: "update" },
+            { resource: "services", action: "delete" },
+            { resource: "orders", action: "read" },
+            { resource: "orders", action: "update" },
+            { resource: "orders", action: "delete" },
+            { resource: "users", action: "read" }
+          ]
+        }
+      };
+      
+      // Zwróć informacje o rolach dla danej aplikacji lub 404, jeśli aplikacja nie istnieje
+      const appRoles = roles[appName as keyof typeof roles];
+      
+      if (!appRoles) {
+        return res.status(404).json({ 
+          message: "Application not found",
+          availableApps: Object.keys(roles)
+        });
+      }
+      
+      res.json(appRoles);
+    } catch (error) {
+      console.error("Error retrieving application roles:", error);
+      res.status(500).json({
+        success: false,
+        message: "Failed to retrieve application roles",
         error: error instanceof Error ? error.message : 'Unknown error'
       });
     }
