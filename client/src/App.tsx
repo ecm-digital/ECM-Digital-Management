@@ -4,12 +4,13 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import WelcomeScreen from "@/components/WelcomeScreen";
 import MainApp from "@/components/MainApp";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 import { Service } from "@/types";
 import { fetchServicesFromCatalog, setServiceCatalogBaseUrl } from "@/lib/serviceCatalogApi";
 import { toast } from "@/hooks/use-toast";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { apiRequest } from "@/lib/queryClient";
 
 // Typ dla źródła danych
 type DataSource = 'local' | 'serviceCatalog';
@@ -139,6 +140,64 @@ function App() {
                 >
                   Zastosuj
                 </Button>
+              </div>
+              
+              {/* Przycisk synchronizacji usług z ServiceCatalog */}
+              <div className="pt-2 border-t border-gray-700">
+                <button
+                  onClick={async () => {
+                    try {
+                      // Najpierw pobierz usługi z ServiceCatalog
+                      const servicesFromCatalog = await fetchServicesFromCatalog();
+                      
+                      if (!servicesFromCatalog || servicesFromCatalog.length === 0) {
+                        toast({
+                          title: "Brak usług",
+                          description: "Nie znaleziono żadnych usług do synchronizacji w ServiceCatalog",
+                          variant: "destructive"
+                        });
+                        return;
+                      }
+                      
+                      // Wyślij usługi do synchronizacji
+                      const response = await apiRequest(
+                        `/api/admin/sync-from-servicecatalog?key=ecm-database-sharing-key`,
+                        {
+                          method: 'POST',
+                          headers: { 'Content-Type': 'application/json' },
+                          body: JSON.stringify({
+                            serviceUrl,
+                            services: servicesFromCatalog
+                          })
+                        }
+                      );
+                      
+                      // Odśwież listę usług
+                      queryClient.invalidateQueries({queryKey: ['/api/services']});
+                      
+                      toast({
+                        title: "Synchronizacja zakończona",
+                        description: `Zsynchronizowano ${response.results.added} nowych i ${response.results.updated} zaktualizowanych usług.`
+                      });
+                      
+                      // Jeśli używamy źródła ServiceCatalog, przełączmy na lokalne dane aby zobaczyć zsynchronizowane usługi
+                      if (dataSource === 'serviceCatalog') {
+                        setDataSource('local');
+                      }
+                      
+                    } catch (error) {
+                      console.error('Błąd podczas synchronizacji usług:', error);
+                      toast({
+                        title: "Błąd synchronizacji",
+                        description: `Nie udało się zsynchronizować usług: ${error instanceof Error ? error.message : 'Nieznany błąd'}`,
+                        variant: "destructive"
+                      });
+                    }
+                  }}
+                  className="w-full px-2 py-1 rounded bg-green-700 hover:bg-green-600 transition-colors"
+                >
+                  Synchronizuj usługi z ServiceCatalog
+                </button>
               </div>
             </div>
           )}

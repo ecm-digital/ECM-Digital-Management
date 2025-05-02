@@ -536,7 +536,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
   
-  // Endpoint do synchronizacji danych pomiędzy aplikacjami
+  // Endpoint do synchronizacji danych pomiędzy aplikacjami (get info)
   app.post("/api/admin/sync-services", async (req, res) => {
     try {
       const apiKey = req.query.key as string;
@@ -571,6 +571,117 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(500).json({
         success: false,
         message: "Failed to synchronize data",
+        error: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+  
+  // Endpoint do aktywnej synchronizacji usług z ServiceCatalog do ECM Digital
+  app.post("/api/admin/sync-from-servicecatalog", async (req, res) => {
+    try {
+      const apiKey = req.query.key as string;
+      const { serviceUrl, services: servicesToSync } = req.body;
+      
+      // Weryfikacja klucza API
+      if (!apiKey || apiKey !== "ecm-database-sharing-key") {
+        return res.status(401).json({ message: "Unauthorized: Invalid API key" });
+      }
+      
+      if (!Array.isArray(servicesToSync)) {
+        return res.status(400).json({ message: "Expected an array of services" });
+      }
+      
+      console.log(`Otrzymano żądanie synchronizacji ${servicesToSync.length} usług z ServiceCatalog (${serviceUrl})`);
+      
+      type ServiceResult = {
+        serviceId: string;
+        name: string;
+        status: string;
+        error?: string;
+      };
+        
+      const results = {
+        added: 0,
+        updated: 0,
+        errors: 0,
+        services: [] as ServiceResult[]
+      };
+      
+      // Dla każdej usługi, spróbuj ją dodać lub zaktualizować
+      for (const serviceData of servicesToSync) {
+        try {
+          // Sprawdź czy usługa już istnieje (po serviceId)
+          const existingServices = await db
+            .select()
+            .from(services)
+            .where(eq(services.serviceId, serviceData.id))
+            .limit(1);
+            
+          const existingService = existingServices.length > 0 ? existingServices[0] : null;
+          
+          const serviceToUpsert = {
+            serviceId: serviceData.id,
+            name: serviceData.name,
+            description: serviceData.description,
+            basePrice: serviceData.basePrice,
+            deliveryTime: serviceData.deliveryTime,
+            features: serviceData.features || [],
+            steps: serviceData.steps || []
+          };
+          
+          if (existingService) {
+            // Aktualizuj istniejącą usługę
+            const [updatedService] = await db
+              .update(services)
+              .set(serviceToUpsert)
+              .where(eq(services.serviceId, serviceData.id))
+              .returning();
+              
+            results.updated++;
+            results.services.push({
+              serviceId: updatedService.serviceId,
+              name: updatedService.name,
+              status: 'updated'
+            });
+            console.log(`Zaktualizowano usługę: ${serviceData.name} (${serviceData.id})`);
+          } else {
+            // Dodaj nową usługę
+            const validatedData = insertServiceSchema.parse(serviceToUpsert);
+            const [newService] = await db
+              .insert(services)
+              .values(validatedData)
+              .returning();
+              
+            results.added++;
+            results.services.push({
+              serviceId: newService.serviceId,
+              name: newService.name,
+              status: 'added'
+            });
+            console.log(`Dodano nową usługę: ${serviceData.name} (${serviceData.id})`);
+          }
+        } catch (error) {
+          console.error(`Błąd podczas synchronizacji usługi ${serviceData.id}:`, error);
+          results.errors++;
+          results.services.push({
+            serviceId: serviceData.id,
+            name: serviceData.name || 'Unknown',
+            status: 'error',
+            error: error instanceof Error ? error.message : 'Unknown error'
+          });
+        }
+      }
+      
+      res.json({
+        success: true,
+        message: `Synchronizacja zakończona: dodano ${results.added}, zaktualizowano ${results.updated}, błędów: ${results.errors}`,
+        results
+      });
+    } catch (error) {
+      console.error("Error in service synchronization:", error);
+      res.status(500).json({
+        success: false,
+        message: "Failed to synchronize services",
         error: error instanceof Error ? error.message : 'Unknown error'
       });
     }
