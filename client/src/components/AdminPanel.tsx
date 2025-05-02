@@ -52,10 +52,14 @@ export default function AdminPanel() {
   const [isNewDialogOpen, setIsNewDialogOpen] = useState(false);
   const [newService, setNewService] = useState<Partial<Service>>({
     name: '',
+    shortDescription: '',
     description: '',
+    longDescription: '',
     basePrice: 0,
     deliveryTime: 1,
     features: [] as string[],
+    benefits: [] as string[],
+    scope: [] as string[],
     category: 'Inne',
     status: 'Aktywna'
   });
@@ -165,10 +169,14 @@ export default function AdminPanel() {
       setIsNewDialogOpen(false);
       setNewService({
         name: '',
+        shortDescription: '',
         description: '',
+        longDescription: '',
         basePrice: 0,
         deliveryTime: 1,
         features: [],
+        benefits: [],
+        scope: [],
         category: 'Inne',
         status: 'Aktywna'
       });
@@ -389,12 +397,35 @@ export default function AdminPanel() {
               </div>
               
               <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="description" className="text-right">Opis</Label>
+                <Label htmlFor="shortDescription" className="text-right">Krótki opis</Label>
+                <Input
+                  id="shortDescription"
+                  value={editingService.shortDescription || ''}
+                  onChange={(e) => setEditingService({...editingService, shortDescription: e.target.value})}
+                  className="col-span-3"
+                  placeholder="Krótkie podsumowanie usługi (1-2 zdania)"
+                />
+              </div>
+              
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="description" className="text-right">Opis podstawowy</Label>
                 <Textarea
                   id="description"
                   value={editingService.description}
                   onChange={(e) => setEditingService({...editingService, description: e.target.value})}
                   className="col-span-3"
+                  placeholder="Standardowy opis usługi"
+                />
+              </div>
+              
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="longDescription" className="text-right">Długi opis</Label>
+                <Textarea
+                  id="longDescription"
+                  value={editingService.longDescription || ''}
+                  onChange={(e) => setEditingService({...editingService, longDescription: e.target.value})}
+                  className="col-span-3"
+                  placeholder="Szczegółowy opis usługi z dodatkowymi informacjami"
                 />
               </div>
               
