@@ -221,11 +221,11 @@ export default function MainApp({ services, isLoading }: MainAppProps) {
         {/* Header with logo */}
         <header className="flex justify-between items-center mb-12">
           <div>
-            <svg className="h-10" viewBox="0 0 200 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M0 10H10V40H30V10H40V50H0V10Z" fill="#0F52BA"/>
-              <path d="M50 10H90V20H60V25H85V35H60V40H90V50H50V10Z" fill="#0F52BA"/>
-              <path d="M100 10H140V20H110V25H135V35H110V40H140V50H100V10Z" fill="#0F52BA"/>
-              <text x="150" y="40" fontFamily="Inter" fontSize="30" fontWeight="bold" fill="#0F52BA">Digital</text>
+            <svg className="h-10" viewBox="0 0 300 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M10 10H20V40H40V10H50V50H10V10Z" fill="#0F52BA"/>
+              <path d="M60 10H100V20H70V25H95V35H70V40H100V50H60V10Z" fill="#0F52BA"/>
+              <path d="M110 10H130V50H110V10Z" fill="#0F52BA"/>
+              <text x="140" y="40" fontFamily="Inter" fontSize="24" fontWeight="bold" fill="#0F52BA">Digital</text>
             </svg>
           </div>
           <div>
