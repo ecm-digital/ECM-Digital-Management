@@ -25,7 +25,8 @@ export const services = pgTable("services", {
   deliveryTime: integer("delivery_time").notNull(),
   features: text("features").array(),
   steps: jsonb("steps"),
-  categories: text("categories").array(),
+  category: text("category").default("Inne"), // Pojedyncza kategoria
+  status: text("status").default("Aktywna"),  // Status usługi
   createdAt: timestamp("created_at").defaultNow(),
 });
 

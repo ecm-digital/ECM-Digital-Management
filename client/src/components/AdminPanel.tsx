@@ -54,7 +54,9 @@ export default function AdminPanel() {
     description: '',
     basePrice: 0,
     deliveryTime: 1,
-    features: [] as string[]
+    features: [] as string[],
+    category: 'Inne',
+    status: 'Aktywna'
   });
   const [newFeature, setNewFeature] = useState('');
   const { toast } = useToast();
@@ -280,7 +282,8 @@ export default function AdminPanel() {
                   <TableRow>
                     <TableHead className="w-[50px]">ID</TableHead>
                     <TableHead>Nazwa</TableHead>
-                    <TableHead>Opis</TableHead>
+                    <TableHead>Kategoria</TableHead>
+                    <TableHead>Status</TableHead>
                     <TableHead className="text-right">Cena</TableHead>
                     <TableHead className="text-right">Czas realizacji</TableHead>
                     <TableHead className="text-right">Akcje</TableHead>
@@ -290,8 +293,23 @@ export default function AdminPanel() {
                   {services?.map((service: Service) => (
                     <TableRow key={service.id}>
                       <TableCell className="font-medium">{service.id}</TableCell>
-                      <TableCell>{service.name}</TableCell>
-                      <TableCell className="max-w-md truncate">{service.description}</TableCell>
+                      <TableCell>
+                        <div>
+                          <div className="font-medium">{service.name}</div>
+                          <div className="text-sm text-muted-foreground truncate">{service.description}</div>
+                        </div>
+                      </TableCell>
+                      <TableCell>{service.category || 'Inne'}</TableCell>
+                      <TableCell>
+                        <div className={`px-2 py-1 rounded-full text-xs inline-block ${
+                          service.status === 'Aktywna' ? 'bg-green-100 text-green-800' :
+                          service.status === 'Nieaktywna' ? 'bg-gray-100 text-gray-800' :
+                          service.status === 'Archiw' ? 'bg-yellow-100 text-yellow-800' :
+                          'bg-blue-100 text-blue-800'
+                        }`}>
+                          {service.status || 'Aktywna'}
+                        </div>
+                      </TableCell>
                       <TableCell className="text-right">{service.basePrice} PLN</TableCell>
                       <TableCell className="text-right">{service.deliveryTime} dni</TableCell>
                       <TableCell className="text-right">
@@ -397,6 +415,43 @@ export default function AdminPanel() {
                   onChange={(e) => setEditingService({...editingService, deliveryTime: parseInt(e.target.value)})}
                   className="col-span-3"
                 />
+              </div>
+              
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="category" className="text-right">Kategoria</Label>
+                <Select 
+                  value={editingService.category || 'Inne'} 
+                  onValueChange={(value) => setEditingService({...editingService, category: value})}
+                >
+                  <SelectTrigger className="col-span-3">
+                    <SelectValue placeholder="Wybierz kategorię" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="UX/UI">UX/UI</SelectItem>
+                    <SelectItem value="Marketing">Marketing</SelectItem>
+                    <SelectItem value="Web Development">Web Development</SelectItem>
+                    <SelectItem value="Automatyzacja">Automatyzacja</SelectItem>
+                    <SelectItem value="AI">AI</SelectItem>
+                    <SelectItem value="Inne">Inne</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="status" className="text-right">Status</Label>
+                <Select 
+                  value={editingService.status || 'Aktywna'} 
+                  onValueChange={(value) => setEditingService({...editingService, status: value})}
+                >
+                  <SelectTrigger className="col-span-3">
+                    <SelectValue placeholder="Wybierz status" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Aktywna">Aktywna</SelectItem>
+                    <SelectItem value="Nieaktywna">Nieaktywna</SelectItem>
+                    <SelectItem value="Archiw">Archiwalna</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
               
               <div className="grid grid-cols-4 items-center gap-4">
