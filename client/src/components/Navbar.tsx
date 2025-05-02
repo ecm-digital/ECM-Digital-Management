@@ -19,14 +19,14 @@ export default function Navbar() {
 
           <nav className="hidden md:flex items-center space-x-6">
             <Link href="/">
-              <a className={`hover:text-blue-600 transition-colors ${location === '/' ? 'text-blue-600 font-medium' : 'text-gray-700'}`}>
+              <span className={`hover:text-blue-600 transition-colors cursor-pointer ${location === '/' ? 'text-blue-600 font-medium' : 'text-gray-700'}`}>
                 Strona główna
-              </a>
+              </span>
             </Link>
             <Link href="/services">
-              <a className={`hover:text-blue-600 transition-colors ${location.startsWith('/service') ? 'text-blue-600 font-medium' : 'text-gray-700'}`}>
+              <span className={`hover:text-blue-600 transition-colors cursor-pointer ${location.startsWith('/service') ? 'text-blue-600 font-medium' : 'text-gray-700'}`}>
                 Usługi
-              </a>
+              </span>
             </Link>
             <Link href="/admin">
               <Button variant="outline" size="sm">Panel Admin</Button>

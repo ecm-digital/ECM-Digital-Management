@@ -6,6 +6,10 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import WelcomeScreen from "@/components/WelcomeScreen";
 import MainApp from "@/components/MainApp";
 import AdminPage from "@/pages/AdminPage";
+import ClientHomePage from "@/pages/ClientHomePage";
+import ServicesPage from "@/pages/ServicesPage";
+import ConfigureServicePage from "@/pages/ConfigureServicePage";
+import ServiceDetailsPage from "@/components/ServiceDetailsPage";
 import NotFound from "@/pages/not-found";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Service } from "@/types";
@@ -482,7 +486,11 @@ function App() {
     <TooltipProvider>
       <Switch>
         <Route path="/admin" component={AdminPage} />
-        <Route path="/" component={HomePage} />
+        <Route path="/" component={ClientHomePage} />
+        <Route path="/services" component={ServicesPage} />
+        <Route path="/service/:id" component={ServiceDetailsPage} />
+        <Route path="/configure" component={ConfigureServicePage} />
+        <Route path="/configure/:id" component={ConfigureServicePage} />
         <Route component={NotFound} />
       </Switch>
       <Toaster />
