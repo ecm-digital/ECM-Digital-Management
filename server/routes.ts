@@ -1,7 +1,8 @@
 import express, { Express, Request, Response, NextFunction } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { insertOrderSchema, insertServiceSchema, services } from "@shared/schema";
+import * as schema from "@shared/schema";
+import { insertOrderSchema, insertServiceSchema } from "@shared/schema";
 import multer from "multer";
 import { z } from "zod";
 import { nanoid } from "nanoid";
@@ -461,14 +462,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Sprawdź czy usługa istnieje i usuń ją
       if (appName === "ServiceCatalog") {
         // ServiceCatalog używa serviceId (string) do identyfikacji usług
-        const existingServices = await db.select().from(services).where(eq(services.serviceId, id)).limit(1);
+        const existingServices = await db.select().from(schema.services).where(eq(schema.services.serviceId, id)).limit(1);
         
         if (existingServices.length === 0) {
           return res.status(404).json({ message: "Service not found" });
         }
         
         // Usuń usługę z bazy danych używając serviceId
-        await db.delete(services).where(eq(services.serviceId, id));
+        await db.delete(schema.services).where(eq(schema.services.serviceId, id));
       } else {
         // ECM Digital używa id (number) do identyfikacji usług
         const existingService = await storage.getService(parseInt(id));
@@ -478,7 +479,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         }
         
         // Usuń usługę z bazy używając id
-        await db.delete(services).where(eq(services.id, parseInt(id)));
+        await db.delete(schema.services).where(eq(schema.services.id, parseInt(id)));
       }
       
       res.json({ 
@@ -716,7 +717,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
       
       // Prosty zapytanie do bazy danych, aby sprawdzić połączenie
-      const result = await db.select().from(services).limit(1);
+      const result = await db.select().from(schema.services).limit(1);
       
       res.json({ 
         success: true, 
@@ -745,7 +746,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
       
       // Pobierz wszystkie usługi z bazy danych
-      const allServices = await db.select().from(services);
+      const allServices = await db.select().from(schema.services);
       
       console.log(`Synchronizacja danych ze źródła: ${sourceApp || 'unknown'}, znaleziono ${allServices.length} usług`);
       
@@ -810,8 +811,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
           // Sprawdź czy usługa już istnieje (po serviceId)
           const existingServices = await db
             .select()
-            .from(services)
-            .where(eq(services.serviceId, serviceData.id))
+            .from(schema.services)
+            .where(eq(schema.services.serviceId, serviceData.id))
             .limit(1);
             
           const existingService = existingServices.length > 0 ? existingServices[0] : null;
@@ -835,9 +836,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
           if (existingService) {
             // Aktualizuj istniejącą usługę
             const [updatedService] = await db
-              .update(services)
+              .update(schema.services)
               .set(serviceToUpsert)
-              .where(eq(services.serviceId, serviceData.id))
+              .where(eq(schema.services.serviceId, serviceData.id))
               .returning();
               
             results.updated++;
@@ -851,7 +852,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
             // Dodaj nową usługę
             const validatedData = insertServiceSchema.parse(serviceToUpsert);
             const [newService] = await db
-              .insert(services)
+              .insert(schema.services)
               .values(validatedData)
               .returning();
               
@@ -987,9 +988,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       // Zaktualizuj usługę w bazie
       const [updatedService] = await db
-        .update(services)
+        .update(schema.services)
         .set(serviceToUpdate)
-        .where(eq(services.id, parseInt(id)))
+        .where(eq(schema.services.id, parseInt(id)))
         .returning();
       
       res.json({
