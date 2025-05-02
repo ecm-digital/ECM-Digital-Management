@@ -177,7 +177,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
             deliveryTime: serviceData.deliveryTime || 14,
             features: serviceData.features || [],
             steps: serviceData.steps || [],
-            categories: serviceData.categories || []
+            category: serviceData.category || 'Inne',
+            status: serviceData.status || 'Aktywna'
           };
           
           if (existingService) {
@@ -292,6 +293,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
         deliveryTime: serviceData.deliveryTime,
         features: serviceData.features || [],
         steps: serviceData.steps || [],
+        category: serviceData.category || 'Inne',
+        status: serviceData.status || 'Aktywna'
       };
       
       // Aktualizuj usługę w bazie danych
@@ -501,6 +504,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
               deliveryTime: "delivery_time",
               features: "features",
               steps: "steps",
+              category: "category",
+              status: "status",
               createdAt: "created_at"
             }
           },
@@ -682,7 +687,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
             basePrice: serviceData.basePrice,
             deliveryTime: serviceData.deliveryTime,
             features: serviceData.features || [],
-            steps: serviceData.steps || []
+            steps: serviceData.steps || [],
+            category: serviceData.category || 'Inne',
+            status: serviceData.status || 'Aktywna'
           };
           
           if (existingService) {
@@ -829,7 +836,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
         basePrice: serviceData.basePrice,
         deliveryTime: serviceData.deliveryTime,
         features: serviceData.features || [],
-        steps: serviceData.steps || []
+        steps: serviceData.steps || [],
+        category: serviceData.category || existingService.category || 'Inne',
+        status: serviceData.status || existingService.status || 'Aktywna'
       };
       
       // Zaktualizuj usługę w bazie
