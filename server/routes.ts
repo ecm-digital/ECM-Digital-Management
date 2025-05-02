@@ -11,6 +11,12 @@ import { ParsedQs } from "qs";
 import axios from "axios";
 import { db } from "./db";
 import { eq } from "drizzle-orm";
+import { 
+  generateServiceData, 
+  generateBenefits, 
+  generateScope, 
+  enhanceServiceDescription 
+} from "./openai";
 
 // Configure multer for file uploads - store files locally
 const uploadDir = path.join(process.cwd(), 'uploads');
@@ -934,7 +940,145 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
   
-
+  // ===== AI Service Generation Endpoints =====
+  
+  // Generate a complete service using AI
+  app.post("/api/admin/ai/generate-service", async (req, res) => {
+    try {
+      const { name, category, basePrice, keywords, isDetailed } = req.body;
+      
+      // Ograniczenia dostępu - opcjonalnie możesz dodać klucz API do uwierzytelnienia
+      // jeśli ta funkcja powinna być dostępna tylko dla administratorów
+      
+      // Generowanie danych usługi przy użyciu AI
+      const generatedService = await generateServiceData({
+        name, 
+        category, 
+        basePrice: basePrice ? Number(basePrice) : undefined,
+        keywords: Array.isArray(keywords) ? keywords : (keywords ? [keywords] : []),
+        isDetailed: Boolean(isDetailed)
+      });
+      
+      // Generowanie unikatowego ID
+      const existingServices = await storage.getAllServices();
+      const newId = (existingServices.length ? 
+        Math.max(...existingServices.map(s => parseInt(s.serviceId) || 0)) + 1 : 1).toString();
+      
+      // Przygotowanie danych do zapisania
+      const serviceToInsert = {
+        serviceId: newId,
+        name: generatedService.name,
+        shortDescription: generatedService.shortDescription,
+        description: generatedService.description,
+        longDescription: generatedService.longDescription,
+        basePrice: generatedService.basePrice,
+        deliveryTime: generatedService.deliveryTime,
+        features: generatedService.features,
+        benefits: generatedService.benefits,
+        scope: generatedService.scope,
+        category: generatedService.category,
+        status: generatedService.status,
+        steps: [] // Domyślnie puste kroki konfiguracji
+      };
+      
+      res.json({
+        success: true,
+        message: "Service generated successfully",
+        service: serviceToInsert
+      });
+    } catch (error) {
+      console.error("Error generating service with AI:", error);
+      res.status(500).json({
+        success: false,
+        message: "Error generating service",
+        error: error instanceof Error ? error.message : "Unknown error"
+      });
+    }
+  });
+  
+  // Generate benefits for a service
+  app.post("/api/admin/ai/generate-benefits", async (req, res) => {
+    try {
+      const { serviceName, description } = req.body;
+      
+      if (!serviceName || !description) {
+        return res.status(400).json({
+          success: false,
+          message: "Service name and description are required"
+        });
+      }
+      
+      const benefits = await generateBenefits(serviceName, description);
+      
+      res.json({
+        success: true,
+        benefits
+      });
+    } catch (error) {
+      console.error("Error generating benefits with AI:", error);
+      res.status(500).json({
+        success: false,
+        message: "Error generating benefits",
+        error: error instanceof Error ? error.message : "Unknown error"
+      });
+    }
+  });
+  
+  // Generate scope for a service
+  app.post("/api/admin/ai/generate-scope", async (req, res) => {
+    try {
+      const { serviceName, description } = req.body;
+      
+      if (!serviceName || !description) {
+        return res.status(400).json({
+          success: false,
+          message: "Service name and description are required"
+        });
+      }
+      
+      const scope = await generateScope(serviceName, description);
+      
+      res.json({
+        success: true,
+        scope
+      });
+    } catch (error) {
+      console.error("Error generating scope with AI:", error);
+      res.status(500).json({
+        success: false,
+        message: "Error generating scope",
+        error: error instanceof Error ? error.message : "Unknown error"
+      });
+    }
+  });
+  
+  // Enhance a service description
+  app.post("/api/admin/ai/enhance-description", async (req, res) => {
+    try {
+      const { serviceName, description } = req.body;
+      
+      if (!serviceName || !description) {
+        return res.status(400).json({
+          success: false,
+          message: "Service name and description are required"
+        });
+      }
+      
+      const enhancedDescription = await enhanceServiceDescription(serviceName, description);
+      
+      res.json({
+        success: true,
+        description: enhancedDescription
+      });
+    } catch (error) {
+      console.error("Error enhancing description with AI:", error);
+      res.status(500).json({
+        success: false,
+        message: "Error enhancing description",
+        error: error instanceof Error ? error.message : "Unknown error"
+      });
+    }
+  });
 
   const httpServer = createServer(app);
   return httpServer;
