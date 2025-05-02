@@ -69,6 +69,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
         deliveryTime: service.deliveryTime,
         features: service.features,
         steps: service.steps,
+        category: service.category || 'Inne',
+        status: service.status || 'Aktywna'
       }));
       
       console.log("Services being returned to client:", services);
@@ -182,7 +184,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           };
           
           if (existingService) {
-            // Aktualizacja istniejącej usługi - używamy prawidłowo importowanej zmiennej dbServices
+            // Aktualizacja istniejącej usługi
             await db
               .update(services)
               .set(insertData)
