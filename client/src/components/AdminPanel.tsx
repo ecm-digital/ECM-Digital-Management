@@ -696,6 +696,8 @@ export default function AdminPanel() {
                           id="ai-service-name" 
                           placeholder="np. Kampania SEO" 
                           className="mt-1"
+                          value={aiServiceName}
+                          onChange={(e) => setAiServiceName(e.target.value)}
                         />
                       </div>
                       <div>
@@ -704,6 +706,8 @@ export default function AdminPanel() {
                           id="ai-service-category" 
                           placeholder="np. Marketing" 
                           className="mt-1"
+                          value={aiServiceCategory}
+                          onChange={(e) => setAiServiceCategory(e.target.value)}
                         />
                       </div>
                       <div>
@@ -713,6 +717,8 @@ export default function AdminPanel() {
                           type="number" 
                           placeholder="np. 5000" 
                           className="mt-1"
+                          value={aiServicePrice}
+                          onChange={(e) => setAiServicePrice(e.target.value === '' ? '' : Number(e.target.value))}
                         />
                       </div>
                     </div>
@@ -722,17 +728,98 @@ export default function AdminPanel() {
                         id="ai-service-keywords" 
                         placeholder="np. SEO, pozycjonowanie, słowa kluczowe" 
                         className="mt-1"
+                        value={aiServiceKeywords}
+                        onChange={(e) => setAiServiceKeywords(e.target.value)}
                       />
                     </div>
                     <div className="flex items-center space-x-2">
-                      <Checkbox id="ai-service-detailed" />
+                      <Checkbox 
+                        id="ai-service-detailed" 
+                        checked={aiServiceDetailed}
+                        onCheckedChange={(checked) => setAiServiceDetailed(checked === true)}
+                      />
                       <Label htmlFor="ai-service-detailed">Generuj szczegółowy opis</Label>
                     </div>
-                    <Button className="w-full">
-                      <svg className="mr-2 h-4 w-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="m12 3-1.9 5.8a2 2 0 0 1-1.5 1.5L2.8 12l5.8 1.9a2 2 0 0 1 1.5 1.5L12 21l1.9-5.8a2 2 0 0 1 1.5-1.5L21.2 12l-5.8-1.9a2 2 0 0 1-1.5-1.5Z" />
-                      </svg> Generuj usługę
+                    <Button 
+                      className="w-full" 
+                      onClick={handleGenerateService} 
+                      disabled={isGeneratingService}
+                    >
+                      {isGeneratingService ? (
+                        <>
+                          <svg className="animate-spin -ml-1 mr-3 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                          </svg> Generowanie...
+                        </>
+                      ) : (
+                        <>
+                          <svg className="mr-2 h-4 w-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="m12 3-1.9 5.8a2 2 0 0 1-1.5 1.5L2.8 12l5.8 1.9a2 2 0 0 1 1.5 1.5L12 21l1.9-5.8a2 2 0 0 1 1.5-1.5L21.2 12l-5.8-1.9a2 2 0 0 1-1.5-1.5Z" />
+                          </svg> Generuj usługę
+                        </>
+                      )}
                     </Button>
+                    
+                    {generatedService && (
+                      <div className="mt-4 border rounded-lg p-4 bg-gray-50">
+                        <h4 className="font-medium mb-3">Wygenerowana usługa:</h4>
+                        <div className="mb-3">
+                          <div className="font-medium">{generatedService.name}</div>
+                          <div className="text-sm text-muted-foreground">{generatedService.category} | {generatedService.basePrice} PLN | {generatedService.deliveryTime} dni</div>
+                        </div>
+                        
+                        <div className="mb-3">
+                          <div className="text-sm font-medium">Krótki opis:</div>
+                          <div className="text-sm">{generatedService.shortDescription}</div>
+                        </div>
+                        
+                        <div className="mb-3">
+                          <div className="text-sm font-medium">Opis:</div>
+                          <div className="text-sm">{generatedService.description}</div>
+                        </div>
+                        
+                        {generatedService.features && generatedService.features.length > 0 && (
+                          <div className="mb-3">
+                            <div className="text-sm font-medium">Funkcje:</div>
+                            <ul className="text-sm list-disc list-inside">
+                              {generatedService.features.map((feature, idx) => (
+                                <li key={idx} className="ml-2">{feature}</li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
+                        
+                        {generatedService.benefits && generatedService.benefits.length > 0 && (
+                          <div className="mb-3">
+                            <div className="text-sm font-medium">Korzyści:</div>
+                            <ul className="text-sm list-disc list-inside">
+                              {generatedService.benefits.map((benefit, idx) => (
+                                <li key={idx} className="ml-2">{benefit}</li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
+                        
+                        {generatedService.scope && generatedService.scope.length > 0 && (
+                          <div className="mb-3">
+                            <div className="text-sm font-medium">Zakres:</div>
+                            <ul className="text-sm list-disc list-inside">
+                              {generatedService.scope.map((scope, idx) => (
+                                <li key={idx} className="ml-2">{scope}</li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
+                        
+                        <Button 
+                          className="w-full mt-2" 
+                          onClick={handleAddGeneratedService}
+                        >
+                          <Plus className="mr-2 h-4 w-4" /> Dodaj do bazy danych
+                        </Button>
+                      </div>
+                    )}
                   </div>
                 </div>
                 
@@ -746,6 +833,8 @@ export default function AdminPanel() {
                           id="ai-benefits-name" 
                           placeholder="np. Kampania SEO" 
                           className="mt-1"
+                          value={aiBenefitsName}
+                          onChange={(e) => setAiBenefitsName(e.target.value)}
                         />
                       </div>
                       <div>
@@ -755,13 +844,46 @@ export default function AdminPanel() {
                           placeholder="Wprowadź opis usługi..." 
                           className="mt-1"
                           rows={4}
+                          value={aiBenefitsDescription}
+                          onChange={(e) => setAiBenefitsDescription(e.target.value)}
                         />
                       </div>
-                      <Button className="w-full">
-                        <svg className="mr-2 h-4 w-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                          <path d="m12 3-1.9 5.8a2 2 0 0 1-1.5 1.5L2.8 12l5.8 1.9a2 2 0 0 1 1.5 1.5L12 21l1.9-5.8a2 2 0 0 1 1.5-1.5L21.2 12l-5.8-1.9a2 2 0 0 1-1.5-1.5Z" />
-                        </svg> Generuj korzyści
+                      <Button 
+                        className="w-full"
+                        onClick={handleGenerateBenefits}
+                        disabled={isGeneratingBenefits}
+                      >
+                        {isGeneratingBenefits ? (
+                          <>
+                            <svg className="animate-spin -ml-1 mr-3 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg> Generowanie...
+                          </>
+                        ) : (
+                          <>
+                            <svg className="mr-2 h-4 w-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                              <path d="m12 3-1.9 5.8a2 2 0 0 1-1.5 1.5L2.8 12l5.8 1.9a2 2 0 0 1 1.5 1.5L12 21l1.9-5.8a2 2 0 0 1 1.5-1.5L21.2 12l-5.8-1.9a2 2 0 0 1-1.5-1.5Z" />
+                            </svg> Generuj korzyści
+                          </>
+                        )}
                       </Button>
+                      
+                      {generatedBenefits.length > 0 && (
+                        <div className="mt-2 p-3 bg-gray-50 rounded-md">
+                          <h4 className="font-medium mb-2 text-sm">Wygenerowane korzyści:</h4>
+                          <ul className="space-y-1 text-sm">
+                            {generatedBenefits.map((benefit, idx) => (
+                              <li key={idx} className="flex items-start">
+                                <svg className="h-4 w-4 text-green-500 mr-2 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                                </svg>
+                                <span>{benefit}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
                     </div>
                   </div>
                   
@@ -774,6 +896,8 @@ export default function AdminPanel() {
                           id="ai-scope-name" 
                           placeholder="np. Kampania SEO" 
                           className="mt-1"
+                          value={aiScopeName}
+                          onChange={(e) => setAiScopeName(e.target.value)}
                         />
                       </div>
                       <div>
@@ -783,13 +907,46 @@ export default function AdminPanel() {
                           placeholder="Wprowadź opis usługi..." 
                           className="mt-1"
                           rows={4}
+                          value={aiScopeDescription}
+                          onChange={(e) => setAiScopeDescription(e.target.value)}
                         />
                       </div>
-                      <Button className="w-full">
-                        <svg className="mr-2 h-4 w-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                          <path d="m12 3-1.9 5.8a2 2 0 0 1-1.5 1.5L2.8 12l5.8 1.9a2 2 0 0 1 1.5 1.5L12 21l1.9-5.8a2 2 0 0 1 1.5-1.5L21.2 12l-5.8-1.9a2 2 0 0 1-1.5-1.5Z" />
-                        </svg> Generuj zakres
+                      <Button 
+                        className="w-full"
+                        onClick={handleGenerateScope}
+                        disabled={isGeneratingScope}
+                      >
+                        {isGeneratingScope ? (
+                          <>
+                            <svg className="animate-spin -ml-1 mr-3 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg> Generowanie...
+                          </>
+                        ) : (
+                          <>
+                            <svg className="mr-2 h-4 w-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                              <path d="m12 3-1.9 5.8a2 2 0 0 1-1.5 1.5L2.8 12l5.8 1.9a2 2 0 0 1 1.5 1.5L12 21l1.9-5.8a2 2 0 0 1 1.5-1.5L21.2 12l-5.8-1.9a2 2 0 0 1-1.5-1.5Z" />
+                            </svg> Generuj zakres
+                          </>
+                        )}
                       </Button>
+                      
+                      {generatedScope.length > 0 && (
+                        <div className="mt-2 p-3 bg-gray-50 rounded-md">
+                          <h4 className="font-medium mb-2 text-sm">Wygenerowany zakres:</h4>
+                          <ul className="space-y-1 text-sm">
+                            {generatedScope.map((scopeItem, idx) => (
+                              <li key={idx} className="flex items-start">
+                                <svg className="h-4 w-4 text-purple-500 mr-2 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                                </svg>
+                                <span>{scopeItem}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -803,6 +960,8 @@ export default function AdminPanel() {
                         id="ai-enhance-name" 
                         placeholder="np. Kampania SEO" 
                         className="mt-1"
+                        value={aiEnhanceName}
+                        onChange={(e) => setAiEnhanceName(e.target.value)}
                       />
                     </div>
                     <div>
@@ -812,11 +971,39 @@ export default function AdminPanel() {
                         placeholder="Wprowadź opis do ulepszenia..." 
                         className="mt-1"
                         rows={4}
+                        value={aiEnhanceDescription}
+                        onChange={(e) => setAiEnhanceDescription(e.target.value)}
                       />
                     </div>
-                    <Button className="w-full">
-                      <Sparkles className="mr-2 h-4 w-4" /> Ulepsz opis
+                    <Button 
+                      className="w-full"
+                      onClick={handleEnhanceDescription}
+                      disabled={isEnhancingDescription}
+                    >
+                      {isEnhancingDescription ? (
+                        <>
+                          <svg className="animate-spin -ml-1 mr-3 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                          </svg> Przetwarzanie...
+                        </>
+                      ) : (
+                        <>
+                          <svg className="mr-2 h-4 w-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M5.52 19c.64-2.2 1.84-3 3.22-3h6.52c1.38 0 2.58.8 3.22 3"/>
+                            <circle cx="12" cy="10" r="3"/>
+                            <circle cx="12" cy="12" r="10"/>
+                          </svg> Ulepsz opis
+                        </>
+                      )}
                     </Button>
+                    
+                    {enhancedDescription && (
+                      <div className="mt-2 p-3 bg-gray-50 rounded-md">
+                        <h4 className="font-medium mb-2 text-sm">Ulepszony opis:</h4>
+                        <p className="text-sm">{enhancedDescription}</p>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
