@@ -100,10 +100,10 @@ export default function AdminPanel() {
         variant: "default"
       });
     } catch (error) {
-      console.error('Błąd podczas aktualizacji usługi:', error);
+      console.error('Błąd podczas zapisywania zmian:', error);
       toast({
         title: "Błąd",
-        description: `Nie udało się zaktualizować usługi: ${error instanceof Error ? error.message : 'Nieznany błąd'}`,
+        description: `Nie udało się zapisać zmian: ${error instanceof Error ? error.message : 'Nieznany błąd'}`,
         variant: "destructive"
       });
     }
@@ -138,15 +138,6 @@ export default function AdminPanel() {
 
   // Obsługa dodawania nowej usługi
   const handleAddService = async () => {
-    if (!newService.name || !newService.description) {
-      toast({
-        title: "Błąd",
-        description: "Nazwa i opis usługi są wymagane",
-        variant: "destructive"
-      });
-      return;
-    }
-    
     try {
       // Generowanie unikatowego ID dla nowej usługi
       const newId = (services?.length ? Math.max(...services.map((s: Service) => parseInt(s.id))) + 1 : 1).toString();
@@ -262,7 +253,7 @@ export default function AdminPanel() {
     
     setNewBenefit('');
   };
-  
+
   // Obsługa usunięcia korzyści z nowej usługi
   const handleRemoveBenefit = (index: number) => {
     setNewService(prev => ({
@@ -270,27 +261,7 @@ export default function AdminPanel() {
       benefits: (prev.benefits || []).filter((_, i) => i !== index)
     }));
   };
-  
-  // Obsługa dodawania zakresu do nowej usługi
-  const handleAddScope = () => {
-    if (!newScope.trim()) return;
-    
-    setNewService(prev => ({
-      ...prev,
-      scope: [...(prev.scope || []), newScope]
-    }));
-    
-    setNewScope('');
-  };
-  
-  // Obsługa usunięcia zakresu z nowej usługi
-  const handleRemoveScope = (index: number) => {
-    setNewService(prev => ({
-      ...prev,
-      scope: (prev.scope || []).filter((_, i) => i !== index)
-    }));
-  };
-  
+
   // Obsługa dodawania korzyści do edytowanej usługi
   const handleAddBenefitToEditing = () => {
     if (!newBenefit.trim() || !editingService) return;
@@ -306,7 +277,7 @@ export default function AdminPanel() {
     
     setNewBenefit('');
   };
-  
+
   // Obsługa usunięcia korzyści z edytowanej usługi
   const handleRemoveBenefitFromEditing = (index: number) => {
     if (!editingService) return;
@@ -321,6 +292,26 @@ export default function AdminPanel() {
     });
   };
   
+  // Obsługa dodawania zakresu do nowej usługi
+  const handleAddScope = () => {
+    if (!newScope.trim()) return;
+    
+    setNewService(prev => ({
+      ...prev,
+      scope: [...(prev.scope || []), newScope]
+    }));
+    
+    setNewScope('');
+  };
+
+  // Obsługa usunięcia zakresu z nowej usługi
+  const handleRemoveScope = (index: number) => {
+    setNewService(prev => ({
+      ...prev,
+      scope: (prev.scope || []).filter((_, i) => i !== index)
+    }));
+  };
+
   // Obsługa dodawania zakresu do edytowanej usługi
   const handleAddScopeToEditing = () => {
     if (!newScope.trim() || !editingService) return;
@@ -336,7 +327,7 @@ export default function AdminPanel() {
     
     setNewScope('');
   };
-  
+
   // Obsługa usunięcia zakresu z edytowanej usługi
   const handleRemoveScopeFromEditing = (index: number) => {
     if (!editingService) return;
@@ -371,8 +362,9 @@ export default function AdminPanel() {
       </h1>
       
       <Tabs defaultValue={activeTab} onValueChange={setActiveTab} className="w-full">
-        <TabsList className="grid w-full grid-cols-3">
+        <TabsList className="grid w-full grid-cols-4">
           <TabsTrigger value="services">Usługi</TabsTrigger>
+          <TabsTrigger value="preview">Podgląd usług</TabsTrigger>
           <TabsTrigger value="orders">Zamówienia</TabsTrigger>
           <TabsTrigger value="stats">Statystyki</TabsTrigger>
         </TabsList>
@@ -441,6 +433,98 @@ export default function AdminPanel() {
                   ))}
                 </TableBody>
               </Table>
+            </CardContent>
+          </Card>
+        </TabsContent>
+        
+        <TabsContent value="preview" className="mt-6">
+          <Card>
+            <CardHeader>
+              <CardTitle>Podgląd usług dla klienta</CardTitle>
+              <CardDescription>
+                Sprawdź, jak usługi wyglądają na stronie widocznej dla klienta.
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+                {services?.filter(s => s.status === 'Aktywna').map((service: Service) => (
+                  <div key={service.id} className="border rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                    <div className="bg-gradient-to-r from-blue-500 to-indigo-600 h-3"></div>
+                    <div className="p-6">
+                      <h3 className="text-xl font-bold mb-2">{service.name}</h3>
+                      {service.shortDescription && (
+                        <p className="text-muted-foreground mb-3">{service.shortDescription}</p>
+                      )}
+                      <p className="mb-4">{service.description}</p>
+                      
+                      <div className="mb-4">
+                        <span className="font-bold text-lg text-blue-600">{service.basePrice} PLN</span>
+                        <span className="text-muted-foreground text-sm ml-2">/ {service.deliveryTime} dni</span>
+                      </div>
+                      
+                      {service.benefits && service.benefits.length > 0 && (
+                        <div className="mt-4">
+                          <h4 className="font-semibold mb-2">Korzyści:</h4>
+                          <ul className="space-y-1">
+                            {service.benefits.map((benefit, index) => (
+                              <li key={index} className="flex items-start">
+                                <svg className="h-5 w-5 text-green-500 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                                </svg>
+                                <span>{benefit}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+                      
+                      {service.features && service.features.length > 0 && (
+                        <div className="mt-4">
+                          <h4 className="font-semibold mb-2">Funkcje:</h4>
+                          <ul className="space-y-1">
+                            {service.features.map((feature, index) => (
+                              <li key={index} className="flex items-start">
+                                <svg className="h-5 w-5 text-blue-500 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                <span>{feature}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+                      
+                      {service.scope && service.scope.length > 0 && (
+                        <div className="mt-4">
+                          <h4 className="font-semibold mb-2">Zakres usługi:</h4>
+                          <ul className="space-y-1">
+                            {service.scope.map((scopeItem, index) => (
+                              <li key={index} className="flex items-start">
+                                <svg className="h-5 w-5 text-purple-500 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                                </svg>
+                                <span>{scopeItem}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+                      
+                      <div className="mt-6">
+                        <button className="w-full bg-gradient-to-r from-blue-500 to-indigo-600 text-white py-2 px-4 rounded-md hover:from-blue-600 hover:to-indigo-700 transition-colors">
+                          Wybierz usługę
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              
+              {services?.filter(s => s.status === 'Aktywna').length === 0 && (
+                <p className="text-center text-muted-foreground py-10">
+                  Brak aktywnych usług do wyświetlenia.
+                </p>
+              )}
             </CardContent>
           </Card>
         </TabsContent>
