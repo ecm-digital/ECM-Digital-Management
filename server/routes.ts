@@ -85,6 +85,41 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Get a single service by ID
+  app.get("/api/services/:id", async (req, res) => {
+    try {
+      const serviceId = req.params.id;
+      
+      const serviceFromDb = await storage.getServiceByServiceId(serviceId);
+      
+      if (!serviceFromDb) {
+        return res.status(404).json({ message: "Service not found" });
+      }
+      
+      // Transform database model to client model (same as in get all services)
+      const service = {
+        id: serviceFromDb.serviceId,
+        name: serviceFromDb.name,
+        shortDescription: serviceFromDb.shortDescription || '',
+        description: serviceFromDb.description,
+        longDescription: serviceFromDb.longDescription || '',
+        basePrice: serviceFromDb.basePrice,
+        deliveryTime: serviceFromDb.deliveryTime,
+        features: serviceFromDb.features || [],
+        benefits: serviceFromDb.benefits || [],
+        scope: serviceFromDb.scope || [],
+        steps: serviceFromDb.steps || [],
+        category: serviceFromDb.category || 'Inne',
+        status: serviceFromDb.status || 'Aktywna'
+      };
+      
+      res.json(service);
+    } catch (error) {
+      console.error("Error fetching service:", error);
+      res.status(500).json({ message: "Error fetching service" });
+    }
+  });
+
   // Handle file upload
   app.post("/api/upload", upload.single("file"), async (req, res) => {
     try {
