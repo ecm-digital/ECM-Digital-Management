@@ -69,6 +69,33 @@ export default function AdminPanel() {
   const [newBenefit, setNewBenefit] = useState('');
   const [newScope, setNewScope] = useState('');
   const { toast } = useToast();
+  
+  // Stan dla generacji AI
+  const [aiServiceName, setAiServiceName] = useState('');
+  const [aiServiceCategory, setAiServiceCategory] = useState('');
+  const [aiServicePrice, setAiServicePrice] = useState<number | ''>('');
+  const [aiServiceKeywords, setAiServiceKeywords] = useState('');
+  const [aiServiceDetailed, setAiServiceDetailed] = useState(false);
+  const [isGeneratingService, setIsGeneratingService] = useState(false);
+  const [generatedService, setGeneratedService] = useState<Partial<Service> | null>(null);
+  
+  // Stan dla generowania korzyści
+  const [aiBenefitsName, setAiBenefitsName] = useState('');
+  const [aiBenefitsDescription, setAiBenefitsDescription] = useState('');
+  const [isGeneratingBenefits, setIsGeneratingBenefits] = useState(false);
+  const [generatedBenefits, setGeneratedBenefits] = useState<string[]>([]);
+  
+  // Stan dla generowania zakresu
+  const [aiScopeName, setAiScopeName] = useState('');
+  const [aiScopeDescription, setAiScopeDescription] = useState('');
+  const [isGeneratingScope, setIsGeneratingScope] = useState(false);
+  const [generatedScope, setGeneratedScope] = useState<string[]>([]);
+  
+  // Stan dla ulepszania opisu
+  const [aiEnhanceName, setAiEnhanceName] = useState('');
+  const [aiEnhanceDescription, setAiEnhanceDescription] = useState('');
+  const [isEnhancingDescription, setIsEnhancingDescription] = useState(false);
+  const [enhancedDescription, setEnhancedDescription] = useState('');
 
   // Obsługa edycji usługi
   const handleEditService = (service: Service) => {
@@ -343,6 +370,214 @@ export default function AdminPanel() {
         scope: (prev.scope || []).filter((_, i) => i !== index)
       };
     });
+  };
+  
+  // Funkcje dla generowania AI
+  
+  // Generowanie całej usługi
+  const handleGenerateService = async () => {
+    setIsGeneratingService(true);
+    setGeneratedService(null);
+    
+    try {
+      const keywords = aiServiceKeywords.split(',').map(k => k.trim()).filter(k => k);
+      
+      const response = await apiRequest('/api/ai/generate-service', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: aiServiceName,
+          category: aiServiceCategory,
+          basePrice: aiServicePrice !== '' ? Number(aiServicePrice) : undefined,
+          keywords,
+          isDetailed: aiServiceDetailed
+        })
+      });
+      
+      setGeneratedService(response);
+      
+      toast({
+        title: "Usługa wygenerowana",
+        description: "Usługa została wygenerowana pomyślnie",
+        variant: "default"
+      });
+    } catch (error) {
+      console.error('Błąd podczas generowania usługi:', error);
+      toast({
+        title: "Błąd",
+        description: `Nie udało się wygenerować usługi: ${error instanceof Error ? error.message : 'Nieznany błąd'}`,
+        variant: "destructive"
+      });
+    } finally {
+      setIsGeneratingService(false);
+    }
+  };
+  
+  // Dodawanie wygenerowanej usługi do bazy danych
+  const handleAddGeneratedService = async () => {
+    if (!generatedService) return;
+    
+    try {
+      // Generowanie unikatowego ID dla nowej usługi
+      const newId = (services?.length ? Math.max(...services.map((s: Service) => parseInt(s.id))) + 1 : 1).toString();
+      
+      const serviceToAdd = {
+        ...generatedService,
+        id: newId
+      };
+      
+      await apiRequest('/api/admin/import-services', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          services: [serviceToAdd]
+        })
+      });
+      
+      // Odśwież listę usług po dodaniu nowej
+      queryClient.invalidateQueries({queryKey: ['/api/services']});
+      
+      setGeneratedService(null);
+      
+      toast({
+        title: "Usługa dodana",
+        description: `Usługa "${serviceToAdd.name}" została dodana do bazy danych`,
+        variant: "default"
+      });
+    } catch (error) {
+      console.error('Błąd podczas dodawania wygenerowanej usługi:', error);
+      toast({
+        title: "Błąd",
+        description: `Nie udało się dodać usługi: ${error instanceof Error ? error.message : 'Nieznany błąd'}`,
+        variant: "destructive"
+      });
+    }
+  };
+  
+  // Generowanie korzyści
+  const handleGenerateBenefits = async () => {
+    if (!aiBenefitsName || !aiBenefitsDescription) {
+      toast({
+        title: "Błąd",
+        description: "Podaj nazwę usługi i opis",
+        variant: "destructive"
+      });
+      return;
+    }
+    
+    setIsGeneratingBenefits(true);
+    
+    try {
+      const response = await apiRequest('/api/ai/generate-benefits', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: aiBenefitsName,
+          description: aiBenefitsDescription
+        })
+      });
+      
+      setGeneratedBenefits(response);
+      
+      toast({
+        title: "Korzyści wygenerowane",
+        description: "Lista korzyści została wygenerowana pomyślnie",
+        variant: "default"
+      });
+    } catch (error) {
+      console.error('Błąd podczas generowania korzyści:', error);
+      toast({
+        title: "Błąd",
+        description: `Nie udało się wygenerować korzyści: ${error instanceof Error ? error.message : 'Nieznany błąd'}`,
+        variant: "destructive"
+      });
+    } finally {
+      setIsGeneratingBenefits(false);
+    }
+  };
+  
+  // Generowanie zakresu usługi
+  const handleGenerateScope = async () => {
+    if (!aiScopeName || !aiScopeDescription) {
+      toast({
+        title: "Błąd",
+        description: "Podaj nazwę usługi i opis",
+        variant: "destructive"
+      });
+      return;
+    }
+    
+    setIsGeneratingScope(true);
+    
+    try {
+      const response = await apiRequest('/api/ai/generate-scope', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: aiScopeName,
+          description: aiScopeDescription
+        })
+      });
+      
+      setGeneratedScope(response);
+      
+      toast({
+        title: "Zakres wygenerowany",
+        description: "Zakres usługi został wygenerowany pomyślnie",
+        variant: "default"
+      });
+    } catch (error) {
+      console.error('Błąd podczas generowania zakresu:', error);
+      toast({
+        title: "Błąd",
+        description: `Nie udało się wygenerować zakresu: ${error instanceof Error ? error.message : 'Nieznany błąd'}`,
+        variant: "destructive"
+      });
+    } finally {
+      setIsGeneratingScope(false);
+    }
+  };
+  
+  // Ulepszanie opisu
+  const handleEnhanceDescription = async () => {
+    if (!aiEnhanceName || !aiEnhanceDescription) {
+      toast({
+        title: "Błąd",
+        description: "Podaj nazwę usługi i obecny opis",
+        variant: "destructive"
+      });
+      return;
+    }
+    
+    setIsEnhancingDescription(true);
+    
+    try {
+      const response = await apiRequest('/api/ai/enhance-description', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: aiEnhanceName,
+          description: aiEnhanceDescription
+        })
+      });
+      
+      setEnhancedDescription(response);
+      
+      toast({
+        title: "Opis ulepszony",
+        description: "Opis usługi został ulepszony pomyślnie",
+        variant: "default"
+      });
+    } catch (error) {
+      console.error('Błąd podczas ulepszania opisu:', error);
+      toast({
+        title: "Błąd",
+        description: `Nie udało się ulepszyć opisu: ${error instanceof Error ? error.message : 'Nieznany błąd'}`,
+        variant: "destructive"
+      });
+    } finally {
+      setIsEnhancingDescription(false);
+    }
   };
 
   if (isLoading) {
