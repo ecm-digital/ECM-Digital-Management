@@ -271,7 +271,12 @@ export default function ServiceConfiguration({
         );
         
       case 'checkbox':
-        if (step?.layout === 'checkbox-grid') {
+        // Używamy stylu karty dla pól checkbox w układzie gridowym
+        const isInCheckboxGrid = service?.steps?.some(
+          step => step.layout === 'checkbox-grid' && step.options?.some(opt => opt.id === option.id)
+        );
+        
+        if (isInCheckboxGrid) {
           return (
             <label 
               key={option.id}
