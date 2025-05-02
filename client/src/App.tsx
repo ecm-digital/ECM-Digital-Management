@@ -243,6 +243,171 @@ function App() {
                   >
                     Użyj lokalnych usług
                   </button>
+                  
+                  {/* Ręczne dodawanie usług - dla przypadku gdy ServiceCatalog nie jest dostępny */}
+                  <button
+                    onClick={async () => {
+                      try {
+                        // Przykładowe nowe usługi do dodania
+                        const exampleNewServices = [
+                          {
+                            id: "7",
+                            name: "Projektowanie Logo",
+                            description: "Profesjonalne projektowanie logo dla Twojej marki, z wieloma wersjami i plikami źródłowymi",
+                            basePrice: 1500,
+                            deliveryTime: 14,
+                            features: [
+                              "3 propozycje logo do wyboru",
+                              "Nielimitowane poprawki wybranej wersji",
+                              "Pliki źródłowe (AI, PSD)",
+                              "Księga znaku"
+                            ],
+                            steps: [
+                              {
+                                id: "logo-styl",
+                                title: "Styl logo",
+                                layout: "grid",
+                                options: [
+                                  {
+                                    id: "logo-styl-wybor",
+                                    type: "select",
+                                    label: "Wybierz styl logo",
+                                    choices: [
+                                      { label: "Minimalistyczne", value: "minimalistyczne", priceAdjustment: 0, deliveryTimeAdjustment: 0 },
+                                      { label: "Ilustracyjne", value: "ilustracyjne", priceAdjustment: 500, deliveryTimeAdjustment: 3 },
+                                      { label: "Typograficzne", value: "typograficzne", priceAdjustment: 200, deliveryTimeAdjustment: 1 },
+                                      { label: "Vintage/Retro", value: "vintage", priceAdjustment: 300, deliveryTimeAdjustment: 2 }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                id: "logo-dodatki",
+                                title: "Dodatkowe opcje",
+                                layout: "checkbox-grid",
+                                options: [
+                                  {
+                                    id: "logo-wizytowki",
+                                    type: "checkbox",
+                                    label: "Projekt wizytówek",
+                                    description: "Projekt wizytówek z nowym logo",
+                                    priceAdjustment: 300,
+                                    deliveryTimeAdjustment: 2
+                                  },
+                                  {
+                                    id: "logo-papier-firmowy",
+                                    type: "checkbox",
+                                    label: "Papier firmowy",
+                                    description: "Projekt papieru firmowego z nowym logo",
+                                    priceAdjustment: 200,
+                                    deliveryTimeAdjustment: 1
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            id: "8",
+                            name: "Copywriting SEO",
+                            description: "Profesjonalne teksty zoptymalizowane pod kątem SEO dla Twojej strony internetowej",
+                            basePrice: 800,
+                            deliveryTime: 7,
+                            features: [
+                              "Analiza słów kluczowych",
+                              "Optymalizacja pod wyszukiwarki",
+                              "Formatowanie tekstu",
+                              "Dwie rundy poprawek"
+                            ],
+                            steps: [
+                              {
+                                id: "copywriting-ilosc",
+                                title: "Ilość tekstu",
+                                layout: "grid",
+                                options: [
+                                  {
+                                    id: "copywriting-strony",
+                                    type: "select",
+                                    label: "Liczba stron",
+                                    choices: [
+                                      { label: "1 strona (do 500 słów)", value: "1", priceAdjustment: 0, deliveryTimeAdjustment: 0 },
+                                      { label: "3 strony (do 1500 słów)", value: "3", priceAdjustment: 700, deliveryTimeAdjustment: 3 },
+                                      { label: "5 stron (do 2500 słów)", value: "5", priceAdjustment: 1500, deliveryTimeAdjustment: 5 },
+                                      { label: "10 stron (do 5000 słów)", value: "10", priceAdjustment: 3000, deliveryTimeAdjustment: 10 }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                id: "copywriting-dodatki",
+                                title: "Dodatkowe opcje",
+                                layout: "checkbox-grid",
+                                options: [
+                                  {
+                                    id: "copywriting-meta",
+                                    type: "checkbox",
+                                    label: "Meta tagi",
+                                    description: "Przygotowanie meta tytułów i opisów dla stron",
+                                    priceAdjustment: 200,
+                                    deliveryTimeAdjustment: 1
+                                  },
+                                  {
+                                    id: "copywriting-blog",
+                                    type: "checkbox",
+                                    label: "Artykuły na blog",
+                                    description: "Dodatkowe artykuły na blog (2000 słów)",
+                                    priceAdjustment: 600,
+                                    deliveryTimeAdjustment: 3
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ];
+                        
+                        // Pytanie użytkownika o potwierdzenie
+                        if (!confirm(`Czy chcesz dodać 2 nowe usługi do bazy danych?\n- Projektowanie Logo\n- Copywriting SEO`)) {
+                          return;
+                        }
+                        
+                        // Wyślij usługi do importu
+                        const response = await apiRequest(
+                          `/api/admin/import-services`,
+                          {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                              services: exampleNewServices
+                            })
+                          }
+                        );
+                        
+                        // Odśwież listę usług
+                        queryClient.invalidateQueries({queryKey: ['/api/services']});
+                        
+                        toast({
+                          title: "Dodano nowe usługi",
+                          description: `Pomyślnie dodano ${response.count} nowych usług do bazy danych.`,
+                          variant: "default"
+                        });
+                        
+                        // Przełącz na lokalne źródło danych
+                        if (dataSource !== 'local') {
+                          setDataSource('local');
+                        }
+                        
+                      } catch (error) {
+                        console.error('Błąd podczas dodawania nowych usług:', error);
+                        toast({
+                          title: "Błąd",
+                          description: `Nie udało się dodać nowych usług: ${error instanceof Error ? error.message : 'Nieznany błąd'}`,
+                          variant: "destructive"
+                        });
+                      }
+                    }}
+                    className="w-full px-2 py-1 rounded bg-green-700 hover:bg-green-600 transition-colors mt-2"
+                  >
+                    Dodaj przykładowe nowe usługi
+                  </button>
                 </div>
               </div>
             </div>

@@ -149,7 +149,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Import services from JSON (for initial setup)
+  // Import services from JSON (for initial setup or manual updates)
   app.post("/api/admin/import-services", async (req, res) => {
     try {
       const { services } = req.body;
@@ -158,27 +158,57 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ message: "Expected an array of services" });
       }
       
-      const results = [];
+      let addedCount = 0;
+      let updatedCount = 0;
+      let errorCount = 0;
       
       for (const serviceData of services) {
-        const insertData = {
-          serviceId: serviceData.id,
-          name: serviceData.name,
-          description: serviceData.description,
-          basePrice: serviceData.basePrice,
-          deliveryTime: serviceData.deliveryTime,
-          features: serviceData.features || [],
-          steps: serviceData.steps || []
-        };
-        
-        const validatedServiceData = insertServiceSchema.parse(insertData);
-        const service = await storage.createService(validatedServiceData);
-        results.push(service);
+        try {
+          const serviceId = serviceData.id.toString();
+          
+          // Sprawdź czy usługa już istnieje
+          const existingService = await storage.getServiceByServiceId(serviceId);
+          
+          const insertData = {
+            serviceId: serviceId,
+            name: serviceData.name,
+            description: serviceData.description || '',
+            basePrice: serviceData.basePrice || 0,
+            deliveryTime: serviceData.deliveryTime || 14,
+            features: serviceData.features || [],
+            steps: serviceData.steps || [],
+            categories: serviceData.categories || []
+          };
+          
+          if (existingService) {
+            // Aktualizacja istniejącej usługi
+            await db
+              .update(services)
+              .set(insertData)
+              .where(eq(services.serviceId, serviceId));
+            
+            updatedCount++;
+            console.log(`Updated existing service: ${serviceData.name} (ID: ${serviceId})`);
+          } else {
+            // Dodawanie nowej usługi
+            const validatedServiceData = insertServiceSchema.parse(insertData);
+            await storage.createService(validatedServiceData);
+            
+            addedCount++;
+            console.log(`Added new service: ${serviceData.name} (ID: ${serviceId})`);
+          }
+        } catch (error) {
+          errorCount++;
+          console.error(`Error processing service ${serviceData.id}:`, error);
+        }
       }
       
       res.json({ 
-        count: results.length,
-        message: "Services imported successfully" 
+        message: `Import completed. Added: ${addedCount}, Updated: ${updatedCount}, Failed: ${errorCount}`,
+        count: addedCount + updatedCount,
+        added: addedCount,
+        updated: updatedCount,
+        failed: errorCount
       });
     } catch (error) {
       console.error("Error importing services:", error);
