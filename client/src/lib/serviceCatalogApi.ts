@@ -10,43 +10,26 @@ export function setServiceCatalogBaseUrl(url: string): void {
 }
 
 /**
- * Pobiera usługi z aplikacji ServiceCatalog
+ * Pobiera usługi z aplikacji ServiceCatalog poprzez proxy
  */
 export async function fetchServicesFromCatalog(): Promise<Service[]> {
   try {
-    console.log('Próba połączenia z ServiceCatalog:', SERVICECATALOG_BASE_URL);
+    console.log('Próba połączenia z ServiceCatalog (przez proxy):', SERVICECATALOG_BASE_URL);
     
-    // Dodajemy timeout, żeby nie czekać zbyt długo na odpowiedź
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 5000); // 5 sekund timeout
-    
-    const response = await fetch(`${SERVICECATALOG_BASE_URL}/api/services`, {
-      signal: controller.signal,
-      headers: {
-        'Accept': 'application/json'
-      }
-    });
-    
-    clearTimeout(timeoutId);
+    // Korzystamy z proxy na backendzie, aby uniknąć problemów z CORS
+    const response = await fetch(`/api/proxy/servicecatalog/services?url=${encodeURIComponent(SERVICECATALOG_BASE_URL)}`);
     
     if (!response.ok) {
       throw new Error(`Błąd podczas pobierania usług: ${response.status} ${response.statusText}`);
     }
     
     const data = await response.json();
-    console.log('Pobrano dane z ServiceCatalog:', data);
+    console.log('Pobrano dane z ServiceCatalog (przez proxy):', data);
     
     // Mapowanie danych z ServiceCatalog na format Service używany w tej aplikacji
     return mapCatalogDataToServices(data);
   } catch (error: any) {
-    // Szczegółowy log błędu
-    if (error.name === 'AbortError') {
-      console.error('Timeout podczas połączenia z ServiceCatalog - serwer nie odpowiada');
-    } else if (error instanceof TypeError && error.message.includes('Failed to fetch')) {
-      console.error('Błąd połączenia z ServiceCatalog - serwer niedostępny lub problem z CORS');
-    } else {
-      console.error('Błąd pobierania usług z ServiceCatalog:', error.message || error);
-    }
+    console.error('Błąd pobierania usług z ServiceCatalog:', error.message || error);
     
     // W przypadku błędu, zwracamy pustą tablicę
     throw new Error(`Nie można połączyć się z ServiceCatalog: ${error.message || 'Nieznany błąd'}`);
@@ -54,11 +37,11 @@ export async function fetchServicesFromCatalog(): Promise<Service[]> {
 }
 
 /**
- * Pobiera pojedynczą usługę z ServiceCatalog
+ * Pobiera pojedynczą usługę z ServiceCatalog poprzez proxy
  */
 export async function fetchServiceFromCatalog(serviceId: string): Promise<Service | null> {
   try {
-    const response = await fetch(`${SERVICECATALOG_BASE_URL}/api/services/${serviceId}`);
+    const response = await fetch(`/api/proxy/servicecatalog/services/${serviceId}?url=${encodeURIComponent(SERVICECATALOG_BASE_URL)}`);
     
     if (!response.ok) {
       if (response.status === 404) {
@@ -68,6 +51,11 @@ export async function fetchServiceFromCatalog(serviceId: string): Promise<Servic
     }
     
     const data = await response.json();
+    
+    // Jeśli otrzymaliśmy null z proxy, zwróć null
+    if (data === null) {
+      return null;
+    }
     
     // Konwersja na format aplikacji
     const services = mapCatalogDataToServices([data]);
@@ -79,11 +67,11 @@ export async function fetchServiceFromCatalog(serviceId: string): Promise<Servic
 }
 
 /**
- * Przesyła zamówienie do ServiceCatalog
+ * Przesyła zamówienie do ServiceCatalog poprzez proxy
  */
 export async function submitOrderToCatalog(orderData: any): Promise<any> {
   try {
-    const response = await fetch(`${SERVICECATALOG_BASE_URL}/api/orders`, {
+    const response = await fetch(`/api/proxy/servicecatalog/orders?url=${encodeURIComponent(SERVICECATALOG_BASE_URL)}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

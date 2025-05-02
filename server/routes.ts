@@ -1,4 +1,4 @@
-import express, { Express, Request, Response } from "express";
+import express, { Express, Request, Response, NextFunction } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { insertOrderSchema, insertServiceSchema } from "@shared/schema";
@@ -8,6 +8,7 @@ import { nanoid } from "nanoid";
 import path from "path";
 import fs from "fs";
 import { ParsedQs } from "qs";
+import axios from "axios";
 
 // Configure multer for file uploads - store files locally
 const uploadDir = path.join(process.cwd(), 'uploads');
@@ -206,6 +207,91 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error creating test user:", error);
       res.status(500).json({ message: "Error creating test user" });
+    }
+  });
+
+  // Proxy dla ServiceCatalog - obejście problemu CORS
+  app.get("/api/proxy/servicecatalog/services", async (req, res) => {
+    try {
+      const targetUrl = req.query.url as string;
+      
+      if (!targetUrl) {
+        return res.status(400).json({ message: "URL is required" });
+      }
+      
+      console.log(`Proxying request to ${targetUrl}/api/services`);
+      
+      const response = await axios.get(`${targetUrl}/api/services`, {
+        timeout: 5000
+      });
+      
+      res.json(response.data);
+    } catch (error) {
+      console.error("Error proxying to ServiceCatalog:", error);
+      res.status(500).json({ 
+        message: "Error connecting to ServiceCatalog", 
+        error: error instanceof Error ? error.message : 'Unknown error' 
+      });
+    }
+  });
+
+  // Proxy dla pojedynczej usługi ServiceCatalog
+  app.get("/api/proxy/servicecatalog/services/:id", async (req, res) => {
+    try {
+      const { id } = req.params;
+      const targetUrl = req.query.url as string;
+      
+      if (!targetUrl) {
+        return res.status(400).json({ message: "URL is required" });
+      }
+      
+      console.log(`Proxying request to ${targetUrl}/api/services/${id}`);
+      
+      const response = await axios.get(`${targetUrl}/api/services/${id}`, {
+        timeout: 5000
+      });
+      
+      res.json(response.data);
+    } catch (error) {
+      console.error(`Error proxying to ServiceCatalog for service ${req.params.id}:`, error);
+      
+      // Jeśli jest to błąd 404, zwróć null zamiast błędu
+      if (axios.isAxiosError(error) && error.response?.status === 404) {
+        return res.json(null);
+      }
+      
+      res.status(500).json({ 
+        message: "Error connecting to ServiceCatalog", 
+        error: error instanceof Error ? error.message : 'Unknown error' 
+      });
+    }
+  });
+
+  // Proxy dla zamówień ServiceCatalog
+  app.post("/api/proxy/servicecatalog/orders", async (req, res) => {
+    try {
+      const targetUrl = req.query.url as string;
+      
+      if (!targetUrl) {
+        return res.status(400).json({ message: "URL is required" });
+      }
+      
+      console.log(`Proxying order to ${targetUrl}/api/orders`);
+      
+      const response = await axios.post(`${targetUrl}/api/orders`, req.body, {
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        timeout: 5000
+      });
+      
+      res.json(response.data);
+    } catch (error) {
+      console.error("Error proxying order to ServiceCatalog:", error);
+      res.status(500).json({ 
+        message: "Error connecting to ServiceCatalog", 
+        error: error instanceof Error ? error.message : 'Unknown error' 
+      });
     }
   });
 
