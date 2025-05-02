@@ -266,9 +266,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Import services from JSON (for initial setup or manual updates)
   app.post("/api/admin/import-services", async (req, res) => {
     try {
-      const { services } = req.body;
+      const { services: servicesData } = req.body;
       
-      if (!Array.isArray(services)) {
+      if (!Array.isArray(servicesData)) {
         return res.status(400).json({ message: "Expected an array of services" });
       }
       
@@ -276,7 +276,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       let updatedCount = 0;
       let errorCount = 0;
       
-      for (const serviceData of services) {
+      for (const serviceData of servicesData) {
         try {
           const serviceId = serviceData.id.toString();
           
@@ -302,9 +302,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
           if (existingService) {
             // Aktualizacja istniejącej usługi
             await db
-              .update(services)
+              .update(schema.services)
               .set(insertData)
-              .where(eq(services.serviceId, serviceId.toString()));
+              .where(eq(schema.services.serviceId, serviceId.toString()));
             
             updatedCount++;
             console.log(`Updated existing service: ${serviceData.name} (ID: ${serviceId})`);
@@ -396,7 +396,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
       
       // Sprawdź czy usługa istnieje
-      const existingService = await db.select().from(services).where(eq(services.serviceId, id)).limit(1);
+      const existingService = await db.select().from(schema.services).where(eq(schema.services.serviceId, id)).limit(1);
       
       if (existingService.length === 0) {
         return res.status(404).json({ message: "Service not found" });
@@ -421,9 +421,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       // Aktualizuj usługę w bazie danych
       const result = await db
-        .update(services)
+        .update(schema.services)
         .set(updateData)
-        .where(eq(services.serviceId, id))
+        .where(eq(schema.services.serviceId, id))
         .returning();
       
       res.json({ 

@@ -169,20 +169,15 @@ export default function AdminPanel() {
   // Obsługa dodawania nowej usługi
   const handleAddService = async () => {
     try {
-      // Generowanie unikatowego ID dla nowej usługi
-      const newId = (services?.length ? Math.max(...services.map((s: Service) => parseInt(s.id))) + 1 : 1).toString();
-      
+      // Tworzymy usługę bezpośrednio przez nowy endpoint
       const serviceToAdd = {
-        ...newService,
-        id: newId
+        ...newService
       };
       
-      await apiRequest('/api/admin/import-services', {
+      await apiRequest('/api/services', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          services: [serviceToAdd]
-        })
+        body: JSON.stringify(serviceToAdd)
       });
       
       // Odśwież listę usług po dodaniu nowej
@@ -418,20 +413,15 @@ export default function AdminPanel() {
     if (!generatedService) return;
     
     try {
-      // Generowanie unikatowego ID dla nowej usługi
-      const newId = (services?.length ? Math.max(...services.map((s: Service) => parseInt(s.id))) + 1 : 1).toString();
-      
+      // Używamy bezpośredniego endpointu do tworzenia usługi
       const serviceToAdd = {
-        ...generatedService,
-        id: newId
+        ...generatedService
       };
       
-      await apiRequest('/api/admin/import-services', {
+      await apiRequest('/api/services', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          services: [serviceToAdd]
-        })
+        body: JSON.stringify(serviceToAdd)
       });
       
       // Odśwież listę usług po dodaniu nowej
