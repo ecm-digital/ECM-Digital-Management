@@ -996,8 +996,87 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
   
+  // Alias dla klienta/UI (bez prefixu /admin/)
+  app.post("/api/ai/generate-service", async (req, res) => {
+    try {
+      const { name, category, basePrice, keywords, isDetailed } = req.body;
+      
+      // Generowanie danych usługi przy użyciu AI
+      const generatedService = await generateServiceData({
+        name, 
+        category, 
+        basePrice: basePrice ? Number(basePrice) : undefined,
+        keywords: Array.isArray(keywords) ? keywords : (keywords ? [keywords] : []),
+        isDetailed: Boolean(isDetailed)
+      });
+      
+      // Generowanie unikatowego ID
+      const existingServices = await storage.getAllServices();
+      const newId = (existingServices.length ? 
+        Math.max(...existingServices.map(s => parseInt(s.serviceId) || 0)) + 1 : 1).toString();
+      
+      // Przygotowanie danych do zapisania
+      const serviceToInsert = {
+        serviceId: newId,
+        name: generatedService.name,
+        shortDescription: generatedService.shortDescription,
+        description: generatedService.description,
+        longDescription: generatedService.longDescription,
+        basePrice: generatedService.basePrice,
+        deliveryTime: generatedService.deliveryTime,
+        features: generatedService.features,
+        benefits: generatedService.benefits,
+        scope: generatedService.scope,
+        category: generatedService.category,
+        status: generatedService.status,
+        steps: [] // Domyślnie puste kroki konfiguracji
+      };
+      
+      res.json({
+        success: true,
+        message: "Service generated successfully",
+        service: serviceToInsert
+      });
+    } catch (error) {
+      console.error("Error generating service with AI:", error);
+      res.status(500).json({
+        success: false,
+        message: "Error generating service",
+        error: error instanceof Error ? error.message : "Unknown error"
+      });
+    }
+  });
+  
   // Generate benefits for a service
   app.post("/api/admin/ai/generate-benefits", async (req, res) => {
+    try {
+      const { serviceName, description } = req.body;
+      
+      if (!serviceName || !description) {
+        return res.status(400).json({
+          success: false,
+          message: "Service name and description are required"
+        });
+      }
+      
+      const benefits = await generateBenefits(serviceName, description);
+      
+      res.json({
+        success: true,
+        benefits
+      });
+    } catch (error) {
+      console.error("Error generating benefits with AI:", error);
+      res.status(500).json({
+        success: false,
+        message: "Error generating benefits",
+        error: error instanceof Error ? error.message : "Unknown error"
+      });
+    }
+  });
+  
+  // Alias dla klienta/UI (bez prefixu /admin/)
+  app.post("/api/ai/generate-benefits", async (req, res) => {
     try {
       const { serviceName, description } = req.body;
       
@@ -1052,8 +1131,64 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
   
+  // Alias dla klienta/UI (bez prefixu /admin/)
+  app.post("/api/ai/generate-scope", async (req, res) => {
+    try {
+      const { serviceName, description } = req.body;
+      
+      if (!serviceName || !description) {
+        return res.status(400).json({
+          success: false,
+          message: "Service name and description are required"
+        });
+      }
+      
+      const scope = await generateScope(serviceName, description);
+      
+      res.json({
+        success: true,
+        scope
+      });
+    } catch (error) {
+      console.error("Error generating scope with AI:", error);
+      res.status(500).json({
+        success: false,
+        message: "Error generating scope",
+        error: error instanceof Error ? error.message : "Unknown error"
+      });
+    }
+  });
+  
   // Enhance a service description
   app.post("/api/admin/ai/enhance-description", async (req, res) => {
+    try {
+      const { serviceName, description } = req.body;
+      
+      if (!serviceName || !description) {
+        return res.status(400).json({
+          success: false,
+          message: "Service name and description are required"
+        });
+      }
+      
+      const enhancedDescription = await enhanceServiceDescription(serviceName, description);
+      
+      res.json({
+        success: true,
+        description: enhancedDescription
+      });
+    } catch (error) {
+      console.error("Error enhancing description with AI:", error);
+      res.status(500).json({
+        success: false,
+        message: "Error enhancing description",
+        error: error instanceof Error ? error.message : "Unknown error"
+      });
+    }
+  });
+  
+  // Alias dla klienta/UI (bez prefixu /admin/)
+  app.post("/api/ai/enhance-description", async (req, res) => {
     try {
       const { serviceName, description } = req.body;
       
