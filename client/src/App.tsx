@@ -1,9 +1,12 @@
 import { useEffect, useState, useRef } from "react";
 import { AnimatePresence } from "framer-motion";
+import { Route, Switch, Link } from 'wouter';
 import { Toaster } from "@/components/ui/toaster";
-import { TooltipProvider } from "@/components/ui/tooltip";
+import { TooltipProvider, Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import WelcomeScreen from "@/components/WelcomeScreen";
 import MainApp from "@/components/MainApp";
+import AdminPage from "@/pages/AdminPage";
+import NotFound from "@/pages/not-found";
 import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 import { Service } from "@/types";
 import { fetchServicesFromCatalog, setServiceCatalogBaseUrl } from "@/lib/serviceCatalogApi";
@@ -100,14 +103,19 @@ function App() {
     }
   };
 
-  return (
-    <TooltipProvider>
+  const MainContent = () => (
+    <>
       {/* Panel kontrolny źródła danych */}
       <div className="fixed top-0 right-0 bg-slate-800 text-white p-2 text-xs z-50 rounded-bl-lg shadow-md">
         <div className="flex flex-col space-y-2">
           <div className="flex items-center justify-between">
             <span>Źródło danych:</span>
             <div className="flex space-x-2">
+              <Link href="/admin">
+                <button className="px-2 py-1 rounded bg-purple-700 hover:bg-purple-600 transition-colors mr-2">
+                  👑 Admin
+                </button>
+              </Link>
               <button 
                 onClick={toggleDataSource}
                 className="px-2 py-1 rounded bg-blue-700 hover:bg-blue-600 transition-colors"
@@ -487,6 +495,16 @@ function App() {
           <MainApp services={services || []} isLoading={isLoading} key="main-app" />
         )}
       </AnimatePresence>
+    </>
+  );
+
+  return (
+    <TooltipProvider>
+      <Switch>
+        <Route path="/admin" component={AdminPage} />
+        <Route path="/" component={MainContent} />
+        <Route component={NotFound} />
+      </Switch>
       <Toaster />
     </TooltipProvider>
   );

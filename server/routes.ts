@@ -808,6 +808,83 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Endpoint do aktualizacji usługi
+  app.put("/api/admin/services/:id", async (req, res) => {
+    try {
+      const { id } = req.params;
+      const serviceData = req.body;
+      
+      // Znajdź usługę po ID
+      const existingService = await storage.getService(parseInt(id));
+      
+      if (!existingService) {
+        return res.status(404).json({ message: "Usługa nie znaleziona" });
+      }
+      
+      // Aktualizuj usługę
+      const serviceToUpdate = {
+        ...existingService,
+        name: serviceData.name,
+        description: serviceData.description,
+        basePrice: serviceData.basePrice,
+        deliveryTime: serviceData.deliveryTime,
+        features: serviceData.features || [],
+        steps: serviceData.steps || []
+      };
+      
+      // Zaktualizuj usługę w bazie
+      const [updatedService] = await db
+        .update(services)
+        .set(serviceToUpdate)
+        .where(eq(services.id, parseInt(id)))
+        .returning();
+      
+      res.json({
+        success: true,
+        message: "Usługa zaktualizowana",
+        service: updatedService
+      });
+    } catch (error) {
+      console.error("Błąd podczas aktualizacji usługi:", error);
+      res.status(500).json({
+        success: false,
+        message: "Błąd podczas aktualizacji usługi",
+        error: error instanceof Error ? error.message : 'Nieznany błąd'
+      });
+    }
+  });
+  
+  // Endpoint do usunięcia usługi
+  app.delete("/api/admin/services/:id", async (req, res) => {
+    try {
+      const { id } = req.params;
+      
+      // Sprawdź czy usługa istnieje
+      const existingService = await storage.getService(parseInt(id));
+      
+      if (!existingService) {
+        return res.status(404).json({ message: "Usługa nie znaleziona" });
+      }
+      
+      // Usuń usługę z bazy
+      await db
+        .delete(services)
+        .where(eq(services.id, parseInt(id)));
+      
+      res.json({
+        success: true,
+        message: "Usługa usunięta"
+      });
+    } catch (error) {
+      console.error("Błąd podczas usuwania usługi:", error);
+      res.status(500).json({
+        success: false,
+        message: "Błąd podczas usuwania usługi",
+        error: error instanceof Error ? error.message : 'Nieznany błąd'
+      });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }
