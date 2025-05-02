@@ -368,7 +368,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
   
-  // Usuwanie usługi (tylko dla ServiceCatalog)
+  // Usuwanie usługi (dla ServiceCatalog i ECM Digital)
   app.delete("/api/admin/services/:id", async (req, res) => {
     try {
       const apiKey = req.query.key as string;
@@ -379,28 +379,34 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(401).json({ message: "Unauthorized: Invalid API key" });
       }
       
-      // Sprawdź czy to jest ServiceCatalog
-      if (appName !== "ServiceCatalog") {
-        return res.status(403).json({ 
-          message: "Forbidden: Only ServiceCatalog has permission to delete services" 
-        });
-      }
-      
       const { id } = req.params;
       
       if (!id) {
         return res.status(400).json({ message: "Service ID is required" });
       }
       
-      // Sprawdź czy usługa istnieje
-      const existingService = await db.select().from(services).where(eq(services.serviceId, id)).limit(1);
-      
-      if (existingService.length === 0) {
-        return res.status(404).json({ message: "Service not found" });
+      // Sprawdź czy usługa istnieje i usuń ją
+      if (appName === "ServiceCatalog") {
+        // ServiceCatalog używa serviceId (string) do identyfikacji usług
+        const existingServices = await db.select().from(services).where(eq(services.serviceId, id)).limit(1);
+        
+        if (existingServices.length === 0) {
+          return res.status(404).json({ message: "Service not found" });
+        }
+        
+        // Usuń usługę z bazy danych używając serviceId
+        await db.delete(services).where(eq(services.serviceId, id));
+      } else {
+        // ECM Digital używa id (number) do identyfikacji usług
+        const existingService = await storage.getService(parseInt(id));
+        
+        if (!existingService) {
+          return res.status(404).json({ message: "Usługa nie znaleziona" });
+        }
+        
+        // Usuń usługę z bazy używając id
+        await db.delete(services).where(eq(services.id, parseInt(id)));
       }
-      
-      // Usuń usługę z bazy danych
-      await db.delete(services).where(eq(services.serviceId, id));
       
       res.json({ 
         success: true,
@@ -408,7 +414,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
       });
     } catch (error) {
       console.error("Error deleting service:", error);
-      res.status(500).json({ message: "Error deleting service" });
+      res.status(500).json({ 
+        success: false, 
+        message: "Error deleting service", 
+        error: error instanceof Error ? error.message : "Unknown error" 
+      });
     }
   });
 
@@ -924,36 +934,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
   
-  // Endpoint do usunięcia usługi
-  app.delete("/api/admin/services/:id", async (req, res) => {
-    try {
-      const { id } = req.params;
-      
-      // Sprawdź czy usługa istnieje
-      const existingService = await storage.getService(parseInt(id));
-      
-      if (!existingService) {
-        return res.status(404).json({ message: "Usługa nie znaleziona" });
-      }
-      
-      // Usuń usługę z bazy
-      await db
-        .delete(services)
-        .where(eq(services.id, parseInt(id)));
-      
-      res.json({
-        success: true,
-        message: "Usługa usunięta"
-      });
-    } catch (error) {
-      console.error("Błąd podczas usuwania usługi:", error);
-      res.status(500).json({
-        success: false,
-        message: "Błąd podczas usuwania usługi",
-        error: error instanceof Error ? error.message : 'Nieznany błąd'
-      });
-    }
-  });
+
 
   const httpServer = createServer(app);
   return httpServer;

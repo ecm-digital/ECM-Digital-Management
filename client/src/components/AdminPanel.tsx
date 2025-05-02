@@ -114,7 +114,8 @@ export default function AdminPanel() {
     if (!serviceToDelete) return;
     
     try {
-      await apiRequest(`/api/admin/services/${serviceToDelete.id}`, {
+      // Dodajemy klucz API do żądania usunięcia usługi
+      await apiRequest(`/api/admin/services/${serviceToDelete.id}?key=ecm-database-sharing-key&app=ECMDigital`, {
         method: 'DELETE'
       });
       
