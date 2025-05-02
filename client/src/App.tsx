@@ -1,19 +1,14 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { AnimatePresence } from "framer-motion";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import WelcomeScreen from "@/components/WelcomeScreen";
 import MainApp from "@/components/MainApp";
-import { useQuery } from "@tanstack/react-query";
-import { Service } from "@/types";
+import { services as localServices } from "@/data/services";
 
 function App() {
   const [showWelcome, setShowWelcome] = useState(true);
-
-  // Fetch services from Firestore via our API
-  const { data: services, isLoading } = useQuery<Service[]>({
-    queryKey: ['/api/services'],
-  });
+  const [isLoading, setIsLoading] = useState(false);
 
   // Handle start button click
   const handleStart = () => {
@@ -26,7 +21,7 @@ function App() {
         {showWelcome ? (
           <WelcomeScreen onStart={handleStart} key="welcome" />
         ) : (
-          <MainApp services={services || []} isLoading={isLoading} key="main-app" />
+          <MainApp services={localServices} isLoading={isLoading} key="main-app" />
         )}
       </AnimatePresence>
       <Toaster />
