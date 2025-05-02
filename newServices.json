@@ -1,0 +1,530 @@
+[
+  {
+    "name": "Audyt UX z elementami AI",
+    "shortDescription": "Kompleksowa analiza interfejsu z wykorzystaniem sztucznej inteligencji.",
+    "description": "Kompleksowy audyt UX z elementami AI - szczegółowa analiza barier użyteczności, wsparta danymi z Google Analytics 4 i Hotjar.",
+    "longDescription": "Nasz audyt UX z elementami AI to zaawansowana analiza Twojej strony internetowej lub aplikacji pod kątem barier w użyteczności. Wykorzystujemy sztuczną inteligencję do przetwarzania danych, które pozyskujemy z narzędzi analitycznych jak Google Analytics 4 i Hotjar. Dzięki temu identyfikujemy zarówno techniczne, jak i psychologiczne bariery, które powstrzymują użytkowników przed konwersją. Wynikiem jest szczegółowy raport zawierający konkretne rekomendacje do wdrożenia.",
+    "basePrice": 5500,
+    "deliveryTime": 14,
+    "features": [
+      "Analiza danych z Google Analytics 4",
+      "Heatmapy i nagrania z Hotjar",
+      "Analiza ścieżek użytkownika",
+      "Identyfikacja barier UX",
+      "Rekomendacje do wdrożenia"
+    ],
+    "benefits": [
+      "Zwiększenie współczynnika konwersji",
+      "Lepsze doświadczenia użytkownika",
+      "Dane oparte na rzeczywistych zachowaniach",
+      "Konkretne wnioski i rekomendacje",
+      "Wsparcie decyzji biznesowych"
+    ],
+    "scope": [
+      "Analiza aktualnego stanu strony/aplikacji",
+      "Audyt UX i CRO",
+      "Raport z rekomendacjami",
+      "Priorytetyzacja zmian do wdrożenia",
+      "Konsultacja po audycie"
+    ],
+    "category": "UX/UI",
+    "status": "Aktywna"
+  },
+  {
+    "name": "Projektowanie lejków konwersji",
+    "shortDescription": "Zwiększ skuteczność sprzedaży dzięki profesjonalnym lejkom konwersji.",
+    "description": "Projektowanie skutecznych lejków konwersji - landing page, CTA, formularze i inne elementy budujące ścieżkę zakupową.",
+    "longDescription": "Projektujemy kompleksowe lejki konwersji, które skutecznie prowadzą użytkowników od pierwszego kontaktu z marką do dokonania zakupu. Nasze podejście opiera się na dogłębnej analizie grupy docelowej i psychologii decyzji zakupowych. Tworzymy landing page, które przekonują i angażują, przyciski CTA, które zachęcają do działania, oraz formularze zoptymalizowane pod kątem konwersji. Wszystkie elementy lejka są spójne wizualnie i komunikacyjnie, co buduje zaufanie i zwiększa prawdopodobieństwo zakupu.",
+    "basePrice": 8000,
+    "deliveryTime": 21,
+    "features": [
+      "Profesjonalne landing page",
+      "Optymalizacja CTA",
+      "Projektowanie formularzy konwersyjnych",
+      "Spójna komunikacja marketingowa",
+      "Testowanie A/B"
+    ],
+    "benefits": [
+      "Zwiększenie współczynnika konwersji",
+      "Lepsze doświadczenie użytkownika",
+      "Zmniejszenie współczynnika odrzuceń",
+      "Wyższa skuteczność kampanii reklamowych",
+      "Wzrost przychodów"
+    ],
+    "scope": [
+      "Analiza grupy docelowej",
+      "Projektowanie UX/UI",
+      "Implementacja lejka konwersji",
+      "Testy i optymalizacja",
+      "Raport z rekomendacjami"
+    ],
+    "category": "UX/UI",
+    "status": "Aktywna"
+  },
+  {
+    "name": "AI UX Assistant",
+    "shortDescription": "Zaawansowane wsparcie UX oparte na sztucznej inteligencji i danych.",
+    "description": "AI UX Assistant - inteligentne rozwiązanie dostarczające insighty UX na podstawie danych z Twojej strony, z szybkim MVP w Replit.",
+    "longDescription": "AI UX Assistant to innowacyjne narzędzie, które wykorzystuje sztuczną inteligencję do analizy danych UX i zachowań użytkowników na Twojej stronie. System zbiera dane z różnych źródeł (analityka, nagrania sesji, ankiety) i generuje konkretne rekomendacje oraz insighty, które można natychmiast wdrożyć. Rozpoczynamy od szybkiego MVP zbudowanego na platformie Replit, które pozwala na szybką weryfikację koncepcji i iterację rozwiązania pod konkretne potrzeby Twojego biznesu.",
+    "basePrice": 7500,
+    "deliveryTime": 28,
+    "features": [
+      "Analiza danych UX w czasie rzeczywistym",
+      "Integracja z narzędziami analitycznymi",
+      "Automatyczne rekomendacje UX",
+      "Szybkie MVP na platformie Replit",
+      "Personalizacja do branży klienta"
+    ],
+    "benefits": [
+      "Ciągła optymalizacja UX",
+      "Decyzje oparte na rzeczywistych danych",
+      "Szybsze wykrywanie problemów",
+      "Oszczędność czasu zespołu UX",
+      "Przewaga konkurencyjna dzięki AI"
+    ],
+    "scope": [
+      "Analiza wymagań biznesowych",
+      "Przygotowanie modelu AI",
+      "Wdrożenie MVP na platformie Replit",
+      "Integracja z narzędziami klienta",
+      "Warsztaty wdrożeniowe i szkolenie"
+    ],
+    "category": "AI",
+    "status": "Aktywna"
+  },
+  {
+    "name": "Strony w Wix Studio i Webflow",
+    "shortDescription": "Profesjonalne strony i sklepy internetowe na platformach no-code.",
+    "description": "Projektowanie i rozwój profesjonalnych stron i sklepów internetowych z wykorzystaniem platform Wix Studio i Webflow.",
+    "longDescription": "Tworzymy zaawansowane strony internetowe i sklepy e-commerce wykorzystując możliwości platform Wix Studio i Webflow. Nasze projekty łączą estetykę z funkcjonalnością, dzięki czemu Twoja firma zyskuje profesjonalną obecność w internecie. Dostarczamy rozwiązania dostosowane do Twoich potrzeb, które wyróżniają się na tle konkurencji. Oferujemy pełen zakres usług - od projektu UX/UI, przez wdrożenie, po szkolenie z obsługi systemu zarządzania treścią.",
+    "basePrice": 6000,
+    "deliveryTime": 21,
+    "features": [
+      "Responsywny design",
+      "Systemy CMS przyjazne dla użytkownika",
+      "Integracja z narzędziami marketingowymi",
+      "Optymalizacja pod kątem SEO",
+      "Wsparcie techniczne po wdrożeniu"
+    ],
+    "benefits": [
+      "Profesjonalny wizerunek marki",
+      "Łatwość samodzielnego zarządzania stroną",
+      "Szybkość działania i ładowania strony",
+      "Zgodność z najnowszymi standardami",
+      "Bezpieczeństwo i niezawodność"
+    ],
+    "scope": [
+      "Analiza potrzeb i celów biznesowych",
+      "Projektowanie UX/UI",
+      "Wdrożenie na platformie Wix Studio lub Webflow",
+      "Integracja z narzędziami zewnętrznymi",
+      "Szkolenie z obsługi systemu CMS"
+    ],
+    "category": "Web Development",
+    "status": "Aktywna"
+  },
+  {
+    "name": "E-commerce z AI",
+    "shortDescription": "Nowoczesne sklepy internetowe ze wsparciem sztucznej inteligencji.",
+    "description": "Zaawansowane sklepy e-commerce z integracją AI - gotowe do dropshippingu, z chatbotami i automatyzacją procesów.",
+    "longDescription": "Tworzymy inteligentne sklepy e-commerce, które wykorzystują potencjał sztucznej inteligencji do automatyzacji procesów i zwiększania sprzedaży. Nasze rozwiązania są gotowe do integracji z modelami dropshippingowymi, posiadają wbudowane chatboty wspierające klientów oraz systemy automatyzacji zarządzania zamówieniami i zapasami. Dzięki wykorzystaniu AI, Twój sklep może oferować personalizowane rekomendacje produktowe, inteligentną wyszukiwarkę i automatyczne kampanie remarketingowe, co znacząco wpływa na wzrost konwersji i wartość koszyka zakupowego.",
+    "basePrice": 15000,
+    "deliveryTime": 45,
+    "features": [
+      "Integracja z dostawcami dropshippingowymi",
+      "AI chatbot obsługi klienta",
+      "Automatyzacja zarządzania zamówieniami",
+      "Personalizowane rekomendacje produktowe",
+      "Inteligentne zarządzanie zapasami"
+    ],
+    "benefits": [
+      "Zwiększenie konwersji dzięki AI",
+      "Redukcja kosztów obsługi klienta",
+      "Automatyzacja procesów biznesowych",
+      "Personalizacja doświadczenia zakupowego",
+      "Skalowalność i elastyczność biznesu"
+    ],
+    "scope": [
+      "Analiza potrzeb biznesowych",
+      "Projektowanie UX/UI sklepu",
+      "Wdrożenie platformy e-commerce",
+      "Integracja systemów AI",
+      "Konfiguracja automatyzacji procesów",
+      "Szkolenie zespołu"
+    ],
+    "category": "E-commerce",
+    "status": "Aktywna"
+  },
+  {
+    "name": "Performance & SEO",
+    "shortDescription": "Optymalizacja wydajności i widoczności strony w wyszukiwarkach.",
+    "description": "Kompleksowa optymalizacja Performance & SEO - poprawa Core Web Vitals, szybkości ładowania strony i pozycji w wynikach wyszukiwania.",
+    "longDescription": "Nasze usługi Performance & SEO to kompleksowe podejście do zwiększenia wydajności i widoczności Twojej strony w wynikach wyszukiwania. Skupiamy się na optymalizacji Core Web Vitals, które są kluczowymi wskaźnikami dla Google przy ocenie jakości strony. Poprawiamy szybkość ładowania, interaktywność i stabilność wizualną, co przekłada się zarówno na lepsze doświadczenia użytkownika, jak i wyższą pozycję w wynikach wyszukiwania. Dodatkowo, wdrażamy zaawansowane techniki SEO on-page i off-page, które zwiększają organiczny ruch na Twojej stronie.",
+    "basePrice": 4500,
+    "deliveryTime": 21,
+    "features": [
+      "Audyt i optymalizacja Core Web Vitals",
+      "Zwiększenie szybkości ładowania strony",
+      "Optymalizacja SEO on-page",
+      "Analiza i optymalizacja treści",
+      "Raportowanie wyników i rekomendacje"
+    ],
+    "benefits": [
+      "Lepsza pozycja w wynikach wyszukiwania",
+      "Zwiększenie ruchu organicznego",
+      "Poprawa doświadczeń użytkownika",
+      "Niższy współczynnik odrzuceń",
+      "Wyższe wskaźniki zaangażowania"
+    ],
+    "scope": [
+      "Audyt techniczny SEO i wydajności",
+      "Optymalizacja Core Web Vitals",
+      "Implementacja usprawnień technicznych",
+      "Optymalizacja treści pod kątem SEO",
+      "Monitoring wyników i raporty"
+    ],
+    "category": "SEO",
+    "status": "Aktywna"
+  },
+  {
+    "name": "Facebook & Instagram Ads",
+    "shortDescription": "Skuteczne kampanie reklamowe w mediach społecznościowych.",
+    "description": "Profesjonalne kampanie Facebook & Instagram Ads - strategia, kreacja i prowadzenie skutecznych kampanii sprzedażowych.",
+    "longDescription": "Projektujemy i prowadzimy zaawansowane kampanie reklamowe na platformach Facebook i Instagram, które są bezpośrednio ukierunkowane na generowanie sprzedaży. Nasze podejście obejmuje dogłębną analizę grupy docelowej, tworzenie angażujących kreacji reklamowych oraz ciągłą optymalizację kampanii w oparciu o dane. Wykorzystujemy zaawansowane techniki targetowania, retargetingu oraz śledzenia konwersji, które maksymalizują zwrot z inwestycji reklamowej (ROAS). Dzięki naszemu doświadczeniu i znajomości najnowszych trendów, Twoje reklamy skutecznie przebijają się przez szum informacyjny i przekonują do zakupu.",
+    "basePrice": 3500,
+    "deliveryTime": 14,
+    "features": [
+      "Strategia kampanii reklamowej",
+      "Kreacje reklamowe dla różnych formatów",
+      "Zaawansowane targetowanie i retargeting",
+      "Optymalizacja kampanii i budżetu",
+      "Raportowanie wyników i analityka"
+    ],
+    "benefits": [
+      "Zwiększenie sprzedaży i konwersji",
+      "Precyzyjne dotarcie do grupy docelowej",
+      "Kontrola i optymalizacja budżetu reklamowego",
+      "Budowanie świadomości marki",
+      "Mierzalne wyniki i ROI"
+    ],
+    "scope": [
+      "Analiza konkurencji i rynku",
+      "Przygotowanie strategii reklamowej",
+      "Tworzenie kreacji i kopii reklamowych",
+      "Konfiguracja i uruchomienie kampanii",
+      "Monitoring, optymalizacja i raporty"
+    ],
+    "category": "Marketing",
+    "status": "Aktywna"
+  },
+  {
+    "name": "Strategie contentowe",
+    "shortDescription": "Planowanie i tworzenie angażujących treści dla Twojej marki.",
+    "description": "Skuteczne strategie contentowe - kompleksowe planowanie treści z gotowymi szablonami do wykorzystania.",
+    "longDescription": "Tworzymy kompleksowe strategie contentowe, które budują silną obecność Twojej marki w internecie. Nasze podejście opiera się na dokładnym zrozumieniu Twojej grupy docelowej, celów biznesowych i unikalnej propozycji wartości. Dostarczamy nie tylko plan działania, ale również gotowe szablony treści, które możesz od razu wykorzystać w swoich kanałach komunikacji. Strategia obejmuje różne formaty - od artykułów blogowych, przez posty w mediach społecznościowych, po materiały wideo i podcasty, tworząc spójny ekosystem komunikacji z Twoją grupą docelową.",
+    "basePrice": 6000,
+    "deliveryTime": 21,
+    "features": [
+      "Analiza grupy docelowej i konkurencji",
+      "Kompleksowy kalendarz treści",
+      "Gotowe szablony dla różnych formatów",
+      "Wskazówki dotyczące tone of voice",
+      "Strategie dystrybucji treści"
+    ],
+    "benefits": [
+      "Spójna komunikacja marki",
+      "Zwiększenie zaangażowania odbiorców",
+      "Oszczędność czasu dzięki gotowym szablonom",
+      "Budowanie autorytetu w branży",
+      "Wsparcie celów biznesowych przez content"
+    ],
+    "scope": [
+      "Audyt obecnych treści i komunikacji",
+      "Opracowanie persony klienta",
+      "Stworzenie strategii contentowej",
+      "Przygotowanie szablonów treści",
+      "Wskazówki implementacyjne"
+    ],
+    "category": "Marketing",
+    "status": "Aktywna"
+  },
+  {
+    "name": "Sklepy pod kampanie",
+    "shortDescription": "Zoptymalizowane sklepy pod skuteczne kampanie reklamowe.",
+    "description": "Sklepy pod kampanie - kompletne rozwiązanie łączące landing page, pixel reklamowy i kampanię sprzedażową.",
+    "longDescription": "Tworzymy dedykowane sklepy internetowe zoptymalizowane pod kampanie reklamowe, które maksymalizują konwersję ruchu płatnego na sprzedaż. Nasze rozwiązanie to połączenie trzech kluczowych elementów: landing page zaprojektowanego z myślą o konwersji, profesjonalnej konfiguracji piksel reklamowych (Facebook, Google) umożliwiających precyzyjne śledzenie i optymalizację kampanii, oraz strategii kampanii reklamowej dopasowanej do specyfiki Twojego biznesu. Każdy sklep jest projektowany z uwzględnieniem najlepszych praktyk CRO (Conversion Rate Optimization) i UX, co przekłada się na wyższy ROAS (Return on Ad Spend).",
+    "basePrice": 10000,
+    "deliveryTime": 30,
+    "features": [
+      "Konwersyjny landing page i sklep",
+      "Pełna konfiguracja piksel Facebook i Google",
+      "Strategia kampanii reklamowej",
+      "Integracja z systemami płatności",
+      "Automatyzacje marketingowe"
+    ],
+    "benefits": [
+      "Wysoka skuteczność kampanii reklamowych",
+      "Wzrost współczynnika konwersji",
+      "Dokładne śledzenie efektywności kampanii",
+      "Szybkie wdrożenie i start sprzedaży",
+      "Kompleksowe rozwiązanie w jednym pakiecie"
+    ],
+    "scope": [
+      "Analiza rynku i konkurencji",
+      "Projektowanie i wdrożenie sklepu",
+      "Konfiguracja systemów śledzenia",
+      "Przygotowanie kampanii reklamowej",
+      "Wsparcie po wdrożeniu i optymalizacja"
+    ],
+    "category": "E-commerce",
+    "status": "Aktywna"
+  },
+  {
+    "name": "Automatyzacje (n8n, Zapier)",
+    "shortDescription": "Automatyzacja procesów biznesowych i przepływów danych.",
+    "description": "Profesjonalne automatyzacje wykorzystujące n8n i Zapier - integracja CRM, zarządzanie leadami, automatyczne follow-upy.",
+    "longDescription": "Tworzymy zaawansowane automatyzacje procesów biznesowych, które eliminują powtarzalne zadania i zwiększają efektywność Twojego zespołu. Wykorzystujemy narzędzia takie jak n8n i Zapier do integracji różnych systemów i tworzenia płynnych przepływów danych. Automatyzujemy procesy związane z zarządzaniem CRM, obiegiem leadów sprzedażowych, wysyłką automatycznych follow-upów, a także synchronizacją danych między różnymi narzędziami, które używasz w swojej firmie. Dzięki naszym rozwiązaniom Twój zespół może skupić się na strategicznych zadaniach, podczas gdy rutynowe działania wykonywane są automatycznie.",
+    "basePrice": 7000,
+    "deliveryTime": 21,
+    "features": [
+      "Integracja systemów CRM",
+      "Automatyzacja zarządzania leadami",
+      "Automatyczne follow-upy i komunikacja",
+      "Synchronizacja danych między systemami",
+      "Niestandardowe przepływy pracy"
+    ],
+    "benefits": [
+      "Oszczędność czasu i zasobów",
+      "Eliminacja błędów ludzkich",
+      "Spójność danych w różnych systemach",
+      "Szybsza reakcja na potrzeby klientów",
+      "Skalowalność procesów biznesowych"
+    ],
+    "scope": [
+      "Analiza procesów biznesowych",
+      "Projektowanie przepływów automatyzacji",
+      "Wdrożenie rozwiązań n8n/Zapier",
+      "Integracja z istniejącymi systemami",
+      "Testy, optymalizacja i dokumentacja"
+    ],
+    "category": "Automatyzacja",
+    "status": "Aktywna"
+  },
+  {
+    "name": "Custom AI Tools",
+    "shortDescription": "Dedykowane narzędzia AI dostosowane do potrzeb Twojego biznesu.",
+    "description": "Custom AI Tools - projektowanie i wdrażanie prostych agentów AI dla konkretnych potrzeb biznesowych.",
+    "longDescription": "Tworzymy spersonalizowane narzędzia oparte na sztucznej inteligencji, które rozwiązują konkretne problemy biznesowe Twojej firmy. Nasze Custom AI Tools to dedykowane agenty AI, które mogą automatyzować procesy obsługi klienta, wspierać decyzje biznesowe, analizować dane czy generować treści. Każde narzędzie jest projektowane z myślą o specyficznych potrzebach Twojego biznesu, co zapewnia maksymalną efektywność i zwrot z inwestycji. Dzięki wykorzystaniu najnowszych technologii AI, takich jak GPT, możemy szybko wdrożyć rozwiązania, które jeszcze wczoraj wydawały się nieosiągalne.",
+    "basePrice": 12000,
+    "deliveryTime": 35,
+    "features": [
+      "Spersonalizowane rozwiązania AI",
+      "Integracja z istniejącymi systemami",
+      "Interfejs dopasowany do potrzeb użytkownika",
+      "Wykorzystanie najnowszych modeli AI",
+      "Wdrożenie i wsparcie techniczne"
+    ],
+    "benefits": [
+      "Rozwiązania dopasowane do konkretnych potrzeb",
+      "Przewaga konkurencyjna dzięki AI",
+      "Automatyzacja złożonych procesów",
+      "Zwiększenie efektywności operacyjnej",
+      "Skalowalność i możliwość rozwoju narzędzi"
+    ],
+    "scope": [
+      "Analiza wymagań biznesowych",
+      "Projektowanie architektury rozwiązania",
+      "Rozwój i trenowanie modeli AI",
+      "Tworzenie interfejsu użytkownika",
+      "Wdrożenie, testy i optymalizacja"
+    ],
+    "category": "AI",
+    "status": "Aktywna"
+  },
+  {
+    "name": "Product Discovery Workshop",
+    "shortDescription": "Warsztat odkrywający potrzeby i priorytety produktowe.",
+    "description": "Product Discovery Workshop - intensywny warsztat pozwalający zbadać potrzeby, określić priorytety i wyznaczyć strategię produktową.",
+    "longDescription": "Nasz Product Discovery Workshop to intensywny, interaktywny proces, który pomaga zrozumieć i zdefiniować najważniejsze aspekty Twojego produktu lub usługi. W trakcie warsztatu prowadzimy szereg ćwiczeń i dyskusji, które pozwalają odkryć prawdziwe potrzeby użytkowników, określić priorytety biznesowe oraz zidentyfikować kluczowe funkcjonalności. Rezultatem jest jasna wizja produktu, mapa drogowa rozwoju oraz konkretne następne kroki, które możesz podjąć. Workshop jest idealny zarówno dla nowych pomysłów, jak i istniejących produktów, które potrzebują świeżego spojrzenia lub strategii rozwoju.",
+    "basePrice": 9000,
+    "deliveryTime": 7,
+    "features": [
+      "Intensywne sesje warsztatowe (1-2 dni)",
+      "Analiza potrzeb użytkowników",
+      "Mapowanie ścieżek użytkownika",
+      "Priorytetyzacja funkcjonalności",
+      "Tworzenie mapy drogowej produktu"
+    ],
+    "benefits": [
+      "Jasna wizja produktu i strategii",
+      "Oszczędność czasu i zasobów dzięki wczesnej walidacji",
+      "Skupienie na funkcjonalnościach o największej wartości",
+      "Zrozumienie potrzeb użytkowników",
+      "Konkretny plan działania po warsztacie"
+    ],
+    "scope": [
+      "Przygotowanie i planowanie warsztatu",
+      "Prowadzenie sesji warsztatowych",
+      "Analiza i dokumentacja wyników",
+      "Przygotowanie mapy drogowej",
+      "Prezentacja i omówienie wyników"
+    ],
+    "category": "Consulting",
+    "status": "Aktywna"
+  },
+  {
+    "name": "MVP z AI",
+    "shortDescription": "Szybkie prototypy oparte na sztucznej inteligencji.",
+    "description": "MVP z AI - szybkie tworzenie prototypów i minimalnie funkcjonalnych produktów z wykorzystaniem Replit, Firebase i Flutter.",
+    "longDescription": "Tworzymy szybkie prototypy i minimalne funkcjonalne produkty (MVP), które wykorzystują możliwości sztucznej inteligencji. Nasze podejście opiera się na wykorzystaniu wydajnych narzędzi jak Replit do szybkiego programowania, Firebase do przechowywania danych i zarządzania użytkownikami, oraz Flutter do tworzenia aplikacji mobilnych. Dzięki wykorzystaniu tych technologii możemy w krótkim czasie dostarczyć działający produkt, który pozwala zweryfikować założenia biznesowe, przetestować rozwiązanie z realnymi użytkownikami i pozyskać pierwsze dane o użytkowaniu. To idealne rozwiązanie dla startupów i firm, które chcą szybko przetestować nowy pomysł lub funkcjonalność przed pełną implementacją.",
+    "basePrice": 15000,
+    "deliveryTime": 28,
+    "features": [
+      "Szybkie prototypowanie z Replit",
+      "Backendy oparte na Firebase",
+      "Aplikacje mobilne w Flutter",
+      "Integracja z modelami AI",
+      "Natychmiastowe wdrożenie MVP"
+    ],
+    "benefits": [
+      "Szybka weryfikacja pomysłu biznesowego",
+      "Minimalizacja kosztów początkowych",
+      "Możliwość pozyskania pierwszych użytkowników",
+      "Iteracyjny rozwój produktu",
+      "Wczesne pozyskanie informacji zwrotnej"
+    ],
+    "scope": [
+      "Definicja minimalnego zestawu funkcji",
+      "Projektowanie UX/UI prototypu",
+      "Programowanie MVP",
+      "Wdrożenie i konfiguracja",
+      "Wsparcie przy pierwszych testach"
+    ],
+    "category": "Development",
+    "status": "Aktywna"
+  },
+  {
+    "name": "Mentoring & Konsultacje",
+    "shortDescription": "Profesjonalne wsparcie dla founderów i przedsiębiorców.",
+    "description": "Mentoring & Konsultacje - doświadczone wsparcie dla founderów i soloprzedsiębiorców w rozwoju biznesu.",
+    "longDescription": "Oferujemy profesjonalne sesje mentoringowe i konsultacyjne dla founderów startupów i soloprzedsiębiorców, którzy potrzebują wsparcia w rozwoju swojego biznesu. Nasze sesje prowadzone są przez doświadczonych ekspertów, którzy dzielą się swoją wiedzą i doświadczeniem w obszarach takich jak strategia produktowa, pozyskiwanie finansowania, marketing i sprzedaż, czy technologia. Każda sesja jest dostosowana do indywidualnych potrzeb i wyzwań, przed którymi stoisz, zapewniając konkretne rozwiązania i kroki działania. To idealne rozwiązanie, gdy potrzebujesz obiektywnej perspektywy, weryfikacji swoich założeń lub wsparcia w podejmowaniu kluczowych decyzji biznesowych.",
+    "basePrice": 3000,
+    "deliveryTime": 14,
+    "features": [
+      "Indywidualne sesje konsultacyjne",
+      "Mentoring w wybranym obszarze",
+      "Analiza bieżącej sytuacji biznesowej",
+      "Rekomendacje i plan działania",
+      "Follow-upy i wsparcie we wdrożeniu"
+    ],
+    "benefits": [
+      "Obiektywna perspektywa eksperta",
+      "Unikanie typowych błędów biznesowych",
+      "Przyspieszenie rozwoju biznesu",
+      "Dostęp do wiedzy i doświadczenia",
+      "Wsparcie w kluczowych decyzjach"
+    ],
+    "scope": [
+      "Wstępna analiza potrzeb",
+      "Seria indywidualnych sesji",
+      "Przygotowanie rekomendacji",
+      "Plan działania",
+      "Sesje follow-up"
+    ],
+    "category": "Consulting",
+    "status": "Aktywna"
+  },
+  {
+    "name": "UX Scorecard",
+    "shortDescription": "Profesjonalna ocena UX Twojej strony w formie PDF.",
+    "description": "UX Scorecard - profesjonalna ocena UX Twojej strony w formacie PDF, idealna jako lead magnet.",
+    "longDescription": "UX Scorecard to szczegółowa analiza UX Twojej strony internetowej dostarczana w formie profesjonalnego raportu PDF. Nasz zespół ekspertów ocenia kluczowe aspekty doświadczenia użytkownika, takie jak nawigacja, czytelność, szybkość ładowania, dostępność, mobilność i ścieżki konwersji. Raport zawiera zarówno ocenę punktową poszczególnych elementów, jak i konkretne rekomendacje usprawnień. UX Scorecard świetnie sprawdza się jako wartościowy lead magnet, który możesz oferować potencjalnym klientom, aby zaprezentować swoją wiedzę ekspercką i zbudować zaufanie do marki.",
+    "basePrice": 800,
+    "deliveryTime": 7,
+    "features": [
+      "Profesjonalny raport PDF",
+      "Ocena punktowa kluczowych aspektów UX",
+      "Wizualizacja wyników",
+      "Konkretne rekomendacje usprawnień",
+      "Porównanie z benchmarkami branżowymi"
+    ],
+    "benefits": [
+      "Identyfikacja kluczowych problemów UX",
+      "Zwiększenie konwersji dzięki rekomendacjom",
+      "Wartościowy lead magnet dla potencjalnych klientów",
+      "Pokazanie profesjonalizmu i ekspertyzy",
+      "Szybki przegląd stanu UX strony"
+    ],
+    "scope": [
+      "Analiza strony internetowej",
+      "Ocena kluczowych aspektów UX",
+      "Przygotowanie rekomendacji",
+      "Projektowanie raportu PDF",
+      "Dostarczenie finalnego dokumentu"
+    ],
+    "category": "UX/UI",
+    "status": "Aktywna"
+  },
+  {
+    "name": "Miesięczna opieka AI/UX",
+    "shortDescription": "Regularne wsparcie i optymalizacja AI/UX dla Twojego biznesu.",
+    "description": "Miesięczna opieka AI/UX - regularne analizy, konsultacje i rekomendacje UX wspierane sztuczną inteligencją.",
+    "longDescription": "Miesięczna opieka AI/UX to pakiet ciągłego wsparcia dla Twojego biznesu, który łączy regularne analizy UX z mocą sztucznej inteligencji. Co miesiąc przeprowadzamy dogłębną analizę wydajności Twojej strony lub aplikacji, śledzimy zachowania użytkowników i identyfikujemy obszary wymagające optymalizacji. Wykorzystujemy zaawansowane narzędzia AI do interpretacji danych i generowania rekomendacji, które następnie omawiamy podczas konsultacji. Dzięki temu Twój produkt cyfrowy stale się rozwija, a Ty zyskujesz przewagę konkurencyjną poprzez ciągłe ulepszanie doświadczeń użytkownika.",
+    "basePrice": 2500,
+    "deliveryTime": 30,
+    "features": [
+      "Miesięczne analizy UX",
+      "Regularne konsultacje eksperckie",
+      "Wsparcie AI w interpretacji danych",
+      "Raport z rekomendacjami",
+      "Priorytetyzacja usprawnień"
+    ],
+    "benefits": [
+      "Ciągłe doskonalenie doświadczeń użytkownika",
+      "Regularne aktualizacje oparte na danych",
+      "Stałe wsparcie eksperckie",
+      "Przewaga konkurencyjna dzięki AI",
+      "Lepsze wyniki biznesowe"
+    ],
+    "scope": [
+      "Miesięczna analiza danych i metryk",
+      "Spotkanie konsultacyjne (2h)",
+      "Przygotowanie raportu z rekomendacjami",
+      "Wsparcie przy wdrażaniu zmian",
+      "Stały dostęp do eksperta UX"
+    ],
+    "category": "UX/UI",
+    "status": "Aktywna"
+  },
+  {
+    "name": "Newsletter z insightami",
+    "shortDescription": "Profesjonalny newsletter budujący relacje z klientami.",
+    "description": "Newsletter z insightami - stworzenie i prowadzenie profesjonalnego newslettera lub kanału komunikacji z bieżącymi insightami.",
+    "longDescription": "Projektujemy i prowadzimy profesjonalny newsletter, który dostarcza wartościowe insighty i treści dla Twoich klientów i potencjalnych klientów. Nasz kompleksowy serwis obejmuje strategię contentu, projektowanie szablonów, tworzenie angażujących treści oraz zarządzanie listą odbiorców i analityką. Newsletter jest skutecznym narzędziem budowania długotrwałych relacji z klientami, ponieważ regularnie dostarcza im wartościową wiedzę i utrzymuje Twoją markę w ich świadomości. To również świetny sposób na zaprezentowanie swojej ekspertyzy i budowanie zaufania, co przekłada się na lojalność klientów i nowe możliwości biznesowe.",
+    "basePrice": 2000,
+    "deliveryTime": 14,
+    "features": [
+      "Strategia treści newslettera",
+      "Projektowanie profesjonalnych szablonów",
+      "Tworzenie angażujących treści",
+      "Zarządzanie listą odbiorców",
+      "Analityka i raportowanie wyników"
+    ],
+    "benefits": [
+      "Budowanie długotrwałych relacji z klientami",
+      "Prezentacja ekspertyzy i budowanie zaufania",
+      "Regularny kontakt z bazą klientów",
+      "Generowanie nowych leadów i możliwości sprzedaży",
+      "Zwiększenie rozpoznawalności marki"
+    ],
+    "scope": [
+      "Analiza grupy docelowej",
+      "Opracowanie strategii treści",
+      "Projektowanie szablonu newslettera",
+      "Przygotowanie cyklu pierwszych wiadomości",
+      "Konfiguracja narzędzi i analityki"
+    ],
+    "category": "Marketing",
+    "status": "Aktywna"
+  }
+]
