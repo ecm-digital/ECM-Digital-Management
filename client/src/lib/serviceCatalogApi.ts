@@ -1,26 +1,55 @@
 import { Service } from '@/types';
 
-// URL bazy aplikacji ServiceCatalog
-const SERVICECATALOG_BASE_URL = 'https://servicecatalog.replit.app';
+// URL bazy aplikacji ServiceCatalog - możesz zmienić to na właściwy URL
+let SERVICECATALOG_BASE_URL = 'https://servicecatalog.replit.app';
+
+// Funkcja do zmiany URL bazowego - używana w trybie deweloperskim
+export function setServiceCatalogBaseUrl(url: string): void {
+  SERVICECATALOG_BASE_URL = url;
+  console.log('ServiceCatalog URL zmieniony na:', url);
+}
 
 /**
  * Pobiera usługi z aplikacji ServiceCatalog
  */
 export async function fetchServicesFromCatalog(): Promise<Service[]> {
   try {
-    const response = await fetch(`${SERVICECATALOG_BASE_URL}/api/services`);
+    console.log('Próba połączenia z ServiceCatalog:', SERVICECATALOG_BASE_URL);
+    
+    // Dodajemy timeout, żeby nie czekać zbyt długo na odpowiedź
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 5000); // 5 sekund timeout
+    
+    const response = await fetch(`${SERVICECATALOG_BASE_URL}/api/services`, {
+      signal: controller.signal,
+      headers: {
+        'Accept': 'application/json'
+      }
+    });
+    
+    clearTimeout(timeoutId);
     
     if (!response.ok) {
-      throw new Error(`Błąd podczas pobierania usług: ${response.status}`);
+      throw new Error(`Błąd podczas pobierania usług: ${response.status} ${response.statusText}`);
     }
     
     const data = await response.json();
+    console.log('Pobrano dane z ServiceCatalog:', data);
     
     // Mapowanie danych z ServiceCatalog na format Service używany w tej aplikacji
     return mapCatalogDataToServices(data);
-  } catch (error) {
-    console.error('Błąd pobierania usług z ServiceCatalog:', error);
-    throw error;
+  } catch (error: any) {
+    // Szczegółowy log błędu
+    if (error.name === 'AbortError') {
+      console.error('Timeout podczas połączenia z ServiceCatalog - serwer nie odpowiada');
+    } else if (error instanceof TypeError && error.message.includes('Failed to fetch')) {
+      console.error('Błąd połączenia z ServiceCatalog - serwer niedostępny lub problem z CORS');
+    } else {
+      console.error('Błąd pobierania usług z ServiceCatalog:', error.message || error);
+    }
+    
+    // W przypadku błędu, zwracamy pustą tablicę
+    throw new Error(`Nie można połączyć się z ServiceCatalog: ${error.message || 'Nieznany błąd'}`);
   }
 }
 
