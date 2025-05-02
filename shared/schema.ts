@@ -20,13 +20,17 @@ export const services = pgTable("services", {
   id: serial("id").primaryKey(),
   serviceId: text("service_id").notNull(),
   name: text("name").notNull(),
-  description: text("description").notNull(),
+  shortDescription: text("short_description"),  // Krótki opis
+  description: text("description").notNull(),  // Podstawowy opis
+  longDescription: text("long_description"),   // Długi opis (szczegółowy)
   basePrice: integer("base_price").notNull(),
   deliveryTime: integer("delivery_time").notNull(),
-  features: text("features").array(),
+  features: text("features").array(),          // Główne cechy (zostaje dla wstecznej kompatybilności)
+  benefits: text("benefits").array(),          // Lista korzyści
+  scope: text("scope").array(),                // Zakres usługi
   steps: jsonb("steps"),
-  category: text("category").default("Inne"), // Pojedyncza kategoria
-  status: text("status").default("Aktywna"),  // Status usługi
+  category: text("category").default("Inne"),  // Pojedyncza kategoria
+  status: text("status").default("Aktywna"),   // Status usługi
   createdAt: timestamp("created_at").defaultNow(),
 });
 

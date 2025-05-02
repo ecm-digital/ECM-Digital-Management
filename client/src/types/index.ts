@@ -2,10 +2,14 @@
 export interface Service {
   id: string;
   name: string;
-  description: string;
+  shortDescription?: string;   // Krótki opis
+  description: string;         // Podstawowy opis
+  longDescription?: string;    // Długi/szczegółowy opis
   basePrice: number;
   deliveryTime: number;
-  features?: string[];
+  features?: string[];         // Główne cechy (dla wstecznej kompatybilności)
+  benefits?: string[];         // Lista korzyści
+  scope?: string[];            // Zakres usługi
   steps?: ConfigStep[];
   category?: string;
   status?: string;

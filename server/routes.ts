@@ -64,10 +64,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const services = servicesFromDb.map(service => ({
         id: service.serviceId, // Use service_id as id (should be a string)
         name: service.name,
+        shortDescription: service.shortDescription || '',
         description: service.description,
+        longDescription: service.longDescription || '',
         basePrice: service.basePrice,
         deliveryTime: service.deliveryTime,
         features: service.features,
+        benefits: service.benefits || [],
+        scope: service.scope || [],
         steps: service.steps,
         category: service.category || 'Inne',
         status: service.status || 'Aktywna'
@@ -174,10 +178,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
           const insertData = {
             serviceId: serviceId,
             name: serviceData.name,
+            shortDescription: serviceData.shortDescription || '',
             description: serviceData.description || '',
+            longDescription: serviceData.longDescription || '',
             basePrice: serviceData.basePrice || 0,
             deliveryTime: serviceData.deliveryTime || 14,
             features: serviceData.features || [],
+            benefits: serviceData.benefits || [],
+            scope: serviceData.scope || [],
             steps: serviceData.steps || [],
             category: serviceData.category || 'Inne',
             status: serviceData.status || 'Aktywna'
@@ -290,10 +298,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const updateData = {
         serviceId: serviceData.id || id,
         name: serviceData.name,
+        shortDescription: serviceData.shortDescription || '',
         description: serviceData.description,
+        longDescription: serviceData.longDescription || '',
         basePrice: serviceData.basePrice,
         deliveryTime: serviceData.deliveryTime,
         features: serviceData.features || [],
+        benefits: serviceData.benefits || [],
+        scope: serviceData.scope || [],
         steps: serviceData.steps || [],
         category: serviceData.category || 'Inne',
         status: serviceData.status || 'Aktywna'
@@ -501,10 +513,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
               id: "id", 
               serviceId: "service_id",
               name: "name",
+              shortDescription: "short_description",
               description: "description",
+              longDescription: "long_description",
               basePrice: "base_price",
               deliveryTime: "delivery_time",
               features: "features",
+              benefits: "benefits",
+              scope: "scope",
               steps: "steps",
               category: "category",
               status: "status",
@@ -685,10 +701,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
           const serviceToUpsert = {
             serviceId: serviceData.id,
             name: serviceData.name,
+            shortDescription: serviceData.shortDescription || '',
             description: serviceData.description,
+            longDescription: serviceData.longDescription || '',
             basePrice: serviceData.basePrice,
             deliveryTime: serviceData.deliveryTime,
             features: serviceData.features || [],
+            benefits: serviceData.benefits || [],
+            scope: serviceData.scope || [],
             steps: serviceData.steps || [],
             category: serviceData.category || 'Inne',
             status: serviceData.status || 'Aktywna'
@@ -834,11 +854,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const serviceToUpdate = {
         ...existingService,
         name: serviceData.name,
+        shortDescription: serviceData.shortDescription || existingService.shortDescription || '',
         description: serviceData.description,
+        longDescription: serviceData.longDescription || existingService.longDescription || '',
         basePrice: serviceData.basePrice,
         deliveryTime: serviceData.deliveryTime,
-        features: serviceData.features || [],
-        steps: serviceData.steps || [],
+        features: serviceData.features || existingService.features || [],
+        benefits: serviceData.benefits || existingService.benefits || [],
+        scope: serviceData.scope || existingService.scope || [],
+        steps: serviceData.steps || existingService.steps || [],
         category: serviceData.category || existingService.category || 'Inne',
         status: serviceData.status || existingService.status || 'Aktywna'
       };
