@@ -142,62 +142,108 @@ function App() {
                 </Button>
               </div>
               
-              {/* Przycisk synchronizacji usług z ServiceCatalog */}
+              {/* Przyciski synchronizacji usług */}
               <div className="pt-2 border-t border-gray-700">
-                <button
-                  onClick={async () => {
-                    try {
-                      // Najpierw pobierz usługi z ServiceCatalog
-                      const servicesFromCatalog = await fetchServicesFromCatalog();
-                      
-                      if (!servicesFromCatalog || servicesFromCatalog.length === 0) {
+                <div className="flex flex-col space-y-2">
+                  <button
+                    onClick={async () => {
+                      try {
+                        // Najpierw pobierz usługi z ServiceCatalog
+                        const servicesFromCatalog = await fetchServicesFromCatalog();
+                        
+                        if (!servicesFromCatalog || servicesFromCatalog.length === 0) {
+                          toast({
+                            title: "Brak usług",
+                            description: "Nie znaleziono żadnych usług do synchronizacji w ServiceCatalog",
+                            variant: "destructive"
+                          });
+                          return;
+                        }
+                        
+                        // Wyślij usługi do synchronizacji
+                        const response = await apiRequest(
+                          `/api/admin/sync-from-servicecatalog?key=ecm-database-sharing-key`,
+                          {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                              serviceUrl,
+                              services: servicesFromCatalog
+                            })
+                          }
+                        );
+                        
+                        // Odśwież listę usług
+                        queryClient.invalidateQueries({queryKey: ['/api/services']});
+                        
                         toast({
-                          title: "Brak usług",
-                          description: "Nie znaleziono żadnych usług do synchronizacji w ServiceCatalog",
+                          title: "Synchronizacja zakończona",
+                          description: `Zsynchronizowano ${response.results.added} nowych i ${response.results.updated} zaktualizowanych usług.`
+                        });
+                        
+                        // Jeśli używamy źródła ServiceCatalog, przełączmy na lokalne dane aby zobaczyć zsynchronizowane usługi
+                        if (dataSource === 'serviceCatalog') {
+                          setDataSource('local');
+                        }
+                        
+                      } catch (error) {
+                        console.error('Błąd podczas synchronizacji usług:', error);
+                        toast({
+                          title: "Błąd synchronizacji",
+                          description: `Nie udało się zsynchronizować usług: ${error instanceof Error ? error.message : 'Nieznany błąd'}`,
                           variant: "destructive"
                         });
-                        return;
                       }
-                      
-                      // Wyślij usługi do synchronizacji
-                      const response = await apiRequest(
-                        `/api/admin/sync-from-servicecatalog?key=ecm-database-sharing-key`,
-                        {
-                          method: 'POST',
-                          headers: { 'Content-Type': 'application/json' },
-                          body: JSON.stringify({
-                            serviceUrl,
-                            services: servicesFromCatalog
-                          })
+                    }}
+                    className="w-full px-2 py-1 rounded bg-green-700 hover:bg-green-600 transition-colors"
+                  >
+                    Synchronizuj usługi z ServiceCatalog
+                  </button>
+                  
+                  <button
+                    onClick={async () => {
+                      try {
+                        // Pobierz dane przykładowych usług z bazy
+                        const response = await apiRequest(
+                          `/api/services`,
+                          { method: 'GET' }
+                        );
+                        
+                        // Sprawdź czy mamy jakieś usługi
+                        if (!response || response.length === 0) {
+                          toast({
+                            title: "Brak usług",
+                            description: "Nie znaleziono żadnych usług w lokalnej bazie danych",
+                            variant: "destructive"
+                          });
+                          return;
                         }
-                      );
-                      
-                      // Odśwież listę usług
-                      queryClient.invalidateQueries({queryKey: ['/api/services']});
-                      
-                      toast({
-                        title: "Synchronizacja zakończona",
-                        description: `Zsynchronizowano ${response.results.added} nowych i ${response.results.updated} zaktualizowanych usług.`
-                      });
-                      
-                      // Jeśli używamy źródła ServiceCatalog, przełączmy na lokalne dane aby zobaczyć zsynchronizowane usługi
-                      if (dataSource === 'serviceCatalog') {
-                        setDataSource('local');
+                        
+                        toast({
+                          title: "Usługi załadowane",
+                          description: `W lokalnej bazie danych znajduje się ${response.length} usług.`,
+                          variant: "default"
+                        });
+                        
+                        // Przełącz na lokalne źródło danych
+                        if (dataSource !== 'local') {
+                          setDataSource('local');
+                        }
+                        
+                      } catch (error) {
+                        console.error('Błąd podczas sprawdzania lokalnych usług:', error);
+                        toast({
+                          title: "Błąd",
+                          description: `Nie udało się pobrać lokalnych usług: ${error instanceof Error ? error.message : 'Nieznany błąd'}`,
+                          variant: "destructive"
+                        });
                       }
-                      
-                    } catch (error) {
-                      console.error('Błąd podczas synchronizacji usług:', error);
-                      toast({
-                        title: "Błąd synchronizacji",
-                        description: `Nie udało się zsynchronizować usług: ${error instanceof Error ? error.message : 'Nieznany błąd'}`,
-                        variant: "destructive"
-                      });
-                    }
-                  }}
-                  className="w-full px-2 py-1 rounded bg-green-700 hover:bg-green-600 transition-colors"
-                >
-                  Synchronizuj usługi z ServiceCatalog
-                </button>
+                    }}
+                    className="w-full px-2 py-1 rounded bg-blue-700 hover:bg-blue-600 transition-colors"
+                  >
+                    Użyj lokalnych usług
+                  </button>
+                </div>
               </div>
             </div>
           )}

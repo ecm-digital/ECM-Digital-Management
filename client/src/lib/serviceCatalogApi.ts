@@ -93,13 +93,20 @@ export async function submitOrderToCatalog(orderData: any): Promise<any> {
 /**
  * Mapuje dane z formatu ServiceCatalog na format Service używany w tej aplikacji
  */
-function mapCatalogDataToServices(catalogData: any[]): Service[] {
+function mapCatalogDataToServices(catalogData: any): Service[] {
+  // Obsługa przypadku, gdy catalogData nie jest tablicą (np. jest HTMLem lub innym formatem)
+  if (!Array.isArray(catalogData)) {
+    console.warn('Otrzymane dane nie są tablicą, zwracam dane testowe');
+    // Jeśli dane nie są w oczekiwanym formacie, zwracamy puste tablice lub dane testowe
+    return [];
+  }
+  
   return catalogData.map(item => {
     // Założenie: ServiceCatalog ma podobną strukturę, ale może mieć inne nazwy pól
     // Dlatego mapujemy do naszego formatu
     return {
-      id: item.id.toString(),
-      name: item.name,
+      id: item.id ? item.id.toString() : 'unknown-id',
+      name: item.name || 'Nieznana usługa',
       description: item.description || '',
       basePrice: item.basePrice || item.base_price || 0,
       deliveryTime: item.deliveryTime || item.delivery_time || 14,
