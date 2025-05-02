@@ -221,12 +221,7 @@ export default function MainApp({ services, isLoading }: MainAppProps) {
         {/* Header with logo */}
         <header className="flex justify-between items-center mb-12">
           <div>
-            <svg className="h-10" viewBox="0 0 300 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M10 10H20V40H40V10H50V50H10V10Z" fill="#0F52BA"/>
-              <path d="M60 10H100V20H70V25H95V35H70V40H100V50H60V10Z" fill="#0F52BA"/>
-              <path d="M110 10H130V50H110V10Z" fill="#0F52BA"/>
-              <text x="140" y="40" fontFamily="Inter" fontSize="24" fontWeight="bold" fill="#0F52BA">Digital</text>
-            </svg>
+            <h1 className="text-2xl font-bold text-[#0F52BA]">ECM Digital</h1>
           </div>
           <div>
             <button 

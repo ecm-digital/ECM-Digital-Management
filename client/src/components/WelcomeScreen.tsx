@@ -16,12 +16,7 @@ export default function WelcomeScreen({ onStart }: WelcomeScreenProps) {
     >
       <div className="max-w-3xl w-full mx-auto text-center">
         <div className="mb-8">
-          <svg className="h-16 mx-auto mb-8" viewBox="0 0 300 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M10 10H20V40H40V10H50V50H10V10Z" fill="#0F52BA"/>
-            <path d="M60 10H100V20H70V25H95V35H70V40H100V50H60V10Z" fill="#0F52BA"/>
-            <path d="M110 10H130V50H110V10Z" fill="#0F52BA"/>
-            <text x="140" y="40" fontFamily="Inter" fontSize="24" fontWeight="bold" fill="#0F52BA">Digital</text>
-          </svg>
+          <h1 className="text-4xl font-bold text-[#0F52BA] mb-8">ECM Digital</h1>
           
           <h1 className="text-4xl md:text-5xl font-bold text-dark mb-6">Skonfiguruj usługę dla swojej marki</h1>
           <p className="text-lg text-dark-light mb-10">Stwórz idealne rozwiązanie dostosowane do potrzeb Twojego biznesu</p>
