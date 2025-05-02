@@ -91,6 +91,73 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Create a new service
+  app.post("/api/services", async (req, res) => {
+    try {
+      const serviceData = req.body;
+      
+      // Generowanie unikatowego ID
+      const existingServices = await storage.getAllServices();
+      const newId = (existingServices.length ? 
+        Math.max(...existingServices.map(s => parseInt(s.serviceId) || 0)) + 1 : 1).toString();
+      
+      // Przygotowanie danych do zapisania
+      const serviceToInsert = {
+        serviceId: newId,
+        name: serviceData.name,
+        shortDescription: serviceData.shortDescription || '',
+        description: serviceData.description,
+        longDescription: serviceData.longDescription || '',
+        basePrice: serviceData.basePrice,
+        deliveryTime: serviceData.deliveryTime,
+        features: serviceData.features || [],
+        benefits: serviceData.benefits || [],
+        scope: serviceData.scope || [],
+        steps: serviceData.steps || [],
+        category: serviceData.category || 'Inne',
+        status: serviceData.status || 'Aktywna'
+      };
+      
+      // Waliduj dane
+      const validatedServiceData = insertServiceSchema.parse(serviceToInsert);
+      
+      // Zapisz usługę w bazie danych
+      const newService = await storage.createService(validatedServiceData);
+      
+      // Zwróć nową usługę
+      res.status(201).json({
+        success: true,
+        message: "Usługa utworzona pomyślnie",
+        service: {
+          id: newService.serviceId,
+          name: newService.name,
+          shortDescription: newService.shortDescription || '',
+          description: newService.description,
+          longDescription: newService.longDescription || '',
+          basePrice: newService.basePrice,
+          deliveryTime: newService.deliveryTime,
+          features: newService.features || [],
+          benefits: newService.benefits || [],
+          scope: newService.scope || [],
+          steps: newService.steps || [],
+          category: newService.category || 'Inne',
+          status: newService.status || 'Aktywna'
+        }
+      });
+    } catch (error) {
+      console.error("Błąd podczas tworzenia usługi:", error);
+      if (error instanceof z.ZodError) {
+        res.status(400).json({ message: "Nieprawidłowe dane usługi", errors: error.errors });
+      } else {
+        res.status(500).json({ 
+          success: false,
+          message: "Błąd podczas tworzenia usługi",
+          error: error instanceof Error ? error.message : 'Nieznany błąd'
+        });
+      }
+    }
+  });
+  
   // Get a single service by ID
   app.get("/api/services/:id", async (req, res) => {
     try {
