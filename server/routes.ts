@@ -1,7 +1,7 @@
 import express, { Express, Request, Response, NextFunction } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { insertOrderSchema, insertServiceSchema } from "@shared/schema";
+import { insertOrderSchema, insertServiceSchema, services } from "@shared/schema";
 import multer from "multer";
 import { z } from "zod";
 import { nanoid } from "nanoid";
@@ -9,6 +9,7 @@ import path from "path";
 import fs from "fs";
 import { ParsedQs } from "qs";
 import axios from "axios";
+import { db } from "./db";
 
 // Configure multer for file uploads - store files locally
 const uploadDir = path.join(process.cwd(), 'uploads');
@@ -291,6 +292,145 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(500).json({ 
         message: "Error connecting to ServiceCatalog", 
         error: error instanceof Error ? error.message : 'Unknown error' 
+      });
+    }
+  });
+  
+  // Udostępnianie informacji o bazie danych dla ServiceCatalog
+  // UWAGA: W produkcji powinieneś dodać uwierzytelnianie i autoryzację
+  app.get("/api/admin/database-config", async (req, res) => {
+    try {
+      // Opcjonalny klucz API do podstawowego zabezpieczenia
+      const apiKey = req.query.key;
+      
+      // Proste zabezpieczenie - wymagaj klucza API
+      // W produkcji powinieneś użyć bardziej zaawansowanego uwierzytelniania
+      if (!apiKey || apiKey !== "ecm-database-sharing-key") {
+        return res.status(401).json({ message: "Unauthorized: Invalid API key" });
+      }
+      
+      // Dane połączenia z bazą danych
+      const dbConfig = {
+        connectionUrl: process.env.DATABASE_URL,
+        host: process.env.PGHOST,
+        database: process.env.PGDATABASE,
+        user: process.env.PGUSER,
+        password: process.env.PGPASSWORD,
+        port: process.env.PGPORT,
+        schema: "public",
+        tables: {
+          services: {
+            name: "services",
+            fields: {
+              id: "id", 
+              serviceId: "service_id",
+              name: "name",
+              description: "description",
+              basePrice: "base_price",
+              deliveryTime: "delivery_time",
+              features: "features",
+              steps: "steps",
+              createdAt: "created_at"
+            }
+          },
+          orders: {
+            name: "orders",
+            fields: {
+              id: "id",
+              serviceId: "service_id",
+              configuration: "configuration",
+              contactInfo: "contact_info",
+              totalPrice: "total_price",
+              deliveryTime: "delivery_time",
+              fileUrl: "file_url",
+              userId: "user_id",
+              createdAt: "created_at"
+            }
+          },
+          users: {
+            name: "users",
+            fields: {
+              id: "id",
+              username: "username",
+              password: "password",
+              createdAt: "created_at"
+            }
+          }
+        }
+      };
+      
+      res.json(dbConfig);
+    } catch (error) {
+      console.error("Error sharing database config:", error);
+      res.status(500).json({ message: "Internal server error" });
+    }
+  });
+  
+  // Endpoint do testu połączenia z bazą danych - używany przez ServiceCatalog
+  app.get("/api/admin/test-db-connection", async (req, res) => {
+    try {
+      // Opcjonalny klucz API do podstawowego zabezpieczenia
+      const apiKey = req.query.key;
+      
+      // Proste zabezpieczenie - wymagaj klucza API
+      if (!apiKey || apiKey !== "ecm-database-sharing-key") {
+        return res.status(401).json({ message: "Unauthorized: Invalid API key" });
+      }
+      
+      // Prosty zapytanie do bazy danych, aby sprawdzić połączenie
+      const result = await db.select().from(services).limit(1);
+      
+      res.json({ 
+        success: true, 
+        message: "Database connection successful",
+        data: { servicesCount: result.length } 
+      });
+    } catch (error) {
+      console.error("Error testing database connection:", error);
+      res.status(500).json({ 
+        success: false,
+        message: "Database connection failed", 
+        error: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+  
+  // Endpoint do synchronizacji danych pomiędzy aplikacjami
+  app.post("/api/admin/sync-services", async (req, res) => {
+    try {
+      const apiKey = req.query.key as string;
+      const { sourceApp } = req.body;
+      
+      // Weryfikacja klucza API
+      if (!apiKey || apiKey !== "ecm-database-sharing-key") {
+        return res.status(401).json({ message: "Unauthorized: Invalid API key" });
+      }
+      
+      // Pobierz wszystkie usługi z bazy danych
+      const allServices = await db.select().from(services);
+      
+      console.log(`Synchronizacja danych ze źródła: ${sourceApp || 'unknown'}, znaleziono ${allServices.length} usług`);
+      
+      // Dostarcz dane do widoku podsumowania
+      res.json({
+        success: true,
+        message: "Data synchronized successfully",
+        source: sourceApp || 'unknown',
+        data: {
+          servicesCount: allServices.length,
+          services: allServices.map(service => ({
+            id: service.id,
+            serviceId: service.serviceId,
+            name: service.name
+          }))
+        }
+      });
+    } catch (error) {
+      console.error("Error synchronizing data:", error);
+      res.status(500).json({
+        success: false,
+        message: "Failed to synchronize data",
+        error: error instanceof Error ? error.message : 'Unknown error'
       });
     }
   });
