@@ -4,11 +4,16 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import WelcomeScreen from "@/components/WelcomeScreen";
 import MainApp from "@/components/MainApp";
-import { services as localServices } from "@/data/services";
+import { useQuery } from "@tanstack/react-query";
+import { Service } from "@/types";
 
 function App() {
   const [showWelcome, setShowWelcome] = useState(true);
-  const [isLoading, setIsLoading] = useState(false);
+  
+  // Fetch services from our PostgreSQL database via API
+  const { data: services, isLoading } = useQuery<Service[]>({
+    queryKey: ['/api/services'],
+  });
 
   // Handle start button click
   const handleStart = () => {
@@ -21,7 +26,7 @@ function App() {
         {showWelcome ? (
           <WelcomeScreen onStart={handleStart} key="welcome" />
         ) : (
-          <MainApp services={localServices} isLoading={isLoading} key="main-app" />
+          <MainApp services={services || []} isLoading={isLoading} key="main-app" />
         )}
       </AnimatePresence>
       <Toaster />

@@ -55,7 +55,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Get services from database
   app.get("/api/services", async (req, res) => {
     try {
-      const services = await storage.getAllServices();
+      const servicesFromDb = await storage.getAllServices();
+      
+      // Transform database model to client model
+      const services = servicesFromDb.map(service => ({
+        id: service.serviceId, // Use service_id as id (should be a string)
+        name: service.name,
+        description: service.description,
+        basePrice: service.basePrice,
+        deliveryTime: service.deliveryTime,
+        features: service.features,
+        steps: service.steps,
+      }));
+      
+      console.log("Services being returned to client:", services);
       res.json(services);
     } catch (error) {
       console.error("Error fetching services:", error);
@@ -106,8 +119,21 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Add order to database
       const order = await storage.createOrder(validatedOrderData);
       
+      // Transform to client format for response
+      const createdAt = new Date().toISOString();
+      const clientOrder = {
+        id: order.id.toString(),
+        serviceId: order.serviceId,
+        configuration: order.configuration,
+        contactInfo: order.contactInfo,
+        totalPrice: order.totalPrice,
+        deliveryTime: order.deliveryTime,
+        fileUrl: order.fileUrl,
+        createdAt
+      };
+      
       res.json({ 
-        id: order.id,
+        ...clientOrder,
         message: "Order submitted successfully" 
       });
     } catch (error) {
