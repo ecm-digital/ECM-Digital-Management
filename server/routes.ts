@@ -181,7 +181,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           };
           
           if (existingService) {
-            // Aktualizacja istniejącej usługi
+            // Aktualizacja istniejącej usługi - używamy prawidłowo importowanej zmiennej dbServices
             await db
               .update(services)
               .set(insertData)
@@ -534,6 +534,32 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error sharing database config:", error);
       res.status(500).json({ message: "Internal server error" });
+    }
+  });
+  
+  // Endpoint do inicjalizacji bazy danych ServiceCatalog
+  app.post("/api/admin/initialize-servicecatalog-db", async (req, res) => {
+    try {
+      // Opcjonalny klucz API do podstawowego zabezpieczenia
+      const apiKey = req.query.key;
+      
+      // Proste zabezpieczenie - wymagaj klucza API
+      if (!apiKey || apiKey !== "ecm-database-sharing-key") {
+        return res.status(401).json({ message: "Unauthorized: Invalid API key" });
+      }
+      
+      // Eksport danych dla ServiceCatalog
+      const servicesData = await storage.getAllServices();
+      
+      res.json({
+        success: true,
+        message: "Database information for ServiceCatalog retrieved successfully",
+        services: servicesData,
+        serviceCount: servicesData.length
+      });
+    } catch (error) {
+      console.error("Error preparing data for ServiceCatalog:", error);
+      res.status(500).json({ message: "Error preparing data for ServiceCatalog" });
     }
   });
   

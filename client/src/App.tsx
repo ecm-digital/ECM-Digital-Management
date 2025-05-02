@@ -408,6 +408,71 @@ function App() {
                   >
                     Dodaj przykładowe nowe usługi
                   </button>
+                  
+                  {/* Przycisk do połączenia baz danych */}
+                  <button
+                    onClick={async () => {
+                      try {
+                        // Pobierz konfigurację bazy danych
+                        const response = await apiRequest(
+                          `/api/admin/database-config?key=ecm-database-sharing-key`,
+                          { method: 'GET' }
+                        );
+                        
+                        if (!response || !response.connectionUrl) {
+                          toast({
+                            title: "Błąd",
+                            description: "Nie udało się pobrać konfiguracji bazy danych",
+                            variant: "destructive"
+                          });
+                          return;
+                        }
+                        
+                        // Przygotowanie URL do ServiceCatalog
+                        const scUrl = prompt("Podaj URL aplikacji ServiceCatalog (z https://):", "https://servicecatalog.replit.app");
+                        
+                        if (!scUrl) return;
+                        
+                        // Potwierdzenie użytkownika
+                        if (!confirm(`Czy na pewno chcesz połączyć bazy danych?\n\nURL ServiceCatalog: ${scUrl}\n\nUwaga: Spowoduje to NADPISANIE bazy danych w ServiceCatalog danymi z ECM Digital!`)) {
+                          return;
+                        }
+
+                        // Próba wysłania konfiguracji bazy danych do ServiceCatalog
+                        const sendConfig = await fetch(`${scUrl}/api/admin/connect-to-ecm-database?key=ecm-database-sharing-key`, {
+                          method: 'POST',
+                          headers: {
+                            'Content-Type': 'application/json'
+                          },
+                          body: JSON.stringify(response)
+                        });
+                        
+                        if (!sendConfig.ok) {
+                          const errorText = await sendConfig.text();
+                          throw new Error(`Nie udało się połączyć z ServiceCatalog: ${sendConfig.status} ${errorText}`);
+                        }
+                        
+                        const result = await sendConfig.json();
+                        
+                        toast({
+                          title: "Sukces",
+                          description: `Pomyślnie połączono bazę danych z ServiceCatalog: ${result.message}`,
+                          variant: "default"
+                        });
+                        
+                      } catch (error) {
+                        console.error('Błąd podczas łączenia baz danych:', error);
+                        toast({
+                          title: "Błąd połączenia",
+                          description: `Nie udało się połączyć baz danych: ${error instanceof Error ? error.message : 'Nieznany błąd'}`,
+                          variant: "destructive"
+                        });
+                      }
+                    }}
+                    className="w-full px-2 py-1 rounded bg-purple-700 hover:bg-purple-600 transition-colors mt-2"
+                  >
+                    Połącz bazy danych z ServiceCatalog
+                  </button>
                 </div>
               </div>
             </div>
