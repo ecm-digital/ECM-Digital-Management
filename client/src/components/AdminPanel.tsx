@@ -36,9 +36,15 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Edit, Trash2, Plus, Sparkles, Loader2 } from 'lucide-react';
+import { Edit, Trash2, Plus, Sparkles, Loader2, Info } from 'lucide-react';
 
 export default function AdminPanel() {
   const { data: services = [], isLoading, isError } = useQuery<Service[]>({ 
@@ -632,7 +638,32 @@ export default function AdminPanel() {
                       <TableCell>
                         <div>
                           <div className="font-medium">{service.name}</div>
-                          <div className="text-sm text-muted-foreground truncate">{service.description}</div>
+                          <div className="flex items-center gap-1">
+                            <div className="text-sm text-muted-foreground truncate max-w-[250px]">
+                              {service.description && service.description.length > 50 
+                                ? `${service.description.substring(0, 50)}...` 
+                                : service.description}
+                            </div>
+                            <TooltipProvider>
+                              <Tooltip>
+                                <TooltipTrigger asChild>
+                                  <Button variant="ghost" size="icon" className="h-4 w-4 p-0">
+                                    <Info className="h-3 w-3" />
+                                  </Button>
+                                </TooltipTrigger>
+                                <TooltipContent className="max-w-[400px] p-4 text-wrap break-words">
+                                  <p className="font-semibold mb-1">Pełny opis:</p>
+                                  <p>{service.description}</p>
+                                  {service.longDescription && (
+                                    <>
+                                      <p className="font-semibold mt-2 mb-1">Szczegółowy opis:</p>
+                                      <p>{service.longDescription}</p>
+                                    </>
+                                  )}
+                                </TooltipContent>
+                              </Tooltip>
+                            </TooltipProvider>
+                          </div>
                         </div>
                       </TableCell>
                       <TableCell>{service.category || 'Inne'}</TableCell>
