@@ -1,13 +1,13 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { AnimatePresence } from "framer-motion";
 import { Route, Switch, Link } from 'wouter';
 import { Toaster } from "@/components/ui/toaster";
-import { TooltipProvider, Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { TooltipProvider } from "@/components/ui/tooltip";
 import WelcomeScreen from "@/components/WelcomeScreen";
 import MainApp from "@/components/MainApp";
 import AdminPage from "@/pages/AdminPage";
 import NotFound from "@/pages/not-found";
-import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Service } from "@/types";
 import { fetchServicesFromCatalog, setServiceCatalogBaseUrl } from "@/lib/serviceCatalogApi";
 import { toast } from "@/hooks/use-toast";
@@ -18,22 +18,21 @@ import { apiRequest } from "@/lib/queryClient";
 // Typ dla źródła danych
 type DataSource = 'local' | 'serviceCatalog';
 
-function App() {
+function HomePage() {
   const [showWelcome, setShowWelcome] = useState(true);
-  // Określa, z którego źródła pobieramy dane
   const [dataSource, setDataSource] = useState<DataSource>('local');
   const [showSettings, setShowSettings] = useState(false);
   const [serviceUrl, setServiceUrl] = useState("https://servicecatalog.replit.app");
   
   const queryClient = useQueryClient();
   
-  // Fetch services from our PostgreSQL database via API
+  // Pobieranie usług z lokalnej bazy
   const { 
     data: localServices, 
     isLoading: isLocalLoading 
   } = useQuery<Service[]>({
     queryKey: ['/api/services'],
-    enabled: dataSource === 'local', // aktywne tylko dla lokalnego źródła
+    enabled: dataSource === 'local',
   });
 
   // Pobieranie usług z ServiceCatalog
@@ -46,14 +45,13 @@ function App() {
     queryKey: ['serviceCatalog', 'services'],
     queryFn: fetchServicesFromCatalog,
     retry: 1,
-    enabled: dataSource === 'serviceCatalog' // aktywne tylko dla ServiceCatalog
+    enabled: dataSource === 'serviceCatalog'
   });
   
-  // Obsługa błędów i przełączanie na lokalne dane w przypadku problemów
+  // Obsługa błędów
   useEffect(() => {
     if (isCatalogError && dataSource === 'serviceCatalog') {
       console.error('Nie udało się pobrać danych z ServiceCatalog', catalogErrorDetails);
-      // Przełącz na lokalne dane w przypadku błędu
       setDataSource('local');
       toast({
         title: "Błąd integracji",
@@ -63,11 +61,11 @@ function App() {
     }
   }, [isCatalogError, dataSource, catalogErrorDetails]);
 
-  // Wybierz odpowiednie dane i stan na podstawie źródła
+  // Wybór źródła danych
   const services = dataSource === 'local' ? localServices : catalogServices;
   const isLoading = dataSource === 'local' ? isLocalLoading : isCatalogLoading;
 
-  // Handle start button click
+  // Obsługa przycisku Start
   const handleStart = () => {
     setShowWelcome(false);
   };
@@ -87,25 +85,23 @@ function App() {
     setServiceUrl(event.target.value);
   };
   
-  // Zastosowanie nowego URL i odświeżenie danych
+  // Zastosowanie nowego URL
   const applyServiceUrlChange = () => {
     setServiceCatalogBaseUrl(serviceUrl);
-    // Resetowanie cache dla zapytania
     queryClient.invalidateQueries({queryKey: ['serviceCatalog', 'services']});
     toast({
       title: "Zaktualizowano URL",
       description: `ServiceCatalog URL zmieniony na: ${serviceUrl}`
     });
     
-    // Jeśli jesteśmy w trybie lokalnym, przełączmy na ServiceCatalog
     if (dataSource === 'local') {
       setDataSource('serviceCatalog');
     }
   };
 
-  const MainContent = () => (
+  return (
     <>
-      {/* Panel kontrolny źródła danych */}
+      {/* Panel kontrolny */}
       <div className="fixed top-0 right-0 bg-slate-800 text-white p-2 text-xs z-50 rounded-bl-lg shadow-md">
         <div className="flex flex-col space-y-2">
           <div className="flex items-center justify-between">
@@ -150,13 +146,12 @@ function App() {
                 </Button>
               </div>
               
-              {/* Przyciski synchronizacji usług */}
+              {/* Przyciski operacji */}
               <div className="pt-2 border-t border-gray-700">
                 <div className="flex flex-col space-y-2">
                   <button
                     onClick={async () => {
                       try {
-                        // Najpierw pobierz usługi z ServiceCatalog
                         const servicesFromCatalog = await fetchServicesFromCatalog();
                         
                         if (!servicesFromCatalog || servicesFromCatalog.length === 0) {
@@ -168,7 +163,6 @@ function App() {
                           return;
                         }
                         
-                        // Wyślij usługi do synchronizacji
                         const response = await apiRequest(
                           `/api/admin/sync-from-servicecatalog?key=ecm-database-sharing-key`,
                           {
@@ -181,7 +175,6 @@ function App() {
                           }
                         );
                         
-                        // Odśwież listę usług
                         queryClient.invalidateQueries({queryKey: ['/api/services']});
                         
                         toast({
@@ -189,7 +182,6 @@ function App() {
                           description: `Zsynchronizowano ${response.results.added} nowych i ${response.results.updated} zaktualizowanych usług.`
                         });
                         
-                        // Jeśli używamy źródła ServiceCatalog, przełączmy na lokalne dane aby zobaczyć zsynchronizowane usługi
                         if (dataSource === 'serviceCatalog') {
                           setDataSource('local');
                         }
@@ -211,13 +203,11 @@ function App() {
                   <button
                     onClick={async () => {
                       try {
-                        // Pobierz dane przykładowych usług z bazy
                         const response = await apiRequest(
                           `/api/services`,
                           { method: 'GET' }
                         );
                         
-                        // Sprawdź czy mamy jakieś usługi
                         if (!response || response.length === 0) {
                           toast({
                             title: "Brak usług",
@@ -233,7 +223,6 @@ function App() {
                           variant: "default"
                         });
                         
-                        // Przełącz na lokalne źródło danych
                         if (dataSource !== 'local') {
                           setDataSource('local');
                         }
@@ -252,11 +241,9 @@ function App() {
                     Użyj lokalnych usług
                   </button>
                   
-                  {/* Ręczne dodawanie usług - dla przypadku gdy ServiceCatalog nie jest dostępny */}
                   <button
                     onClick={async () => {
                       try {
-                        // Przykładowe nowe usługi do dodania
                         const exampleNewServices = [
                           {
                             id: "7",
@@ -372,12 +359,10 @@ function App() {
                           }
                         ];
                         
-                        // Pytanie użytkownika o potwierdzenie
                         if (!confirm(`Czy chcesz dodać 2 nowe usługi do bazy danych?\n- Projektowanie Logo\n- Copywriting SEO`)) {
                           return;
                         }
                         
-                        // Wyślij usługi do importu
                         const response = await apiRequest(
                           `/api/admin/import-services`,
                           {
@@ -389,7 +374,6 @@ function App() {
                           }
                         );
                         
-                        // Odśwież listę usług
                         queryClient.invalidateQueries({queryKey: ['/api/services']});
                         
                         toast({
@@ -398,7 +382,6 @@ function App() {
                           variant: "default"
                         });
                         
-                        // Przełącz na lokalne źródło danych
                         if (dataSource !== 'local') {
                           setDataSource('local');
                         }
@@ -417,11 +400,9 @@ function App() {
                     Dodaj przykładowe nowe usługi
                   </button>
                   
-                  {/* Przycisk do połączenia baz danych */}
                   <button
                     onClick={async () => {
                       try {
-                        // Pobierz konfigurację bazy danych
                         const response = await apiRequest(
                           `/api/admin/database-config?key=ecm-database-sharing-key`,
                           { method: 'GET' }
@@ -436,17 +417,14 @@ function App() {
                           return;
                         }
                         
-                        // Przygotowanie URL do ServiceCatalog
                         const scUrl = prompt("Podaj URL aplikacji ServiceCatalog (z https://):", "https://servicecatalog.replit.app");
                         
                         if (!scUrl) return;
                         
-                        // Potwierdzenie użytkownika
                         if (!confirm(`Czy na pewno chcesz połączyć bazy danych?\n\nURL ServiceCatalog: ${scUrl}\n\nUwaga: Spowoduje to NADPISANIE bazy danych w ServiceCatalog danymi z ECM Digital!`)) {
                           return;
                         }
 
-                        // Próba wysłania konfiguracji bazy danych do ServiceCatalog
                         const sendConfig = await fetch(`${scUrl}/api/admin/connect-to-ecm-database?key=ecm-database-sharing-key`, {
                           method: 'POST',
                           headers: {
@@ -497,12 +475,14 @@ function App() {
       </AnimatePresence>
     </>
   );
+}
 
+function App() {
   return (
     <TooltipProvider>
       <Switch>
         <Route path="/admin" component={AdminPage} />
-        <Route path="/" component={MainContent} />
+        <Route path="/" component={HomePage} />
         <Route component={NotFound} />
       </Switch>
       <Toaster />

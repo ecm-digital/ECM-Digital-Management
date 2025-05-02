@@ -38,7 +38,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Edit, Trash2, Plus } from 'lucide-react';
 
 export default function AdminPanel() {
-  const { data: services, isLoading, isError } = useQuery({ 
+  const { data: services = [], isLoading, isError } = useQuery<Service[]>({ 
     queryKey: ['/api/services'], 
     staleTime: 5000 
   });
@@ -54,7 +54,7 @@ export default function AdminPanel() {
     description: '',
     basePrice: 0,
     deliveryTime: 1,
-    features: []
+    features: [] as string[]
   });
   const [newFeature, setNewFeature] = useState('');
   const { toast } = useToast();
