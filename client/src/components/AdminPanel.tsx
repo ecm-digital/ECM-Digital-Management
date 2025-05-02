@@ -5,9 +5,11 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useMutation } from '@tanstack/react-query';
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import {
   Card,
   CardContent,
@@ -36,7 +38,7 @@ import {
 } from "@/components/ui/dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Edit, Trash2, Plus } from 'lucide-react';
+import { Edit, Trash2, Plus, Sparkles, Loader2 } from 'lucide-react';
 
 export default function AdminPanel() {
   const { data: services = [], isLoading, isError } = useQuery<Service[]>({ 
@@ -363,9 +365,10 @@ export default function AdminPanel() {
       </h1>
       
       <Tabs defaultValue={activeTab} onValueChange={setActiveTab} className="w-full">
-        <TabsList className="grid w-full grid-cols-4">
+        <TabsList className="grid w-full grid-cols-5">
           <TabsTrigger value="services">Usługi</TabsTrigger>
           <TabsTrigger value="preview">Podgląd usług</TabsTrigger>
+          <TabsTrigger value="ai">Generowanie AI</TabsTrigger>
           <TabsTrigger value="orders">Zamówienia</TabsTrigger>
           <TabsTrigger value="stats">Statystyki</TabsTrigger>
         </TabsList>
@@ -434,6 +437,154 @@ export default function AdminPanel() {
                   ))}
                 </TableBody>
               </Table>
+            </CardContent>
+          </Card>
+        </TabsContent>
+        
+        <TabsContent value="ai" className="mt-6">
+          <Card>
+            <CardHeader>
+              <CardTitle>Generowanie Usług z AI</CardTitle>
+              <CardDescription>
+                Wykorzystaj sztuczną inteligencję do automatycznego generowania opisów usług, korzyści i zakresu.
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="grid gap-6">
+                <div className="border p-4 rounded-lg">
+                  <h3 className="text-lg font-medium mb-4">Generowanie kompletnej usługi</h3>
+                  <div className="grid gap-4">
+                    <div className="grid grid-cols-3 gap-4">
+                      <div>
+                        <Label htmlFor="ai-service-name">Nazwa usługi</Label>
+                        <Input 
+                          id="ai-service-name" 
+                          placeholder="np. Kampania SEO" 
+                          className="mt-1"
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="ai-service-category">Kategoria</Label>
+                        <Input 
+                          id="ai-service-category" 
+                          placeholder="np. Marketing" 
+                          className="mt-1"
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="ai-service-price">Cena bazowa (PLN)</Label>
+                        <Input 
+                          id="ai-service-price" 
+                          type="number" 
+                          placeholder="np. 5000" 
+                          className="mt-1"
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <Label htmlFor="ai-service-keywords">Słowa kluczowe (oddzielone przecinkami)</Label>
+                      <Input 
+                        id="ai-service-keywords" 
+                        placeholder="np. SEO, pozycjonowanie, słowa kluczowe" 
+                        className="mt-1"
+                      />
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <Checkbox id="ai-service-detailed" />
+                      <Label htmlFor="ai-service-detailed">Generuj szczegółowy opis</Label>
+                    </div>
+                    <Button className="w-full">
+                      <svg className="mr-2 h-4 w-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="m12 3-1.9 5.8a2 2 0 0 1-1.5 1.5L2.8 12l5.8 1.9a2 2 0 0 1 1.5 1.5L12 21l1.9-5.8a2 2 0 0 1 1.5-1.5L21.2 12l-5.8-1.9a2 2 0 0 1-1.5-1.5Z" />
+                      </svg> Generuj usługę
+                    </Button>
+                  </div>
+                </div>
+                
+                <div className="grid grid-cols-2 gap-6">
+                  <div className="border p-4 rounded-lg">
+                    <h3 className="text-lg font-medium mb-4">Generowanie korzyści</h3>
+                    <div className="grid gap-4">
+                      <div>
+                        <Label htmlFor="ai-benefits-name">Nazwa usługi</Label>
+                        <Input 
+                          id="ai-benefits-name" 
+                          placeholder="np. Kampania SEO" 
+                          className="mt-1"
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="ai-benefits-description">Opis usługi</Label>
+                        <Textarea 
+                          id="ai-benefits-description" 
+                          placeholder="Wprowadź opis usługi..." 
+                          className="mt-1"
+                          rows={4}
+                        />
+                      </div>
+                      <Button className="w-full">
+                        <svg className="mr-2 h-4 w-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="m12 3-1.9 5.8a2 2 0 0 1-1.5 1.5L2.8 12l5.8 1.9a2 2 0 0 1 1.5 1.5L12 21l1.9-5.8a2 2 0 0 1 1.5-1.5L21.2 12l-5.8-1.9a2 2 0 0 1-1.5-1.5Z" />
+                        </svg> Generuj korzyści
+                      </Button>
+                    </div>
+                  </div>
+                  
+                  <div className="border p-4 rounded-lg">
+                    <h3 className="text-lg font-medium mb-4">Generowanie zakresu usługi</h3>
+                    <div className="grid gap-4">
+                      <div>
+                        <Label htmlFor="ai-scope-name">Nazwa usługi</Label>
+                        <Input 
+                          id="ai-scope-name" 
+                          placeholder="np. Kampania SEO" 
+                          className="mt-1"
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="ai-scope-description">Opis usługi</Label>
+                        <Textarea 
+                          id="ai-scope-description" 
+                          placeholder="Wprowadź opis usługi..." 
+                          className="mt-1"
+                          rows={4}
+                        />
+                      </div>
+                      <Button className="w-full">
+                        <svg className="mr-2 h-4 w-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="m12 3-1.9 5.8a2 2 0 0 1-1.5 1.5L2.8 12l5.8 1.9a2 2 0 0 1 1.5 1.5L12 21l1.9-5.8a2 2 0 0 1 1.5-1.5L21.2 12l-5.8-1.9a2 2 0 0 1-1.5-1.5Z" />
+                        </svg> Generuj zakres
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="border p-4 rounded-lg">
+                  <h3 className="text-lg font-medium mb-4">Ulepszanie opisu</h3>
+                  <div className="grid gap-4">
+                    <div>
+                      <Label htmlFor="ai-enhance-name">Nazwa usługi</Label>
+                      <Input 
+                        id="ai-enhance-name" 
+                        placeholder="np. Kampania SEO" 
+                        className="mt-1"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="ai-enhance-description">Obecny opis</Label>
+                      <Textarea 
+                        id="ai-enhance-description" 
+                        placeholder="Wprowadź opis do ulepszenia..." 
+                        className="mt-1"
+                        rows={4}
+                      />
+                    </div>
+                    <Button className="w-full">
+                      <Sparkles className="mr-2 h-4 w-4" /> Ulepsz opis
+                    </Button>
+                  </div>
+                </div>
+              </div>
             </CardContent>
           </Card>
         </TabsContent>
