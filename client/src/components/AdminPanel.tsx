@@ -64,6 +64,8 @@ export default function AdminPanel() {
     status: 'Aktywna'
   });
   const [newFeature, setNewFeature] = useState('');
+  const [newBenefit, setNewBenefit] = useState('');
+  const [newScope, setNewScope] = useState('');
   const { toast } = useToast();
 
   // Obsługa edycji usługi
@@ -181,6 +183,8 @@ export default function AdminPanel() {
         status: 'Aktywna'
       });
       setNewFeature('');
+      setNewBenefit('');
+      setNewScope('');
       
       toast({
         title: "Usługa dodana",
@@ -243,6 +247,106 @@ export default function AdminPanel() {
       return {
         ...prev,
         features: (prev.features || []).filter((_, i) => i !== index)
+      };
+    });
+  };
+  
+  // Obsługa dodawania korzyści do nowej usługi
+  const handleAddBenefit = () => {
+    if (!newBenefit.trim()) return;
+    
+    setNewService(prev => ({
+      ...prev,
+      benefits: [...(prev.benefits || []), newBenefit]
+    }));
+    
+    setNewBenefit('');
+  };
+  
+  // Obsługa usunięcia korzyści z nowej usługi
+  const handleRemoveBenefit = (index: number) => {
+    setNewService(prev => ({
+      ...prev,
+      benefits: (prev.benefits || []).filter((_, i) => i !== index)
+    }));
+  };
+  
+  // Obsługa dodawania zakresu do nowej usługi
+  const handleAddScope = () => {
+    if (!newScope.trim()) return;
+    
+    setNewService(prev => ({
+      ...prev,
+      scope: [...(prev.scope || []), newScope]
+    }));
+    
+    setNewScope('');
+  };
+  
+  // Obsługa usunięcia zakresu z nowej usługi
+  const handleRemoveScope = (index: number) => {
+    setNewService(prev => ({
+      ...prev,
+      scope: (prev.scope || []).filter((_, i) => i !== index)
+    }));
+  };
+  
+  // Obsługa dodawania korzyści do edytowanej usługi
+  const handleAddBenefitToEditing = () => {
+    if (!newBenefit.trim() || !editingService) return;
+    
+    setEditingService(prev => {
+      if (!prev) return prev;
+      
+      return {
+        ...prev,
+        benefits: [...(prev.benefits || []), newBenefit]
+      };
+    });
+    
+    setNewBenefit('');
+  };
+  
+  // Obsługa usunięcia korzyści z edytowanej usługi
+  const handleRemoveBenefitFromEditing = (index: number) => {
+    if (!editingService) return;
+    
+    setEditingService(prev => {
+      if (!prev) return prev;
+      
+      return {
+        ...prev,
+        benefits: (prev.benefits || []).filter((_, i) => i !== index)
+      };
+    });
+  };
+  
+  // Obsługa dodawania zakresu do edytowanej usługi
+  const handleAddScopeToEditing = () => {
+    if (!newScope.trim() || !editingService) return;
+    
+    setEditingService(prev => {
+      if (!prev) return prev;
+      
+      return {
+        ...prev,
+        scope: [...(prev.scope || []), newScope]
+      };
+    });
+    
+    setNewScope('');
+  };
+  
+  // Obsługa usunięcia zakresu z edytowanej usługi
+  const handleRemoveScopeFromEditing = (index: number) => {
+    if (!editingService) return;
+    
+    setEditingService(prev => {
+      if (!prev) return prev;
+      
+      return {
+        ...prev,
+        scope: (prev.scope || []).filter((_, i) => i !== index)
       };
     });
   };
@@ -517,6 +621,66 @@ export default function AdminPanel() {
                   </div>
                 </div>
               </div>
+              
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label className="text-right">Korzyści</Label>
+                <div className="col-span-3">
+                  <div className="flex flex-col space-y-2 mb-4">
+                    {editingService.benefits?.map((benefit, index) => (
+                      <div key={index} className="flex items-center gap-2">
+                        <span className="flex-1">{benefit}</span>
+                        <Button 
+                          variant="destructive" 
+                          size="sm"
+                          onClick={() => handleRemoveBenefitFromEditing(index)}
+                        >
+                          Usuń
+                        </Button>
+                      </div>
+                    ))}
+                  </div>
+                  
+                  <div className="flex gap-2">
+                    <Input
+                      placeholder="Nowa korzyść"
+                      value={newBenefit}
+                      onChange={(e) => setNewBenefit(e.target.value)}
+                      className="flex-1"
+                    />
+                    <Button onClick={handleAddBenefitToEditing}>Dodaj</Button>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label className="text-right">Zakres usługi</Label>
+                <div className="col-span-3">
+                  <div className="flex flex-col space-y-2 mb-4">
+                    {editingService.scope?.map((scopeItem, index) => (
+                      <div key={index} className="flex items-center gap-2">
+                        <span className="flex-1">{scopeItem}</span>
+                        <Button 
+                          variant="destructive" 
+                          size="sm"
+                          onClick={() => handleRemoveScopeFromEditing(index)}
+                        >
+                          Usuń
+                        </Button>
+                      </div>
+                    ))}
+                  </div>
+                  
+                  <div className="flex gap-2">
+                    <Input
+                      placeholder="Nowy element zakresu"
+                      value={newScope}
+                      onChange={(e) => setNewScope(e.target.value)}
+                      className="flex-1"
+                    />
+                    <Button onClick={handleAddScopeToEditing}>Dodaj</Button>
+                  </div>
+                </div>
+              </div>
             </div>
           )}
           
@@ -568,13 +732,35 @@ export default function AdminPanel() {
             </div>
             
             <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="new-description" className="text-right">Opis *</Label>
+              <Label htmlFor="new-shortDescription" className="text-right">Krótki opis</Label>
+              <Input
+                id="new-shortDescription"
+                value={newService.shortDescription}
+                onChange={(e) => setNewService({...newService, shortDescription: e.target.value})}
+                className="col-span-3"
+                placeholder="Krótkie podsumowanie usługi (1-2 zdania)"
+              />
+            </div>
+            
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="new-description" className="text-right">Opis podstawowy *</Label>
               <Textarea
                 id="new-description"
                 value={newService.description}
                 onChange={(e) => setNewService({...newService, description: e.target.value})}
                 className="col-span-3"
-                placeholder="Szczegółowy opis usługi"
+                placeholder="Standardowy opis usługi"
+              />
+            </div>
+            
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="new-longDescription" className="text-right">Długi opis</Label>
+              <Textarea
+                id="new-longDescription"
+                value={newService.longDescription}
+                onChange={(e) => setNewService({...newService, longDescription: e.target.value})}
+                className="col-span-3"
+                placeholder="Szczegółowy opis usługi z dodatkowymi informacjami"
               />
             </div>
             
@@ -665,6 +851,66 @@ export default function AdminPanel() {
                     className="flex-1"
                   />
                   <Button onClick={handleAddFeature}>Dodaj</Button>
+                </div>
+              </div>
+            </div>
+            
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label className="text-right">Korzyści</Label>
+              <div className="col-span-3">
+                <div className="flex flex-col space-y-2 mb-4">
+                  {newService.benefits?.map((benefit, index) => (
+                    <div key={index} className="flex items-center gap-2">
+                      <span className="flex-1">{benefit}</span>
+                      <Button 
+                        variant="destructive" 
+                        size="sm"
+                        onClick={() => handleRemoveBenefit(index)}
+                      >
+                        Usuń
+                      </Button>
+                    </div>
+                  ))}
+                </div>
+                
+                <div className="flex gap-2">
+                  <Input
+                    placeholder="Nowa korzyść"
+                    value={newBenefit}
+                    onChange={(e) => setNewBenefit(e.target.value)}
+                    className="flex-1"
+                  />
+                  <Button onClick={handleAddBenefit}>Dodaj</Button>
+                </div>
+              </div>
+            </div>
+            
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label className="text-right">Zakres usługi</Label>
+              <div className="col-span-3">
+                <div className="flex flex-col space-y-2 mb-4">
+                  {newService.scope?.map((scopeItem, index) => (
+                    <div key={index} className="flex items-center gap-2">
+                      <span className="flex-1">{scopeItem}</span>
+                      <Button 
+                        variant="destructive" 
+                        size="sm"
+                        onClick={() => handleRemoveScope(index)}
+                      >
+                        Usuń
+                      </Button>
+                    </div>
+                  ))}
+                </div>
+                
+                <div className="flex gap-2">
+                  <Input
+                    placeholder="Nowy element zakresu"
+                    value={newScope}
+                    onChange={(e) => setNewScope(e.target.value)}
+                    className="flex-1"
+                  />
+                  <Button onClick={handleAddScope}>Dodaj</Button>
                 </div>
               </div>
             </div>

@@ -196,7 +196,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
             await db
               .update(services)
               .set(insertData)
-              .where(eq(services.serviceId, serviceId));
+              .where(eq(services.serviceId, serviceId.toString()));
             
             updatedCount++;
             console.log(`Updated existing service: ${serviceData.name} (ID: ${serviceId})`);
