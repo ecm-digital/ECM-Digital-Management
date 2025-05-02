@@ -1,0 +1,60 @@
+💼 OFERTA ECM DIGITAL
+🔹 UX & Conversion Design
+Projektujemy nie tylko ładne, ale przede wszystkim skuteczne doświadczenia użytkownika, które zwiększają konwersję.
+
+Audyt UX z elementami AI
+Analiza barier UX z wykorzystaniem danych z Google Analytics i Hotjar + rekomendacje optymalizacji.
+
+Projektowanie lejków konwersji
+Tworzenie skutecznych landingów, formularzy i CTA w oparciu o dane i najlepsze praktyki UX.
+
+AI UX Assistant
+Narzędzie oparte na AI, które analizuje dane i generuje insighty UX – MVP dostępne w Replit.
+
+🔹 Projektowanie i rozwój stron internetowych
+Tworzymy nowoczesne, responsywne strony i sklepy internetowe z myślą o wydajności i SEO.
+
+Wix Studio i Webflow Development
+Profesjonalne strony firmowe, portfolio i landing pages w oparciu o najnowsze edytory wizualne.
+
+E-commerce z AI
+Sklepy gotowe do sprzedaży z integracją AI (chatboty, automatyzacja, dropshipping).
+
+Performance & SEO
+Optymalizacja techniczna, szybkość ładowania i SEO zgodne z Core Web Vitals.
+
+🔹 Social Media & Kampanie Reklamowe
+Zwiększamy zasięg i sprzedaż dzięki dopracowanym kampaniom reklamowym i contentowi.
+
+Facebook & Instagram Ads
+Kampanie nastawione na konwersję – konfiguracja, kreacje, A/B testy, remarketing.
+
+Strategie contentowe
+Planowanie i przygotowanie treści + szablony do wykorzystania przez klienta.
+
+Sklepy pod kampanie
+Gotowe zestawy: landing page + pixel + kampania = szybki start sprzedaży.
+
+🔹 Integracje AI i Automatyzacje
+Usprawniamy procesy w firmach dzięki inteligentnym automatyzacjom i agentom AI.
+
+AI Chatboty
+Inteligentna obsługa klienta i wsparcie sprzedaży 24/7 – integracja z GPT.
+
+Automatyzacje (n8n, Zapier, Make)
+Połączenie narzędzi marketingowych, CRM i danych użytkowników w jedną całość.
+
+Custom AI Tools
+Budowa dedykowanych mikro-narzędzi AI dopasowanych do potrzeb klienta.
+
+🔹 Oferta Startupowa i Discovery
+Pomagamy startupom zbudować trafiony produkt szybciej i taniej.
+
+Product Discovery Workshop
+Warsztat, który pomaga ustalić potrzeby użytkowników i priorytety funkcjonalności.
+
+MVP z AI
+Prototypy aplikacji w Replit, Flutterze i Firebase – z AI na pokładzie.
+
+Mentoring & Konsultacje
+Wsparcie produktowe i technologiczne dla założycieli startupów.

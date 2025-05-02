@@ -6,9 +6,10 @@ import Layout from '@/components/Layout';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Check, ArrowRight, Filter } from 'lucide-react';
+import { Check, ArrowRight, Filter, Laptop, Users, BarChart, Bot, Rocket } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 export default function ServicesPage() {
   const { data: services, isLoading } = useQuery<Service[]>({
@@ -17,31 +18,98 @@ export default function ServicesPage() {
 
   const [searchTerm, setSearchTerm] = useState('');
   const [categoryFilter, setCategoryFilter] = useState('all');
+  const [activeTab, setActiveTab] = useState('all');
+
+  // Definicja głównych kategorii z dokumentu
+  const mainCategories = [
+    { id: 'ux-design', name: 'UX & Conversion Design', icon: <Users className="h-4 w-4" /> },
+    { id: 'web-development', name: 'Projektowanie i rozwój stron', icon: <Laptop className="h-4 w-4" /> },
+    { id: 'social-marketing', name: 'Social Media & Kampanie', icon: <BarChart className="h-4 w-4" /> },
+    { id: 'ai-automation', name: 'Integracje AI i Automatyzacje', icon: <Bot className="h-4 w-4" /> },
+    { id: 'startup', name: 'Oferta Startupowa', icon: <Rocket className="h-4 w-4" /> }
+  ];
+
+  // Mapowanie kategorii z bazy danych do głównych kategorii
+  const categoryMapping = {
+    'UX/UI': 'ux-design',
+    'Web Development': 'web-development',
+    'E-commerce': 'web-development',
+    'Marketing': 'social-marketing',
+    'SEO': 'web-development',
+    'AI': 'ai-automation',
+    'Automatyzacja': 'ai-automation',
+    'Consulting': 'startup',
+    'Development': 'startup'
+  };
+
+  // Funkcja pomocnicza do mapowania kategorii
+  const mapServiceToMainCategory = (service: Service) => {
+    const originalCategory = service.category || 'Inne';
+    // Dodajemy sprawdzenie czy kategoria istnieje w mapowaniu
+    return (originalCategory in categoryMapping) 
+      ? categoryMapping[originalCategory as keyof typeof categoryMapping] 
+      : 'other';
+  };
 
   // Get all unique categories
   const categories = services ? 
     ['all', ...Array.from(new Set(services.map(s => s.category || 'Inne')))] : 
     ['all'];
 
-  // Filter services based on search term and category
+  // Filter services based on search term, category and tab
   const filteredServices = services?.filter(service => {
     const matchesSearch = service.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
                           service.description.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesCategory = categoryFilter === 'all' || service.category === categoryFilter;
+    const matchesTab = activeTab === 'all' || mapServiceToMainCategory(service) === activeTab;
     const isActive = service.status === 'Aktywna';
     
-    return matchesSearch && matchesCategory && isActive;
+    return matchesSearch && matchesCategory && matchesTab && isActive;
   }) || [];
+
+  // Grupowanie usług według głównych kategorii
+  const groupedServices = mainCategories.map(category => {
+    const categoryServices = services?.filter(service => 
+      mapServiceToMainCategory(service) === category.id && service.status === 'Aktywna'
+    ) || [];
+    
+    return {
+      ...category,
+      services: categoryServices
+    };
+  });
 
   return (
     <Layout>
       <div className="container mx-auto px-4 py-12">
-        <div className="max-w-4xl mx-auto">
-          <h1 className="text-3xl font-bold mb-2">Nasze usługi</h1>
+        <div className="max-w-6xl mx-auto">
+          <h1 className="text-3xl font-bold mb-2">Oferta ECM Digital</h1>
           <p className="text-gray-600 mb-8">
-            Przeglądaj naszą pełną ofertę usług marketingowych i technologicznych. 
-            Znajdź idealne rozwiązanie dla swojego biznesu.
+            Specjalizujemy się w projektowaniu skutecznych doświadczeń użytkownika, 
+            budowie stron internetowych oraz integracji rozwiązań AI dla Twojego biznesu.
           </p>
+
+          {/* Main Category Tabs */}
+          <Tabs 
+            defaultValue="all" 
+            value={activeTab}
+            onValueChange={setActiveTab}
+            className="mb-8"
+          >
+            <TabsList className="w-full justify-start overflow-x-auto whitespace-nowrap scrollbar-hide mb-4 tabs-list-wrapper">
+              <TabsTrigger value="all" className="px-4">
+                Wszystkie usługi
+              </TabsTrigger>
+              {mainCategories.map((category) => (
+                <TabsTrigger key={category.id} value={category.id} className="px-4">
+                  <span className="flex items-center">
+                    {category.icon}
+                    <span className="ml-2">{category.name}</span>
+                  </span>
+                </TabsTrigger>
+              ))}
+            </TabsList>
+          </Tabs>
 
           {/* Filters */}
           <div className="mb-8 flex flex-col md:flex-row gap-4">
@@ -72,7 +140,7 @@ export default function ServicesPage() {
             </div>
           </div>
 
-          {/* Services Grid */}
+          {/* Services */}
           {isLoading ? (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {[...Array(4)].map((_, index) => (
@@ -84,6 +152,63 @@ export default function ServicesPage() {
                 </div>
               ))}
             </div>
+          ) : activeTab === 'all' && categoryFilter === 'all' && !searchTerm ? (
+            // Wyświetl usługi pogrupowane według głównych kategorii
+            <div className="space-y-12">
+              {groupedServices.map((category) => (
+                category.services.length > 0 && (
+                  <div key={category.id} className="mb-10">
+                    <div className="flex items-center mb-6">
+                      <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mr-3">
+                        {category.icon}
+                      </div>
+                      <h2 className="text-2xl font-bold text-gray-900">{category.name}</h2>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                      {category.services.map((service) => (
+                        <Card key={service.id} className="overflow-hidden hover:shadow-md transition-shadow">
+                          <CardHeader className="pb-2">
+                            <div className="flex justify-between items-start">
+                              <CardTitle className="text-xl">{service.name}</CardTitle>
+                              <Badge variant="outline" className="bg-blue-50">
+                                {service.category || 'Inne'}
+                              </Badge>
+                            </div>
+                            <CardDescription>
+                              {service.shortDescription || service.description.substring(0, 100) + (service.description.length > 100 ? '...' : '')}
+                            </CardDescription>
+                          </CardHeader>
+                          <CardContent className="pb-4">
+                            <div className="space-y-1">
+                              {service.features?.slice(0, 3).map((feature, idx) => (
+                                <p key={idx} className="flex items-start text-sm text-gray-600">
+                                  <Check className="h-4 w-4 text-green-500 mr-1 mt-0.5 flex-shrink-0" />
+                                  <span>{feature}</span>
+                                </p>
+                              ))}
+                              {service.features && service.features.length > 3 && (
+                                <p className="text-sm text-gray-600 italic">i więcej...</p>
+                              )}
+                            </div>
+                          </CardContent>
+                          <CardFooter className="pt-0 flex justify-between items-center">
+                            <div>
+                              <span className="text-lg font-semibold text-blue-600">{service.basePrice} PLN</span>
+                              <span className="text-xs text-gray-500 ml-2">Czas realizacji: {service.deliveryTime} dni</span>
+                            </div>
+                            <Link href={`/service/${service.id}`}>
+                              <Button variant="outline">
+                                Szczegóły <ArrowRight className="ml-1 h-4 w-4" />
+                              </Button>
+                            </Link>
+                          </CardFooter>
+                        </Card>
+                      ))}
+                    </div>
+                  </div>
+                )
+              ))}
+            </div>
           ) : filteredServices.length === 0 ? (
             <div className="text-center py-12">
               <h3 className="text-xl font-medium mb-2">Nie znaleziono usług</h3>
@@ -93,12 +218,14 @@ export default function ServicesPage() {
               <Button variant="outline" onClick={() => {
                 setSearchTerm('');
                 setCategoryFilter('all');
+                setActiveTab('all');
               }}>
                 Resetuj filtry
               </Button>
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            // Wyświetl wyfiltrowane usługi
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {filteredServices.map((service) => (
                 <Card key={service.id} className="overflow-hidden hover:shadow-md transition-shadow">
                   <CardHeader className="pb-2">
