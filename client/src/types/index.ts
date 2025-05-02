@@ -7,6 +7,8 @@ export interface Service {
   deliveryTime: number;
   features?: string[];
   steps?: ConfigStep[];
+  category?: string;
+  status?: string;
 }
 
 // Configuration Step Interface

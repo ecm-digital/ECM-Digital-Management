@@ -35,6 +35,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Edit, Trash2, Plus } from 'lucide-react';
 
 export default function AdminPanel() {
@@ -167,7 +168,9 @@ export default function AdminPanel() {
         description: '',
         basePrice: 0,
         deliveryTime: 1,
-        features: []
+        features: [],
+        category: 'Inne',
+        status: 'Aktywna'
       });
       setNewFeature('');
       
@@ -566,6 +569,43 @@ export default function AdminPanel() {
                 className="col-span-3"
                 placeholder="1"
               />
+            </div>
+            
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="new-category" className="text-right">Kategoria</Label>
+              <Select 
+                value={newService.category || 'Inne'} 
+                onValueChange={(value) => setNewService({...newService, category: value})}
+              >
+                <SelectTrigger className="col-span-3">
+                  <SelectValue placeholder="Wybierz kategorię" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="UX/UI">UX/UI</SelectItem>
+                  <SelectItem value="Marketing">Marketing</SelectItem>
+                  <SelectItem value="Web Development">Web Development</SelectItem>
+                  <SelectItem value="Automatyzacja">Automatyzacja</SelectItem>
+                  <SelectItem value="AI">AI</SelectItem>
+                  <SelectItem value="Inne">Inne</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="new-status" className="text-right">Status</Label>
+              <Select 
+                value={newService.status || 'Aktywna'} 
+                onValueChange={(value) => setNewService({...newService, status: value})}
+              >
+                <SelectTrigger className="col-span-3">
+                  <SelectValue placeholder="Wybierz status" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Aktywna">Aktywna</SelectItem>
+                  <SelectItem value="Nieaktywna">Nieaktywna</SelectItem>
+                  <SelectItem value="Archiw">Archiwalna</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
             
             <div className="grid grid-cols-4 items-center gap-4">
