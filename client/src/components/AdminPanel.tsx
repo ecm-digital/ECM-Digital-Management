@@ -835,6 +835,7 @@ export default function AdminPanel() {
             {activeTab === 'ai' && 'Generowanie Usług z AI'}
             {activeTab === 'orders' && 'Zarządzanie Zamówieniami'}
             {activeTab === 'stats' && 'Statystyki i Raporty'}
+            {activeTab === 'pricing' && 'AI Pricing Assistant'}
           </h2>
           
           {activeTab === 'services' && (
