@@ -644,6 +644,66 @@ export default function AdminPanel() {
       setIsGeneratingPricingRecommendation(false);
     }
   };
+  
+  // Dodawanie wymagania klienta do listy
+  const handleAddClientRequirement = () => {
+    if (!newRequirement.trim()) return;
+    
+    setClientRequirements(prev => [...prev, newRequirement]);
+    setNewRequirement('');
+  };
+  
+  // Usuwanie wymagania klienta z listy
+  const handleRemoveClientRequirement = (index: number) => {
+    setClientRequirements(prev => prev.filter((_, i) => i !== index));
+  };
+  
+  // Generowanie estymacji usługi (zakres, czas, koszt)
+  const handleGenerateServiceEstimation = async () => {
+    if (!selectedServiceForEstimation) {
+      toast({
+        title: "Błąd",
+        description: "Wybierz usługę do estymacji",
+        variant: "destructive"
+      });
+      return;
+    }
+    
+    setIsGeneratingEstimation(true);
+    setServiceEstimation(null);
+    
+    try {
+      const response = await apiRequest('/api/ai/service-estimation', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          serviceName: selectedServiceForEstimation.name,
+          serviceDescription: selectedServiceForEstimation.longDescription || selectedServiceForEstimation.description,
+          clientRequirements: clientRequirements.length > 0 ? clientRequirements : undefined,
+          targetBudget,
+          targetDeadline,
+          complexity
+        })
+      });
+      
+      setServiceEstimation(response.estimation);
+      
+      toast({
+        title: "Estymacja wygenerowana",
+        description: `Szacowany koszt: ${response.estimation.totalCost} PLN, czas: ${response.estimation.timeEstimate.recommended} dni`,
+        variant: "default"
+      });
+    } catch (error) {
+      console.error('Błąd podczas generowania estymacji usługi:', error);
+      toast({
+        title: "Błąd",
+        description: `Nie udało się wygenerować estymacji: ${error instanceof Error ? error.message : 'Nieznany błąd'}`,
+        variant: "destructive"
+      });
+    } finally {
+      setIsGeneratingEstimation(false);
+    }
+  };
 
   if (isLoading) {
     return <div className="p-8 text-center">Ładowanie panelu administracyjnego...</div>;
@@ -808,6 +868,21 @@ export default function AdminPanel() {
                 AI Pricing
               </button>
             </li>
+            <li>
+              <button
+                onClick={() => setActiveTab('estimator')}
+                className={`w-full flex items-center px-4 py-2 rounded-lg text-left ${
+                  activeTab === 'estimator' 
+                    ? 'bg-purple-100 text-purple-900 font-medium' 
+                    : 'text-slate-700 hover:bg-slate-100'
+                }`}
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                </svg>
+                AI Estimator
+              </button>
+            </li>
           </ul>
         </nav>
         
@@ -846,6 +921,7 @@ export default function AdminPanel() {
             {activeTab === 'orders' && 'Zarządzanie Zamówieniami'}
             {activeTab === 'stats' && 'Statystyki i Raporty'}
             {activeTab === 'pricing' && 'AI Pricing Assistant'}
+            {activeTab === 'estimator' && 'AI Service Estimator'}
           </h2>
           
           {activeTab === 'services' && (
@@ -1598,6 +1674,260 @@ export default function AdminPanel() {
                             >
                               Zastosuj rekomendację
                             </Button>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          )}
+          
+          {activeTab === 'estimator' && (
+            <Card>
+              <CardHeader>
+                <CardTitle>AI Service Estimator</CardTitle>
+                <CardDescription>
+                  Generuj szczegółowe estymacje zakresu, czasu i kosztów dla usług z pomocą sztucznej inteligencji.
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="grid gap-6">
+                  <div className="border rounded-lg p-4">
+                    <h3 className="text-lg font-medium mb-4">Generowanie estymacji usługi</h3>
+                    
+                    <div className="grid gap-4">
+                      <div className="grid gap-2">
+                        <Label htmlFor="estimation-service-select">Usługa</Label>
+                        <Select 
+                          onValueChange={(value) => {
+                            const service = services?.find(s => s.id === value);
+                            setSelectedServiceForEstimation(service || null);
+                            // Resetujemy pozostałe pola po zmianie usługi
+                            setClientRequirements([]);
+                            setNewRequirement('');
+                            setTargetBudget(undefined);
+                            setTargetDeadline(undefined);
+                            setComplexity('medium');
+                          }}
+                          value={selectedServiceForEstimation?.id || ""}
+                        >
+                          <SelectTrigger>
+                            <SelectValue placeholder="Wybierz usługę" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {services?.map((service: Service) => (
+                              <SelectItem key={service.id} value={service.id}>
+                                {service.name} ({service.basePrice} PLN)
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      
+                      {selectedServiceForEstimation && (
+                        <>
+                          <div className="bg-slate-50 p-3 rounded-md">
+                            <h4 className="font-medium mb-2">Wybrana usługa:</h4>
+                            <div className="text-sm">
+                              <p><strong>Nazwa:</strong> {selectedServiceForEstimation.name}</p>
+                              <p><strong>Kategoria:</strong> {selectedServiceForEstimation.category || 'Brak kategorii'}</p>
+                              <p><strong>Standardowa cena:</strong> {selectedServiceForEstimation.basePrice} PLN</p>
+                              <p><strong>Standardowy czas realizacji:</strong> {selectedServiceForEstimation.deliveryTime} dni</p>
+                            </div>
+                          </div>
+                          
+                          <div className="border-t pt-3">
+                            <h4 className="font-medium mb-3">Dodatkowe wymagania klienta:</h4>
+                            
+                            <div className="flex items-center space-x-2 mb-2">
+                              <Input 
+                                placeholder="Np. Strona ma być responsywna" 
+                                value={newRequirement}
+                                onChange={(e) => setNewRequirement(e.target.value)}
+                                className="flex-1"
+                              />
+                              <Button 
+                                variant="outline" 
+                                onClick={handleAddClientRequirement}
+                                disabled={!newRequirement.trim()}
+                              >
+                                Dodaj
+                              </Button>
+                            </div>
+                            
+                            {clientRequirements.length > 0 ? (
+                              <div className="mb-4">
+                                <div className="text-sm font-medium mb-2">Dodane wymagania:</div>
+                                <ul className="text-sm space-y-1">
+                                  {clientRequirements.map((req, idx) => (
+                                    <li key={idx} className="flex items-center justify-between bg-slate-100 p-2 rounded">
+                                      <span>{req}</span>
+                                      <Button 
+                                        variant="ghost" 
+                                        size="icon" 
+                                        className="h-6 w-6"
+                                        onClick={() => handleRemoveClientRequirement(idx)}
+                                      >
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                          <line x1="18" y1="6" x2="6" y2="18"></line>
+                                          <line x1="6" y1="6" x2="18" y2="18"></line>
+                                        </svg>
+                                      </Button>
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+                            ) : (
+                              <div className="text-sm text-muted-foreground mb-4">Brak dodatkowych wymagań. Estymacja zostanie wygenerowana na podstawie standardowego zakresu usługi.</div>
+                            )}
+                          </div>
+                          
+                          <div className="grid grid-cols-2 gap-4">
+                            <div>
+                              <Label htmlFor="target-budget">Docelowy budżet (PLN, opcjonalnie)</Label>
+                              <Input 
+                                id="target-budget" 
+                                type="number"
+                                placeholder="Np. 5000" 
+                                value={targetBudget || ''}
+                                onChange={(e) => setTargetBudget(e.target.value ? Number(e.target.value) : undefined)}
+                              />
+                            </div>
+                            <div>
+                              <Label htmlFor="target-deadline">Docelowy czas realizacji (dni, opcjonalnie)</Label>
+                              <Input 
+                                id="target-deadline" 
+                                type="number"
+                                placeholder="Np. 14" 
+                                value={targetDeadline || ''}
+                                onChange={(e) => setTargetDeadline(e.target.value ? Number(e.target.value) : undefined)}
+                              />
+                            </div>
+                          </div>
+                          
+                          <div>
+                            <Label htmlFor="complexity">Poziom złożoności projektu</Label>
+                            <Select 
+                              value={complexity}
+                              onValueChange={(value) => setComplexity(value as 'low' | 'medium' | 'high')}
+                            >
+                              <SelectTrigger>
+                                <SelectValue placeholder="Wybierz poziom złożoności" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="low">Niski - standardowy projekt</SelectItem>
+                                <SelectItem value="medium">Średni - typowy projekt z kilkoma niestandardowymi elementami</SelectItem>
+                                <SelectItem value="high">Wysoki - złożony projekt z wieloma niestandardowymi elementami</SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </div>
+                          
+                          <Button 
+                            className="w-full mt-2" 
+                            onClick={handleGenerateServiceEstimation} 
+                            disabled={isGeneratingEstimation}
+                          >
+                            {isGeneratingEstimation ? (
+                              <>
+                                <svg className="animate-spin -ml-1 mr-3 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                </svg> Generowanie estymacji...
+                              </>
+                            ) : (
+                              <>
+                                <svg className="mr-2 h-4 w-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                  <path d="M12 20V10" />
+                                  <path d="M18 20V4" />
+                                  <path d="M6 20v-4" />
+                                </svg>
+                                Generuj estymację
+                              </>
+                            )}
+                          </Button>
+                        </>
+                      )}
+                    </div>
+                    
+                    {serviceEstimation && (
+                      <div className="mt-6 border rounded-lg bg-white overflow-hidden">
+                        <div className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white p-4">
+                          <h3 className="text-xl font-bold">Estymacja projektu</h3>
+                          <p className="text-white/80 text-sm">Szczegółowa analiza zakresu, czasu i kosztów</p>
+                        </div>
+                        
+                        <div className="p-4">
+                          <div className="mb-6 grid grid-cols-3 gap-4">
+                            <div className="bg-indigo-50 p-3 rounded-lg text-center">
+                              <div className="text-sm text-gray-500">Szacowany koszt</div>
+                              <div className="text-xl font-bold text-indigo-600">{serviceEstimation.totalCost} PLN</div>
+                            </div>
+                            <div className="bg-indigo-50 p-3 rounded-lg text-center">
+                              <div className="text-sm text-gray-500">Rekomendowany czas</div>
+                              <div className="text-xl font-bold text-indigo-600">{serviceEstimation.timeEstimate.recommended} dni</div>
+                            </div>
+                            <div className="bg-indigo-50 p-3 rounded-lg text-center">
+                              <div className="text-sm text-gray-500">Przedział czasowy</div>
+                              <div className="text-xl font-bold text-indigo-600">{serviceEstimation.timeEstimate.min}-{serviceEstimation.timeEstimate.max} dni</div>
+                            </div>
+                          </div>
+                          
+                          <div className="mb-5">
+                            <h4 className="font-medium text-gray-700 mb-2">Szczegółowy zakres prac</h4>
+                            <ul className="list-disc list-inside text-sm text-gray-700 space-y-1">
+                              {serviceEstimation.scope.map((item, idx) => (
+                                <li key={idx} className="ml-2">{item}</li>
+                              ))}
+                            </ul>
+                          </div>
+                          
+                          <div className="mb-5">
+                            <h4 className="font-medium text-gray-700 mb-2">Szczegółowy kosztorys</h4>
+                            <div className="bg-slate-50 p-3 rounded-md">
+                              <table className="w-full text-sm">
+                                <thead>
+                                  <tr className="border-b border-slate-200">
+                                    <th className="text-left pb-2 font-medium">Element</th>
+                                    <th className="text-right pb-2 font-medium">Godziny</th>
+                                    <th className="text-right pb-2 font-medium">Koszt (PLN)</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  {serviceEstimation.costBreakdown.map((item, idx) => (
+                                    <tr key={idx} className="border-b border-slate-100">
+                                      <td className="py-2">{item.item}</td>
+                                      <td className="py-2 text-right">{item.hours}</td>
+                                      <td className="py-2 text-right">{item.cost}</td>
+                                    </tr>
+                                  ))}
+                                  <tr className="font-medium bg-slate-100">
+                                    <td className="py-2">Całkowity koszt</td>
+                                    <td className="py-2 text-right">{serviceEstimation.costBreakdown.reduce((sum, item) => sum + item.hours, 0)}</td>
+                                    <td className="py-2 text-right">{serviceEstimation.totalCost}</td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                          
+                          <div className="mb-5">
+                            <h4 className="font-medium text-gray-700 mb-2">Ryzyka i założenia</h4>
+                            <ul className="list-disc list-inside text-sm text-gray-600 space-y-1">
+                              {serviceEstimation.risksAndAssumptions.map((item, idx) => (
+                                <li key={idx} className="ml-2">{item}</li>
+                              ))}
+                            </ul>
+                          </div>
+                          
+                          <div className="bg-indigo-50 p-4 rounded-lg">
+                            <h4 className="font-medium text-indigo-700 mb-2">Proponowane kolejne kroki</h4>
+                            <ol className="list-decimal list-inside text-sm text-indigo-900 space-y-1">
+                              {serviceEstimation.nextSteps.map((step, idx) => (
+                                <li key={idx} className="ml-2">{step}</li>
+                              ))}
+                            </ol>
                           </div>
                         </div>
                       </div>
