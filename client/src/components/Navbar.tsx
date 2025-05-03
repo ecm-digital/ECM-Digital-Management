@@ -26,11 +26,15 @@ export default function Navbar() {
                 Strona główna
               </span>
             </Link>
-            <Link href="/services">
-              <span className={`hover:text-blue-600 transition-colors cursor-pointer ${location.startsWith('/service') ? 'text-blue-600 font-medium' : 'text-gray-700'}`}>
-                Usługi
-              </span>
-            </Link>
+            <a href={location === '/' ? "#services" : "/#services"} className="hover:text-blue-600 transition-colors text-gray-700">
+              Usługi
+            </a>
+            <a href={location === '/' ? "#case-studies" : "/#case-studies"} className="hover:text-blue-600 transition-colors text-gray-700">
+              Case Studies
+            </a>
+            <a href={location === '/' ? "#contact-form" : "/#contact-form"} className="hover:text-blue-600 transition-colors text-gray-700">
+              Kontakt
+            </a>
             <Link href="/client/dashboard">
               <Button variant="default" size="sm" className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700">
                 Panel Klienta
@@ -63,11 +67,15 @@ export default function Navbar() {
                           Strona główna
                         </span>
                       </Link>
-                      <Link href="/services">
-                        <span className={`block py-2 hover:text-blue-600 transition-colors ${location.startsWith('/service') ? 'text-blue-600 font-medium' : 'text-gray-700'}`}>
-                          Usługi
-                        </span>
-                      </Link>
+                      <a href={location === '/' ? "#services" : "/#services"} className="block py-2 hover:text-blue-600 transition-colors text-gray-700">
+                        Usługi
+                      </a>
+                      <a href={location === '/' ? "#case-studies" : "/#case-studies"} className="block py-2 hover:text-blue-600 transition-colors text-gray-700">
+                        Case Studies
+                      </a>
+                      <a href={location === '/' ? "#contact-form" : "/#contact-form"} className="block py-2 hover:text-blue-600 transition-colors text-gray-700">
+                        Kontakt
+                      </a>
                       <div className="pt-4 space-y-2">
                         <Link href="/client/dashboard">
                           <Button variant="default" className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700">

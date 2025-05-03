@@ -21,29 +21,6 @@ export default function HomePage() {
 
   return (
     <div className="flex flex-col min-h-screen bg-background">
-      {/* Header z logo i przyciskami nawigacji */}
-      <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-100 shadow-sm py-4">
-        <div className="container-tight flex justify-between items-center">
-          <div className="flex items-center">
-            <h2 className="text-xl font-bold heading-gradient mr-8">ECM Digital</h2>
-          </div>
-          <nav className="hidden md:flex items-center space-x-8">
-            <a href="#services" className="text-gray-600 hover:text-primary font-medium transition-colors">Usługi</a>
-            <a href="#case-studies" className="text-gray-600 hover:text-primary font-medium transition-colors">Case Studies</a>
-            <a href="#contact-form" className="text-gray-600 hover:text-primary font-medium transition-colors">Kontakt</a>
-            <a href="#contact-form">
-              <Button className="btn-modern btn-gradient">
-                Umów konsultację
-              </Button>
-            </a>
-          </nav>
-          <div className="block md:hidden">
-            <Button variant="ghost" size="icon">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-menu"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
-            </Button>
-          </div>
-        </div>
-      </header>
 
       {/* Hero Section */}
       <section className="pt-32 pb-36 overflow-hidden relative">
