@@ -21,7 +21,7 @@ export default function HomePage() {
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center">
             <h1 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-blue-600 to-purple-600 text-transparent bg-clip-text">
-              Profesjonalne rozwiązania marketingowe dla Twojego biznesu
+              ECM Digital - UX, AI i strony internetowe
             </h1>
             <p className="text-xl text-gray-700 mb-8">
               Specjalizujemy się w dostarczaniu kompleksowych usług marketingowych i technologicznych, które pomogą Twojej firmie osiągnąć sukces w cyfrowym świecie.
@@ -32,9 +32,21 @@ export default function HomePage() {
                   Przeglądaj usługi <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
               </Link>
+              <a href="#contact-form">
+                <Button variant="outline" size="lg" className="font-medium bg-gradient-to-r from-purple-500 to-indigo-600 text-white hover:from-purple-600 hover:to-indigo-700 border-0">
+                  Umów bezpłatny audyt UX z AI
+                </Button>
+              </a>
+            </div>
+            <div className="mt-6 flex flex-wrap gap-4 justify-center">
               <a href="#services">
-                <Button variant="outline" size="lg" className="font-medium">
+                <Button variant="outline" size="md" className="font-medium">
                   Dowiedz się więcej
+                </Button>
+              </a>
+              <a href="#case-studies">
+                <Button variant="ghost" size="md" className="font-medium text-blue-600 hover:text-blue-700">
+                  Zobacz nasze realizacje
                 </Button>
               </a>
             </div>
@@ -317,9 +329,135 @@ export default function HomePage() {
                       </Card>
                     ))}
                 </div>
+                <div className="mt-8 text-center">
+                  <a href="#contact-form">
+                    <Button className="bg-amber-500 hover:bg-amber-600 text-white">
+                      Zamów MVP swojego startupu
+                    </Button>
+                  </a>
+                </div>
               </div>
             </div>
           )}
+
+          {/* Case Studies Section */}
+          <section id="case-studies" className="py-16 bg-white">
+            <div className="container mx-auto px-4">
+              <div className="max-w-3xl mx-auto text-center mb-12">
+                <h2 className="text-3xl font-bold mb-4">Nasze realizacje</h2>
+                <p className="text-gray-600">
+                  Zobacz, jak pomagamy naszym klientom osiągać realne rezultaty biznesowe
+                </p>
+              </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {/* Case Study 1 */}
+                <div className="bg-gray-50 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                  <div className="h-48 bg-gradient-to-r from-blue-500 to-indigo-600 relative">
+                    <div className="absolute inset-0 flex items-center justify-center text-white text-2xl font-bold">
+                      AI
+                    </div>
+                  </div>
+                  <div className="p-6">
+                    <h3 className="text-xl font-bold mb-2">Sklep AI dla branży kosmetycznej</h3>
+                    
+                    <div className="mb-4">
+                      <Badge variant="outline" className="bg-red-50 text-red-700 border-red-200 mb-2 mr-2">Problem</Badge>
+                      <p className="text-sm text-gray-600">Niska konwersja, brak obsługi klienta 24/7, nieefektywny proces doboru produktów</p>
+                    </div>
+                    
+                    <div className="mb-4">
+                      <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200 mb-2 mr-2">Rozwiązanie</Badge>
+                      <p className="text-sm text-gray-600">Lejek AI + sklep Webflow + kampania Instagram Ads + chatbot dobierający produkty</p>
+                    </div>
+                    
+                    <div className="mb-4">
+                      <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200 mb-2 mr-2">Efekt</Badge>
+                      <p className="text-sm text-gray-600">+40% konwersji, automatyzacja obsługi, wzrost średniej wartości koszyka o 28%</p>
+                    </div>
+                    
+                    <div className="mt-4 pt-4 border-t border-gray-200">
+                      <Link href="/case-studies">
+                        <Button variant="ghost" size="sm" className="w-full justify-center">
+                          Dowiedz się więcej <ArrowRight className="ml-2 h-4 w-4" />
+                        </Button>
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+                
+                {/* Case Study 2 */}
+                <div className="bg-gray-50 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                  <div className="h-48 bg-gradient-to-r from-purple-500 to-pink-500 relative">
+                    <div className="absolute inset-0 flex items-center justify-center text-white text-2xl font-bold">
+                      UX
+                    </div>
+                  </div>
+                  <div className="p-6">
+                    <h3 className="text-xl font-bold mb-2">Aplikacja mobilna dla firmy fitness</h3>
+                    
+                    <div className="mb-4">
+                      <Badge variant="outline" className="bg-red-50 text-red-700 border-red-200 mb-2 mr-2">Problem</Badge>
+                      <p className="text-sm text-gray-600">Przestarzały interfejs, skomplikowany system rezerwacji, niska retencja użytkowników</p>
+                    </div>
+                    
+                    <div className="mb-4">
+                      <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200 mb-2 mr-2">Rozwiązanie</Badge>
+                      <p className="text-sm text-gray-600">Redesign UX + prostszy flow rezerwacji + gamifikacja + integracja z Apple Health</p>
+                    </div>
+                    
+                    <div className="mb-4">
+                      <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200 mb-2 mr-2">Efekt</Badge>
+                      <p className="text-sm text-gray-600">+65% retencji użytkowników, wzrost rezerwacji o 42%, ocena 4.8/5 w App Store</p>
+                    </div>
+                    
+                    <div className="mt-4 pt-4 border-t border-gray-200">
+                      <a href="#contact-form">
+                        <Button variant="ghost" size="sm" className="w-full justify-center">
+                          Pobierz darmowy UX Scorecard <ArrowRight className="ml-2 h-4 w-4" />
+                        </Button>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                
+                {/* Case Study 3 */}
+                <div className="bg-gray-50 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                  <div className="h-48 bg-gradient-to-r from-amber-500 to-orange-500 relative">
+                    <div className="absolute inset-0 flex items-center justify-center text-white text-2xl font-bold">
+                      MVP
+                    </div>
+                  </div>
+                  <div className="p-6">
+                    <h3 className="text-xl font-bold mb-2">MVP dla startupu SaaS</h3>
+                    
+                    <div className="mb-4">
+                      <Badge variant="outline" className="bg-red-50 text-red-700 border-red-200 mb-2 mr-2">Problem</Badge>
+                      <p className="text-sm text-gray-600">Potrzeba szybkiego wejścia na rynek, ograniczony budżet, brak technicznego zespołu</p>
+                    </div>
+                    
+                    <div className="mb-4">
+                      <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200 mb-2 mr-2">Rozwiązanie</Badge>
+                      <p className="text-sm text-gray-600">Lean MVP + minimalistyczny UX + rozwój produktu oparty na feedbacku + skalowalny backend</p>
+                    </div>
+                    
+                    <div className="mb-4">
+                      <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200 mb-2 mr-2">Efekt</Badge>
+                      <p className="text-sm text-gray-600">MVP w 6 tygodni, pozyskanie pierwszych 50 klientów, zabezpieczenie kolejnej rundy finansowania</p>
+                    </div>
+                    
+                    <div className="mt-4 pt-4 border-t border-gray-200">
+                      <a href="#contact-form">
+                        <Button variant="ghost" size="sm" className="w-full justify-center">
+                          Zamów MVP swojego startupu <ArrowRight className="ml-2 h-4 w-4" />
+                        </Button>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
 
           <div className="mt-10 text-center">
             <Link href="/services">
