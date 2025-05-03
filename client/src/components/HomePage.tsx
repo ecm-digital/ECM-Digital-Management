@@ -22,7 +22,7 @@ export default function HomePage() {
   return (
     <div className="flex flex-col min-h-screen bg-background">
       {/* Header z logo i przyciskami nawigacji */}
-      <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-sm border-b border-gray-100 shadow-sm py-4">
+      <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-100 shadow-sm py-4">
         <div className="container-tight flex justify-between items-center">
           <div className="flex items-center">
             <h2 className="text-xl font-bold heading-gradient mr-8">ECM Digital</h2>
@@ -46,44 +46,112 @@ export default function HomePage() {
       </header>
 
       {/* Hero Section */}
-      <section className="pt-28 pb-32 overflow-hidden">
-        <div className="container-tight">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+      <section className="pt-32 pb-36 overflow-hidden relative">
+        {/* Tło z gradientem i kształtami */}
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute -top-1/4 -right-1/4 w-[600px] h-[600px] rounded-full bg-primary/5 blur-3xl"></div>
+          <div className="absolute top-1/2 left-1/4 w-[400px] h-[400px] rounded-full bg-secondary/5 blur-3xl"></div>
+          <div className="absolute bottom-1/3 right-1/3 w-[300px] h-[300px] rounded-full bg-purple-400/5 blur-3xl"></div>
+        </div>
+        
+        <div className="container-tight relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div className="space-y-8">
               <div>
-                <Badge className="bg-blue-100 text-blue-700 hover:bg-blue-200 transition-colors mb-5 py-1.5 px-4 rounded-full text-sm font-medium">Agencja UX & Marketing</Badge>
-                <h1 className="heading-gradient">
-                  ECM Digital - UX, AI i strony internetowe
+                <Badge className="bg-primary/10 text-primary hover:bg-primary/20 transition-colors mb-5 py-1.5 px-4 rounded-full text-sm font-medium">
+                  Agencja UX & Marketing
+                </Badge>
+                <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight mb-6 text-balance">
+                  <span className="inline heading-gradient">Tworzymy cyfrowe</span> <br />
+                  doświadczenia, które konwertują
                 </h1>
-                <p className="text-xl text-gray-700 mt-6 leading-relaxed">
-                  Specjalizujemy się w dostarczaniu kompleksowych usług marketingowych i technologicznych, które pomogą Twojej firmie osiągnąć sukces w cyfrowym świecie.
+                <p className="text-xl text-gray-700 leading-relaxed max-w-xl">
+                  Specjalizujemy się w projektowaniu skutecznych doświadczeń użytkownika, budowie stron internetowych oraz integracji rozwiązań AI dla Twojego biznesu.
                 </p>
               </div>
-              <div className="flex flex-wrap gap-4">
+              
+              <div className="flex flex-wrap gap-5 pt-4">
                 <Link href="/services">
-                  <Button className="btn-modern btn-gradient">
-                    Przeglądaj usługi <ArrowRight className="ml-2 h-5 w-5" />
+                  <Button className="btn-modern btn-gradient text-white py-6 px-8 text-base">
+                    Poznaj nasze usługi <ArrowRight className="ml-2 h-5 w-5" />
                   </Button>
                 </Link>
                 <a href="#contact-form">
-                  <Button variant="outline" className="btn-modern">
-                    Umów bezpłatny audyt UX
+                  <Button variant="outline" className="btn-modern border-2 py-6 px-8 text-base">
+                    Zamów bezpłatny audyt UX
                   </Button>
                 </a>
               </div>
-              <div className="flex items-center pt-4 text-gray-500 text-sm">
-                <Check className="h-5 w-5 text-green-500 mr-2" /> Ponad 10 lat doświadczenia
-                <span className="mx-3">•</span>
-                <Check className="h-5 w-5 text-green-500 mr-2" /> +120 zadowolonych klientów
+              
+              <div className="grid grid-cols-2 gap-4 pt-6">
+                <div className="flex items-start gap-3">
+                  <div className="w-6 h-6 rounded-full bg-green-100 flex items-center justify-center mt-0.5">
+                    <Check className="h-4 w-4 text-green-600" /> 
+                  </div>
+                  <div>
+                    <p className="font-medium">Skuteczne UX</p>
+                    <p className="text-sm text-gray-500">Projektujemy w oparciu o dane</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <div className="w-6 h-6 rounded-full bg-blue-100 flex items-center justify-center mt-0.5">
+                    <Check className="h-4 w-4 text-blue-600" /> 
+                  </div>
+                  <div>
+                    <p className="font-medium">Szybka realizacja</p>
+                    <p className="text-sm text-gray-500">Terminy zawsze dotrzymane</p>
+                  </div>
+                </div>
               </div>
             </div>
-            <div className="relative lg:h-[500px] flex items-center justify-center">
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] md:w-[400px] md:h-[400px] rounded-full bg-gradient-to-r from-blue-400/20 to-purple-400/20 blur-3xl"></div>
-              <div className="card-modern relative w-full max-w-lg h-full max-h-[400px] flex items-center justify-center">
-                <div className="absolute top-8 left-8 right-8 bottom-8 bg-gradient-to-br from-blue-500/10 to-purple-500/10 rounded-xl"></div>
-                <div className="relative z-10 text-center px-8">
-                  <h3 className="text-2xl font-bold mb-4 heading-gradient">Przekształcamy wizje w cyfrowy sukces</h3>
-                  <p className="text-gray-600 mb-6">Łączymy strategiczną wiedzę UX/UI z najnowszymi technologiami AI, aby dostarczyć rozwiązania, które przynoszą wymierne rezultaty.</p>
+            
+            <div className="relative">
+              <div className="absolute -top-20 -right-20 w-96 h-96 bg-gradient-to-br from-primary/20 to-secondary/20 rounded-full blur-3xl"></div>
+              
+              <div className="relative z-10 rounded-2xl overflow-hidden glassmorphism p-1">
+                <div className="card-modern glassmorphism p-8 sm:p-10 relative border-0 shadow-none">
+                  <div className="grid gap-8">
+                    <div>
+                      <Badge className="bg-blue-100 text-blue-700 mb-3">Pozwól nam pomóc Twojemu biznesowi</Badge>
+                      <h3 className="text-2xl font-bold mb-4">Tworzymy rozwiązania, które przekraczają oczekiwania klientów</h3>
+                      <p className="text-gray-600 mb-2">Nasze podejście łączy strategiczne myślenie, kreatywne projektowanie i technologiczną innowację.</p>
+                    </div>
+                    
+                    <div className="space-y-4">
+                      <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 flex-shrink-0 rounded-full bg-primary/10 flex items-center justify-center">
+                          <CheckCircle className="h-5 w-5 text-primary" />
+                        </div>
+                        <div>
+                          <p className="font-medium">Ponad 10 lat doświadczenia</p>
+                        </div>
+                      </div>
+                      
+                      <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 flex-shrink-0 rounded-full bg-secondary/10 flex items-center justify-center">
+                          <CheckCircle className="h-5 w-5 text-secondary" />
+                        </div>
+                        <div>
+                          <p className="font-medium">+120 zadowolonych klientów</p>
+                        </div>
+                      </div>
+                      
+                      <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 flex-shrink-0 rounded-full bg-purple-100 flex items-center justify-center">
+                          <CheckCircle className="h-5 w-5 text-purple-600" />
+                        </div>
+                        <div>
+                          <p className="font-medium">Podejście oparte na danych</p>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <a href="#contact-form" className="inline-block">
+                      <Button className="w-full btn-gradient btn-modern">
+                        Skontaktuj się z nami
+                      </Button>
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>
