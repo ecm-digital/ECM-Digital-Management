@@ -42,7 +42,6 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Edit, Trash2, Plus, Sparkles, Loader2, Info } from 'lucide-react';
 
@@ -590,291 +589,280 @@ export default function AdminPanel() {
   }
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-6 bg-gradient-to-r from-purple-600 to-blue-500 text-transparent bg-clip-text">
-        Panel Administracyjny ECM Digital
-      </h1>
+    <div className="flex h-screen overflow-hidden">
+      {/* Boczne menu */}
+      <div className="w-64 bg-slate-50 border-r border-slate-200 h-full flex flex-col">
+        <div className="p-4 border-b border-slate-200">
+          <h1 className="text-xl font-bold bg-gradient-to-r from-purple-600 to-blue-500 text-transparent bg-clip-text">
+            ECM Digital Admin
+          </h1>
+        </div>
+        
+        <nav className="flex-1 overflow-y-auto p-4">
+          <ul className="space-y-2">
+            <li>
+              <button
+                onClick={() => setActiveTab('services')}
+                className={`w-full flex items-center px-4 py-2 rounded-lg text-left ${
+                  activeTab === 'services' 
+                    ? 'bg-purple-100 text-purple-900 font-medium' 
+                    : 'text-slate-700 hover:bg-slate-100'
+                }`}
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                </svg>
+                Usługi
+              </button>
+            </li>
+            <li>
+              <button
+                onClick={() => setActiveTab('preview')}
+                className={`w-full flex items-center px-4 py-2 rounded-lg text-left ${
+                  activeTab === 'preview' 
+                    ? 'bg-purple-100 text-purple-900 font-medium' 
+                    : 'text-slate-700 hover:bg-slate-100'
+                }`}
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                </svg>
+                Podgląd usług
+              </button>
+            </li>
+            <li>
+              <button
+                onClick={() => setActiveTab('ai')}
+                className={`w-full flex items-center px-4 py-2 rounded-lg text-left ${
+                  activeTab === 'ai' 
+                    ? 'bg-purple-100 text-purple-900 font-medium' 
+                    : 'text-slate-700 hover:bg-slate-100'
+                }`}
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
+                Generowanie AI
+              </button>
+            </li>
+            <li>
+              <button
+                onClick={() => setActiveTab('orders')}
+                className={`w-full flex items-center px-4 py-2 rounded-lg text-left ${
+                  activeTab === 'orders' 
+                    ? 'bg-purple-100 text-purple-900 font-medium' 
+                    : 'text-slate-700 hover:bg-slate-100'
+                }`}
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                </svg>
+                Zamówienia
+              </button>
+            </li>
+            <li>
+              <button
+                onClick={() => setActiveTab('stats')}
+                className={`w-full flex items-center px-4 py-2 rounded-lg text-left ${
+                  activeTab === 'stats' 
+                    ? 'bg-purple-100 text-purple-900 font-medium' 
+                    : 'text-slate-700 hover:bg-slate-100'
+                }`}
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                </svg>
+                Statystyki
+              </button>
+            </li>
+          </ul>
+        </nav>
+        
+        <div className="p-4 border-t border-slate-200">
+          <a href="/" className="flex items-center text-slate-600 hover:text-slate-900">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+            </svg>
+            Powrót do strony głównej
+          </a>
+        </div>
+      </div>
       
-      <Tabs defaultValue={activeTab} onValueChange={setActiveTab} className="w-full">
-        <TabsList className="grid w-full grid-cols-5">
-          <TabsTrigger value="services">Usługi</TabsTrigger>
-          <TabsTrigger value="preview">Podgląd usług</TabsTrigger>
-          <TabsTrigger value="ai">Generowanie AI</TabsTrigger>
-          <TabsTrigger value="orders">Zamówienia</TabsTrigger>
-          <TabsTrigger value="stats">Statystyki</TabsTrigger>
-        </TabsList>
-        
-        <TabsContent value="services" className="mt-6">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex justify-between items-center">
-                <span>Zarządzanie Usługami</span>
-                <Button onClick={() => setIsNewDialogOpen(true)}>
-                  <Plus className="mr-2 h-4 w-4" /> Dodaj Usługę
-                </Button>
-              </CardTitle>
-              <CardDescription>
-                Przeglądaj, dodawaj, edytuj i usuwaj usługi oferowane przez ECM Digital.
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Table>
-                <TableCaption>Lista dostępnych usług</TableCaption>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead className="w-[50px]">ID</TableHead>
-                    <TableHead>Nazwa</TableHead>
-                    <TableHead>Kategoria</TableHead>
-                    <TableHead>Status</TableHead>
-                    <TableHead className="text-right">Cena</TableHead>
-                    <TableHead className="text-right">Czas realizacji</TableHead>
-                    <TableHead className="text-right">Akcje</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {services?.map((service: Service) => (
-                    <TableRow key={service.id}>
-                      <TableCell className="font-medium">{service.id}</TableCell>
-                      <TableCell>
-                        <div>
-                          <div className="font-medium">{service.name}</div>
-                          <div className="flex items-center gap-1">
-                            <div className="text-sm text-muted-foreground truncate max-w-[250px]">
-                              {service.description && service.description.length > 50 
-                                ? `${service.description.substring(0, 50)}...` 
-                                : service.description}
-                            </div>
-                            <TooltipProvider>
-                              <Tooltip>
-                                <TooltipTrigger asChild>
-                                  <Button variant="ghost" size="icon" className="h-4 w-4 p-0">
-                                    <Info className="h-3 w-3" />
-                                  </Button>
-                                </TooltipTrigger>
-                                <TooltipContent className="max-w-[400px] p-4 text-wrap break-words">
-                                  <p className="font-semibold mb-1">Pełny opis:</p>
-                                  <p>{service.description}</p>
-                                  {service.longDescription && (
-                                    <>
-                                      <p className="font-semibold mt-2 mb-1">Szczegółowy opis:</p>
-                                      <p>{service.longDescription}</p>
-                                    </>
-                                  )}
-                                </TooltipContent>
-                              </Tooltip>
-                            </TooltipProvider>
-                          </div>
-                        </div>
-                      </TableCell>
-                      <TableCell>{service.category || 'Inne'}</TableCell>
-                      <TableCell>
-                        <div className={`px-2 py-1 rounded-full text-xs inline-block ${
-                          service.status === 'Aktywna' ? 'bg-green-100 text-green-800' :
-                          service.status === 'Nieaktywna' ? 'bg-gray-100 text-gray-800' :
-                          service.status === 'Archiw' ? 'bg-yellow-100 text-yellow-800' :
-                          'bg-blue-100 text-blue-800'
-                        }`}>
-                          {service.status || 'Aktywna'}
-                        </div>
-                      </TableCell>
-                      <TableCell className="text-right">{service.basePrice} PLN</TableCell>
-                      <TableCell className="text-right">{service.deliveryTime} dni</TableCell>
-                      <TableCell className="text-right">
-                        <div className="flex justify-end gap-2">
-                          <Button variant="outline" size="icon" onClick={() => handleEditService(service)}>
-                            <Edit className="h-4 w-4" />
-                          </Button>
-                          <Button variant="destructive" size="icon" onClick={() => handleDeleteService(service)}>
-                            <Trash2 className="h-4 w-4" />
-                          </Button>
-                        </div>
-                      </TableCell>
+      {/* Zawartość główna */}
+      <div className="flex-1 overflow-y-auto">
+        <div className="p-6">
+          <h2 className="text-2xl font-bold mb-6">
+            {activeTab === 'services' && 'Zarządzanie Usługami'}
+            {activeTab === 'preview' && 'Podgląd Usług'}
+            {activeTab === 'ai' && 'Generowanie Usług z AI'}
+            {activeTab === 'orders' && 'Zarządzanie Zamówieniami'}
+            {activeTab === 'stats' && 'Statystyki i Raporty'}
+          </h2>
+          
+          {activeTab === 'services' && (
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex justify-between items-center">
+                  <span>Zarządzanie Usługami</span>
+                  <Button onClick={() => setIsNewDialogOpen(true)}>
+                    <Plus className="mr-2 h-4 w-4" /> Dodaj Usługę
+                  </Button>
+                </CardTitle>
+                <CardDescription>
+                  Przeglądaj, dodawaj, edytuj i usuwaj usługi oferowane przez ECM Digital.
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Table>
+                  <TableCaption>Lista dostępnych usług</TableCaption>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead className="w-[50px]">ID</TableHead>
+                      <TableHead>Nazwa</TableHead>
+                      <TableHead>Kategoria</TableHead>
+                      <TableHead>Status</TableHead>
+                      <TableHead className="text-right">Cena</TableHead>
+                      <TableHead className="text-right">Czas realizacji</TableHead>
+                      <TableHead className="text-right">Akcje</TableHead>
                     </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </CardContent>
-          </Card>
-        </TabsContent>
-        
-        <TabsContent value="ai" className="mt-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Generowanie Usług z AI</CardTitle>
-              <CardDescription>
-                Wykorzystaj sztuczną inteligencję do automatycznego generowania opisów usług, korzyści i zakresu.
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="grid gap-6">
-                <div className="border p-4 rounded-lg">
-                  <h3 className="text-lg font-medium mb-4">Generowanie kompletnej usługi</h3>
-                  <div className="grid gap-4">
-                    <div className="grid grid-cols-3 gap-4">
-                      <div>
-                        <Label htmlFor="ai-service-name">Nazwa usługi</Label>
-                        <Input 
-                          id="ai-service-name" 
-                          placeholder="np. Kampania SEO" 
-                          className="mt-1"
-                          value={aiServiceName}
-                          onChange={(e) => setAiServiceName(e.target.value)}
-                        />
-                      </div>
-                      <div>
-                        <Label htmlFor="ai-service-category">Kategoria</Label>
-                        <Input 
-                          id="ai-service-category" 
-                          placeholder="np. Marketing" 
-                          className="mt-1"
-                          value={aiServiceCategory}
-                          onChange={(e) => setAiServiceCategory(e.target.value)}
-                        />
-                      </div>
-                      <div>
-                        <Label htmlFor="ai-service-price">Cena bazowa (PLN)</Label>
-                        <Input 
-                          id="ai-service-price" 
-                          type="number" 
-                          placeholder="np. 5000" 
-                          className="mt-1"
-                          value={aiServicePrice}
-                          onChange={(e) => setAiServicePrice(e.target.value === '' ? '' : Number(e.target.value))}
-                        />
-                      </div>
-                    </div>
-                    <div>
-                      <Label htmlFor="ai-service-keywords">Słowa kluczowe (oddzielone przecinkami)</Label>
-                      <Input 
-                        id="ai-service-keywords" 
-                        placeholder="np. SEO, pozycjonowanie, słowa kluczowe" 
-                        className="mt-1"
-                        value={aiServiceKeywords}
-                        onChange={(e) => setAiServiceKeywords(e.target.value)}
-                      />
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <Checkbox 
-                        id="ai-service-detailed" 
-                        checked={aiServiceDetailed}
-                        onCheckedChange={(checked) => setAiServiceDetailed(checked === true)}
-                      />
-                      <Label htmlFor="ai-service-detailed">Generuj szczegółowy opis</Label>
-                    </div>
-                    <Button 
-                      className="w-full" 
-                      onClick={handleGenerateService} 
-                      disabled={isGeneratingService}
-                    >
-                      {isGeneratingService ? (
-                        <>
-                          <svg className="animate-spin -ml-1 mr-3 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                          </svg> Generowanie...
-                        </>
-                      ) : (
-                        <>
-                          <svg className="mr-2 h-4 w-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                            <path d="m12 3-1.9 5.8a2 2 0 0 1-1.5 1.5L2.8 12l5.8 1.9a2 2 0 0 1 1.5 1.5L12 21l1.9-5.8a2 2 0 0 1 1.5-1.5L21.2 12l-5.8-1.9a2 2 0 0 1-1.5-1.5Z" />
-                          </svg> Generuj usługę
-                        </>
-                      )}
-                    </Button>
-                    
-                    {generatedService && (
-                      <div className="mt-4 border rounded-lg p-4 bg-gray-50">
-                        <h4 className="font-medium mb-3">Wygenerowana usługa:</h4>
-                        <div className="mb-3">
-                          <div className="font-medium">{generatedService.name}</div>
-                          <div className="text-sm text-muted-foreground">{generatedService.category} | {generatedService.basePrice} PLN | {generatedService.deliveryTime} dni</div>
-                        </div>
-                        
-                        <div className="mb-3">
-                          <div className="text-sm font-medium">Krótki opis:</div>
-                          <div className="text-sm">{generatedService.shortDescription}</div>
-                        </div>
-                        
-                        <div className="mb-3">
-                          <div className="text-sm font-medium">Opis:</div>
-                          <div className="text-sm">{generatedService.description}</div>
-                        </div>
-                        
-                        {generatedService.features && generatedService.features.length > 0 && (
-                          <div className="mb-3">
-                            <div className="text-sm font-medium">Funkcje:</div>
-                            <ul className="text-sm list-disc list-inside">
-                              {generatedService.features.map((feature, idx) => (
-                                <li key={idx} className="ml-2">{feature}</li>
-                              ))}
-                            </ul>
+                  </TableHeader>
+                  <TableBody>
+                    {services?.map((service: Service) => (
+                      <TableRow key={service.id}>
+                        <TableCell className="font-medium">{service.id}</TableCell>
+                        <TableCell>
+                          <div>
+                            <div className="font-medium">{service.name}</div>
+                            <div className="flex items-center gap-1">
+                              <div className="text-sm text-muted-foreground truncate max-w-[250px]">
+                                {service.description && service.description.length > 50 
+                                  ? `${service.description.substring(0, 50)}...` 
+                                  : service.description}
+                              </div>
+                              <TooltipProvider>
+                                <Tooltip>
+                                  <TooltipTrigger asChild>
+                                    <Button variant="ghost" size="icon" className="h-4 w-4 p-0">
+                                      <Info className="h-3 w-3" />
+                                    </Button>
+                                  </TooltipTrigger>
+                                  <TooltipContent className="max-w-[400px] p-4 text-wrap break-words">
+                                    <p className="font-semibold mb-1">Pełny opis:</p>
+                                    <p>{service.description}</p>
+                                    {service.longDescription && (
+                                      <>
+                                        <p className="font-semibold mt-2 mb-1">Szczegółowy opis:</p>
+                                        <p>{service.longDescription}</p>
+                                      </>
+                                    )}
+                                  </TooltipContent>
+                                </Tooltip>
+                              </TooltipProvider>
+                            </div>
                           </div>
-                        )}
-                        
-                        {generatedService.benefits && generatedService.benefits.length > 0 && (
-                          <div className="mb-3">
-                            <div className="text-sm font-medium">Korzyści:</div>
-                            <ul className="text-sm list-disc list-inside">
-                              {generatedService.benefits.map((benefit, idx) => (
-                                <li key={idx} className="ml-2">{benefit}</li>
-                              ))}
-                            </ul>
+                        </TableCell>
+                        <TableCell>{service.category || 'Inne'}</TableCell>
+                        <TableCell>
+                          <div className={`px-2 py-1 rounded-full text-xs inline-block ${
+                            service.status === 'Aktywna' ? 'bg-green-100 text-green-800' :
+                            service.status === 'Nieaktywna' ? 'bg-gray-100 text-gray-800' :
+                            service.status === 'Archiw' ? 'bg-yellow-100 text-yellow-800' :
+                            'bg-blue-100 text-blue-800'
+                          }`}>
+                            {service.status || 'Aktywna'}
                           </div>
-                        )}
-                        
-                        {generatedService.scope && generatedService.scope.length > 0 && (
-                          <div className="mb-3">
-                            <div className="text-sm font-medium">Zakres:</div>
-                            <ul className="text-sm list-disc list-inside">
-                              {generatedService.scope.map((scope, idx) => (
-                                <li key={idx} className="ml-2">{scope}</li>
-                              ))}
-                            </ul>
+                        </TableCell>
+                        <TableCell className="text-right">{service.basePrice} PLN</TableCell>
+                        <TableCell className="text-right">{service.deliveryTime} dni</TableCell>
+                        <TableCell className="text-right">
+                          <div className="flex justify-end gap-2">
+                            <Button variant="outline" size="icon" onClick={() => handleEditService(service)}>
+                              <Edit className="h-4 w-4" />
+                            </Button>
+                            <Button variant="destructive" size="icon" onClick={() => handleDeleteService(service)}>
+                              <Trash2 className="h-4 w-4" />
+                            </Button>
                           </div>
-                        )}
-                        
-                        <Button 
-                          className="w-full mt-2" 
-                          onClick={handleAddGeneratedService}
-                        >
-                          <Plus className="mr-2 h-4 w-4" /> Dodaj do bazy danych
-                        </Button>
-                      </div>
-                    )}
-                  </div>
-                </div>
-                
-                <div className="grid grid-cols-2 gap-6">
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </CardContent>
+            </Card>
+          )}
+          
+          {activeTab === 'ai' && (
+            <Card>
+              <CardHeader>
+                <CardTitle>Generowanie Usług z AI</CardTitle>
+                <CardDescription>
+                  Wykorzystaj sztuczną inteligencję do automatycznego generowania opisów usług, korzyści i zakresu.
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="grid gap-6">
                   <div className="border p-4 rounded-lg">
-                    <h3 className="text-lg font-medium mb-4">Generowanie korzyści</h3>
+                    <h3 className="text-lg font-medium mb-4">Generowanie kompletnej usługi</h3>
                     <div className="grid gap-4">
-                      <div>
-                        <Label htmlFor="ai-benefits-name">Nazwa usługi</Label>
-                        <Input 
-                          id="ai-benefits-name" 
-                          placeholder="np. Kampania SEO" 
-                          className="mt-1"
-                          value={aiBenefitsName}
-                          onChange={(e) => setAiBenefitsName(e.target.value)}
-                        />
+                      <div className="grid grid-cols-3 gap-4">
+                        <div>
+                          <Label htmlFor="ai-service-name">Nazwa usługi</Label>
+                          <Input 
+                            id="ai-service-name" 
+                            placeholder="np. Kampania SEO" 
+                            className="mt-1"
+                            value={aiServiceName}
+                            onChange={(e) => setAiServiceName(e.target.value)}
+                          />
+                        </div>
+                        <div>
+                          <Label htmlFor="ai-service-category">Kategoria</Label>
+                          <Input 
+                            id="ai-service-category" 
+                            placeholder="np. Marketing" 
+                            className="mt-1"
+                            value={aiServiceCategory}
+                            onChange={(e) => setAiServiceCategory(e.target.value)}
+                          />
+                        </div>
+                        <div>
+                          <Label htmlFor="ai-service-price">Cena bazowa (PLN)</Label>
+                          <Input 
+                            id="ai-service-price" 
+                            type="number" 
+                            placeholder="np. 5000" 
+                            className="mt-1"
+                            value={aiServicePrice}
+                            onChange={(e) => setAiServicePrice(e.target.value === '' ? '' : Number(e.target.value))}
+                          />
+                        </div>
                       </div>
                       <div>
-                        <Label htmlFor="ai-benefits-description">Opis usługi</Label>
-                        <Textarea 
-                          id="ai-benefits-description" 
-                          placeholder="Wprowadź opis usługi..." 
+                        <Label htmlFor="ai-service-keywords">Słowa kluczowe (oddzielone przecinkami)</Label>
+                        <Input 
+                          id="ai-service-keywords" 
+                          placeholder="np. SEO, pozycjonowanie, słowa kluczowe" 
                           className="mt-1"
-                          rows={4}
-                          value={aiBenefitsDescription}
-                          onChange={(e) => setAiBenefitsDescription(e.target.value)}
+                          value={aiServiceKeywords}
+                          onChange={(e) => setAiServiceKeywords(e.target.value)}
                         />
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <Checkbox 
+                          id="ai-service-detailed" 
+                          checked={aiServiceDetailed}
+                          onCheckedChange={(checked) => setAiServiceDetailed(checked === true)}
+                        />
+                        <Label htmlFor="ai-service-detailed">Generuj szczegółowy opis</Label>
                       </div>
                       <Button 
-                        className="w-full"
-                        onClick={handleGenerateBenefits}
-                        disabled={isGeneratingBenefits}
+                        className="w-full" 
+                        onClick={handleGenerateService} 
+                        disabled={isGeneratingService}
                       >
-                        {isGeneratingBenefits ? (
+                        {isGeneratingService ? (
                           <>
                             <svg className="animate-spin -ml-1 mr-3 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                               <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
@@ -885,719 +873,787 @@ export default function AdminPanel() {
                           <>
                             <svg className="mr-2 h-4 w-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                               <path d="m12 3-1.9 5.8a2 2 0 0 1-1.5 1.5L2.8 12l5.8 1.9a2 2 0 0 1 1.5 1.5L12 21l1.9-5.8a2 2 0 0 1 1.5-1.5L21.2 12l-5.8-1.9a2 2 0 0 1-1.5-1.5Z" />
-                            </svg> Generuj korzyści
+                            </svg> Generuj usługę
                           </>
                         )}
                       </Button>
                       
-                      {generatedBenefits.length > 0 && (
-                        <div className="mt-2 p-3 bg-gray-50 rounded-md">
-                          <h4 className="font-medium mb-2 text-sm">Wygenerowane korzyści:</h4>
-                          <ul className="space-y-1 text-sm">
-                            {generatedBenefits.map((benefit, idx) => (
-                              <li key={idx} className="flex items-start">
-                                <svg className="h-4 w-4 text-green-500 mr-2 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                                </svg>
-                                <span>{benefit}</span>
-                              </li>
-                            ))}
-                          </ul>
+                      {generatedService && (
+                        <div className="mt-4 border rounded-lg p-4 bg-gray-50">
+                          <h4 className="font-medium mb-3">Wygenerowana usługa:</h4>
+                          <div className="mb-3">
+                            <div className="font-medium">{generatedService.name}</div>
+                            <div className="text-sm text-muted-foreground">{generatedService.category} | {generatedService.basePrice} PLN | {generatedService.deliveryTime} dni</div>
+                          </div>
+                          
+                          <div className="mb-3">
+                            <div className="text-sm font-medium">Krótki opis:</div>
+                            <div className="text-sm">{generatedService.shortDescription}</div>
+                          </div>
+                          
+                          <div className="mb-3">
+                            <div className="text-sm font-medium">Opis:</div>
+                            <div className="text-sm">{generatedService.description}</div>
+                          </div>
+                          
+                          {generatedService.features && generatedService.features.length > 0 && (
+                            <div className="mb-3">
+                              <div className="text-sm font-medium">Funkcje:</div>
+                              <ul className="text-sm list-disc list-inside">
+                                {generatedService.features.map((feature, idx) => (
+                                  <li key={idx} className="ml-2">{feature}</li>
+                                ))}
+                              </ul>
+                            </div>
+                          )}
+                          
+                          {generatedService.benefits && generatedService.benefits.length > 0 && (
+                            <div className="mb-3">
+                              <div className="text-sm font-medium">Korzyści:</div>
+                              <ul className="text-sm list-disc list-inside">
+                                {generatedService.benefits.map((benefit, idx) => (
+                                  <li key={idx} className="ml-2">{benefit}</li>
+                                ))}
+                              </ul>
+                            </div>
+                          )}
+                          
+                          {generatedService.scope && generatedService.scope.length > 0 && (
+                            <div className="mb-3">
+                              <div className="text-sm font-medium">Zakres:</div>
+                              <ul className="text-sm list-disc list-inside">
+                                {generatedService.scope.map((scope, idx) => (
+                                  <li key={idx} className="ml-2">{scope}</li>
+                                ))}
+                              </ul>
+                            </div>
+                          )}
+                          
+                          <Button 
+                            className="w-full mt-2" 
+                            onClick={handleAddGeneratedService}
+                          >
+                            <Plus className="mr-2 h-4 w-4" /> Dodaj do bazy danych
+                          </Button>
                         </div>
                       )}
                     </div>
                   </div>
                   
+                  <div className="grid grid-cols-2 gap-6">
+                    <div className="border p-4 rounded-lg">
+                      <h3 className="text-lg font-medium mb-4">Generowanie korzyści</h3>
+                      <div className="grid gap-4">
+                        <div>
+                          <Label htmlFor="ai-benefits-name">Nazwa usługi</Label>
+                          <Input 
+                            id="ai-benefits-name" 
+                            placeholder="np. Kampania SEO" 
+                            className="mt-1"
+                            value={aiBenefitsName}
+                            onChange={(e) => setAiBenefitsName(e.target.value)}
+                          />
+                        </div>
+                        <div>
+                          <Label htmlFor="ai-benefits-description">Opis usługi</Label>
+                          <Textarea 
+                            id="ai-benefits-description" 
+                            placeholder="Wprowadź opis usługi..." 
+                            className="mt-1"
+                            rows={4}
+                            value={aiBenefitsDescription}
+                            onChange={(e) => setAiBenefitsDescription(e.target.value)}
+                          />
+                        </div>
+                        <Button 
+                          className="w-full"
+                          onClick={handleGenerateBenefits}
+                          disabled={isGeneratingBenefits}
+                        >
+                          {isGeneratingBenefits ? (
+                            <>
+                              <svg className="animate-spin -ml-1 mr-3 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                              </svg> Generowanie...
+                            </>
+                          ) : (
+                            <>
+                              <svg className="mr-2 h-4 w-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <path d="m12 3-1.9 5.8a2 2 0 0 1-1.5 1.5L2.8 12l5.8 1.9a2 2 0 0 1 1.5 1.5L12 21l1.9-5.8a2 2 0 0 1 1.5-1.5L21.2 12l-5.8-1.9a2 2 0 0 1-1.5-1.5Z" />
+                              </svg> Generuj korzyści
+                            </>
+                          )}
+                        </Button>
+                        
+                        {generatedBenefits.length > 0 && (
+                          <div className="mt-2 p-3 bg-gray-50 rounded-md">
+                            <h4 className="font-medium mb-2 text-sm">Wygenerowane korzyści:</h4>
+                            <ul className="space-y-1 text-sm">
+                              {generatedBenefits.map((benefit, idx) => (
+                                <li key={idx} className="flex items-start">
+                                  <svg className="h-4 w-4 text-green-500 mr-2 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                                  </svg>
+                                  <span>{benefit}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                    
+                    <div className="border p-4 rounded-lg">
+                      <h3 className="text-lg font-medium mb-4">Generowanie zakresu usługi</h3>
+                      <div className="grid gap-4">
+                        <div>
+                          <Label htmlFor="ai-scope-name">Nazwa usługi</Label>
+                          <Input 
+                            id="ai-scope-name" 
+                            placeholder="np. Kampania SEO" 
+                            className="mt-1"
+                            value={aiScopeName}
+                            onChange={(e) => setAiScopeName(e.target.value)}
+                          />
+                        </div>
+                        <div>
+                          <Label htmlFor="ai-scope-description">Opis usługi</Label>
+                          <Textarea 
+                            id="ai-scope-description" 
+                            placeholder="Wprowadź opis usługi..." 
+                            className="mt-1"
+                            rows={4}
+                            value={aiScopeDescription}
+                            onChange={(e) => setAiScopeDescription(e.target.value)}
+                          />
+                        </div>
+                        <Button 
+                          className="w-full"
+                          onClick={handleGenerateScope}
+                          disabled={isGeneratingScope}
+                        >
+                          {isGeneratingScope ? (
+                            <>
+                              <svg className="animate-spin -ml-1 mr-3 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                              </svg> Generowanie...
+                            </>
+                          ) : (
+                            <>
+                              <svg className="mr-2 h-4 w-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <path d="m12 3-1.9 5.8a2 2 0 0 1-1.5 1.5L2.8 12l5.8 1.9a2 2 0 0 1 1.5 1.5L12 21l1.9-5.8a2 2 0 0 1 1.5-1.5L21.2 12l-5.8-1.9a2 2 0 0 1-1.5-1.5Z" />
+                              </svg> Generuj zakres
+                            </>
+                          )}
+                        </Button>
+                        
+                        {generatedScope.length > 0 && (
+                          <div className="mt-2 p-3 bg-gray-50 rounded-md">
+                            <h4 className="font-medium mb-2 text-sm">Wygenerowany zakres:</h4>
+                            <ul className="space-y-1 text-sm">
+                              {generatedScope.map((scope, idx) => (
+                                <li key={idx} className="flex items-start">
+                                  <svg className="h-4 w-4 text-blue-500 mr-2 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4" />
+                                  </svg>
+                                  <span>{scope}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                  
                   <div className="border p-4 rounded-lg">
-                    <h3 className="text-lg font-medium mb-4">Generowanie zakresu usługi</h3>
+                    <h3 className="text-lg font-medium mb-4">Ulepszanie opisu usługi</h3>
                     <div className="grid gap-4">
                       <div>
-                        <Label htmlFor="ai-scope-name">Nazwa usługi</Label>
+                        <Label htmlFor="ai-enhance-name">Nazwa usługi</Label>
                         <Input 
-                          id="ai-scope-name" 
+                          id="ai-enhance-name" 
                           placeholder="np. Kampania SEO" 
                           className="mt-1"
-                          value={aiScopeName}
-                          onChange={(e) => setAiScopeName(e.target.value)}
+                          value={aiEnhanceName}
+                          onChange={(e) => setAiEnhanceName(e.target.value)}
                         />
                       </div>
                       <div>
-                        <Label htmlFor="ai-scope-description">Opis usługi</Label>
+                        <Label htmlFor="ai-enhance-description">Obecny opis</Label>
                         <Textarea 
-                          id="ai-scope-description" 
-                          placeholder="Wprowadź opis usługi..." 
+                          id="ai-enhance-description" 
+                          placeholder="Wprowadź obecny opis usługi..." 
                           className="mt-1"
                           rows={4}
-                          value={aiScopeDescription}
-                          onChange={(e) => setAiScopeDescription(e.target.value)}
+                          value={aiEnhanceDescription}
+                          onChange={(e) => setAiEnhanceDescription(e.target.value)}
                         />
                       </div>
                       <Button 
                         className="w-full"
-                        onClick={handleGenerateScope}
-                        disabled={isGeneratingScope}
+                        onClick={handleEnhanceDescription}
+                        disabled={isEnhancingDescription}
                       >
-                        {isGeneratingScope ? (
+                        {isEnhancingDescription ? (
                           <>
                             <svg className="animate-spin -ml-1 mr-3 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                               <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                               <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                            </svg> Generowanie...
+                            </svg> Ulepszanie...
                           </>
                         ) : (
                           <>
                             <svg className="mr-2 h-4 w-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                              <path d="m12 3-1.9 5.8a2 2 0 0 1-1.5 1.5L2.8 12l5.8 1.9a2 2 0 0 1 1.5 1.5L12 21l1.9-5.8a2 2 0 0 1 1.5-1.5L21.2 12l-5.8-1.9a2 2 0 0 1-1.5-1.5Z" />
-                            </svg> Generuj zakres
+                              <path d="M12 20h9" />
+                              <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
+                            </svg> Ulepsz opis
                           </>
                         )}
                       </Button>
                       
-                      {generatedScope.length > 0 && (
-                        <div className="mt-2 p-3 bg-gray-50 rounded-md">
-                          <h4 className="font-medium mb-2 text-sm">Wygenerowany zakres:</h4>
-                          <ul className="space-y-1 text-sm">
-                            {generatedScope.map((scopeItem, idx) => (
-                              <li key={idx} className="flex items-start">
-                                <svg className="h-4 w-4 text-purple-500 mr-2 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-                                </svg>
-                                <span>{scopeItem}</span>
-                              </li>
-                            ))}
-                          </ul>
+                      {enhancedDescription && (
+                        <div className="mt-2">
+                          <h4 className="font-medium mb-2 text-sm">Ulepszony opis:</h4>
+                          <div className="p-3 bg-gray-50 rounded-md text-sm">
+                            {enhancedDescription}
+                          </div>
                         </div>
                       )}
                     </div>
                   </div>
                 </div>
-                
-                <div className="border p-4 rounded-lg">
-                  <h3 className="text-lg font-medium mb-4">Ulepszanie opisu</h3>
-                  <div className="grid gap-4">
-                    <div>
-                      <Label htmlFor="ai-enhance-name">Nazwa usługi</Label>
-                      <Input 
-                        id="ai-enhance-name" 
-                        placeholder="np. Kampania SEO" 
-                        className="mt-1"
-                        value={aiEnhanceName}
-                        onChange={(e) => setAiEnhanceName(e.target.value)}
-                      />
-                    </div>
-                    <div>
-                      <Label htmlFor="ai-enhance-description">Obecny opis</Label>
-                      <Textarea 
-                        id="ai-enhance-description" 
-                        placeholder="Wprowadź opis do ulepszenia..." 
-                        className="mt-1"
-                        rows={4}
-                        value={aiEnhanceDescription}
-                        onChange={(e) => setAiEnhanceDescription(e.target.value)}
-                      />
-                    </div>
-                    <Button 
-                      className="w-full"
-                      onClick={handleEnhanceDescription}
-                      disabled={isEnhancingDescription}
-                    >
-                      {isEnhancingDescription ? (
-                        <>
-                          <svg className="animate-spin -ml-1 mr-3 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                          </svg> Przetwarzanie...
-                        </>
-                      ) : (
-                        <>
-                          <svg className="mr-2 h-4 w-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                            <path d="M5.52 19c.64-2.2 1.84-3 3.22-3h6.52c1.38 0 2.58.8 3.22 3"/>
-                            <circle cx="12" cy="10" r="3"/>
-                            <circle cx="12" cy="12" r="10"/>
-                          </svg> Ulepsz opis
-                        </>
-                      )}
-                    </Button>
-                    
-                    {enhancedDescription && (
-                      <div className="mt-2 p-3 bg-gray-50 rounded-md">
-                        <h4 className="font-medium mb-2 text-sm">Ulepszony opis:</h4>
-                        <p className="text-sm">{enhancedDescription}</p>
+              </CardContent>
+            </Card>
+          )}
+          
+          {activeTab === 'preview' && (
+            <Card>
+              <CardHeader>
+                <CardTitle>Podgląd Usług</CardTitle>
+                <CardDescription>
+                  Zobacz jak usługi wyglądają na stronie klienta.
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {services?.filter(s => s.status === 'Aktywna').map((service: Service) => (
+                    <div key={service.id} className="border rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                      <div className="p-4">
+                        <div className="font-bold text-lg mb-1">{service.name}</div>
+                        <div className="text-sm text-muted-foreground mb-3">
+                          {service.shortDescription || service.description?.substring(0, 80)}
+                        </div>
+                        <div className="flex justify-between items-center mb-3">
+                          <div className="text-sm px-2 py-1 bg-gray-100 rounded-full">{service.category || 'Inne'}</div>
+                          <div className="font-bold">{service.basePrice} PLN</div>
+                        </div>
+                        <div className="text-xs text-muted-foreground">
+                          Czas realizacji: {service.deliveryTime} dni
+                        </div>
                       </div>
-                    )}
-                  </div>
+                      <div className="bg-gray-50 px-4 py-3 border-t">
+                        <Button variant="outline" size="sm" className="w-full">
+                          Szczegóły
+                        </Button>
+                      </div>
+                    </div>
+                  ))}
                 </div>
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-        
-        <TabsContent value="preview" className="mt-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Podgląd usług dla klienta</CardTitle>
-              <CardDescription>
-                Sprawdź, jak usługi wyglądają na stronie widocznej dla klienta.
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-                {services?.filter(s => s.status === 'Aktywna').map((service: Service) => (
-                  <div key={service.id} className="border rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-                    <div className="bg-gradient-to-r from-blue-500 to-indigo-600 h-3"></div>
-                    <div className="p-6">
-                      <h3 className="text-xl font-bold mb-2">{service.name}</h3>
-                      {service.shortDescription && (
-                        <p className="text-muted-foreground mb-3">{service.shortDescription}</p>
-                      )}
-                      <p className="mb-4">{service.description}</p>
-                      
-                      <div className="mb-4">
-                        <span className="font-bold text-lg text-blue-600">{service.basePrice} PLN</span>
-                        <span className="text-muted-foreground text-sm ml-2">/ {service.deliveryTime} dni</span>
-                      </div>
-                      
-                      {service.benefits && service.benefits.length > 0 && (
-                        <div className="mt-4">
-                          <h4 className="font-semibold mb-2">Korzyści:</h4>
-                          <ul className="space-y-1">
-                            {service.benefits.map((benefit, index) => (
-                              <li key={index} className="flex items-start">
-                                <svg className="h-5 w-5 text-green-500 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                                </svg>
-                                <span>{benefit}</span>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      )}
-                      
-                      {service.features && service.features.length > 0 && (
-                        <div className="mt-4">
-                          <h4 className="font-semibold mb-2">Funkcje:</h4>
-                          <ul className="space-y-1">
-                            {service.features.map((feature, index) => (
-                              <li key={index} className="flex items-start">
-                                <svg className="h-5 w-5 text-blue-500 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                </svg>
-                                <span>{feature}</span>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      )}
-                      
-                      {service.scope && service.scope.length > 0 && (
-                        <div className="mt-4">
-                          <h4 className="font-semibold mb-2">Zakres usługi:</h4>
-                          <ul className="space-y-1">
-                            {service.scope.map((scopeItem, index) => (
-                              <li key={index} className="flex items-start">
-                                <svg className="h-5 w-5 text-purple-500 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-                                </svg>
-                                <span>{scopeItem}</span>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      )}
-                      
-                      <div className="mt-6">
-                        <button className="w-full bg-gradient-to-r from-blue-500 to-indigo-600 text-white py-2 px-4 rounded-md hover:from-blue-600 hover:to-indigo-700 transition-colors">
-                          Wybierz usługę
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-              
-              {services?.filter(s => s.status === 'Aktywna').length === 0 && (
-                <p className="text-center text-muted-foreground py-10">
-                  Brak aktywnych usług do wyświetlenia.
-                </p>
-              )}
-            </CardContent>
-          </Card>
-        </TabsContent>
-        
-        <TabsContent value="orders" className="mt-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Zarządzanie Zamówieniami</CardTitle>
-              <CardDescription>
-                Przeglądaj i zarządzaj zamówieniami złożonymi przez klientów.
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p className="text-center text-muted-foreground py-10">
-                Funkcja zarządzania zamówieniami jest w trakcie budowy.
-              </p>
-            </CardContent>
-          </Card>
-        </TabsContent>
-        
-        <TabsContent value="stats" className="mt-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Statystyki</CardTitle>
-              <CardDescription>
-                Analiza popularności usług i statystyki sprzedaży.
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p className="text-center text-muted-foreground py-10">
-                Funkcja statystyk jest w trakcie budowy.
-              </p>
-            </CardContent>
-          </Card>
-        </TabsContent>
-      </Tabs>
+              </CardContent>
+            </Card>
+          )}
+          
+          {activeTab === 'orders' && (
+            <Card>
+              <CardHeader>
+                <CardTitle>Zarządzanie Zamówieniami</CardTitle>
+                <CardDescription>
+                  Przeglądaj i zarządzaj zamówieniami klientów.
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Alert>
+                  <AlertTitle>Funkcja w budowie</AlertTitle>
+                  <AlertDescription>
+                    Zarządzanie zamówieniami będzie dostępne wkrótce.
+                  </AlertDescription>
+                </Alert>
+              </CardContent>
+            </Card>
+          )}
+          
+          {activeTab === 'stats' && (
+            <Card>
+              <CardHeader>
+                <CardTitle>Statystyki i Raporty</CardTitle>
+                <CardDescription>
+                  Analizuj statystyki i generuj raporty dotyczące działalności.
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Alert>
+                  <AlertTitle>Funkcja w budowie</AlertTitle>
+                  <AlertDescription>
+                    Statystyki i raporty będą dostępne wkrótce.
+                  </AlertDescription>
+                </Alert>
+              </CardContent>
+            </Card>
+          )}
+        </div>
+      </div>
       
       {/* Dialog edycji usługi */}
       <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
-        <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
+        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>Edytuj usługę</DialogTitle>
             <DialogDescription>
-              Wprowadź zmiany w szczegółach usługi. Kliknij "Zapisz" po zakończeniu edycji.
+              Wprowadź nowe dane dla usługi.
             </DialogDescription>
           </DialogHeader>
           
           {editingService && (
             <div className="grid gap-4 py-4">
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="name" className="text-right">Nazwa</Label>
-                <Input
-                  id="name"
-                  value={editingService.name}
-                  onChange={(e) => setEditingService({...editingService, name: e.target.value})}
-                  className="col-span-3"
-                />
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="edit-name">Nazwa usługi</Label>
+                  <Input
+                    id="edit-name"
+                    value={editingService.name}
+                    onChange={(e) => setEditingService({ ...editingService, name: e.target.value })}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="edit-category">Kategoria</Label>
+                  <Input
+                    id="edit-category"
+                    value={editingService.category || ''}
+                    onChange={(e) => setEditingService({ ...editingService, category: e.target.value })}
+                  />
+                </div>
               </div>
               
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="shortDescription" className="text-right">Krótki opis</Label>
-                <Input
-                  id="shortDescription"
+              <div className="space-y-2">
+                <Label htmlFor="edit-short-description">Krótki opis</Label>
+                <Textarea
+                  id="edit-short-description"
                   value={editingService.shortDescription || ''}
-                  onChange={(e) => setEditingService({...editingService, shortDescription: e.target.value})}
-                  className="col-span-3"
-                  placeholder="Krótkie podsumowanie usługi (1-2 zdania)"
+                  onChange={(e) => setEditingService({ ...editingService, shortDescription: e.target.value })}
+                  rows={2}
                 />
               </div>
               
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="description" className="text-right">Opis podstawowy</Label>
+              <div className="space-y-2">
+                <Label htmlFor="edit-description">Opis</Label>
                 <Textarea
-                  id="description"
-                  value={editingService.description}
-                  onChange={(e) => setEditingService({...editingService, description: e.target.value})}
-                  className="col-span-3"
-                  placeholder="Standardowy opis usługi"
+                  id="edit-description"
+                  value={editingService.description || ''}
+                  onChange={(e) => setEditingService({ ...editingService, description: e.target.value })}
+                  rows={3}
                 />
               </div>
               
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="longDescription" className="text-right">Długi opis</Label>
+              <div className="space-y-2">
+                <Label htmlFor="edit-long-description">Szczegółowy opis</Label>
                 <Textarea
-                  id="longDescription"
+                  id="edit-long-description"
                   value={editingService.longDescription || ''}
-                  onChange={(e) => setEditingService({...editingService, longDescription: e.target.value})}
-                  className="col-span-3"
-                  placeholder="Szczegółowy opis usługi z dodatkowymi informacjami"
+                  onChange={(e) => setEditingService({ ...editingService, longDescription: e.target.value })}
+                  rows={5}
                 />
               </div>
               
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="basePrice" className="text-right">Cena podstawowa</Label>
-                <Input
-                  id="basePrice"
-                  type="number"
-                  value={editingService.basePrice}
-                  onChange={(e) => setEditingService({...editingService, basePrice: parseFloat(e.target.value)})}
-                  className="col-span-3"
-                />
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="edit-base-price">Cena bazowa (PLN)</Label>
+                  <Input
+                    id="edit-base-price"
+                    type="number"
+                    value={editingService.basePrice || 0}
+                    onChange={(e) => setEditingService({ ...editingService, basePrice: Number(e.target.value) })}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="edit-delivery-time">Czas realizacji (dni)</Label>
+                  <Input
+                    id="edit-delivery-time"
+                    type="number"
+                    value={editingService.deliveryTime || 1}
+                    onChange={(e) => setEditingService({ ...editingService, deliveryTime: Number(e.target.value) })}
+                  />
+                </div>
               </div>
               
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="deliveryTime" className="text-right">Czas realizacji (dni)</Label>
-                <Input
-                  id="deliveryTime"
-                  type="number"
-                  value={editingService.deliveryTime}
-                  onChange={(e) => setEditingService({...editingService, deliveryTime: parseInt(e.target.value)})}
-                  className="col-span-3"
-                />
-              </div>
-              
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="category" className="text-right">Kategoria</Label>
-                <Select 
-                  value={editingService.category || 'Inne'} 
-                  onValueChange={(value) => setEditingService({...editingService, category: value})}
+              <div className="space-y-2">
+                <Label htmlFor="edit-status">Status</Label>
+                <Select
+                  value={editingService.status || 'Aktywna'}
+                  onValueChange={(value) => setEditingService({ ...editingService, status: value })}
                 >
-                  <SelectTrigger className="col-span-3">
-                    <SelectValue placeholder="Wybierz kategorię" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="UX/UI">UX/UI</SelectItem>
-                    <SelectItem value="Marketing">Marketing</SelectItem>
-                    <SelectItem value="Web Development">Web Development</SelectItem>
-                    <SelectItem value="Automatyzacja">Automatyzacja</SelectItem>
-                    <SelectItem value="AI">AI</SelectItem>
-                    <SelectItem value="Inne">Inne</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="status" className="text-right">Status</Label>
-                <Select 
-                  value={editingService.status || 'Aktywna'} 
-                  onValueChange={(value) => setEditingService({...editingService, status: value})}
-                >
-                  <SelectTrigger className="col-span-3">
+                  <SelectTrigger id="edit-status">
                     <SelectValue placeholder="Wybierz status" />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="Aktywna">Aktywna</SelectItem>
                     <SelectItem value="Nieaktywna">Nieaktywna</SelectItem>
-                    <SelectItem value="Archiw">Archiwalna</SelectItem>
+                    <SelectItem value="Archiwalna">Archiwalna</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
               
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label className="text-right">Funkcje</Label>
-                <div className="col-span-3">
-                  <div className="flex flex-col space-y-2 mb-4">
-                    {editingService.features?.map((feature, index) => (
-                      <div key={index} className="flex items-center gap-2">
-                        <span className="flex-1">{feature}</span>
-                        <Button 
-                          variant="destructive" 
-                          size="sm"
-                          onClick={() => handleRemoveFeatureFromEditing(index)}
-                        >
-                          Usuń
-                        </Button>
-                      </div>
-                    ))}
-                  </div>
-                  
-                  <div className="flex gap-2">
+              <div className="space-y-2">
+                <div className="flex justify-between items-center">
+                  <Label>Funkcje</Label>
+                  <div className="flex space-x-2">
                     <Input
-                      placeholder="Nowa funkcja"
+                      className="w-64"
+                      placeholder="Nowa funkcja..."
                       value={newFeature}
                       onChange={(e) => setNewFeature(e.target.value)}
-                      className="flex-1"
                     />
-                    <Button onClick={handleAddFeatureToEditing}>Dodaj</Button>
+                    <Button size="sm" onClick={handleAddFeatureToEditing} type="button">
+                      Dodaj
+                    </Button>
                   </div>
+                </div>
+                <div className="border rounded-md p-3">
+                  {editingService.features && editingService.features.length > 0 ? (
+                    <ul className="space-y-1">
+                      {editingService.features.map((feature, idx) => (
+                        <li key={idx} className="flex justify-between items-center">
+                          <span>{feature}</span>
+                          <Button variant="ghost" size="icon" onClick={() => handleRemoveFeatureFromEditing(idx)} className="h-6 w-6">
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <div className="text-center text-muted-foreground py-2">Brak funkcji</div>
+                  )}
                 </div>
               </div>
               
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label className="text-right">Korzyści</Label>
-                <div className="col-span-3">
-                  <div className="flex flex-col space-y-2 mb-4">
-                    {editingService.benefits?.map((benefit, index) => (
-                      <div key={index} className="flex items-center gap-2">
-                        <span className="flex-1">{benefit}</span>
-                        <Button 
-                          variant="destructive" 
-                          size="sm"
-                          onClick={() => handleRemoveBenefitFromEditing(index)}
-                        >
-                          Usuń
-                        </Button>
-                      </div>
-                    ))}
-                  </div>
-                  
-                  <div className="flex gap-2">
+              <div className="space-y-2">
+                <div className="flex justify-between items-center">
+                  <Label>Korzyści</Label>
+                  <div className="flex space-x-2">
                     <Input
-                      placeholder="Nowa korzyść"
+                      className="w-64"
+                      placeholder="Nowa korzyść..."
                       value={newBenefit}
                       onChange={(e) => setNewBenefit(e.target.value)}
-                      className="flex-1"
                     />
-                    <Button onClick={handleAddBenefitToEditing}>Dodaj</Button>
+                    <Button size="sm" onClick={handleAddBenefitToEditing} type="button">
+                      Dodaj
+                    </Button>
                   </div>
+                </div>
+                <div className="border rounded-md p-3">
+                  {editingService.benefits && editingService.benefits.length > 0 ? (
+                    <ul className="space-y-1">
+                      {editingService.benefits.map((benefit, idx) => (
+                        <li key={idx} className="flex justify-between items-center">
+                          <span>{benefit}</span>
+                          <Button variant="ghost" size="icon" onClick={() => handleRemoveBenefitFromEditing(idx)} className="h-6 w-6">
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <div className="text-center text-muted-foreground py-2">Brak korzyści</div>
+                  )}
                 </div>
               </div>
               
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label className="text-right">Zakres usługi</Label>
-                <div className="col-span-3">
-                  <div className="flex flex-col space-y-2 mb-4">
-                    {editingService.scope?.map((scopeItem, index) => (
-                      <div key={index} className="flex items-center gap-2">
-                        <span className="flex-1">{scopeItem}</span>
-                        <Button 
-                          variant="destructive" 
-                          size="sm"
-                          onClick={() => handleRemoveScopeFromEditing(index)}
-                        >
-                          Usuń
-                        </Button>
-                      </div>
-                    ))}
-                  </div>
-                  
-                  <div className="flex gap-2">
+              <div className="space-y-2">
+                <div className="flex justify-between items-center">
+                  <Label>Zakres</Label>
+                  <div className="flex space-x-2">
                     <Input
-                      placeholder="Nowy element zakresu"
+                      className="w-64"
+                      placeholder="Nowy punkt zakresu..."
                       value={newScope}
                       onChange={(e) => setNewScope(e.target.value)}
-                      className="flex-1"
                     />
-                    <Button onClick={handleAddScopeToEditing}>Dodaj</Button>
+                    <Button size="sm" onClick={handleAddScopeToEditing} type="button">
+                      Dodaj
+                    </Button>
                   </div>
+                </div>
+                <div className="border rounded-md p-3">
+                  {editingService.scope && editingService.scope.length > 0 ? (
+                    <ul className="space-y-1">
+                      {editingService.scope.map((scope, idx) => (
+                        <li key={idx} className="flex justify-between items-center">
+                          <span>{scope}</span>
+                          <Button variant="ghost" size="icon" onClick={() => handleRemoveScopeFromEditing(idx)} className="h-6 w-6">
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <div className="text-center text-muted-foreground py-2">Brak punktów zakresu</div>
+                  )}
                 </div>
               </div>
             </div>
           )}
           
           <DialogFooter>
-            <Button variant="outline" onClick={() => setIsEditDialogOpen(false)}>Anuluj</Button>
-            <Button onClick={handleSaveEdit}>Zapisz zmiany</Button>
+            <Button variant="outline" onClick={() => setIsEditDialogOpen(false)}>
+              Anuluj
+            </Button>
+            <Button onClick={handleSaveEdit}>
+              Zapisz zmiany
+            </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
       
-      {/* Dialog usuwania usługi */}
+      {/* Dialog potwierdzenia usunięcia */}
       <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Potwierdź usunięcie</DialogTitle>
             <DialogDescription>
-              Czy na pewno chcesz usunąć usługę "{serviceToDelete?.name}"?
-              Tej operacji nie można cofnąć.
+              Czy na pewno chcesz usunąć tę usługę? Ta operacja jest nieodwracalna.
             </DialogDescription>
           </DialogHeader>
           
+          {serviceToDelete && (
+            <div className="py-4">
+              <p className="font-medium">{serviceToDelete.name}</p>
+              <p className="text-sm text-muted-foreground">
+                {serviceToDelete.description && serviceToDelete.description.length > 100
+                  ? `${serviceToDelete.description.substring(0, 100)}...`
+                  : serviceToDelete.description}
+              </p>
+            </div>
+          )}
+          
           <DialogFooter>
-            <Button variant="outline" onClick={() => setIsDeleteDialogOpen(false)}>Anuluj</Button>
-            <Button variant="destructive" onClick={handleConfirmDelete}>Usuń</Button>
+            <Button variant="outline" onClick={() => setIsDeleteDialogOpen(false)}>
+              Anuluj
+            </Button>
+            <Button variant="destructive" onClick={handleConfirmDelete}>
+              Usuń
+            </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
       
       {/* Dialog dodawania nowej usługi */}
       <Dialog open={isNewDialogOpen} onOpenChange={setIsNewDialogOpen}>
-        <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
+        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>Dodaj nową usługę</DialogTitle>
             <DialogDescription>
-              Wypełnij formularz, aby dodać nową usługę do oferty ECM Digital.
+              Wprowadź dane dla nowej usługi.
             </DialogDescription>
           </DialogHeader>
           
           <div className="grid gap-4 py-4">
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="new-name" className="text-right">Nazwa *</Label>
-              <Input
-                id="new-name"
-                value={newService.name}
-                onChange={(e) => setNewService({...newService, name: e.target.value})}
-                className="col-span-3"
-                placeholder="Nazwa usługi"
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="new-name">Nazwa usługi</Label>
+                <Input
+                  id="new-name"
+                  value={newService.name}
+                  onChange={(e) => setNewService({ ...newService, name: e.target.value })}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="new-category">Kategoria</Label>
+                <Input
+                  id="new-category"
+                  value={newService.category || ''}
+                  onChange={(e) => setNewService({ ...newService, category: e.target.value })}
+                />
+              </div>
+            </div>
+            
+            <div className="space-y-2">
+              <Label htmlFor="new-short-description">Krótki opis</Label>
+              <Textarea
+                id="new-short-description"
+                value={newService.shortDescription || ''}
+                onChange={(e) => setNewService({ ...newService, shortDescription: e.target.value })}
+                rows={2}
               />
             </div>
             
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="new-shortDescription" className="text-right">Krótki opis</Label>
-              <Input
-                id="new-shortDescription"
-                value={newService.shortDescription}
-                onChange={(e) => setNewService({...newService, shortDescription: e.target.value})}
-                className="col-span-3"
-                placeholder="Krótkie podsumowanie usługi (1-2 zdania)"
-              />
-            </div>
-            
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="new-description" className="text-right">Opis podstawowy *</Label>
+            <div className="space-y-2">
+              <Label htmlFor="new-description">Opis</Label>
               <Textarea
                 id="new-description"
-                value={newService.description}
-                onChange={(e) => setNewService({...newService, description: e.target.value})}
-                className="col-span-3"
-                placeholder="Standardowy opis usługi"
+                value={newService.description || ''}
+                onChange={(e) => setNewService({ ...newService, description: e.target.value })}
+                rows={3}
               />
             </div>
             
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="new-longDescription" className="text-right">Długi opis</Label>
+            <div className="space-y-2">
+              <Label htmlFor="new-long-description">Szczegółowy opis</Label>
               <Textarea
-                id="new-longDescription"
-                value={newService.longDescription}
-                onChange={(e) => setNewService({...newService, longDescription: e.target.value})}
-                className="col-span-3"
-                placeholder="Szczegółowy opis usługi z dodatkowymi informacjami"
+                id="new-long-description"
+                value={newService.longDescription || ''}
+                onChange={(e) => setNewService({ ...newService, longDescription: e.target.value })}
+                rows={5}
               />
             </div>
             
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="new-basePrice" className="text-right">Cena podstawowa</Label>
-              <Input
-                id="new-basePrice"
-                type="number"
-                value={newService.basePrice}
-                onChange={(e) => setNewService({...newService, basePrice: parseFloat(e.target.value)})}
-                className="col-span-3"
-                placeholder="0"
-              />
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="new-base-price">Cena bazowa (PLN)</Label>
+                <Input
+                  id="new-base-price"
+                  type="number"
+                  value={newService.basePrice || 0}
+                  onChange={(e) => setNewService({ ...newService, basePrice: Number(e.target.value) })}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="new-delivery-time">Czas realizacji (dni)</Label>
+                <Input
+                  id="new-delivery-time"
+                  type="number"
+                  value={newService.deliveryTime || 1}
+                  onChange={(e) => setNewService({ ...newService, deliveryTime: Number(e.target.value) })}
+                />
+              </div>
             </div>
             
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="new-deliveryTime" className="text-right">Czas realizacji (dni)</Label>
-              <Input
-                id="new-deliveryTime"
-                type="number"
-                value={newService.deliveryTime}
-                onChange={(e) => setNewService({...newService, deliveryTime: parseInt(e.target.value)})}
-                className="col-span-3"
-                placeholder="1"
-              />
-            </div>
-            
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="new-category" className="text-right">Kategoria</Label>
-              <Select 
-                value={newService.category || 'Inne'} 
-                onValueChange={(value) => setNewService({...newService, category: value})}
+            <div className="space-y-2">
+              <Label htmlFor="new-status">Status</Label>
+              <Select
+                value={newService.status || 'Aktywna'}
+                onValueChange={(value) => setNewService({ ...newService, status: value })}
               >
-                <SelectTrigger className="col-span-3">
-                  <SelectValue placeholder="Wybierz kategorię" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="UX/UI">UX/UI</SelectItem>
-                  <SelectItem value="Marketing">Marketing</SelectItem>
-                  <SelectItem value="Web Development">Web Development</SelectItem>
-                  <SelectItem value="Automatyzacja">Automatyzacja</SelectItem>
-                  <SelectItem value="AI">AI</SelectItem>
-                  <SelectItem value="Inne">Inne</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-            
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="new-status" className="text-right">Status</Label>
-              <Select 
-                value={newService.status || 'Aktywna'} 
-                onValueChange={(value) => setNewService({...newService, status: value})}
-              >
-                <SelectTrigger className="col-span-3">
+                <SelectTrigger id="new-status">
                   <SelectValue placeholder="Wybierz status" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="Aktywna">Aktywna</SelectItem>
                   <SelectItem value="Nieaktywna">Nieaktywna</SelectItem>
-                  <SelectItem value="Archiw">Archiwalna</SelectItem>
+                  <SelectItem value="Archiwalna">Archiwalna</SelectItem>
                 </SelectContent>
               </Select>
             </div>
             
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label className="text-right">Funkcje</Label>
-              <div className="col-span-3">
-                <div className="flex flex-col space-y-2 mb-4">
-                  {newService.features?.map((feature, index) => (
-                    <div key={index} className="flex items-center gap-2">
-                      <span className="flex-1">{feature}</span>
-                      <Button 
-                        variant="destructive" 
-                        size="sm"
-                        onClick={() => handleRemoveFeature(index)}
-                      >
-                        Usuń
-                      </Button>
-                    </div>
-                  ))}
-                </div>
-                
-                <div className="flex gap-2">
+            <div className="space-y-2">
+              <div className="flex justify-between items-center">
+                <Label>Funkcje</Label>
+                <div className="flex space-x-2">
                   <Input
-                    placeholder="Nowa funkcja"
+                    className="w-64"
+                    placeholder="Nowa funkcja..."
                     value={newFeature}
                     onChange={(e) => setNewFeature(e.target.value)}
-                    className="flex-1"
                   />
-                  <Button onClick={handleAddFeature}>Dodaj</Button>
+                  <Button size="sm" onClick={handleAddFeature} type="button">
+                    Dodaj
+                  </Button>
                 </div>
+              </div>
+              <div className="border rounded-md p-3">
+                {newService.features && newService.features.length > 0 ? (
+                  <ul className="space-y-1">
+                    {newService.features.map((feature, idx) => (
+                      <li key={idx} className="flex justify-between items-center">
+                        <span>{feature}</span>
+                        <Button variant="ghost" size="icon" onClick={() => handleRemoveFeature(idx)} className="h-6 w-6">
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <div className="text-center text-muted-foreground py-2">Brak funkcji</div>
+                )}
               </div>
             </div>
             
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label className="text-right">Korzyści</Label>
-              <div className="col-span-3">
-                <div className="flex flex-col space-y-2 mb-4">
-                  {newService.benefits?.map((benefit, index) => (
-                    <div key={index} className="flex items-center gap-2">
-                      <span className="flex-1">{benefit}</span>
-                      <Button 
-                        variant="destructive" 
-                        size="sm"
-                        onClick={() => handleRemoveBenefit(index)}
-                      >
-                        Usuń
-                      </Button>
-                    </div>
-                  ))}
-                </div>
-                
-                <div className="flex gap-2">
+            <div className="space-y-2">
+              <div className="flex justify-between items-center">
+                <Label>Korzyści</Label>
+                <div className="flex space-x-2">
                   <Input
-                    placeholder="Nowa korzyść"
+                    className="w-64"
+                    placeholder="Nowa korzyść..."
                     value={newBenefit}
                     onChange={(e) => setNewBenefit(e.target.value)}
-                    className="flex-1"
                   />
-                  <Button onClick={handleAddBenefit}>Dodaj</Button>
+                  <Button size="sm" onClick={handleAddBenefit} type="button">
+                    Dodaj
+                  </Button>
                 </div>
+              </div>
+              <div className="border rounded-md p-3">
+                {newService.benefits && newService.benefits.length > 0 ? (
+                  <ul className="space-y-1">
+                    {newService.benefits.map((benefit, idx) => (
+                      <li key={idx} className="flex justify-between items-center">
+                        <span>{benefit}</span>
+                        <Button variant="ghost" size="icon" onClick={() => handleRemoveBenefit(idx)} className="h-6 w-6">
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <div className="text-center text-muted-foreground py-2">Brak korzyści</div>
+                )}
               </div>
             </div>
             
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label className="text-right">Zakres usługi</Label>
-              <div className="col-span-3">
-                <div className="flex flex-col space-y-2 mb-4">
-                  {newService.scope?.map((scopeItem, index) => (
-                    <div key={index} className="flex items-center gap-2">
-                      <span className="flex-1">{scopeItem}</span>
-                      <Button 
-                        variant="destructive" 
-                        size="sm"
-                        onClick={() => handleRemoveScope(index)}
-                      >
-                        Usuń
-                      </Button>
-                    </div>
-                  ))}
-                </div>
-                
-                <div className="flex gap-2">
+            <div className="space-y-2">
+              <div className="flex justify-between items-center">
+                <Label>Zakres</Label>
+                <div className="flex space-x-2">
                   <Input
-                    placeholder="Nowy element zakresu"
+                    className="w-64"
+                    placeholder="Nowy punkt zakresu..."
                     value={newScope}
                     onChange={(e) => setNewScope(e.target.value)}
-                    className="flex-1"
                   />
-                  <Button onClick={handleAddScope}>Dodaj</Button>
+                  <Button size="sm" onClick={handleAddScope} type="button">
+                    Dodaj
+                  </Button>
                 </div>
+              </div>
+              <div className="border rounded-md p-3">
+                {newService.scope && newService.scope.length > 0 ? (
+                  <ul className="space-y-1">
+                    {newService.scope.map((scope, idx) => (
+                      <li key={idx} className="flex justify-between items-center">
+                        <span>{scope}</span>
+                        <Button variant="ghost" size="icon" onClick={() => handleRemoveScope(idx)} className="h-6 w-6">
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <div className="text-center text-muted-foreground py-2">Brak punktów zakresu</div>
+                )}
               </div>
             </div>
           </div>
           
           <DialogFooter>
-            <Button variant="outline" onClick={() => setIsNewDialogOpen(false)}>Anuluj</Button>
-            <Button onClick={handleAddService}>Dodaj usługę</Button>
+            <Button variant="outline" onClick={() => setIsNewDialogOpen(false)}>
+              Anuluj
+            </Button>
+            <Button onClick={handleAddService}>
+              Dodaj usługę
+            </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
