@@ -148,11 +148,12 @@ export default function HomePage() {
       </section>
 
       {/* Services Section */}
-      <section id="services" className="py-16 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <div className="max-w-3xl mx-auto text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4">Oferta ECM Digital</h2>
-            <p className="text-gray-600">
+      <section id="services" className="py-24 bg-background">
+        <div className="container-tight">
+          <div className="max-w-3xl mx-auto text-center mb-16">
+            <Badge className="bg-secondary/10 text-secondary mb-4 py-1 px-3 rounded-full">Nasze usługi</Badge>
+            <h2 className="text-3xl md:text-4xl font-bold mb-6 tracking-tight">Oferta ECM Digital</h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
               Specjalizujemy się w projektowaniu skutecznych doświadczeń użytkownika, 
               budowie stron internetowych oraz integracji rozwiązań AI dla Twojego biznesu.
             </p>
@@ -519,21 +520,25 @@ export default function HomePage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-br from-blue-600 to-purple-600 text-white">
-        <div className="container mx-auto px-4">
+      <section className="py-28 bg-gradient-to-br from-primary to-secondary text-white overflow-hidden relative">
+        <div className="absolute top-0 left-0 w-full h-full opacity-10">
+          <div className="absolute top-1/4 left-1/4 w-[600px] h-[600px] rounded-full bg-white blur-3xl"></div>
+          <div className="absolute bottom-1/3 right-1/4 w-[400px] h-[400px] rounded-full bg-white blur-3xl"></div>
+        </div>
+        <div className="container-tight relative z-10">
           <div className="max-w-3xl mx-auto text-center">
-            <h2 className="text-3xl font-bold mb-4">Gotowy, aby rozpocząć współpracę?</h2>
-            <p className="text-xl opacity-90 mb-8">
-              Skontaktuj się z nami już dziś, aby omówić, jak możemy pomóc Twojemu biznesowi.
+            <h2 className="text-3xl md:text-5xl font-bold mb-6">Gotowy, aby rozpocząć współpracę?</h2>
+            <p className="text-xl opacity-90 mb-10 max-w-2xl mx-auto">
+              Skontaktuj się z nami już dziś, aby omówić, jak możemy pomóc Twojemu biznesowi osiągnąć sukces w cyfrowym świecie.
             </p>
-            <div className="flex flex-wrap gap-4 justify-center">
+            <div className="flex flex-wrap gap-6 justify-center">
               <Link href="/services">
-                <Button variant="secondary" size="lg" className="font-medium">
+                <Button size="lg" className="btn-modern bg-white text-primary hover:bg-gray-100 shadow-lg">
                   Sprawdź nasze usługi
                 </Button>
               </Link>
               <a href="#contact-form">
-                <Button variant="outline" size="lg" className="bg-white text-blue-600 hover:bg-blue-50 font-medium">
+                <Button variant="outline" size="lg" className="btn-modern border-2 border-white text-white hover:bg-white/10">
                   Napisz do nas
                 </Button>
               </a>
@@ -543,18 +548,19 @@ export default function HomePage() {
       </section>
       
       {/* Contact Form Section */}
-      <section id="contact-form" className="py-16 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <div className="max-w-3xl mx-auto">
-            <div className="text-center mb-10">
-              <h2 className="text-3xl font-bold mb-4">Skontaktuj się z nami</h2>
-              <p className="text-gray-600">
-                Wypełnij formularz poniżej, a nasz zespół skontaktuje się z Tobą w ciągu 24 godzin
+      <section id="contact-form" className="py-28 bg-background">
+        <div className="container-tight">
+          <div className="max-w-4xl mx-auto">
+            <div className="text-center mb-16">
+              <Badge className="bg-primary/10 text-primary mb-4 py-1 px-3 rounded-full">Skontaktuj się</Badge>
+              <h2 className="text-3xl md:text-4xl font-bold mb-6 tracking-tight">Zamów darmowy audyt UX</h2>
+              <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+                Wypełnij formularz poniżej, a nasz zespół skontaktuje się z Tobą w ciągu 24 godzin, aby pomóc Ci zrealizować Twój projekt
               </p>
             </div>
             
-            <div className="bg-white rounded-lg shadow-md p-8">
-              <form className="space-y-6">
+            <div className="card-modern p-8 md:p-10">
+              <form className="space-y-8">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
                     <Label htmlFor="name">Imię i nazwisko</Label>
@@ -605,42 +611,45 @@ export default function HomePage() {
                   </Label>
                 </div>
                 
-                <Button className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white">
-                  Wyślij wiadomość
+                <Button className="w-full btn-modern btn-gradient text-lg py-6">
+                  Zamów darmowy audyt UX
                 </Button>
               </form>
             </div>
             
-            <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-              <div>
-                <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8">
+              <div className="card-modern p-6 text-center hover:shadow-xl transition-all duration-300">
+                <div className="w-14 h-14 bg-primary/10 rounded-xl flex items-center justify-center mx-auto mb-4">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                   </svg>
                 </div>
-                <h3 className="text-lg font-semibold mb-2">Email</h3>
-                <p className="text-gray-600">kontakt@ecmdigital.pl</p>
+                <h3 className="text-xl font-semibold mb-3">Email</h3>
+                <p className="text-gray-600">hello@ecm-digital.com</p>
+                <a href="mailto:hello@ecm-digital.com" className="inline-block mt-4 text-primary hover:underline">Wyślij email</a>
               </div>
               
-              <div>
-                <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <div className="card-modern p-6 text-center hover:shadow-xl transition-all duration-300">
+                <div className="w-14 h-14 bg-secondary/10 rounded-xl flex items-center justify-center mx-auto mb-4">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 text-secondary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                   </svg>
                 </div>
-                <h3 className="text-lg font-semibold mb-2">Telefon</h3>
-                <p className="text-gray-600">+48 123 456 789</p>
+                <h3 className="text-xl font-semibold mb-3">Telefon</h3>
+                <p className="text-gray-600">+48 535 330 323</p>
+                <a href="tel:+48535330323" className="inline-block mt-4 text-secondary hover:underline">Zadzwoń teraz</a>
               </div>
               
-              <div>
-                <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <div className="card-modern p-6 text-center hover:shadow-xl transition-all duration-300">
+                <div className="w-14 h-14 bg-green-100 rounded-xl flex items-center justify-center mx-auto mb-4">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                   </svg>
                 </div>
-                <h3 className="text-lg font-semibold mb-2">Adres</h3>
+                <h3 className="text-xl font-semibold mb-3">Adres</h3>
                 <p className="text-gray-600">Warszawa, Polska</p>
+                <a href="https://maps.google.com/?q=Warszawa" target="_blank" rel="noopener noreferrer" className="inline-block mt-4 text-green-600 hover:underline">Zobacz na mapie</a>
               </div>
             </div>
           </div>

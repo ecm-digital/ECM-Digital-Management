@@ -3,74 +3,105 @@ import { Link } from 'wouter';
 
 export default function Footer() {
   return (
-    <footer className="bg-gray-50 border-t border-gray-200 py-12">
-      <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+    <footer className="bg-background border-t border-gray-100 pt-20 pb-12">
+      <div className="container-tight">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-x-8 gap-y-12">
           <div className="md:col-span-1">
-            <h3 className="text-lg font-bold bg-gradient-to-r from-blue-600 to-purple-600 text-transparent bg-clip-text mb-4">
+            <h3 className="text-xl font-bold heading-gradient mb-6">
               ECM Digital
             </h3>
-            <p className="text-gray-600 text-sm mb-4">
+            <p className="text-gray-600 leading-relaxed mb-6">
               Kompleksowe rozwiązania cyfrowe dla biznesu. Świadczymy usługi marketingowe i technologiczne najwyższej jakości.
             </p>
+            <div className="flex space-x-4">
+              <a href="#" className="w-10 h-10 rounded-full bg-gray-100 hover:bg-primary/10 flex items-center justify-center text-gray-600 hover:text-primary transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+              </a>
+              <a href="#" className="w-10 h-10 rounded-full bg-gray-100 hover:bg-primary/10 flex items-center justify-center text-gray-600 hover:text-primary transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+              </a>
+              <a href="#" className="w-10 h-10 rounded-full bg-gray-100 hover:bg-primary/10 flex items-center justify-center text-gray-600 hover:text-primary transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+              </a>
+            </div>
           </div>
           
           <div>
-            <h4 className="font-medium mb-3">Usługi</h4>
-            <ul className="space-y-2 text-sm text-gray-600">
-              <li><Link href="/services"><span className="hover:text-blue-600 transition-colors cursor-pointer">Wszystkie usługi</span></Link></li>
-              <li><Link href="/services"><span className="hover:text-blue-600 transition-colors cursor-pointer">UX/UI Design</span></Link></li>
-              <li><Link href="/services"><span className="hover:text-blue-600 transition-colors cursor-pointer">Web Development</span></Link></li>
-              <li><Link href="/services"><span className="hover:text-blue-600 transition-colors cursor-pointer">Marketing</span></Link></li>
+            <h4 className="text-lg font-semibold mb-5">Usługi</h4>
+            <ul className="space-y-3 text-gray-600">
+              <li><Link href="/services"><span className="hover:text-primary transition-colors cursor-pointer">Wszystkie usługi</span></Link></li>
+              <li><Link href="/services"><span className="hover:text-primary transition-colors cursor-pointer">UX/UI Design</span></Link></li>
+              <li><Link href="/services"><span className="hover:text-primary transition-colors cursor-pointer">Web Development</span></Link></li>
+              <li><Link href="/services"><span className="hover:text-primary transition-colors cursor-pointer">Marketing</span></Link></li>
+              <li><Link href="/services"><span className="hover:text-primary transition-colors cursor-pointer">AI & Automatyzacja</span></Link></li>
             </ul>
           </div>
           
           <div>
-            <h4 className="font-medium mb-3">Firma</h4>
-            <ul className="space-y-2 text-sm text-gray-600">
-              <li><a href="#" className="hover:text-blue-600 transition-colors">O nas</a></li>
-              <li><a href="#" className="hover:text-blue-600 transition-colors">Zespół</a></li>
-              <li><a href="#" className="hover:text-blue-600 transition-colors">Kariera</a></li>
-              <li><a href="#" className="hover:text-blue-600 transition-colors">Kontakt</a></li>
+            <h4 className="text-lg font-semibold mb-5">Firma</h4>
+            <ul className="space-y-3 text-gray-600">
+              <li><a href="#" className="hover:text-primary transition-colors">O nas</a></li>
+              <li><a href="#" className="hover:text-primary transition-colors">Zespół</a></li>
+              <li><a href="#" className="hover:text-primary transition-colors">Kariera</a></li>
+              <li><a href="#" className="hover:text-primary transition-colors">Kontakt</a></li>
+              <li><a href="#" className="hover:text-primary transition-colors">Blog</a></li>
             </ul>
           </div>
           
           <div>
-            <h4 className="font-medium mb-3">Kontakt</h4>
-            <ul className="space-y-2 text-sm text-gray-600">
-              <li className="flex items-center gap-2">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                </svg>
-                <span>kontakt@ecmdigital.pl</span>
+            <h4 className="text-lg font-semibold mb-5">Kontakt</h4>
+            <ul className="space-y-4 text-gray-600">
+              <li className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                  </svg>
+                </div>
+                <div>
+                  <p className="font-medium">Email</p>
+                  <a href="mailto:hello@ecm-digital.com" className="hover:text-primary">hello@ecm-digital.com</a>
+                </div>
               </li>
-              <li className="flex items-center gap-2">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                </svg>
-                <span>+48 123 456 789</span>
+              <li className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-secondary/10 flex items-center justify-center text-secondary">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                  </svg>
+                </div>
+                <div>
+                  <p className="font-medium">Telefon</p>
+                  <a href="tel:+48535330323" className="hover:text-secondary">+48 535 330 323</a>
+                </div>
               </li>
-              <li className="flex items-center gap-2">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                </svg>
-                <span>Warszawa, Polska</span>
+              <li className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center text-green-600">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                  </svg>
+                </div>
+                <div>
+                  <p className="font-medium">Adres</p>
+                  <a href="https://maps.google.com/?q=Warszawa" target="_blank" rel="noopener noreferrer" className="hover:text-green-600">Warszawa, Polska</a>
+                </div>
               </li>
             </ul>
           </div>
         </div>
         
-        <div className="border-t border-gray-200 mt-8 pt-6 flex flex-col md:flex-row justify-between items-center">
+        <div className="border-t border-gray-200 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
           <p className="text-sm text-gray-500">
             &copy; {new Date().getFullYear()} ECM Digital. Wszelkie prawa zastrzeżone.
           </p>
-          <div className="flex gap-4 mt-4 md:mt-0">
-            <a href="#" className="text-gray-500 hover:text-blue-600 transition-colors">
+          <div className="flex gap-6 mt-4 md:mt-0">
+            <a href="#" className="text-gray-500 hover:text-primary transition-colors">
               Polityka prywatności
             </a>
-            <a href="#" className="text-gray-500 hover:text-blue-600 transition-colors">
+            <a href="#" className="text-gray-500 hover:text-primary transition-colors">
               Warunki korzystania
+            </a>
+            <a href="#" className="text-gray-500 hover:text-primary transition-colors">
+              Cookies
             </a>
           </div>
         </div>
