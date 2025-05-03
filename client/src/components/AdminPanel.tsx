@@ -57,6 +57,7 @@ export default function AdminPanel() {
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [serviceToDelete, setServiceToDelete] = useState<Service | null>(null);
   const [isNewDialogOpen, setIsNewDialogOpen] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   
   // Dane dla listy klientów
   const { data: clients = [], isLoading: isClientsLoading } = useQuery<any[]>({ 
@@ -597,13 +598,45 @@ export default function AdminPanel() {
   }
 
   return (
-    <div className="flex h-screen overflow-hidden">
+    <div className="flex h-screen overflow-hidden relative">
+      {/* Przycisk przełączania menu na małych ekranach */}
+      <button 
+        className="absolute top-4 right-4 md:hidden z-50 bg-white p-2 rounded-md shadow-md"
+        onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+      >
+        {isSidebarOpen ? (
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        ) : (
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        )}
+      </button>
+      
       {/* Boczne menu */}
-      <div className="w-64 bg-slate-50 border-r border-slate-200 h-full flex flex-col">
-        <div className="p-4 border-b border-slate-200">
+      <div 
+        className={`${
+          isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
+        } md:translate-x-0 fixed md:static z-40 bg-slate-50 border-r border-slate-200 h-full w-64 flex flex-col transition-transform duration-300 ease-in-out`}
+      >
+        <div className="p-4 border-b border-slate-200 flex items-center justify-between">
           <h1 className="text-xl font-bold bg-gradient-to-r from-purple-600 to-blue-500 text-transparent bg-clip-text">
             ECM Digital Admin
           </h1>
+          <button 
+            className="md:hidden text-gray-500 hover:text-gray-700"
+            onClick={() => setIsSidebarOpen(false)}
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
         </div>
         
         <nav className="flex-1 overflow-y-auto p-4">
@@ -713,8 +746,22 @@ export default function AdminPanel() {
       </div>
       
       {/* Zawartość główna */}
-      <div className="flex-1 overflow-y-auto">
-        <div className="p-6">
+      <div className={`flex-1 overflow-y-auto transition-all duration-300 ease-in-out ${isSidebarOpen ? 'md:ml-0' : 'ml-0'}`}>
+        <div className="p-4 md:p-6">
+          {/* Przycisk hamburger menu w nagłówku głównej treści, widoczny tylko na małych ekranach */}
+          {!isSidebarOpen && (
+            <button 
+              className="mb-4 md:hidden inline-flex items-center p-2 rounded-md bg-white shadow-sm border border-gray-200"
+              onClick={() => setIsSidebarOpen(true)}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="3" y1="12" x2="21" y2="12"></line>
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <line x1="3" y1="18" x2="21" y2="18"></line>
+              </svg>
+              <span className="ml-2">Menu</span>
+            </button>
+          )}
           <h2 className="text-2xl font-bold mb-6">
             {activeTab === 'services' && 'Zarządzanie Usługami'}
             {activeTab === 'preview' && 'Podgląd Usług'}
