@@ -6,6 +6,11 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { ArrowRight, Check, CheckCircle } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 export default function HomePage() {
   const { data: services, isLoading } = useQuery<Service[]>({
@@ -40,12 +45,12 @@ export default function HomePage() {
             </div>
             <div className="mt-6 flex flex-wrap gap-4 justify-center">
               <a href="#services">
-                <Button variant="outline" size="md" className="font-medium">
+                <Button variant="outline" size="sm" className="font-medium">
                   Dowiedz się więcej
                 </Button>
               </a>
               <a href="#case-studies">
-                <Button variant="ghost" size="md" className="font-medium text-blue-600 hover:text-blue-700">
+                <Button variant="ghost" size="sm" className="font-medium text-blue-600 hover:text-blue-700">
                   Zobacz nasze realizacje
                 </Button>
               </a>
@@ -477,11 +482,123 @@ export default function HomePage() {
             <p className="text-xl opacity-90 mb-8">
               Skontaktuj się z nami już dziś, aby omówić, jak możemy pomóc Twojemu biznesowi.
             </p>
-            <Link href="/services">
-              <Button variant="secondary" size="lg" className="font-medium">
-                Sprawdź nasze usługi
-              </Button>
-            </Link>
+            <div className="flex flex-wrap gap-4 justify-center">
+              <Link href="/services">
+                <Button variant="secondary" size="lg" className="font-medium">
+                  Sprawdź nasze usługi
+                </Button>
+              </Link>
+              <a href="#contact-form">
+                <Button variant="outline" size="lg" className="bg-white text-blue-600 hover:bg-blue-50 font-medium">
+                  Napisz do nas
+                </Button>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      {/* Contact Form Section */}
+      <section id="contact-form" className="py-16 bg-gray-50">
+        <div className="container mx-auto px-4">
+          <div className="max-w-3xl mx-auto">
+            <div className="text-center mb-10">
+              <h2 className="text-3xl font-bold mb-4">Skontaktuj się z nami</h2>
+              <p className="text-gray-600">
+                Wypełnij formularz poniżej, a nasz zespół skontaktuje się z Tobą w ciągu 24 godzin
+              </p>
+            </div>
+            
+            <div className="bg-white rounded-lg shadow-md p-8">
+              <form className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="space-y-2">
+                    <Label htmlFor="name">Imię i nazwisko</Label>
+                    <Input id="name" placeholder="Jan Kowalski" required />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="email">Email</Label>
+                    <Input id="email" type="email" placeholder="jan@firma.pl" required />
+                  </div>
+                </div>
+                
+                <div className="space-y-2">
+                  <Label htmlFor="service-type">Rodzaj usługi</Label>
+                  <Select defaultValue="ux-audit">
+                    <SelectTrigger>
+                      <SelectValue placeholder="Wybierz usługę" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="ux-audit">Audyt UX z AI</SelectItem>
+                      <SelectItem value="web-development">Strona internetowa</SelectItem>
+                      <SelectItem value="mvp">MVP dla startupu</SelectItem>
+                      <SelectItem value="marketing">Kampanie reklamowe</SelectItem>
+                      <SelectItem value="other">Inna usługa</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                
+                <div className="space-y-2">
+                  <Label htmlFor="website">Strona WWW (opcjonalnie)</Label>
+                  <Input id="website" placeholder="https://twojafirma.pl" />
+                </div>
+                
+                <div className="space-y-2">
+                  <Label htmlFor="message">Wiadomość</Label>
+                  <Textarea id="message" placeholder="Opisz swój projekt lub zadaj pytanie..." className="min-h-[120px]" />
+                </div>
+                
+                <div className="space-y-2">
+                  <Label htmlFor="file" className="block mb-1">Załącznik (opcjonalnie)</Label>
+                  <Input id="file" type="file" className="cursor-pointer" />
+                  <p className="text-xs text-gray-500 mt-1">Dodaj brief lub materiały do projektu (max 5MB)</p>
+                </div>
+                
+                <div className="flex items-start">
+                  <Checkbox id="privacy-policy" className="mt-1" />
+                  <Label htmlFor="privacy-policy" className="ml-2 text-sm">
+                    Akceptuję <a href="#" className="text-blue-600 hover:underline">politykę prywatności</a> oraz wyrażam zgodę na przetwarzanie moich danych osobowych w celu odpowiedzi na zapytanie.
+                  </Label>
+                </div>
+                
+                <Button className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white">
+                  Wyślij wiadomość
+                </Button>
+              </form>
+            </div>
+            
+            <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+              <div>
+                <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                  </svg>
+                </div>
+                <h3 className="text-lg font-semibold mb-2">Email</h3>
+                <p className="text-gray-600">kontakt@ecmdigital.pl</p>
+              </div>
+              
+              <div>
+                <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                  </svg>
+                </div>
+                <h3 className="text-lg font-semibold mb-2">Telefon</h3>
+                <p className="text-gray-600">+48 123 456 789</p>
+              </div>
+              
+              <div>
+                <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                  </svg>
+                </div>
+                <h3 className="text-lg font-semibold mb-2">Adres</h3>
+                <p className="text-gray-600">Warszawa, Polska</p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
