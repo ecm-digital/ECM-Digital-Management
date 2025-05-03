@@ -1,41 +1,21 @@
-import React, { useState, useRef } from 'react';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+import React, { useState, useRef } from "react";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { Loader2, AlertCircle, Upload, File, Download, Trash2, FileText, FileImage, FileArchive } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { formatDistance, format } from "date-fns";
+import { pl } from "date-fns/locale";
+import { useToast } from "@/hooks/use-toast";
 import { 
-  Card, 
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle
-} from '@/components/ui/card';
-import {
   Dialog,
   DialogContent,
+  DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
+  DialogTrigger 
 } from "@/components/ui/dialog";
-import { 
-  FileText, 
-  Upload, 
-  File, 
-  Image, 
-  FileArchive, 
-  Download, 
-  Trash2,
-  AlertCircle
-} from 'lucide-react';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Alert, AlertDescription } from '@/components/ui/alert';
 
 interface ProjectFile {
   id: number;
@@ -45,229 +25,301 @@ interface ProjectFile {
   fileSize: number;
   uploadedById: number;
   createdAt: string;
+  uploaderName?: string;
 }
 
 interface FilesUploadProps {
-  files: ProjectFile[];
-  orderId: number;
+  orderId: number | string;
 }
 
-export default function FilesUpload({ files, orderId }: FilesUploadProps) {
+export default function FilesUpload({ orderId }: FilesUploadProps) {
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [uploadProgress, setUploadProgress] = useState(0);
   const [isUploading, setIsUploading] = useState(false);
-  const [uploadError, setUploadError] = useState<string | null>(null);
-  const [fileType, setFileType] = useState('brief');
+  const [fileToDelete, setFileToDelete] = useState<ProjectFile | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const userId = 1; // Tymczasowo używamy id=1, później będzie z autentykacji
+  const { toast } = useToast();
   const queryClient = useQueryClient();
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  const { data, isLoading, isError } = useQuery({
+    queryKey: [`/api/client/orders/${orderId}/files`],
+    retry: false,
+  });
 
   const uploadFileMutation = useMutation({
-    mutationFn: async (formData: FormData) => {
+    mutationFn: async (file: File) => {
       setIsUploading(true);
-      setUploadError(null);
+      setUploadProgress(0);
       
-      try {
-        const response = await fetch(`/api/client/orders/${orderId}/files?userId=${userId}`, {
-          method: 'POST',
-          body: formData
-        });
+      const formData = new FormData();
+      formData.append('file', file);
+      
+      const xhr = new XMLHttpRequest();
+      
+      return new Promise((resolve, reject) => {
+        xhr.open('POST', `/api/client/orders/${orderId}/files`);
         
-        if (!response.ok) {
-          const errorData = await response.json();
-          throw new Error(errorData.message || 'Nie udało się przesłać pliku');
-        }
+        xhr.upload.onprogress = (event) => {
+          if (event.lengthComputable) {
+            const progress = Math.round((event.loaded / event.total) * 100);
+            setUploadProgress(progress);
+          }
+        };
         
-        return await response.json();
-      } catch (error) {
-        setUploadError(error instanceof Error ? error.message : 'Nie udało się przesłać pliku');
-        throw error;
-      } finally {
-        setIsUploading(false);
-      }
+        xhr.onload = () => {
+          if (xhr.status >= 200 && xhr.status < 300) {
+            try {
+              const response = JSON.parse(xhr.response);
+              resolve(response);
+            } catch (e) {
+              reject(new Error("Nie udało się przetworzyć odpowiedzi"));
+            }
+          } else {
+            reject(new Error(`Błąd ${xhr.status}: ${xhr.statusText}`));
+          }
+        };
+        
+        xhr.onerror = () => {
+          reject(new Error("Wystąpił błąd sieciowy"));
+        };
+        
+        xhr.send(formData);
+      });
     },
     onSuccess: () => {
-      // Invalidate and refetch
-      queryClient.invalidateQueries({ queryKey: [`/api/client/orders/${orderId}`, { userId }] });
-      setIsDialogOpen(false);
+      setSelectedFile(null);
+      setIsUploading(false);
+      setUploadProgress(0);
       if (fileInputRef.current) {
         fileInputRef.current.value = '';
       }
-    }
+      toast({
+        title: "Plik został przesłany",
+        description: "Twój plik został pomyślnie dodany do zamówienia.",
+      });
+      queryClient.invalidateQueries({ queryKey: [`/api/client/orders/${orderId}/files`] });
+    },
+    onError: (error) => {
+      setIsUploading(false);
+      setUploadProgress(0);
+      toast({
+        title: "Błąd podczas przesyłania pliku",
+        description: error.message || "Spróbuj ponownie później.",
+        variant: "destructive",
+      });
+    },
   });
 
-  const handleFileUpload = (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    if (!fileInputRef.current?.files?.length) {
-      setUploadError('Wybierz plik do przesłania');
-      return;
+  const deleteFileMutation = useMutation({
+    mutationFn: async (fileId: number) => {
+      const response = await fetch(`/api/client/orders/${orderId}/files/${fileId}`, {
+        method: "DELETE",
+      });
+      
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message || "Nie udało się usunąć pliku");
+      }
+      
+      return response.json();
+    },
+    onSuccess: () => {
+      setFileToDelete(null);
+      toast({
+        title: "Plik został usunięty",
+        description: "Plik został pomyślnie usunięty z zamówienia.",
+      });
+      queryClient.invalidateQueries({ queryKey: [`/api/client/orders/${orderId}/files`] });
+    },
+    onError: (error) => {
+      toast({
+        title: "Błąd podczas usuwania pliku",
+        description: error.message || "Spróbuj ponownie później.",
+        variant: "destructive",
+      });
+    },
+  });
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      setSelectedFile(e.target.files[0]);
     }
-    
-    const formData = new FormData();
-    formData.append('file', fileInputRef.current.files[0]);
-    formData.append('fileType', fileType);
-    
-    uploadFileMutation.mutate(formData);
+  };
+
+  const handleUpload = () => {
+    if (selectedFile) {
+      uploadFileMutation.mutate(selectedFile);
+    }
+  };
+
+  const handleDeleteFile = () => {
+    if (fileToDelete) {
+      deleteFileMutation.mutate(fileToDelete.id);
+    }
+  };
+
+  const getFileIcon = (fileType: string) => {
+    if (fileType.includes('image')) {
+      return <FileImage className="h-6 w-6" />;
+    } else if (fileType.includes('pdf')) {
+      return <FileText className="h-6 w-6" />;
+    } else if (fileType.includes('zip') || fileType.includes('rar')) {
+      return <FileArchive className="h-6 w-6" />;
+    } else {
+      return <File className="h-6 w-6" />;
+    }
   };
 
   const formatFileSize = (bytes: number) => {
-    if (bytes === 0) return '0 B';
+    if (bytes === 0) return '0 Bytes';
     const k = 1024;
-    const sizes = ['B', 'KB', 'MB', 'GB'];
+    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
     const i = Math.floor(Math.log(bytes) / Math.log(k));
     return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
   };
 
-  const getFileIcon = (fileType: string, fileName: string) => {
-    const extension = fileName.split('.').pop()?.toLowerCase();
-    
-    if (['image', 'graphic'].includes(fileType) || ['jpg', 'jpeg', 'png', 'gif', 'svg', 'webp'].includes(extension || '')) {
-      return <Image className="h-6 w-6 text-blue-500" />;
-    } else if (['zip', 'rar', '7z', 'tar', 'gz'].includes(extension || '')) {
-      return <FileArchive className="h-6 w-6 text-yellow-500" />;
-    } else if (['pdf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'txt'].includes(extension || '')) {
-      return <FileText className="h-6 w-6 text-green-500" />;
-    } else {
-      return <File className="h-6 w-6 text-gray-500" />;
-    }
-  };
+  if (isLoading) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[200px]">
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        <p className="mt-4 text-muted-foreground">Ładowanie plików...</p>
+      </div>
+    );
+  }
 
-  const getFileTypeLabel = (fileType: string) => {
-    switch (fileType) {
-      case 'brief':
-        return 'Brief projektowy';
-      case 'graphic':
-        return 'Materiały graficzne';
-      case 'content':
-        return 'Materiały tekstowe';
-      case 'reference':
-        return 'Materiały referencyjne';
-      case 'deliverable':
-        return 'Rezultat projektu';
-      default:
-        return 'Inne';
-    }
-  };
+  if (isError) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[200px]">
+        <AlertCircle className="h-8 w-8 text-destructive" />
+        <p className="mt-4 text-muted-foreground">Wystąpił błąd podczas ładowania plików.</p>
+      </div>
+    );
+  }
 
-  const getFormattedDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('pl-PL');
-  };
+  const files = data?.files || [];
 
   return (
-    <div>
-      <div className="flex justify-between items-center mb-6">
-        <h3 className="text-lg font-medium">Pliki projektu ({files.length})</h3>
-        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-          <DialogTrigger asChild>
-            <Button>
-              <Upload className="h-4 w-4 mr-2" />
-              Prześlij plik
-            </Button>
-          </DialogTrigger>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Prześlij nowy plik</DialogTitle>
-            </DialogHeader>
-            <form onSubmit={handleFileUpload} className="space-y-4">
-              {uploadError && (
-                <Alert variant="destructive">
-                  <AlertCircle className="h-4 w-4" />
-                  <AlertDescription>{uploadError}</AlertDescription>
-                </Alert>
+    <div className="space-y-6">
+      <Card>
+        <CardHeader>
+          <CardTitle>Pliki projektu</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-6 mb-6">
+            {files.length > 0 ? (
+              <div className="grid gap-4">
+                {files.map((file: ProjectFile) => (
+                  <div key={file.id} className="p-4 border rounded-lg flex items-center justify-between">
+                    <div className="flex items-center">
+                      {getFileIcon(file.fileType)}
+                      <div className="ml-4">
+                        <p className="font-medium">{file.fileName}</p>
+                        <div className="flex text-xs text-muted-foreground mt-1 gap-2">
+                          <span>{formatFileSize(file.fileSize)}</span>
+                          <span>•</span>
+                          <span>Przesłano {formatDistance(new Date(file.createdAt), new Date(), { addSuffix: true, locale: pl })}</span>
+                          {file.uploaderName && (
+                            <>
+                              <span>•</span>
+                              <span>Przez: {file.uploaderName}</span>
+                            </>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex gap-2">
+                      <Button variant="outline" size="icon" asChild>
+                        <a href={file.fileUrl} download target="_blank" rel="noopener noreferrer">
+                          <Download className="h-4 w-4" />
+                        </a>
+                      </Button>
+                      <Button 
+                        variant="outline" 
+                        size="icon"
+                        onClick={() => setFileToDelete(file)}
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-10">
+                <p className="text-muted-foreground">Brak plików. Dodaj pliki do projektu!</p>
+              </div>
+            )}
+          </div>
+          
+          <div className="border rounded-lg p-4">
+            <h3 className="font-medium mb-2">Prześlij nowy plik</h3>
+            <div className="space-y-4">
+              <Input
+                ref={fileInputRef}
+                type="file"
+                onChange={handleFileChange}
+                disabled={isUploading}
+              />
+              
+              {isUploading && (
+                <div className="w-full bg-muted rounded-full h-2.5 my-2">
+                  <div 
+                    className="bg-primary h-2.5 rounded-full" 
+                    style={{ width: `${uploadProgress}%` }}
+                  ></div>
+                  <p className="text-xs text-right mt-1">{uploadProgress}%</p>
+                </div>
               )}
               
-              <div>
-                <Label htmlFor="file">Wybierz plik</Label>
-                <Input 
-                  id="file" 
-                  type="file" 
-                  ref={fileInputRef} 
-                  className="mt-1" 
-                  onChange={() => setUploadError(null)}
-                />
-              </div>
+              <Button
+                onClick={handleUpload}
+                disabled={!selectedFile || isUploading}
+                className="w-full flex items-center gap-2"
+              >
+                {isUploading ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                  <Upload className="h-4 w-4" />
+                )}
+                {isUploading ? "Przesyłanie..." : "Prześlij plik"}
+              </Button>
               
-              <div>
-                <Label htmlFor="file-type">Typ pliku</Label>
-                <Select 
-                  value={fileType} 
-                  onValueChange={setFileType}
-                >
-                  <SelectTrigger id="file-type" className="mt-1">
-                    <SelectValue placeholder="Wybierz typ pliku" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="brief">Brief projektowy</SelectItem>
-                    <SelectItem value="graphic">Materiały graficzne</SelectItem>
-                    <SelectItem value="content">Materiały tekstowe</SelectItem>
-                    <SelectItem value="reference">Materiały referencyjne</SelectItem>
-                    <SelectItem value="other">Inne</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              
-              <div className="flex justify-end space-x-2 pt-2">
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={() => setIsDialogOpen(false)}
-                >
-                  Anuluj
-                </Button>
-                <Button 
-                  type="submit"
-                  disabled={isUploading}
-                >
-                  {isUploading ? 'Przesyłanie...' : 'Prześlij plik'}
-                </Button>
-              </div>
-            </form>
-          </DialogContent>
-        </Dialog>
-      </div>
-      
-      {files.length === 0 ? (
-        <div className="text-center py-12 text-gray-500 border border-dashed rounded-lg">
-          <Upload className="h-12 w-12 mx-auto mb-4 text-gray-300" />
-          <p>Brak plików. Prześlij swój pierwszy plik.</p>
-          <Button variant="outline" onClick={() => setIsDialogOpen(true)} className="mt-4">
-            Prześlij plik
-          </Button>
-        </div>
-      ) : (
-        <div className="grid grid-cols-1 gap-4">
-          {files.map((file) => (
-            <Card key={file.id} className="overflow-hidden">
-              <div className="flex items-center p-4">
-                <div className="mr-4">
-                  {getFileIcon(file.fileType, file.fileName)}
-                </div>
-                <div className="flex-grow min-w-0">
-                  <h4 className="font-medium text-sm truncate" title={file.fileName}>
-                    {file.fileName}
-                  </h4>
-                  <div className="flex flex-wrap items-center text-xs text-gray-500 gap-x-2">
-                    <span>{formatFileSize(file.fileSize)}</span>
-                    <span>•</span>
-                    <span>{getFileTypeLabel(file.fileType)}</span>
-                    <span>•</span>
-                    <span>Dodano: {getFormattedDate(file.createdAt)}</span>
-                  </div>
-                </div>
-                <a 
-                  href={file.fileUrl} 
-                  download={file.fileName}
-                  className="ml-2 p-2 text-gray-600 hover:text-gray-900 transition-colors"
-                  title="Pobierz"
-                >
-                  <Download className="h-5 w-5" />
-                </a>
-              </div>
-            </Card>
-          ))}
-        </div>
-      )}
+              <p className="text-xs text-muted-foreground">
+                Dozwolone typy plików: PDF, DOC, DOCX, XLS, XLSX, JPG, PNG, ZIP, RAR (max. 10MB)
+              </p>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Dialog potwierdzenia usunięcia pliku */}
+      <Dialog open={!!fileToDelete} onOpenChange={(open) => !open && setFileToDelete(null)}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Usunąć plik?</DialogTitle>
+            <DialogDescription>
+              Czy na pewno chcesz usunąć plik "{fileToDelete?.fileName}"? Tej operacji nie można cofnąć.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setFileToDelete(null)}>
+              Anuluj
+            </Button>
+            <Button 
+              variant="destructive" 
+              onClick={handleDeleteFile}
+              disabled={deleteFileMutation.isPending}
+            >
+              {deleteFileMutation.isPending ? (
+                <>
+                  <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                  Usuwanie...
+                </>
+              ) : 'Usuń plik'}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

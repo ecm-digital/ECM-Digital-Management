@@ -1,11 +1,11 @@
 import React from "react";
-import Layout from "../components/Layout";
+import ClientLayout from "../components/client/ClientLayout";
 import ClientDashboard from "../components/client/ClientDashboard";
 
 export default function ClientDashboardPage() {
   return (
-    <Layout>
+    <ClientLayout>
       <ClientDashboard />
-    </Layout>
+    </ClientLayout>
   );
 }

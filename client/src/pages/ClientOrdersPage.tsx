@@ -1,11 +1,11 @@
 import React from "react";
-import Layout from "../components/Layout";
+import ClientLayout from "../components/client/ClientLayout";
 import OrdersList from "../components/client/OrdersList";
 
 export default function ClientOrdersPage() {
   return (
-    <Layout>
+    <ClientLayout>
       <OrdersList />
-    </Layout>
+    </ClientLayout>
   );
 }
