@@ -567,7 +567,7 @@ export default function HomePage() {
                     <div className="mt-4 pt-4 border-t border-gray-200">
                       <a href="#contact-form">
                         <Button variant="ghost" size="sm" className="w-full justify-center">
-                          Zamów MVP swojego startupu <ArrowRight className="ml-2 h-4 w-4" />
+                          Skontaktuj się z nami <ArrowRight className="ml-2 h-4 w-4" />
                         </Button>
                       </a>
                     </div>
