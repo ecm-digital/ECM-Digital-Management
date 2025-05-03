@@ -17,6 +17,32 @@ interface PricingRecommendation {
   competitivePositioning: string;
 }
 
+interface ServiceEstimation {
+  scope: string[];
+  timeEstimate: {
+    min: number;
+    max: number;
+    recommended: number;
+  };
+  costBreakdown: Array<{
+    item: string;
+    hours: number;
+    cost: number;
+  }>;
+  totalCost: number;
+  risksAndAssumptions: string[];
+  nextSteps: string[];
+}
+
+interface ServiceEstimationParams {
+  serviceName: string;
+  serviceDescription: string;
+  clientRequirements?: string[];
+  targetBudget?: number;
+  targetDeadline?: number;
+  complexity?: 'low' | 'medium' | 'high';
+}
+
 interface ServiceGenerationParams {
   name?: string;
   category?: string;
@@ -244,6 +270,133 @@ export async function enhanceServiceDescription(serviceName: string, originalDes
 /**
  * AI Pricing Assistant - generuje rekomendacje cenowe dla usługi
  */
+/**
+ * AI Service Estimator - generuje szacowanie zakresu, czasu i kosztów dla usługi
+ */
+export async function generateServiceEstimation(
+  params: ServiceEstimationParams
+): Promise<ServiceEstimation> {
+  const {
+    serviceName,
+    serviceDescription,
+    clientRequirements = [],
+    targetBudget,
+    targetDeadline,
+    complexity = 'medium'
+  } = params;
+
+  // Budowanie szczegółowego prompta dla AI
+  let prompt = `Działasz jako doświadczony project manager i ekspert ds. wyceny projektów w agencji marketingowej ECM Digital w Polsce.
+Dla poniższej usługi dokonaj profesjonalnego oszacowania zakresu prac, czasu realizacji i szczegółowego kosztorysu.
+
+NAZWA USŁUGI: "${serviceName}"
+
+OPIS USŁUGI: "${serviceDescription}"
+`;
+
+  if (clientRequirements && clientRequirements.length > 0) {
+    prompt += `\nWYMAGANIA KLIENTA:\n${clientRequirements.map(req => `- ${req}`).join('\n')}`;
+  }
+
+  if (targetBudget) {
+    prompt += `\nBUDŻET DOCELOWY: ${targetBudget} PLN`;
+  }
+
+  if (targetDeadline) {
+    prompt += `\nDOCELOWY CZAS REALIZACJI: ${targetDeadline} dni`;
+  }
+
+  prompt += `\nPOZIOM ZŁOŻONOŚCI: ${
+    complexity === 'low' ? 'Niski - projekt relatywnie prosty' :
+    complexity === 'high' ? 'Wysoki - projekt złożony wymagający zaawansowanych umiejętności' :
+    'Średni - typowy projekt dla agencji marketingowej'
+  }`;
+
+  prompt += `\nNa podstawie powyższych informacji, przygotuj szczegółowe szacowanie:
+1. Szczegółowy zakres prac (co najmniej 5-7 konkretnych punktów)
+2. Szacowany czas realizacji (minimalny, maksymalny i rekomendowany w dniach)
+3. Szczegółowy kosztorys z rozbiciem na poszczególne elementy, godziny pracy i koszty (min. 4-6 pozycji)
+4. Całkowity koszt realizacji w PLN
+5. Ryzyka i założenia (3-5 punktów)
+6. Propozycja kolejnych kroków (3 punkty)
+
+Odpowiedz w formacie JSON:
+{
+  "scope": ["punkt zakresu 1", "punkt zakresu 2", ...],
+  "timeEstimate": {
+    "min": liczba_dni_min,
+    "max": liczba_dni_max,
+    "recommended": liczba_dni_zalecana
+  },
+  "costBreakdown": [
+    {
+      "item": "nazwa elementu",
+      "hours": liczba_godzin,
+      "cost": koszt_w_PLN
+    },
+    ...
+  ],
+  "totalCost": całkowity_koszt_w_PLN,
+  "risksAndAssumptions": ["ryzyko/założenie 1", "ryzyko/założenie 2", ...],
+  "nextSteps": ["krok 1", "krok 2", "krok 3"]
+}
+
+Zwróć TYLKO JSON bez dodatkowych wyjaśnień czy komentarzy.`;
+
+  try {
+    const response = await openai.chat.completions.create({
+      model: MODEL,
+      messages: [{ role: "user", content: prompt }],
+      response_format: { type: "json_object" }
+    });
+
+    const generatedContent = response.choices[0].message.content;
+    
+    if (!generatedContent) {
+      throw new Error("Nie udało się wygenerować estymacji");
+    }
+    
+    try {
+      // Parsuj wynik jako JSON
+      const parsedData = JSON.parse(generatedContent) as ServiceEstimation;
+      
+      // Upewnij się, że wszystkie pola istnieją
+      return {
+        scope: parsedData.scope || ["Analiza wymagań", "Projektowanie", "Implementacja", "Testowanie", "Wdrożenie"],
+        timeEstimate: {
+          min: parsedData.timeEstimate?.min || 7,
+          max: parsedData.timeEstimate?.max || 30,
+          recommended: parsedData.timeEstimate?.recommended || 14
+        },
+        costBreakdown: parsedData.costBreakdown || [
+          { item: "Analiza i planowanie", hours: 4, cost: 1200 },
+          { item: "Projektowanie i implementacja", hours: 16, cost: 4800 },
+          { item: "Testowanie i poprawki", hours: 4, cost: 1200 },
+          { item: "Wdrożenie", hours: 2, cost: 600 }
+        ],
+        totalCost: parsedData.totalCost || 7800,
+        risksAndAssumptions: parsedData.risksAndAssumptions || [
+          "Założono stabilne wymagania bez większych zmian w trakcie projektu",
+          "Ryzyko opóźnień przy oczekiwaniu na materiały od klienta",
+          "Zakłada się dostępność zasobów technicznych bez przerw"
+        ],
+        nextSteps: parsedData.nextSteps || [
+          "Szczegółowe omówienie wymagań z klientem",
+          "Przygotowanie dokumentacji projektowej",
+          "Ustalenie harmonogramu prac"
+        ]
+      };
+    } catch (parseError) {
+      console.error("Błąd parsowania JSON:", parseError);
+      console.error("Otrzymany tekst:", generatedContent);
+      throw new Error("Nie udało się przetworzyć odpowiedzi AI do formatu JSON");
+    }
+  } catch (error) {
+    console.error("Błąd podczas generowania estymacji usługi z OpenAI:", error);
+    throw error;
+  }
+}
+
 export async function generatePricingRecommendation(
   serviceName: string, 
   serviceDescription: string, 

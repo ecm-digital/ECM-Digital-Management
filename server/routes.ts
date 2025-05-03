@@ -17,7 +17,8 @@ import {
   generateBenefits, 
   generateScope, 
   enhanceServiceDescription,
-  generatePricingRecommendation
+  generatePricingRecommendation,
+  generateServiceEstimation
 } from "./openai";
 
 // Configure multer for file uploads - store files locally
