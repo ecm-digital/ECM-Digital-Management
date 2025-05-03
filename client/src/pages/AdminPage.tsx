@@ -1,6 +1,6 @@
 import React from 'react';
-import AdminPanel from '@/components/AdminPanel';
+import AdminPanelModern from '@/components/AdminPanelModern';
 
 export default function AdminPage() {
-  return <AdminPanel />;
+  return <AdminPanelModern />;
 }
