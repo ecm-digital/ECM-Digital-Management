@@ -213,6 +213,22 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   // Serve uploaded files
   app.use('/uploads', express.static(uploadDir));
+  
+  // Test endpoint for development - do not use in production
+  app.get('/api/test/client-panel-data', async (req, res) => {
+    try {
+      const testData = {
+        orders: await storage.getOrdersByUserId(1),
+        messages: await storage.getMessagesByReceiverId(1),
+        milestones: await db.select().from(schema.projectMilestones).where(eq(schema.projectMilestones.orderId, 1))
+      };
+      
+      res.json(testData);
+    } catch (error) {
+      console.error("Error fetching test data:", error);
+      res.status(500).json({ message: "Error fetching test data", error: error instanceof Error ? error.message : 'Unknown error' });
+    }
+  });
 
   // Submit order
   app.post("/api/orders", async (req, res) => {

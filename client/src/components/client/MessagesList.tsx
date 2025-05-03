@@ -1,9 +1,12 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { Button } from '@/components/ui/button';
-import { Textarea } from '@/components/ui/textarea';
-import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
-import { SendHorizontal } from 'lucide-react';
+import React, { useState } from "react";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { Loader2, AlertCircle, Send } from "lucide-react";
+import { Textarea } from "@/components/ui/textarea";
+import { formatDistance } from "date-fns";
+import { pl } from "date-fns/locale";
+import { useToast } from "@/hooks/use-toast";
 
 interface Message {
   id: number;
@@ -12,164 +15,159 @@ interface Message {
   receiverId: number;
   isRead: boolean;
   createdAt: string;
+  senderName?: string;
 }
 
 interface MessagesListProps {
-  messages: Message[];
-  orderId: number;
-  userId: number;
+  orderId: number | string;
 }
 
-export default function MessagesList({ messages, orderId, userId }: MessagesListProps) {
-  const [newMessage, setNewMessage] = useState('');
-  const [receiverId, setReceiverId] = useState(2); // Default receiver (example: Admin)
-  const messagesEndRef = useRef<HTMLDivElement>(null);
+export default function MessagesList({ orderId }: MessagesListProps) {
+  const [newMessage, setNewMessage] = useState("");
+  const { toast } = useToast();
   const queryClient = useQueryClient();
 
-  // Scroll to bottom of messages when new messages are added
-  useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages]);
+  const { data, isLoading, isError } = useQuery({
+    queryKey: [`/api/client/orders/${orderId}/messages`],
+    retry: false,
+  });
 
-  // Send message mutation
   const sendMessageMutation = useMutation({
-    mutationFn: async (messageData: { orderId: number, content: string, receiverId: number }) => {
-      const response = await fetch(`/api/client/orders/${orderId}/messages?userId=${userId}`, {
-        method: 'POST',
+    mutationFn: async (content: string) => {
+      const response = await fetch(`/api/client/orders/${orderId}/messages`, {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify(messageData),
+        body: JSON.stringify({ content }),
       });
       
       if (!response.ok) {
-        throw new Error('Failed to send message');
+        const error = await response.json();
+        throw new Error(error.message || "Nie udało się wysłać wiadomości");
       }
       
       return response.json();
     },
     onSuccess: () => {
-      // Invalidate and refetch
-      queryClient.invalidateQueries({ queryKey: [`/api/client/orders/${orderId}`, { userId }] });
-      setNewMessage('');
+      setNewMessage("");
+      toast({
+        title: "Wiadomość wysłana",
+        description: "Twoja wiadomość została pomyślnie wysłana.",
+      });
+      queryClient.invalidateQueries({ queryKey: [`/api/client/orders/${orderId}/messages`] });
+    },
+    onError: (error) => {
+      toast({
+        title: "Błąd podczas wysyłania wiadomości",
+        description: error.message || "Spróbuj ponownie później.",
+        variant: "destructive",
+      });
     },
   });
 
-  const handleSendMessage = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSendMessage = () => {
     if (!newMessage.trim()) return;
-    
-    sendMessageMutation.mutate({
-      orderId,
-      content: newMessage,
-      receiverId
-    });
+    sendMessageMutation.mutate(newMessage);
   };
 
-  const formatMessageTime = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleTimeString('pl-PL', { hour: '2-digit', minute: '2-digit' }) + ' • ' + 
-           date.toLocaleDateString('pl-PL', { day: 'numeric', month: 'short' });
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter" && e.ctrlKey) {
+      handleSendMessage();
+    }
   };
 
-  // Sort messages by date
-  const sortedMessages = [...messages].sort((a, b) => 
-    new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
-  );
-
-  if (sortedMessages.length === 0) {
+  if (isLoading) {
     return (
-      <div>
-        <div className="text-center py-8 text-gray-500">
-          <p>Brak wiadomości. Rozpocznij konwersację.</p>
-        </div>
-        <form onSubmit={handleSendMessage} className="mt-6">
-          <div className="flex flex-col space-y-2">
-            <Textarea
-              placeholder="Napisz wiadomość..."
-              value={newMessage}
-              onChange={(e) => setNewMessage(e.target.value)}
-              className="min-h-[100px]"
-            />
-            <Button 
-              type="submit" 
-              className="self-end"
-              disabled={!newMessage.trim() || sendMessageMutation.isPending}
-            >
-              <SendHorizontal className="h-4 w-4 mr-2" />
-              Wyślij wiadomość
-            </Button>
-          </div>
-        </form>
+      <div className="flex flex-col items-center justify-center min-h-[200px]">
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        <p className="mt-4 text-muted-foreground">Ładowanie wiadomości...</p>
       </div>
     );
   }
 
-  return (
-    <div>
-      <div className="space-y-4 max-h-[400px] overflow-y-auto p-2">
-        {sortedMessages.map((message) => {
-          const isUserMessage = message.senderId === userId;
-          
-          return (
-            <div 
-              key={message.id} 
-              className={`flex ${isUserMessage ? 'justify-end' : 'justify-start'}`}
-            >
-              <div className={`flex max-w-[80%] ${isUserMessage ? 'flex-row-reverse' : 'flex-row'}`}>
-                <Avatar className={`h-8 w-8 ${isUserMessage ? 'ml-2' : 'mr-2'}`}>
-                  <AvatarFallback>
-                    {isUserMessage ? 'JA' : 'AD'}
-                  </AvatarFallback>
-                </Avatar>
-                <div>
-                  <div 
-                    className={`p-3 rounded-lg ${
-                      isUserMessage 
-                        ? 'bg-blue-500 text-white rounded-tr-none' 
-                        : 'bg-gray-100 text-gray-800 rounded-tl-none'
-                    }`}
-                  >
-                    <p className="whitespace-pre-wrap break-words">{message.content}</p>
-                  </div>
-                  <div 
-                    className={`text-xs text-gray-500 mt-1 ${
-                      isUserMessage ? 'text-right' : 'text-left'
-                    }`}
-                  >
-                    {formatMessageTime(message.createdAt)}
-                    {isUserMessage && (
-                      <span className="ml-1">
-                        {message.isRead ? '• Przeczytane' : ''}
-                      </span>
-                    )}
-                  </div>
-                </div>
-              </div>
-            </div>
-          );
-        })}
-        <div ref={messagesEndRef} />
+  if (isError) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[200px]">
+        <AlertCircle className="h-8 w-8 text-destructive" />
+        <p className="mt-4 text-muted-foreground">Wystąpił błąd podczas ładowania wiadomości.</p>
       </div>
-      
-      <form onSubmit={handleSendMessage} className="mt-6">
-        <div className="flex flex-col space-y-2">
-          <Textarea
-            placeholder="Napisz wiadomość..."
-            value={newMessage}
-            onChange={(e) => setNewMessage(e.target.value)}
-            className="min-h-[100px]"
-          />
-          <Button 
-            type="submit" 
-            className="self-end"
-            disabled={!newMessage.trim() || sendMessageMutation.isPending}
-          >
-            <SendHorizontal className="h-4 w-4 mr-2" />
-            {sendMessageMutation.isPending ? 'Wysyłanie...' : 'Wyślij wiadomość'}
-          </Button>
+    );
+  }
+
+  const messages = data?.messages || [];
+  const currentUserId = data?.currentUserId;
+
+  return (
+    <div className="space-y-6">
+      <Card>
+        <CardHeader>
+          <CardTitle>Wiadomości</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-6 mb-6">
+            {messages.length > 0 ? (
+              messages.map((message: Message) => (
+                <MessageItem 
+                  key={message.id} 
+                  message={message} 
+                  isCurrentUser={message.senderId === currentUserId} 
+                />
+              ))
+            ) : (
+              <div className="text-center py-10">
+                <p className="text-muted-foreground">Brak wiadomości. Rozpocznij konwersację!</p>
+              </div>
+            )}
+          </div>
+          
+          <div className="space-y-2">
+            <Textarea
+              value={newMessage}
+              onChange={(e) => setNewMessage(e.target.value)}
+              onKeyDown={handleKeyDown}
+              placeholder="Wpisz wiadomość... (Ctrl+Enter aby wysłać)"
+              rows={3}
+              className="resize-none"
+            />
+            <div className="flex justify-end">
+              <Button 
+                onClick={handleSendMessage} 
+                disabled={!newMessage.trim() || sendMessageMutation.isPending}
+                className="flex items-center gap-2"
+              >
+                {sendMessageMutation.isPending ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                  <Send className="h-4 w-4" />
+                )}
+                Wyślij
+              </Button>
+            </div>
+            <p className="text-xs text-muted-foreground">
+              Ctrl+Enter aby szybko wysłać wiadomość.
+            </p>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
+}
+
+function MessageItem({ message, isCurrentUser }: { message: Message, isCurrentUser: boolean }) {
+  return (
+    <div className={`flex ${isCurrentUser ? 'justify-end' : 'justify-start'}`}>
+      <div className={`max-w-[80%] ${isCurrentUser ? 'bg-primary text-primary-foreground' : 'bg-muted'} p-4 rounded-lg`}>
+        <div className="flex justify-between items-center mb-1">
+          <span className="font-medium text-sm">
+            {isCurrentUser ? 'Ty' : message.senderName || 'Pracownik ECM Digital'}
+          </span>
+          <span className="text-xs opacity-70">
+            {formatDistance(new Date(message.createdAt), new Date(), { addSuffix: true, locale: pl })}
+          </span>
         </div>
-      </form>
+        <p className="whitespace-pre-wrap">{message.content}</p>
+      </div>
     </div>
   );
 }
