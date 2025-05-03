@@ -57,6 +57,14 @@ export default function AdminPanel() {
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [serviceToDelete, setServiceToDelete] = useState<Service | null>(null);
   const [isNewDialogOpen, setIsNewDialogOpen] = useState(false);
+  
+  // Dane dla listy klientów
+  const { data: clients = [], isLoading: isClientsLoading } = useQuery<any[]>({ 
+    queryKey: ['/api/admin/clients'], 
+    staleTime: 5000,
+    enabled: activeTab === 'clients' // Ładuj dane tylko gdy zakładka klientów jest aktywna
+  });
+  
   const [newService, setNewService] = useState<Partial<Service>>({
     name: '',
     shortDescription: '',
@@ -633,6 +641,21 @@ export default function AdminPanel() {
             </li>
             <li>
               <button
+                onClick={() => setActiveTab('clients')}
+                className={`w-full flex items-center px-4 py-2 rounded-lg text-left ${
+                  activeTab === 'clients' 
+                    ? 'bg-purple-100 text-purple-900 font-medium' 
+                    : 'text-slate-700 hover:bg-slate-100'
+                }`}
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                </svg>
+                Klienci
+              </button>
+            </li>
+            <li>
+              <button
                 onClick={() => setActiveTab('ai')}
                 className={`w-full flex items-center px-4 py-2 rounded-lg text-left ${
                   activeTab === 'ai' 
@@ -695,6 +718,7 @@ export default function AdminPanel() {
           <h2 className="text-2xl font-bold mb-6">
             {activeTab === 'services' && 'Zarządzanie Usługami'}
             {activeTab === 'preview' && 'Podgląd Usług'}
+            {activeTab === 'clients' && 'Zarządzanie Klientami'}
             {activeTab === 'ai' && 'Generowanie Usług z AI'}
             {activeTab === 'orders' && 'Zarządzanie Zamówieniami'}
             {activeTab === 'stats' && 'Statystyki i Raporty'}
@@ -1162,6 +1186,117 @@ export default function AdminPanel() {
                     </div>
                   ))}
                 </div>
+              </CardContent>
+            </Card>
+          )}
+          
+          {activeTab === 'clients' && (
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex justify-between items-center">
+                  <span>Zarządzanie Klientami</span>
+                  <Button onClick={() => { /* Funkcja dodawania klienta */ }}>
+                    <Plus className="mr-2 h-4 w-4" /> Dodaj Klienta
+                  </Button>
+                </CardTitle>
+                <CardDescription>
+                  Przeglądaj, dodawaj, edytuj i zarządzaj klientami ECM Digital.
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                {isClientsLoading ? (
+                  <div className="py-8 text-center">
+                    <div className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-slate-100">
+                      <Loader2 className="h-5 w-5 text-slate-500 animate-spin" />
+                    </div>
+                    <p className="mt-2 text-sm text-slate-500">Ładowanie listy klientów...</p>
+                  </div>
+                ) : clients.length === 0 ? (
+                  <div className="py-16 text-center">
+                    <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-slate-100 mb-4">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                      </svg>
+                    </div>
+                    <h3 className="text-lg font-medium text-slate-900">Brak klientów</h3>
+                    <p className="mt-2 text-sm text-slate-500 max-w-md mx-auto">
+                      Nie znaleziono żadnych klientów w systemie. Dodaj pierwszego klienta klikając przycisk "Dodaj Klienta".
+                    </p>
+                    <Button className="mt-4" onClick={() => { /* Funkcja dodawania klienta */ }}>
+                      <Plus className="mr-2 h-4 w-4" /> Dodaj pierwszego klienta
+                    </Button>
+                  </div>
+                ) : (
+                  <Table>
+                    <TableCaption>Lista klientów</TableCaption>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead className="w-[50px]">ID</TableHead>
+                        <TableHead>Klient</TableHead>
+                        <TableHead>Email</TableHead>
+                        <TableHead>Telefon</TableHead>
+                        <TableHead>Firma</TableHead>
+                        <TableHead>Status</TableHead>
+                        <TableHead className="text-right">Akcje</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {clients.map((client: any) => (
+                        <TableRow key={client.id}>
+                          <TableCell className="font-medium">{client.id}</TableCell>
+                          <TableCell>
+                            <div className="flex items-center">
+                              <div className="h-9 w-9 rounded-full bg-slate-100 flex items-center justify-center text-slate-800 font-medium mr-3 overflow-hidden">
+                                {client.profileImageUrl ? (
+                                  <img src={client.profileImageUrl} alt={client.username} className="h-full w-full object-cover" />
+                                ) : (
+                                  client.firstName && client.lastName ? 
+                                    `${client.firstName[0]}${client.lastName[0]}` : 
+                                    client.username ? client.username[0].toUpperCase() : '?'
+                                )}
+                              </div>
+                              <div>
+                                <div className="font-medium">
+                                  {client.firstName && client.lastName 
+                                    ? `${client.firstName} ${client.lastName}` 
+                                    : client.username || 'Nowy klient'}
+                                </div>
+                                <div className="text-sm text-muted-foreground">
+                                  Dołączył: {new Date(client.createdAt).toLocaleDateString('pl-PL')}
+                                </div>
+                              </div>
+                            </div>
+                          </TableCell>
+                          <TableCell>{client.email || '—'}</TableCell>
+                          <TableCell>{client.phone || '—'}</TableCell>
+                          <TableCell>{client.company || '—'}</TableCell>
+                          <TableCell>
+                            <div className={`px-2 py-1 rounded-full text-xs inline-block ${
+                              client.isActive ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'
+                            }`}>
+                              {client.isActive ? 'Aktywny' : 'Nieaktywny'}
+                            </div>
+                          </TableCell>
+                          <TableCell className="text-right">
+                            <div className="flex justify-end gap-2">
+                              <Button variant="outline" size="icon" onClick={() => { /* Funkcja edycji klienta */ }}>
+                                <Edit className="h-4 w-4" />
+                              </Button>
+                              <Button variant="outline" size="icon" 
+                                onClick={() => { window.location.href = `/client/${client.id}`; }} 
+                                title="Przejdź do profilu klienta">
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                                  <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                  <path strokeLinecap="round" strokeLinejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                </svg>
+                              </Button>
+                            </div>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                )}
               </CardContent>
             </Card>
           )}
