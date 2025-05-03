@@ -28,6 +28,11 @@ export default function Navbar() {
                 Usługi
               </span>
             </Link>
+            <Link href="/client/dashboard">
+              <Button variant="default" size="sm" className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700">
+                Panel Klienta
+              </Button>
+            </Link>
             <Link href="/admin">
               <Button variant="outline" size="sm">Panel Admin</Button>
             </Link>

@@ -10,6 +10,10 @@ import ClientHomePage from "@/pages/ClientHomePage";
 import ServicesPage from "@/pages/ServicesPage";
 import ConfigureServicePage from "@/pages/ConfigureServicePage";
 import ServiceDetailsPage from "@/components/ServiceDetailsPage";
+import ClientDashboardPage from "@/pages/ClientDashboardPage";
+import ClientOrdersPage from "@/pages/ClientOrdersPage";
+import ClientOrderDetailsPage from "@/pages/ClientOrderDetailsPage";
+import ClientProfilePage from "@/pages/ClientProfilePage";
 import NotFound from "@/pages/not-found";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Service } from "@/types";
@@ -491,6 +495,11 @@ function App() {
         <Route path="/service/:id" component={ServiceDetailsPage} />
         <Route path="/configure" component={ConfigureServicePage} />
         <Route path="/configure/:id" component={ConfigureServicePage} />
+        {/* Client Panel Routes */}
+        <Route path="/client/dashboard" component={ClientDashboardPage} />
+        <Route path="/client/orders" component={ClientOrdersPage} />
+        <Route path="/client/orders/:orderId" component={ClientOrderDetailsPage} />
+        <Route path="/client/profile" component={ClientProfilePage} />
         <Route component={NotFound} />
       </Switch>
       <Toaster />

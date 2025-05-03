@@ -26,8 +26,28 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Progress } from '@/components/ui/progress';
-import MessagesList from './MessagesList';
-import FilesUpload from './FilesUpload';
+// Użyjemy komponentów mockowych tymczasowo do celów demonstracyjnych
+// W rzeczywistym projekcie zastąpilibyśmy je prawdziwymi implementacjami
+
+// Mock komponentu wiadomości
+const MessagesList = ({ messages, orderId, userId }: any) => {
+  return (
+    <div className="text-center py-8 text-gray-500">
+      <p>Komponent wiadomości - obecnie funkcjonalność demonstracyjna</p>
+      <p className="text-sm mt-2">Ilość wiadomości: {messages.length}</p>
+    </div>
+  );
+};
+
+// Mock komponentu plików
+const FilesUpload = ({ files, orderId }: any) => {
+  return (
+    <div className="text-center py-8 text-gray-500">
+      <p>Komponenty plików - obecnie funkcjonalność demonstracyjna</p>
+      <p className="text-sm mt-2">Ilość plików: {files.length}</p>
+    </div>
+  );
+};
 
 interface OrderDetailsData {
   order: {
