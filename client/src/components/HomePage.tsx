@@ -447,13 +447,7 @@ export default function HomePage() {
                       </Card>
                     ))}
                 </div>
-                <div className="mt-8 text-center">
-                  <a href="#contact-form">
-                    <Button className="bg-amber-500 hover:bg-amber-600 text-white">
-                      Zamów MVP swojego startupu
-                    </Button>
-                  </a>
-                </div>
+
               </div>
             </div>
           )}
