@@ -44,6 +44,21 @@ import {
 } from "@/components/ui/tooltip";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Edit, Trash2, Plus, Sparkles, Loader2, Info } from 'lucide-react';
+// Import FontAwesome components
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { 
+  faThLarge, 
+  faBriefcase,
+  faServer,
+  faUsers,
+  faComments,
+  faChartLine,
+  faClipboardList,
+  faCog,
+  faCube,
+  faBars,
+  faTimes
+} from '@fortawesome/free-solid-svg-icons';
 
 export default function AdminPanel() {
   const { data: services = [], isLoading, isError } = useQuery<Service[]>({ 
