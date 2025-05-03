@@ -1,10 +1,9 @@
 import { db } from "../server/db";
 import { orders, messages, projectMilestones, users } from "../shared/schema";
-import { nanoid } from "nanoid";
 import { eq } from "drizzle-orm";
 
-async function createTestData() {
-  console.log("Creating test data for client panel...");
+async function createTestMessages() {
+  console.log("Creating test messages and milestones...");
 
   try {
     // Sprawdź czy użytkownicy istnieją
@@ -17,79 +16,34 @@ async function createTestData() {
       process.exit(1);
     }
     
-    // 1. Utwórz testowe zamówienia
-    console.log("Creating test orders...");
+    // Pobierz wszystkie zamówienia
+    const allOrders = await db.select().from(orders);
     
-    // Sprawdź czy są już jakieś zamówienia
-    const existingOrders = await db.select().from(orders);
+    if (allOrders.length === 0) {
+      console.log("No orders found. Run create-test-data.ts first.");
+      process.exit(1);
+    }
     
-    if (existingOrders.length === 0) {
-      // Dodaj testowe zamówienie "W realizacji"
-      const orderId1 = `ECM-${Date.now().toString(36)}-${nanoid(6)}`.toUpperCase();
-      
-      const order1 = await db.insert(orders).values({
-        serviceId: "1",
-        orderId: orderId1,
-        configuration: {
-          "Zakres audytu": "Pełny",
-          "Dodatkowe strony": 5
-        },
-        contactInfo: {
-          name: "Jan Kowalski",
-          email: "test@example.com",
-          phone: "+48123456789",
-          company: "Test Company",
-          message: "Proszę o analizę sklepu e-commerce."
-        },
-        totalPrice: 1500,
-        deliveryTime: 14,
-        status: "W realizacji",
-        userId: 1,
-        updatedAt: new Date()
-      }).returning();
-      
-      console.log("Created order 1:", order1);
-      
-      // Dodaj testowe zamówienie "Zakończone"
-      const orderId2 = `ECM-${Date.now().toString(36)}-${nanoid(6)}`.toUpperCase();
-      
-      const order2 = await db.insert(orders).values({
-        serviceId: "9",
-        orderId: orderId2,
-        configuration: {
-          "Typ analizy": "Z elementami AI",
-          "Priorytet": "Wysoki"
-        },
-        contactInfo: {
-          name: "Jan Kowalski",
-          email: "test@example.com",
-          phone: "+48123456789",
-          company: "Test Company",
-          message: "Potrzebuję szybkiej analizy UX dla mojej aplikacji."
-        },
-        totalPrice: 2500,
-        deliveryTime: 7,
-        status: "Zakończone",
-        userId: 1,
-        updatedAt: new Date(Date.now() - 14 * 24 * 60 * 60 * 1000) // 14 dni temu
-      }).returning();
-      
-      console.log("Created order 2:", order2);
-      
-      // 2. Dodaj testowe wiadomości dla pierwszego zamówienia
-      console.log("Creating test messages...");
+    // Pobierz pierwsze zamówienie
+    const firstOrder = allOrders[0];
+    
+    // Sprawdź czy są już wiadomości dla tego zamówienia
+    const existingMessages = await db.select().from(messages).where(eq(messages.orderId, firstOrder.id));
+    
+    if (existingMessages.length === 0) {
+      console.log("Creating test messages for order:", firstOrder.orderId);
       
       const messages1 = await db.insert(messages).values([
         {
-          orderId: order1[0].id,
+          orderId: firstOrder.id,
           senderId: 1, // Klient
-          receiverId: 2, // Pracownik (choć może nie istnieć)
+          receiverId: 2, // Pracownik
           content: "Dzień dobry, kiedy mogę spodziewać się pierwszych wyników?",
           isRead: true,
           createdAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000) // 5 dni temu
         },
         {
-          orderId: order1[0].id,
+          orderId: firstOrder.id,
           senderId: 2, // Pracownik
           receiverId: 1, // Klient
           content: "Dzień dobry, pracujemy nad audytem, pierwsze wyniki będą gotowe w przyszłym tygodniu. Pozdrawiamy!",
@@ -97,7 +51,7 @@ async function createTestData() {
           createdAt: new Date(Date.now() - 4 * 24 * 60 * 60 * 1000) // 4 dni temu
         },
         {
-          orderId: order1[0].id,
+          orderId: firstOrder.id,
           senderId: 2, // Pracownik
           receiverId: 1, // Klient
           content: "Właśnie skończyliśmy analizę głównej strony produktowej. Mamy kilka ważnych uwag, które chcielibyśmy omówić. Czy jest Pan dostępny na krótką rozmowę jutro?",
@@ -107,13 +61,19 @@ async function createTestData() {
       ]).returning();
       
       console.log("Created messages:", messages1);
-      
-      // 3. Dodaj testowe kamienie milowe dla pierwszego zamówienia
-      console.log("Creating test milestones...");
+    } else {
+      console.log("Messages already exist for order:", firstOrder.orderId);
+    }
+    
+    // Sprawdź czy są już kamienie milowe dla tego zamówienia
+    const existingMilestones = await db.select().from(projectMilestones).where(eq(projectMilestones.orderId, firstOrder.id));
+    
+    if (existingMilestones.length === 0) {
+      console.log("Creating test milestones for order:", firstOrder.orderId);
       
       const milestones1 = await db.insert(projectMilestones).values([
         {
-          orderId: order1[0].id,
+          orderId: firstOrder.id,
           title: "Analiza wstępna",
           description: "Wstępna analiza strony i identyfikacja kluczowych obszarów do poprawy",
           status: "Zakończone",
@@ -122,7 +82,7 @@ async function createTestData() {
           createdAt: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000) // 7 dni temu
         },
         {
-          orderId: order1[0].id,
+          orderId: firstOrder.id,
           title: "Testy użyteczności",
           description: "Przeprowadzenie testów użyteczności i analiza wyników",
           status: "W trakcie",
@@ -131,7 +91,7 @@ async function createTestData() {
           createdAt: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000) // 7 dni temu
         },
         {
-          orderId: order1[0].id,
+          orderId: firstOrder.id,
           title: "Raport końcowy",
           description: "Przygotowanie i dostarczenie raportu końcowego z rekomendacjami",
           status: "Oczekujące",
@@ -143,16 +103,16 @@ async function createTestData() {
       
       console.log("Created milestones:", milestones1);
     } else {
-      console.log("Orders already exist, skipping test data creation");
+      console.log("Milestones already exist for order:", firstOrder.orderId);
     }
 
-    console.log("Test data creation completed!");
+    console.log("Test messages and milestones creation completed!");
   } catch (error) {
-    console.error("Failed to create test data:", error);
+    console.error("Failed to create test messages and milestones:", error);
   } finally {
     process.exit(0);
   }
 }
 
 // Uruchomienie skryptu
-createTestData();
+createTestMessages();
