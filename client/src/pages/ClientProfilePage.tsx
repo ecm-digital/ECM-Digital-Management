@@ -1,11 +1,11 @@
-import React from 'react';
-import Layout from '@/components/Layout';
-import UserProfile from '@/components/client/UserProfile';
+import React from "react";
+import ClientLayout from "../components/client/ClientLayout";
+import ClientProfile from "../components/client/ClientProfile";
 
 export default function ClientProfilePage() {
   return (
-    <Layout>
-      <UserProfile />
-    </Layout>
+    <ClientLayout>
+      <ClientProfile />
+    </ClientLayout>
   );
 }

@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useLocation } from 'wouter';
 import { Button } from '@/components/ui/button';
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { Menu, X } from 'lucide-react';
 
 export default function Navbar() {
   const [location] = useLocation();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
     <header className="bg-white border-b border-gray-200 sticky top-0 z-10">
@@ -38,12 +41,48 @@ export default function Navbar() {
             </Link>
           </nav>
 
-          <div className="flex md:hidden">
-            <Button variant="ghost" size="sm">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-              </svg>
-            </Button>
+          <div className="md:hidden">
+            <Sheet>
+              <SheetTrigger asChild>
+                <Button variant="ghost" size="sm">
+                  <Menu className="h-6 w-6" />
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="right" className="w-[300px] p-0">
+                <div className="flex flex-col h-full">
+                  <div className="p-4 border-b">
+                    <div className="flex items-center justify-between">
+                      <h2 className="text-xl font-bold">ECM Digital</h2>
+                    </div>
+                  </div>
+                  
+                  <div className="flex-1 p-4">
+                    <nav className="flex flex-col space-y-4">
+                      <Link href="/">
+                        <span className={`block py-2 hover:text-blue-600 transition-colors ${location === '/' ? 'text-blue-600 font-medium' : 'text-gray-700'}`}>
+                          Strona główna
+                        </span>
+                      </Link>
+                      <Link href="/services">
+                        <span className={`block py-2 hover:text-blue-600 transition-colors ${location.startsWith('/service') ? 'text-blue-600 font-medium' : 'text-gray-700'}`}>
+                          Usługi
+                        </span>
+                      </Link>
+                      <div className="pt-4 space-y-2">
+                        <Link href="/client/dashboard">
+                          <Button variant="default" className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700">
+                            Panel Klienta
+                          </Button>
+                        </Link>
+                        <Link href="/admin">
+                          <Button variant="outline" className="w-full">Panel Admin</Button>
+                        </Link>
+                      </div>
+                    </nav>
+                  </div>
+                </div>
+              </SheetContent>
+            </Sheet>
           </div>
         </div>
       </div>
