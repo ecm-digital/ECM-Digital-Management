@@ -1283,6 +1283,333 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // ========== CLIENT PANEL APIs ==========
+
+  // Authentication middleware for client panel
+  const authenticateClient = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      // Tutaj później będzie prawdziwa autentykacja (OAuth, JWT, itp.)
+      // Na razie prostym token-em w nagłówku lub użytkownikiem demo
+      const authToken = req.headers.authorization?.split(' ')[1];
+      
+      // Dla celów developerskich używamy tokenu testowego lub id użytkownika
+      if (authToken === 'test-token' || req.query.userId) {
+        const userId = req.query.userId ? parseInt(req.query.userId as string) : 1;
+        const user = await storage.getUser(userId);
+        
+        if (!user) {
+          return res.status(404).json({ message: "User not found" });
+        }
+        
+        // Dodaj użytkownika do obiektu żądania
+        (req as any).user = user;
+        return next();
+      }
+      
+      return res.status(401).json({ message: "Unauthorized" });
+    } catch (error) {
+      console.error("Auth error:", error);
+      return res.status(500).json({ message: "Authentication error" });
+    }
+  };
+
+  // === USER ROUTES ===
+  
+  // Get current user profile
+  app.get('/api/client/profile', authenticateClient, async (req: Request, res: Response) => {
+    try {
+      const user = (req as any).user;
+      
+      // Nie zwracaj hasła
+      const { password, ...userProfile } = user;
+      
+      res.json(userProfile);
+    } catch (error) {
+      console.error("Error fetching profile:", error);
+      res.status(500).json({ message: "Error fetching profile" });
+    }
+  });
+  
+  // Update user profile
+  app.patch('/api/client/profile', authenticateClient, async (req: Request, res: Response) => {
+    try {
+      const user = (req as any).user;
+      const userData = req.body;
+      
+      // Walidacja danych - można dodać zod schema
+      
+      // Nie pozwalaj na zmianę roli
+      delete userData.role;
+      
+      // Aktualizuj profil
+      const updatedUser = await storage.updateUser(user.id, userData);
+      
+      if (!updatedUser) {
+        return res.status(404).json({ message: "User not found" });
+      }
+      
+      // Nie zwracaj hasła
+      const { password, ...userProfile } = updatedUser;
+      
+      res.json(userProfile);
+    } catch (error) {
+      console.error("Error updating profile:", error);
+      res.status(500).json({ message: "Error updating profile" });
+    }
+  });
+
+  // === ORDER ROUTES ===
+  
+  // Get client's orders
+  app.get('/api/client/orders', authenticateClient, async (req: Request, res: Response) => {
+    try {
+      const user = (req as any).user;
+      const orders = await storage.getOrdersByUserId(user.id);
+      
+      res.json(orders);
+    } catch (error) {
+      console.error("Error fetching orders:", error);
+      res.status(500).json({ message: "Error fetching orders" });
+    }
+  });
+  
+  // Get a single order details
+  app.get('/api/client/orders/:orderId', authenticateClient, async (req: Request, res: Response) => {
+    try {
+      const user = (req as any).user;
+      const orderId = req.params.orderId;
+      
+      // Find order by orderId (not database id)
+      const order = await storage.getOrderByOrderId(orderId);
+      
+      if (!order) {
+        return res.status(404).json({ message: "Order not found" });
+      }
+      
+      // Check if order belongs to user
+      if (order.userId !== user.id) {
+        return res.status(403).json({ message: "Not authorized to view this order" });
+      }
+      
+      // Get related data
+      const files = await storage.getProjectFilesByOrderId(order.id);
+      const milestones = await storage.getProjectMilestonesByOrderId(order.id);
+      const messages = await storage.getMessagesByOrderId(order.id);
+      
+      // Get service details
+      const service = await storage.getServiceByServiceId(order.serviceId);
+      
+      res.json({
+        order,
+        files,
+        milestones,
+        messages,
+        service
+      });
+    } catch (error) {
+      console.error("Error fetching order details:", error);
+      res.status(500).json({ message: "Error fetching order details" });
+    }
+  });
+
+  // === MESSAGE ROUTES ===
+  
+  // Get all messages for an order
+  app.get('/api/client/orders/:orderId/messages', authenticateClient, async (req: Request, res: Response) => {
+    try {
+      const user = (req as any).user;
+      const orderId = parseInt(req.params.orderId);
+      
+      // Find order
+      const order = await storage.getOrder(orderId);
+      
+      if (!order) {
+        return res.status(404).json({ message: "Order not found" });
+      }
+      
+      // Check if order belongs to user
+      if (order.userId !== user.id) {
+        return res.status(403).json({ message: "Not authorized to view these messages" });
+      }
+      
+      // Get messages
+      const messages = await storage.getMessagesByOrderId(orderId);
+      
+      res.json(messages);
+    } catch (error) {
+      console.error("Error fetching messages:", error);
+      res.status(500).json({ message: "Error fetching messages" });
+    }
+  });
+  
+  // Send a new message
+  app.post('/api/client/orders/:orderId/messages', authenticateClient, async (req: Request, res: Response) => {
+    try {
+      const user = (req as any).user;
+      const orderId = parseInt(req.params.orderId);
+      const { content, receiverId } = req.body;
+      
+      // Find order
+      const order = await storage.getOrder(orderId);
+      
+      if (!order) {
+        return res.status(404).json({ message: "Order not found" });
+      }
+      
+      // Check if order belongs to user
+      if (order.userId !== user.id) {
+        return res.status(403).json({ message: "Not authorized to send messages for this order" });
+      }
+      
+      // Create message
+      const message = await storage.createMessage({
+        orderId,
+        senderId: user.id,
+        receiverId, // ID odbiorcy (pracownika agencji)
+        content,
+        isRead: false
+      });
+      
+      res.status(201).json(message);
+    } catch (error) {
+      console.error("Error sending message:", error);
+      res.status(500).json({ message: "Error sending message" });
+    }
+  });
+
+  // === FILE ROUTES ===
+  
+  // Get all files for an order
+  app.get('/api/client/orders/:orderId/files', authenticateClient, async (req: Request, res: Response) => {
+    try {
+      const user = (req as any).user;
+      const orderId = parseInt(req.params.orderId);
+      
+      // Find order
+      const order = await storage.getOrder(orderId);
+      
+      if (!order) {
+        return res.status(404).json({ message: "Order not found" });
+      }
+      
+      // Check if order belongs to user
+      if (order.userId !== user.id) {
+        return res.status(403).json({ message: "Not authorized to view files for this order" });
+      }
+      
+      // Get files
+      const files = await storage.getProjectFilesByOrderId(orderId);
+      
+      res.json(files);
+    } catch (error) {
+      console.error("Error fetching files:", error);
+      res.status(500).json({ message: "Error fetching files" });
+    }
+  });
+  
+  // Upload a file for an order
+  app.post('/api/client/orders/:orderId/files', authenticateClient, upload.single('file'), async (req: Request, res: Response) => {
+    try {
+      const user = (req as any).user;
+      const orderId = parseInt(req.params.orderId);
+      const file = req.file;
+      const { fileType } = req.body;
+      
+      if (!file) {
+        return res.status(400).json({ message: "No file uploaded" });
+      }
+      
+      // Find order
+      const order = await storage.getOrder(orderId);
+      
+      if (!order) {
+        return res.status(404).json({ message: "Order not found" });
+      }
+      
+      // Check if order belongs to user
+      if (order.userId !== user.id) {
+        return res.status(403).json({ message: "Not authorized to upload files for this order" });
+      }
+      
+      // Create file record
+      const fileRecord = await storage.createProjectFile({
+        orderId,
+        fileName: file.originalname,
+        fileUrl: `/uploads/${file.filename}`,
+        fileType: fileType || 'other',
+        fileSize: file.size,
+        uploadedById: user.id
+      });
+      
+      res.status(201).json(fileRecord);
+    } catch (error) {
+      console.error("Error uploading file:", error);
+      res.status(500).json({ message: "Error uploading file" });
+    }
+  });
+
+  // === MILESTONE ROUTES ===
+  
+  // Get all milestones for an order
+  app.get('/api/client/orders/:orderId/milestones', authenticateClient, async (req: Request, res: Response) => {
+    try {
+      const user = (req as any).user;
+      const orderId = parseInt(req.params.orderId);
+      
+      // Find order
+      const order = await storage.getOrder(orderId);
+      
+      if (!order) {
+        return res.status(404).json({ message: "Order not found" });
+      }
+      
+      // Check if order belongs to user
+      if (order.userId !== user.id) {
+        return res.status(403).json({ message: "Not authorized to view milestones for this order" });
+      }
+      
+      // Get milestones
+      const milestones = await storage.getProjectMilestonesByOrderId(orderId);
+      
+      res.json(milestones);
+    } catch (error) {
+      console.error("Error fetching milestones:", error);
+      res.status(500).json({ message: "Error fetching milestones" });
+    }
+  });
+
+  // === DASHBOARD ROUTES ===
+  
+  // Get dashboard data
+  app.get('/api/client/dashboard', authenticateClient, async (req: Request, res: Response) => {
+    try {
+      const user = (req as any).user;
+      
+      // Get recent orders
+      const orders = await storage.getOrdersByUserId(user.id);
+      
+      // Get unread messages count
+      const messages = await storage.getUnreadMessagesByReceiverId(user.id);
+      
+      // Calculate summary data
+      const activeOrders = orders.filter(order => order.status !== 'Zakończone' && order.status !== 'Anulowane').length;
+      const completedOrders = orders.filter(order => order.status === 'Zakończone').length;
+      const totalSpent = orders.filter(order => order.status === 'Zakończone').reduce((sum, order) => sum + order.totalPrice, 0);
+      
+      res.json({
+        ordersCount: orders.length,
+        activeOrders,
+        completedOrders,
+        unreadMessages: messages.length,
+        totalSpent,
+        recentOrders: orders.slice(0, 5) // 5 najnowszych zamówień
+      });
+    } catch (error) {
+      console.error("Error fetching dashboard data:", error);
+      res.status(500).json({ message: "Error fetching dashboard data" });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }
