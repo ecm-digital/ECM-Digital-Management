@@ -1341,6 +1341,48 @@ export async function registerRoutes(app: Express): Promise<Server> {
       });
     }
   });
+  
+  // Generate service estimation (scope, time, cost)
+  app.post("/api/ai/service-estimation", async (req, res) => {
+    try {
+      const {
+        serviceName,
+        serviceDescription,
+        clientRequirements,
+        targetBudget,
+        targetDeadline,
+        complexity
+      } = req.body;
+      
+      if (!serviceName || !serviceDescription) {
+        return res.status(400).json({
+          success: false,
+          message: "Service name and description are required"
+        });
+      }
+      
+      const estimation = await generateServiceEstimation({
+        serviceName,
+        serviceDescription,
+        clientRequirements,
+        targetBudget,
+        targetDeadline,
+        complexity
+      });
+      
+      res.json({
+        success: true,
+        estimation
+      });
+    } catch (error) {
+      console.error("Error generating service estimation with AI:", error);
+      res.status(500).json({
+        success: false,
+        message: "Error generating service estimation",
+        error: error instanceof Error ? error.message : "Unknown error"
+      });
+    }
+  });
 
   // ========== CLIENT PANEL APIs ==========
 

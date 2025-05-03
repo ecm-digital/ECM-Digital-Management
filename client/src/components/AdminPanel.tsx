@@ -115,6 +115,16 @@ export default function AdminPanel() {
   const [selectedServiceForPricing, setSelectedServiceForPricing] = useState<Service | null>(null);
   const [isGeneratingPricingRecommendation, setIsGeneratingPricingRecommendation] = useState(false);
   const [pricingRecommendation, setPricingRecommendation] = useState<any>(null);
+  
+  // Stan dla AI Service Estimator
+  const [selectedServiceForEstimation, setSelectedServiceForEstimation] = useState<Service | null>(null);
+  const [clientRequirements, setClientRequirements] = useState<string[]>([]);
+  const [newRequirement, setNewRequirement] = useState('');
+  const [targetBudget, setTargetBudget] = useState<number | undefined>(undefined);
+  const [targetDeadline, setTargetDeadline] = useState<number | undefined>(undefined);
+  const [complexity, setComplexity] = useState<'low' | 'medium' | 'high'>('medium');
+  const [isGeneratingEstimation, setIsGeneratingEstimation] = useState(false);
+  const [serviceEstimation, setServiceEstimation] = useState<any>(null);
 
   // Obsługa edycji usługi
   const handleEditService = (service: Service) => {
