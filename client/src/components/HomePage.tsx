@@ -20,83 +20,127 @@ export default function HomePage() {
   const filteredServices = services?.filter(service => service.status === 'Aktywna') || [];
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen bg-background">
+      {/* Header z logo i przyciskami nawigacji */}
+      <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-sm border-b border-gray-100 shadow-sm py-4">
+        <div className="container-tight flex justify-between items-center">
+          <div className="flex items-center">
+            <h2 className="text-xl font-bold heading-gradient mr-8">ECM Digital</h2>
+          </div>
+          <nav className="hidden md:flex items-center space-x-8">
+            <a href="#services" className="text-gray-600 hover:text-primary font-medium transition-colors">Usługi</a>
+            <a href="#case-studies" className="text-gray-600 hover:text-primary font-medium transition-colors">Case Studies</a>
+            <a href="#contact-form" className="text-gray-600 hover:text-primary font-medium transition-colors">Kontakt</a>
+            <a href="#contact-form">
+              <Button className="btn-modern btn-gradient">
+                Umów konsultację
+              </Button>
+            </a>
+          </nav>
+          <div className="block md:hidden">
+            <Button variant="ghost" size="icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-menu"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+            </Button>
+          </div>
+        </div>
+      </header>
+
       {/* Hero Section */}
-      <section className="py-20 bg-gradient-to-br from-blue-50 to-indigo-100">
-        <div className="container mx-auto px-4">
-          <div className="max-w-3xl mx-auto text-center">
-            <h1 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-blue-600 to-purple-600 text-transparent bg-clip-text">
-              ECM Digital - UX, AI i strony internetowe
-            </h1>
-            <p className="text-xl text-gray-700 mb-8">
-              Specjalizujemy się w dostarczaniu kompleksowych usług marketingowych i technologicznych, które pomogą Twojej firmie osiągnąć sukces w cyfrowym świecie.
-            </p>
-            <div className="flex flex-wrap gap-4 justify-center">
-              <Link href="/services">
-                <Button size="lg" className="font-medium">
-                  Przeglądaj usługi <ArrowRight className="ml-2 h-5 w-5" />
-                </Button>
-              </Link>
-              <a href="#contact-form">
-                <Button variant="outline" size="lg" className="font-medium bg-gradient-to-r from-purple-500 to-indigo-600 text-white hover:from-purple-600 hover:to-indigo-700 border-0">
-                  Umów bezpłatny audyt UX z AI
-                </Button>
-              </a>
+      <section className="pt-28 pb-32 overflow-hidden">
+        <div className="container-tight">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+            <div className="space-y-8">
+              <div>
+                <Badge className="bg-blue-100 text-blue-700 hover:bg-blue-200 transition-colors mb-5 py-1.5 px-4 rounded-full text-sm font-medium">Agencja UX & Marketing</Badge>
+                <h1 className="heading-gradient">
+                  ECM Digital - UX, AI i strony internetowe
+                </h1>
+                <p className="text-xl text-gray-700 mt-6 leading-relaxed">
+                  Specjalizujemy się w dostarczaniu kompleksowych usług marketingowych i technologicznych, które pomogą Twojej firmie osiągnąć sukces w cyfrowym świecie.
+                </p>
+              </div>
+              <div className="flex flex-wrap gap-4">
+                <Link href="/services">
+                  <Button className="btn-modern btn-gradient">
+                    Przeglądaj usługi <ArrowRight className="ml-2 h-5 w-5" />
+                  </Button>
+                </Link>
+                <a href="#contact-form">
+                  <Button variant="outline" className="btn-modern">
+                    Umów bezpłatny audyt UX
+                  </Button>
+                </a>
+              </div>
+              <div className="flex items-center pt-4 text-gray-500 text-sm">
+                <Check className="h-5 w-5 text-green-500 mr-2" /> Ponad 10 lat doświadczenia
+                <span className="mx-3">•</span>
+                <Check className="h-5 w-5 text-green-500 mr-2" /> +120 zadowolonych klientów
+              </div>
             </div>
-            <div className="mt-6 flex flex-wrap gap-4 justify-center">
-              <a href="#services">
-                <Button variant="outline" size="sm" className="font-medium">
-                  Dowiedz się więcej
-                </Button>
-              </a>
-              <a href="#case-studies">
-                <Button variant="ghost" size="sm" className="font-medium text-blue-600 hover:text-blue-700">
-                  Zobacz nasze realizacje
-                </Button>
-              </a>
+            <div className="relative lg:h-[500px] flex items-center justify-center">
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] md:w-[400px] md:h-[400px] rounded-full bg-gradient-to-r from-blue-400/20 to-purple-400/20 blur-3xl"></div>
+              <div className="card-modern relative w-full max-w-lg h-full max-h-[400px] flex items-center justify-center">
+                <div className="absolute top-8 left-8 right-8 bottom-8 bg-gradient-to-br from-blue-500/10 to-purple-500/10 rounded-xl"></div>
+                <div className="relative z-10 text-center px-8">
+                  <h3 className="text-2xl font-bold mb-4 heading-gradient">Przekształcamy wizje w cyfrowy sukces</h3>
+                  <p className="text-gray-600 mb-6">Łączymy strategiczną wiedzę UX/UI z najnowszymi technologiami AI, aby dostarczyć rozwiązania, które przynoszą wymierne rezultaty.</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
       {/* Features Section */}
-      <section className="py-16 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="max-w-3xl mx-auto text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4">Dlaczego warto z nami współpracować?</h2>
-            <p className="text-gray-600">
-              Łączymy kreatywność z technologią, aby dostarczać rozwiązania, które przynoszą realne rezultaty.
+      <section className="py-24 bg-white">
+        <div className="container-tight">
+          <div className="max-w-3xl mx-auto text-center mb-16">
+            <Badge className="bg-primary/10 text-primary mb-4 py-1 px-3 rounded-full">Nasze zalety</Badge>
+            <h2 className="text-3xl md:text-4xl font-bold mb-6 tracking-tight">Dlaczego warto z nami współpracować?</h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Łączymy kreatywność z technologią, aby dostarczać rozwiązania, które przynoszą realne rezultaty i pomagają Twojemu biznesowi osiągnąć sukces.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-gray-50 rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow">
-              <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mb-4">
-                <CheckCircle className="h-6 w-6 text-blue-600" />
+            <div className="card-modern p-8 relative group">
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-secondary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl"></div>
+              <div className="w-14 h-14 bg-blue-100 rounded-xl flex items-center justify-center mb-6 relative z-10">
+                <CheckCircle className="h-7 w-7 text-primary" />
               </div>
-              <h3 className="text-xl font-semibold mb-2">Doświadczenie</h3>
-              <p className="text-gray-600">
-                Ponad 10 lat doświadczenia w branży marketingowej i technologicznej.
+              <h3 className="text-xl font-semibold mb-3 relative z-10">Wieloletnie doświadczenie</h3>
+              <p className="text-gray-600 relative z-10">
+                Ponad 10 lat doświadczenia w branży marketingowej i technologicznej. Zrealizowaliśmy setki projektów dla firm z różnych branż.
               </p>
             </div>
 
-            <div className="bg-gray-50 rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow">
-              <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mb-4">
-                <CheckCircle className="h-6 w-6 text-purple-600" />
+            <div className="card-modern p-8 relative group">
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-secondary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl"></div>
+              <div className="w-14 h-14 bg-purple-100 rounded-xl flex items-center justify-center mb-6 relative z-10">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-purple-600">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <path d="M12 16v-4"></path>
+                  <path d="M12 8h.01"></path>
+                </svg>
               </div>
-              <h3 className="text-xl font-semibold mb-2">Indywidualne podejście</h3>
-              <p className="text-gray-600">
-                Każdy projekt traktujemy indywidualnie, dostosowując nasze usługi do Twoich potrzeb.
+              <h3 className="text-xl font-semibold mb-3 relative z-10">Indywidualne podejście</h3>
+              <p className="text-gray-600 relative z-10">
+                Każdy projekt traktujemy indywidualnie, dostosowując nasze usługi do specyficznych potrzeb i celów Twojego biznesu.
               </p>
             </div>
 
-            <div className="bg-gray-50 rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow">
-              <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mb-4">
-                <CheckCircle className="h-6 w-6 text-green-600" />
+            <div className="card-modern p-8 relative group">
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-secondary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl"></div>
+              <div className="w-14 h-14 bg-secondary/10 rounded-xl flex items-center justify-center mb-6 relative z-10">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-secondary">
+                  <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+                  <path d="M2 17l10 5 10-5"></path>
+                  <path d="M2 12l10 5 10-5"></path>
+                </svg>
               </div>
-              <h3 className="text-xl font-semibold mb-2">Najnowsze technologie</h3>
-              <p className="text-gray-600">
-                Wykorzystujemy najnowsze technologie i narzędzia, aby zapewnić najwyższą jakość usług.
+              <h3 className="text-xl font-semibold mb-3 relative z-10">Najnowsze technologie</h3>
+              <p className="text-gray-600 relative z-10">
+                Wykorzystujemy najnowsze technologie i narzędzia, w tym zaawansowane rozwiązania AI, aby zapewnić najwyższą jakość usług.
               </p>
             </div>
           </div>
