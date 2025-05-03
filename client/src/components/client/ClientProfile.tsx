@@ -27,7 +27,7 @@ export default function ClientProfile() {
   const queryClient = useQueryClient();
   
   const { data: userData, isLoading, isError } = useQuery({
-    queryKey: ["/api/client/profile"],
+    queryKey: ["/api/client/profile?userId=1"],
     retry: false,
   });
 
@@ -35,14 +35,14 @@ export default function ClientProfile() {
   const [isEditing, setIsEditing] = useState(false);
 
   React.useEffect(() => {
-    if (userData && userData.user) {
-      setFormData(userData.user);
+    if (userData) {
+      setFormData(userData);
     }
   }, [userData]);
 
   const updateProfileMutation = useMutation({
     mutationFn: async (profileData: Partial<UserProfile>) => {
-      const response = await fetch("/api/client/profile", {
+      const response = await fetch("/api/client/profile?userId=1", {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -62,7 +62,7 @@ export default function ClientProfile() {
         title: "Profil zaktualizowany",
         description: "Twój profil został pomyślnie zaktualizowany.",
       });
-      queryClient.invalidateQueries({ queryKey: ["/api/client/profile"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/client/profile?userId=1"] });
       setIsEditing(false);
     },
     onError: (error) => {
@@ -108,7 +108,7 @@ export default function ClientProfile() {
     );
   }
 
-  const user = userData?.user || {};
+  const user = userData || {};
   const initials = user.firstName && user.lastName
     ? `${user.firstName[0]}${user.lastName[0]}`
     : user.username
@@ -256,7 +256,7 @@ export default function ClientProfile() {
                       variant="outline" 
                       onClick={() => {
                         setIsEditing(false);
-                        setFormData(userData.user);
+                        setFormData(userData);
                       }}
                       disabled={updateProfileMutation.isPending}
                     >
