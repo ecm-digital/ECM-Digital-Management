@@ -6,6 +6,17 @@ const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 // nie zmieniaj tego modelu, chyba że użytkownik wyraźnie o to prosi
 const MODEL = "gpt-4o";
 
+interface PricingRecommendation {
+  recommendedPrice: number;
+  priceRange: {
+    min: number;
+    max: number;
+  };
+  rationale: string;
+  marketInsights: string[];
+  competitivePositioning: string;
+}
+
 interface ServiceGenerationParams {
   name?: string;
   category?: string;
@@ -227,5 +238,94 @@ export async function enhanceServiceDescription(serviceName: string, originalDes
   } catch (error) {
     console.error("Błąd podczas ulepszania opisu:", error);
     return originalDescription;
+  }
+}
+
+/**
+ * AI Pricing Assistant - generuje rekomendacje cenowe dla usługi
+ */
+export async function generatePricingRecommendation(
+  serviceName: string, 
+  serviceDescription: string, 
+  features: string[],
+  scope: string[],
+  currentPrice?: number
+): Promise<PricingRecommendation> {
+  // Budowanie szczegółowego prompta dla AI
+  let prompt = `Działasz jako ekspert ds. wyceny usług marketingowych w agencji cyfrowej ECM Digital w Polsce.
+Przeanalizuj poniższą usługę i zaproponuj optymalną wycenę w PLN opartą na wartości rynkowej i konkurencyjności.
+
+NAZWA USŁUGI: "${serviceName}"
+
+OPIS USŁUGI: "${serviceDescription}"
+
+KLUCZOWE FUNKCJE:
+${features.map(feature => `- ${feature}`).join('\n')}
+
+ZAKRES PRAC:
+${scope.map(item => `- ${item}`).join('\n')}
+`;
+
+  if (currentPrice) {
+    prompt += `\nObecna cena usługi to ${currentPrice} PLN, ale chcemy sprawdzić czy jest optymalna.`;
+  }
+
+  prompt += `\nNa podstawie powyższych informacji, oceń wartość rynkową tej usługi i zaproponuj:
+1. Rekomendowaną cenę w PLN
+2. Sugerowany przedział cenowy (min-max) w PLN
+3. Uzasadnienie rekomendacji
+4. Spostrzeżenia dotyczące pozycjonowania cenowego na rynku
+5. Kilka wskazówek rynkowych dotyczących wyceny
+
+Odpowiedz w formacie JSON:
+{
+  "recommendedPrice": liczba,
+  "priceRange": {
+    "min": liczba,
+    "max": liczba
+  },
+  "rationale": "tekst uzasadnienia",
+  "marketInsights": ["insight 1", "insight 2", "insight 3"],
+  "competitivePositioning": "tekst o pozycjonowaniu konkurencyjnym"
+}
+
+Zwróć TYLKO JSON bez dodatkowych wyjaśnień czy komentarzy.`;
+
+  try {
+    const response = await openai.chat.completions.create({
+      model: MODEL,
+      messages: [{ role: "user", content: prompt }],
+      response_format: { type: "json_object" }
+    });
+
+    const generatedContent = response.choices[0].message.content;
+    
+    if (!generatedContent) {
+      throw new Error("Nie udało się wygenerować rekomendacji cenowej");
+    }
+    
+    try {
+      // Parsuj wynik jako JSON
+      const parsedData = JSON.parse(generatedContent) as PricingRecommendation;
+      
+      // Upewnij się, że wszystkie pola istnieją
+      return {
+        recommendedPrice: parsedData.recommendedPrice || (currentPrice || 2500),
+        priceRange: {
+          min: parsedData.priceRange?.min || (parsedData.recommendedPrice ? parsedData.recommendedPrice * 0.8 : 2000),
+          max: parsedData.priceRange?.max || (parsedData.recommendedPrice ? parsedData.recommendedPrice * 1.2 : 3000)
+        },
+        rationale: parsedData.rationale || "Brak uzasadnienia",
+        marketInsights: parsedData.marketInsights || ["Brak dostępnych spostrzeżeń rynkowych"],
+        competitivePositioning: parsedData.competitivePositioning || "Brak informacji o pozycjonowaniu konkurencyjnym"
+      };
+    } catch (parseError) {
+      console.error("Błąd parsowania JSON:", parseError);
+      console.error("Otrzymany tekst:", generatedContent);
+      throw new Error("Nie udało się przetworzyć odpowiedzi AI do formatu JSON");
+    }
+  } catch (error) {
+    console.error("Błąd podczas generowania rekomendacji cenowej:", error);
+    throw error;
   }
 }

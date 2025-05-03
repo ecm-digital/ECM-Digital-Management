@@ -16,7 +16,8 @@ import {
   generateServiceData, 
   generateBenefits, 
   generateScope, 
-  enhanceServiceDescription 
+  enhanceServiceDescription,
+  generatePricingRecommendation
 } from "./openai";
 
 // Configure multer for file uploads - store files locally
@@ -1294,6 +1295,47 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(500).json({
         success: false,
         message: "Error enhancing description",
+        error: error instanceof Error ? error.message : "Unknown error"
+      });
+    }
+  });
+
+  // AI Pricing Assistant
+  app.post("/api/ai/pricing-recommendation", async (req, res) => {
+    try {
+      const { serviceName, description, features, scope, currentPrice } = req.body;
+      
+      if (!serviceName || !description || !features || !scope) {
+        return res.status(400).json({
+          success: false,
+          message: "Service name, description, features and scope are required"
+        });
+      }
+      
+      if (!Array.isArray(features) || !Array.isArray(scope)) {
+        return res.status(400).json({
+          success: false,
+          message: "Features and scope must be arrays"
+        });
+      }
+      
+      const pricingRecommendation = await generatePricingRecommendation(
+        serviceName, 
+        description, 
+        features, 
+        scope, 
+        currentPrice
+      );
+      
+      res.json({
+        success: true,
+        recommendation: pricingRecommendation
+      });
+    } catch (error) {
+      console.error("Error generating pricing recommendation with AI:", error);
+      res.status(500).json({
+        success: false,
+        message: "Error generating pricing recommendation",
         error: error instanceof Error ? error.message : "Unknown error"
       });
     }
