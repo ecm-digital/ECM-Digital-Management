@@ -12,6 +12,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useTranslation } from 'react-i18next';
+import i18next from 'i18next';
 
 // Service card component with translations
 const ServiceCard = ({ service, colorClass }: { service: Service, colorClass: string }) => {
@@ -389,7 +390,7 @@ export default function HomePage() {
                     </div>
                   </div>
                   <div className="p-6">
-                    <h3 className="text-xl font-bold mb-2">Sklep AI dla branży kosmetycznej</h3>
+                    <h3 className="text-xl font-bold mb-2">{i18next.language === 'de' ? 'KI-Shop für die Kosmetikbranche' : 'Sklep AI dla branży kosmetycznej'}</h3>
                     
                     <div className="mb-4">
                       <Badge variant="outline" className="bg-red-50 text-red-700 border-red-200 mb-2 mr-2">{t('caseStudies.problem')}</Badge>
@@ -424,7 +425,7 @@ export default function HomePage() {
                     </div>
                   </div>
                   <div className="p-6">
-                    <h3 className="text-xl font-bold mb-2">Aplikacja mobilna dla firmy fitness</h3>
+                    <h3 className="text-xl font-bold mb-2">{i18next.language === 'de' ? 'Mobile App für ein Fitnessunternehmen' : 'Aplikacja mobilna dla firmy fitness'}</h3>
                     
                     <div className="mb-4">
                       <Badge variant="outline" className="bg-red-50 text-red-700 border-red-200 mb-2 mr-2">{t('caseStudies.problem')}</Badge>
@@ -459,7 +460,7 @@ export default function HomePage() {
                     </div>
                   </div>
                   <div className="p-6">
-                    <h3 className="text-xl font-bold mb-2">MVP dla startupu SaaS</h3>
+                    <h3 className="text-xl font-bold mb-2">{i18next.language === 'de' ? 'MVP für ein SaaS-Startup' : 'MVP dla startupu SaaS'}</h3>
                     
                     <div className="mb-4">
                       <Badge variant="outline" className="bg-red-50 text-red-700 border-red-200 mb-2 mr-2">{t('caseStudies.problem')}</Badge>
