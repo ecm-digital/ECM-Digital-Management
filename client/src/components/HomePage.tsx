@@ -93,8 +93,8 @@ export default function HomePage() {
                     <Check className="h-4 w-4 text-green-600" /> 
                   </div>
                   <div>
-                    <p className="font-medium">Skuteczne UX</p>
-                    <p className="text-sm text-gray-500">Projektujemy w oparciu o dane</p>
+                    <p className="font-medium">{t('home.effectiveUX')}</p>
+                    <p className="text-sm text-gray-500">{t('home.dataBasedDesign')}</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
@@ -102,8 +102,8 @@ export default function HomePage() {
                     <Check className="h-4 w-4 text-blue-600" /> 
                   </div>
                   <div>
-                    <p className="font-medium">Szybka realizacja</p>
-                    <p className="text-sm text-gray-500">Terminy zawsze dotrzymane</p>
+                    <p className="font-medium">{t('home.fastDelivery')}</p>
+                    <p className="text-sm text-gray-500">{t('home.deadlinesAlwaysMet')}</p>
                   </div>
                 </div>
               </div>
@@ -127,7 +127,7 @@ export default function HomePage() {
                           <CheckCircle className="h-5 w-5 text-primary" />
                         </div>
                         <div>
-                          <p className="font-medium">Ponad 10 lat doświadczenia</p>
+                          <p className="font-medium">{t('home.yearsOfExperience')}</p>
                         </div>
                       </div>
                       
@@ -136,7 +136,7 @@ export default function HomePage() {
                           <CheckCircle className="h-5 w-5 text-secondary" />
                         </div>
                         <div>
-                          <p className="font-medium">+120 zadowolonych klientów</p>
+                          <p className="font-medium">{t('home.happyClients')}</p>
                         </div>
                       </div>
                       
@@ -145,7 +145,7 @@ export default function HomePage() {
                           <CheckCircle className="h-5 w-5 text-purple-600" />
                         </div>
                         <div>
-                          <p className="font-medium">Podejście oparte na danych</p>
+                          <p className="font-medium">{t('home.dataBasedApproach')}</p>
                         </div>
                       </div>
                     </div>
