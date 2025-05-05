@@ -10,7 +10,7 @@ import { Check, ArrowRight, Filter, Laptop, Users, BarChart, Bot, Rocket } from 
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import ServiceCard from '@/components/ServiceCard';
+import ServiceCard from '../components/ServiceCard.jsx';
 import { useTranslation } from 'react-i18next';
 
 export default function ServicesPage() {

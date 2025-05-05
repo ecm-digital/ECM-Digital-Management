@@ -13,7 +13,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useTranslation } from 'react-i18next';
 import i18next from 'i18next';
-import ServiceCard from '@/components/ServiceCard';
+import ServiceCard from '../components/ServiceCard.jsx';
 
 export default function HomePage() {
   const { t } = useTranslation();

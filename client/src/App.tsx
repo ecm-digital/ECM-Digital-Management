@@ -9,7 +9,7 @@ import AdminPage from "@/pages/AdminPage";
 import ClientHomePage from "@/pages/ClientHomePage";
 import ServicesPage from "@/pages/ServicesPage";
 import ConfigureServicePage from "@/pages/ConfigureServicePage";
-import ServiceDetailsPage from "@/components/ServiceDetailsPage";
+import ServiceDetailsPage from "./components/ServiceDetailsPage.jsx";
 import ClientDashboardPage from "@/pages/ClientDashboardPage";
 import ClientOrdersPage from "@/pages/ClientOrdersPage";
 import ClientOrderDetailsPage from "@/pages/ClientOrderDetailsPage";
