@@ -14,8 +14,12 @@ import ServiceCard from '../components/ServiceCard.jsx';
 import { useTranslation } from 'react-i18next';
 
 export default function ServicesPage() {
+  const { t, i18n } = useTranslation();
+  const currentLanguage = localStorage.getItem('i18nextLng') || 'pl';
+  
   const { data: services, isLoading } = useQuery<Service[]>({
-    queryKey: ['/api/services'],
+    queryKey: ['/api/services', currentLanguage],
+    queryFn: () => fetch(`/api/services?lang=${currentLanguage}`).then(res => res.json()),
   });
 
   const [searchTerm, setSearchTerm] = useState('');

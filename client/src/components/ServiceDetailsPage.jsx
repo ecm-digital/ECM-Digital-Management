@@ -7,15 +7,12 @@ import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { ArrowLeft, Clock, Calendar, CheckCircle, Check } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { getServiceTranslation, getCategoryTranslation, getCurrentLanguage } from './ServiceTranslator';
-
-
 export default function ServiceDetailsPage() {
   const { t, i18n } = useTranslation();
   const [match, params] = useRoute('/service/:id');
   const [_, setLocation] = useLocation();
   const serviceId = params?.id;
-  const currentLanguage = getCurrentLanguage();
+  const currentLanguage = localStorage.getItem('i18nextLng') || 'pl';
   
   console.log("ServiceDetailsPage renderowanie, język:", currentLanguage, "nazwa usługi:", serviceId);
 
