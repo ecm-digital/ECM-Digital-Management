@@ -88,6 +88,13 @@ const getServiceTranslation = (serviceName: string, lang: string) => {
       console.log("No translation found for key:", serviceKey);
     } else {
       console.log("Translation found for key:", serviceKey);
+
+      // Jeśli mamy description, a nie mamy longDescription, stwórz przynajmniej podstawowy longDescription
+      if (translation.description && !translation.longDescription) {
+        translation.longDescription = translation.description + " " + 
+          (translation.benefits || []).join(" ") + " " + 
+          (translation.features || []).join(" ");
+      }
     }
     
     return translation;
