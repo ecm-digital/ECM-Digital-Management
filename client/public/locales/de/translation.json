@@ -65,6 +65,216 @@
       "socialMedia": "Wir steigern Reichweite und Umsatz durch ausgefeilte Werbekampagnen und Content.",
       "aiIntegration": "Wir optimieren Unternehmensprozesse durch intelligente Automatisierungen und KI-Agenten.",
       "startupOffer": "Wir helfen Startups, ein erfolgreiches Produkt schneller und kostengünstiger zu entwickeln."
+    },
+    "servicesList": {
+      "uxAudit": {
+        "name": "UX-Audit",
+        "shortDescription": "Umfassende UX-Analyse Ihrer Website oder App",
+        "description": "UX-Audit - eine detaillierte Analyse Ihrer Webseite oder Anwendung mit Empfehlungen zur Verbesserung der Benutzererfahrung und Conversion.",
+        "features": [
+          "Detaillierte Bewertung der Benutzererfahrung",
+          "Analyse der Benutzerflüsse und Informationsarchitektur",
+          "Identifizierung von Conversion-Barrieren",
+          "Bewertung der Zugänglichkeit und Nutzerfreundlichkeit",
+          "Umsetzbare Verbesserungsvorschläge"
+        ],
+        "benefits": [
+          "Höhere Conversion-Raten",
+          "Verbesserte Benutzerzufriedenheit",
+          "Klarere Navigation und Benutzerflüsse",
+          "Reduzierte Absprungrate",
+          "Steigerung der Conversion-Rate"
+        ],
+        "scope": [
+          "Analyse der Website oder Anwendung",
+          "Bewertung der Benutzererfahrung",
+          "Identifizierung von Problemen und Barrieren",
+          "Erstellung eines detaillierten Berichts",
+          "Präsentation der Empfehlungen"
+        ]
+      },
+      "uxAuditAi": {
+        "name": "UX-Audit mit KI",
+        "shortDescription": "KI-unterstützte UX-Analyse mit umsetzbaren Empfehlungen",
+        "description": "UX-Audit mit KI - eine fortschrittliche Analyse Ihrer Webseite mit KI-unterstützten Werkzeugen und einem umfassenden Bericht mit Empfehlungen.",
+        "features": [
+          "KI-gestützte Heatmap-Analyse",
+          "Engagement-Tracking und Verhaltensanalyse",
+          "Detaillierter UX-Bericht mit Visualisierungen",
+          "Priorisierte Liste von Empfehlungen",
+          "Auswirkungsanalyse der Verbesserungen"
+        ],
+        "benefits": [
+          "Datengestützte UX-Entscheidungen",
+          "Identifizierung versteckter Conversion-Barrieren",
+          "Konkrete umsetzbare Empfehlungen",
+          "Wertvoller Lead-Magnet für potenzielle Kunden",
+          "Demonstration von Professionalität und Expertise"
+        ],
+        "scope": [
+          "Website-Analyse",
+          "Bewertung der wichtigsten UX-Aspekte",
+          "Vorbereitung von Empfehlungen",
+          "Design eines PDF-Berichts",
+          "Lieferung des Endberichts"
+        ]
+      },
+      "monthlyAiUxCare": {
+        "name": "Monatliche KI/UX-Betreuung",
+        "shortDescription": "Regelmäßige KI/UX-Unterstützung und Optimierung für Ihr Unternehmen",
+        "description": "Monatliche KI/UX-Betreuung - regelmäßige Analysen, Beratungen und UX-Empfehlungen mit KI-Unterstützung.",
+        "features": [
+          "Monatliche UX-Analysen",
+          "Regelmäßige Expertenberatung",
+          "KI-Unterstützung bei der Dateninterpretation",
+          "Empfehlungsbericht",
+          "Priorisierung von Verbesserungen"
+        ],
+        "benefits": [
+          "Kontinuierliche Verbesserung der Benutzererfahrung",
+          "Regelmäßige datenbasierte Updates",
+          "Konstante Expertenunterstützung",
+          "Wettbewerbsvorteil durch KI",
+          "Bessere Geschäftsergebnisse"
+        ],
+        "scope": [
+          "Monatliche Daten- und Metrikanalyse",
+          "Beratungstreffen (2 Stunden)",
+          "Erstellung eines Empfehlungsberichts",
+          "Unterstützung bei der Umsetzung von Änderungen",
+          "Ständiger Zugang zu einem UX-Experten"
+        ]
+      },
+      "insightsNewsletter": {
+        "name": "Insights-Newsletter",
+        "shortDescription": "Professioneller Newsletter zum Aufbau von Kundenbeziehungen",
+        "description": "Insights-Newsletter - Erstellung und Verwaltung eines professionellen Newsletters oder Kommunikationskanals mit aktuellen Erkenntnissen.",
+        "features": [
+          "Newsletter-Inhaltsstrategie",
+          "Design professioneller Vorlagen",
+          "Erstellung ansprechender Inhalte",
+          "Abonnentenverwaltung",
+          "Analyse und Berichterstattung"
+        ],
+        "benefits": [
+          "Aufbau langfristiger Kundenbeziehungen",
+          "Präsentation von Expertise und Vertrauensbildung",
+          "Regelmäßiger Kontakt mit der Kundenbasis",
+          "Generierung neuer Leads und Verkaufschancen",
+          "Steigerung der Markenbekanntheit"
+        ],
+        "scope": [
+          "Analyse der Zielgruppe",
+          "Entwicklung einer Inhaltsstrategie",
+          "Design einer Newsletter-Vorlage",
+          "Vorbereitung der ersten Nachrichtenserie",
+          "Einrichtung von Tools und Analysen"
+        ]
+      },
+      "aiWebApp": {
+        "name": "KI-Web-App",
+        "shortDescription": "Moderne Web-Anwendung mit KI-Funktionalität und UX-fokussiertem Design",
+        "description": "KI-Web-App - Entwicklung einer modernen Webanwendung mit künstlicher Intelligenz, die Benutzererfahrung, Effizienz und Automatisierung verbessert.",
+        "features": [
+          "Moderne reaktionsschnelle Benutzeroberfläche",
+          "KI-gestützte Funktionalität und Automatisierung",
+          "Benutzerzentriertes UX-Design",
+          "Cloud-Hosting und Skalierbarkeit",
+          "API-Integration und Datenanalyse"
+        ],
+        "benefits": [
+          "Verbesserte Effizienz und Automatisierung",
+          "Personalisierte Benutzererfahrung",
+          "Datengetriebene Entscheidungsfindung",
+          "Skalierbarkeit für Wachstum",
+          "Wettbewerbsvorteil durch Technologie"
+        ],
+        "scope": [
+          "UX/UI-Design",
+          "Frontend- und Backend-Entwicklung",
+          "KI-Modellintegration",
+          "Testen und QA",
+          "Bereitstellung und Schulung"
+        ]
+      },
+      "webStore": {
+        "name": "Online-Shop",
+        "shortDescription": "Kompletter, kundenorientierter E-Commerce-Shop mit UX-orientiertem Design",
+        "description": "Online-Shop - Entwicklung eines kompletten E-Commerce-Shops mit UX-fokussiertem Design, optimiert für Conversions und Benutzerzufriedenheit.",
+        "features": [
+          "Kundenorientiertes UX/UI-Design",
+          "Responsive für alle Geräte",
+          "Integrierte Zahlungsabwicklung",
+          "Produktkatalog und Inventarverwaltung",
+          "SEO-Optimierung"
+        ],
+        "benefits": [
+          "Erhöhte Online-Verkäufe",
+          "Bessere Kundenzufriedenheit",
+          "Optimierte Conversion-Raten",
+          "Verbesserte Markenwahrnehmung",
+          "Kosteneffektiver Vertriebskanal"
+        ],
+        "scope": [
+          "Markt- und Wettbewerbsanalyse",
+          "UX/UI-Design und Entwicklung",
+          "Integration von E-Commerce-Funktionen",
+          "Inhalts- und Produkteingabe",
+          "Testen und Bereitstellung"
+        ]
+      },
+      "socialMediaCampaign": {
+        "name": "Social-Media-Kampagne",
+        "shortDescription": "Umfassende Social-Media-Marketingkampagne für gezielte Zielgruppen",
+        "description": "Social-Media-Kampagne - Planung und Durchführung einer umfassenden Social-Media-Marketingkampagne zur Steigerung der Markenbekanntheit und des Engagements.",
+        "features": [
+          "Zielgruppenanalyse und -segmentierung",
+          "Kreative Inhalte und Visuals",
+          "Plattformspezifische Strategie",
+          "Anzeigenverwaltung und -optimierung",
+          "Leistungsverfolgung und Berichterstattung"
+        ],
+        "benefits": [
+          "Gesteigerte Markenbekanntheit",
+          "Höheres Publikumsengagement",
+          "Gezielte Reichweite bei relevanten Kunden",
+          "Messbare ROI und Ergebnisse",
+          "Verbesserte Kundenbindung"
+        ],
+        "scope": [
+          "Markt- und Wettbewerbsanalyse",
+          "Zielgruppendefinition",
+          "Strategie- und Inhaltsentwicklung",
+          "Kampagneneinrichtung und -ausführung",
+          "Überwachung und Optimierung"
+        ]
+      },
+      "startupMvp": {
+        "name": "Startup MVP",
+        "shortDescription": "Schnelle Entwicklung eines Minimum Viable Product für Startups",
+        "description": "Startup MVP - Schnelle Entwicklung eines Minimum Viable Product zur Validierung von Geschäftsideen und Gewinnung früher Nutzer oder Investoren.",
+        "features": [
+          "Schlank und funktional mit Kernfunktionen",
+          "Fokus auf Benutzerfreundlichkeit und UX",
+          "Schnelle Entwicklung und Markteinführung",
+          "Iterativer Entwicklungsansatz",
+          "Analytics zur Benutzerrückmeldung"
+        ],
+        "benefits": [
+          "Validierung von Geschäftskonzepten",
+          "Reduzierung von Entwicklungszeit und -kosten",
+          "Frühe Nutzergewinnung",
+          "Feedback für Produktverbesserung",
+          "Stärkere Position für Finanzierung"
+        ],
+        "scope": [
+          "Konzeptualisierung und Planung",
+          "UX/UI-Design",
+          "Kernfunktionsentwicklung",
+          "Tests und Validierung",
+          "Bereitstellung und erste Benutzerrekrutierung"
+        ]
+      }
     }
   },
   "contact": {

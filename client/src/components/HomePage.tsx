@@ -560,11 +560,11 @@ export default function HomePage() {
                       <SelectValue placeholder={t('contact.service')} />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="ux-audit">Audyt UX z AI</SelectItem>
-                      <SelectItem value="web-development">Strona internetowa</SelectItem>
-                      <SelectItem value="mvp">MVP dla startupu</SelectItem>
-                      <SelectItem value="marketing">Kampanie reklamowe</SelectItem>
-                      <SelectItem value="other">Inna usługa</SelectItem>
+                      <SelectItem value="ux-audit">{i18next.language === 'de' ? 'UX-Audit mit KI' : 'Audyt UX z AI'}</SelectItem>
+                      <SelectItem value="web-development">{i18next.language === 'de' ? 'Webseite' : 'Strona internetowa'}</SelectItem>
+                      <SelectItem value="mvp">{i18next.language === 'de' ? 'MVP für Startup' : 'MVP dla startupu'}</SelectItem>
+                      <SelectItem value="marketing">{i18next.language === 'de' ? 'Werbekampagnen' : 'Kampanie reklamowe'}</SelectItem>
+                      <SelectItem value="other">{i18next.language === 'de' ? 'Andere Dienstleistung' : 'Inna usługa'}</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
