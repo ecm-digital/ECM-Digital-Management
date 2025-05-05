@@ -3,8 +3,11 @@ import { Link, useLocation } from 'wouter';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Menu, X } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
+import LanguageSwitcher from './LanguageSwitcher';
 
 export default function Navbar() {
+  const { t } = useTranslation();
   const [location] = useLocation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -23,26 +26,27 @@ export default function Navbar() {
           <nav className="hidden md:flex items-center space-x-6">
             <Link href="/">
               <span className={`hover:text-blue-600 transition-colors cursor-pointer ${location === '/' ? 'text-blue-600 font-medium' : 'text-gray-700'}`}>
-                Strona główna
+                {t('navigation.home')}
               </span>
             </Link>
             <a href={location === '/' ? "#services" : "/#services"} className="hover:text-blue-600 transition-colors text-gray-700">
-              Usługi
+              {t('navigation.services')}
             </a>
             <a href={location === '/' ? "#case-studies" : "/#case-studies"} className="hover:text-blue-600 transition-colors text-gray-700">
               Case Studies
             </a>
             <a href={location === '/' ? "#contact-form" : "/#contact-form"} className="hover:text-blue-600 transition-colors text-gray-700">
-              Kontakt
+              {t('navigation.contact')}
             </a>
             <Link href="/client/dashboard">
               <Button variant="default" size="sm" className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700">
-                Panel Klienta
+                {t('navigation.clientPanel')}
               </Button>
             </Link>
             <Link href="/admin">
-              <Button variant="outline" size="sm">Panel Admin</Button>
+              <Button variant="outline" size="sm">{t('navigation.adminPanel')}</Button>
             </Link>
+            <LanguageSwitcher />
           </nav>
 
           <div className="md:hidden">
@@ -64,26 +68,29 @@ export default function Navbar() {
                     <nav className="flex flex-col space-y-4">
                       <Link href="/">
                         <span className={`block py-2 hover:text-blue-600 transition-colors ${location === '/' ? 'text-blue-600 font-medium' : 'text-gray-700'}`}>
-                          Strona główna
+                          {t('navigation.home')}
                         </span>
                       </Link>
                       <a href={location === '/' ? "#services" : "/#services"} className="block py-2 hover:text-blue-600 transition-colors text-gray-700">
-                        Usługi
+                        {t('navigation.services')}
                       </a>
                       <a href={location === '/' ? "#case-studies" : "/#case-studies"} className="block py-2 hover:text-blue-600 transition-colors text-gray-700">
                         Case Studies
                       </a>
                       <a href={location === '/' ? "#contact-form" : "/#contact-form"} className="block py-2 hover:text-blue-600 transition-colors text-gray-700">
-                        Kontakt
+                        {t('navigation.contact')}
                       </a>
+                      <div className="py-2">
+                        <LanguageSwitcher />
+                      </div>
                       <div className="pt-4 space-y-2">
                         <Link href="/client/dashboard">
                           <Button variant="default" className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700">
-                            Panel Klienta
+                            {t('navigation.clientPanel')}
                           </Button>
                         </Link>
                         <Link href="/admin">
-                          <Button variant="outline" className="w-full">Panel Admin</Button>
+                          <Button variant="outline" className="w-full">{t('navigation.adminPanel')}</Button>
                         </Link>
                       </div>
                     </nav>

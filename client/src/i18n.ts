@@ -3,7 +3,7 @@ import { initReactI18next } from 'react-i18next';
 import Backend from 'i18next-http-backend';
 
 i18n
-  // load translations using http (default public/locales)
+  // load translations using http
   .use(Backend)
   // pass the i18n instance to react-i18next
   .use(initReactI18next)
@@ -19,5 +19,18 @@ i18n
       loadPath: '/locales/{{lng}}/{{ns}}.json',
     },
   });
+
+// Funkcja pomocnicza do zmiany języka
+export const changeLanguage = (lng: string) => {
+  i18n.changeLanguage(lng);
+  // Zapisanie preferencji użytkownika w localStorage
+  localStorage.setItem('i18nextLng', lng);
+};
+
+// Sprawdzenie czy istnieje preferencja językowa użytkownika
+const savedLanguage = localStorage.getItem('i18nextLng');
+if (savedLanguage && ['pl', 'de'].includes(savedLanguage)) {
+  i18n.changeLanguage(savedLanguage);
+}
 
 export default i18n;

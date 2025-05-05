@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   Select,
@@ -7,18 +7,24 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { changeLanguage } from '../i18n';
 
 export default function LanguageSwitcher() {
   const { i18n } = useTranslation();
   const [currentLanguage, setCurrentLanguage] = useState(i18n.language);
 
-  const changeLanguage = (language: string) => {
-    i18n.changeLanguage(language);
+  // Aktualizacja stanu po zmianie języka
+  useEffect(() => {
+    setCurrentLanguage(i18n.language);
+  }, [i18n.language]);
+
+  const handleLanguageChange = (language: string) => {
+    changeLanguage(language);
     setCurrentLanguage(language);
   };
 
   return (
-    <Select value={currentLanguage} onValueChange={changeLanguage}>
+    <Select value={currentLanguage} onValueChange={handleLanguageChange}>
       <SelectTrigger className="w-[120px]">
         <SelectValue placeholder="Język" />
       </SelectTrigger>
