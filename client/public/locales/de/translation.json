@@ -30,7 +30,8 @@
     "benefits": "Vorteile",
     "scope": "Arbeitsumfang",
     "configure": "Dienstleistung konfigurieren",
-    "orderNow": "Jetzt bestellen"
+    "orderNow": "Jetzt bestellen",
+    "viewAllServices": "Alle Dienstleistungen anzeigen"
   },
   "contact": {
     "title": "Kontaktieren Sie uns",

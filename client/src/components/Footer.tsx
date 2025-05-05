@@ -1,7 +1,9 @@
 import React from 'react';
 import { Link } from 'wouter';
+import { useTranslation } from 'react-i18next';
 
 export default function Footer() {
+  const { t } = useTranslation();
   return (
     <footer className="bg-background border-t border-gray-100 pt-20 pb-12">
       <div className="container-tight">
@@ -24,9 +26,9 @@ export default function Footer() {
           </div>
           
           <div>
-            <h4 className="text-lg font-semibold mb-5">Usługi</h4>
+            <h4 className="text-lg font-semibold mb-5">{t('footer.services')}</h4>
             <ul className="space-y-3 text-gray-600">
-              <li><Link href="/services"><span className="hover:text-primary transition-colors cursor-pointer">Wszystkie usługi</span></Link></li>
+              <li><Link href="/services"><span className="hover:text-primary transition-colors cursor-pointer">{t('services.viewAllServices')}</span></Link></li>
               <li><Link href="/services"><span className="hover:text-primary transition-colors cursor-pointer">UX/UI Design</span></Link></li>
               <li><Link href="/services"><span className="hover:text-primary transition-colors cursor-pointer">Web Development</span></Link></li>
               <li><Link href="/services"><span className="hover:text-primary transition-colors cursor-pointer">Marketing</span></Link></li>
@@ -35,18 +37,18 @@ export default function Footer() {
           </div>
           
           <div>
-            <h4 className="text-lg font-semibold mb-5">Firma</h4>
+            <h4 className="text-lg font-semibold mb-5">{t('footer.company')}</h4>
             <ul className="space-y-3 text-gray-600">
-              <li><a href="#" className="hover:text-primary transition-colors">O nas</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">Zespół</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">Kariera</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">Kontakt</a></li>
+              <li><a href="#" className="hover:text-primary transition-colors">{t('navigation.about')}</a></li>
+              <li><a href="#" className="hover:text-primary transition-colors">Team</a></li>
+              <li><a href="#" className="hover:text-primary transition-colors">Karriere</a></li>
+              <li><a href="#" className="hover:text-primary transition-colors">{t('navigation.contact')}</a></li>
               <li><a href="#" className="hover:text-primary transition-colors">Blog</a></li>
             </ul>
           </div>
           
           <div>
-            <h4 className="text-lg font-semibold mb-5">Kontakt</h4>
+            <h4 className="text-lg font-semibold mb-5">{t('footer.contact')}</h4>
             <ul className="space-y-4 text-gray-600">
               <li className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
@@ -88,14 +90,14 @@ export default function Footer() {
         
         <div className="border-t border-gray-200 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
           <p className="text-sm text-gray-500">
-            &copy; {new Date().getFullYear()} ECM Digital. Wszelkie prawa zastrzeżone.
+            &copy; {new Date().getFullYear()} ECM Digital. {t('footer.copyright')}
           </p>
           <div className="flex gap-6 mt-4 md:mt-0">
             <a href="#" className="text-gray-500 hover:text-primary transition-colors">
-              Polityka prywatności
+              {t('footer.privacyPolicy')}
             </a>
             <a href="#" className="text-gray-500 hover:text-primary transition-colors">
-              Warunki korzystania
+              {t('footer.terms')}
             </a>
             <a href="#" className="text-gray-500 hover:text-primary transition-colors">
               Cookies
