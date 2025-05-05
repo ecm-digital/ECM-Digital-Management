@@ -20,7 +20,8 @@ export default function ServiceDetailsPage() {
   console.log("ServiceDetailsPage renderowanie, język:", currentLanguage, "nazwa usługi:", serviceId);
 
   const { data: service, isLoading, isError } = useQuery({ 
-    queryKey: [`/api/services/${serviceId}`],
+    queryKey: [`/api/services/${serviceId}`, currentLanguage],
+    queryFn: () => fetch(`/api/services/${serviceId}?lang=${currentLanguage}`).then(res => res.json()),
     staleTime: 5000
   });
 
@@ -64,12 +65,12 @@ export default function ServiceDetailsPage() {
         <div className="lg:col-span-2">
           <div className="mb-6">
             <h1 className="text-3xl md:text-4xl font-bold mb-3">
-              {getServiceTranslation(service.name, currentLanguage)}
+              {service.name}
             </h1>
             
             <div className="flex flex-wrap gap-2 mb-4">
               <Badge variant="outline" className="bg-blue-50">
-                {getCategoryTranslation(service.category, currentLanguage)}
+                {service.category}
               </Badge>
               <Badge variant="outline" className="bg-green-50 flex items-center gap-1">
                 <Clock size={14} /> {service.deliveryTime} {t('services.days')}
@@ -78,21 +79,13 @@ export default function ServiceDetailsPage() {
 
             {service.shortDescription && (
               <p className="text-lg text-gray-600 mb-4">
-                {i18n.language === 'de' && service.id === '1' ? t('services.servicesList.uxAudit.shortDescription') : 
-                 i18n.language === 'de' && service.id === '2' ? t('services.servicesList.uxAuditAi.shortDescription') :
-                 i18n.language === 'de' && service.id === '24' ? t('services.servicesList.monthlyAiUxCare.shortDescription') :
-                 i18n.language === 'de' && service.id === '25' ? t('services.servicesList.insightsNewsletter.shortDescription') :
-                 service.shortDescription}
+                {service.shortDescription}
               </p>
             )}
 
             <div className="text-gray-700 mb-6">
               <p className="mb-4">
-                {i18n.language === 'de' && service.id === '1' ? t('services.servicesList.uxAudit.description') : 
-                 i18n.language === 'de' && service.id === '2' ? t('services.servicesList.uxAuditAi.description') :
-                 i18n.language === 'de' && service.id === '24' ? t('services.servicesList.monthlyAiUxCare.description') :
-                 i18n.language === 'de' && service.id === '25' ? t('services.servicesList.insightsNewsletter.description') :
-                 service.description}
+                {service.description}
               </p>
               {service.longDescription && (
                 <div className="mt-4">
@@ -108,31 +101,12 @@ export default function ServiceDetailsPage() {
                 <div>
                   <h3 className="text-xl font-semibold mb-4">{t('services.benefits')}</h3>
                   <ul className="space-y-3">
-                    {(() => {
-                      // Używamy IIFE (Immediately Invoked Function Expression) aby móc użyć zmiennych lokalnych
-                      const getBenefits = () => {
-                        if (i18n.language === 'de') {
-                          if (service.id === '1') {
-                            return t('services.servicesList.uxAudit.benefits', { returnObjects: true });
-                          } else if (service.id === '2') {
-                            return t('services.servicesList.uxAuditAi.benefits', { returnObjects: true });
-                          } else if (service.id === '24') {
-                            return t('services.servicesList.monthlyAiUxCare.benefits', { returnObjects: true });
-                          } else if (service.id === '25') {
-                            return t('services.servicesList.insightsNewsletter.benefits', { returnObjects: true });
-                          }
-                        }
-                        return service.benefits || [];
-                      };
-                      
-                      const benefits = getBenefits();
-                      return Array.isArray(benefits) ? benefits.map((benefit, idx) => (
-                        <li key={idx} className="flex items-start">
-                          <CheckCircle className="h-5 w-5 text-green-500 mr-2 flex-shrink-0" />
-                          <span>{benefit}</span>
-                        </li>
-                      )) : null;
-                    })()}
+                    {Array.isArray(service.benefits) && service.benefits.map((benefit, idx) => (
+                      <li key={idx} className="flex items-start">
+                        <CheckCircle className="h-5 w-5 text-green-500 mr-2 flex-shrink-0" />
+                        <span>{benefit}</span>
+                      </li>
+                    ))}
                   </ul>
                 </div>
               )}
@@ -141,31 +115,12 @@ export default function ServiceDetailsPage() {
                 <div>
                   <h3 className="text-xl font-semibold mb-4">{t('services.features')}</h3>
                   <ul className="space-y-3">
-                    {(() => {
-                      // Używamy IIFE dla funkcji cech/elementów
-                      const getFeatures = () => {
-                        if (i18n.language === 'de') {
-                          if (service.id === '1') {
-                            return t('services.servicesList.uxAudit.features', { returnObjects: true });
-                          } else if (service.id === '2') {
-                            return t('services.servicesList.uxAuditAi.features', { returnObjects: true });
-                          } else if (service.id === '24') {
-                            return t('services.servicesList.monthlyAiUxCare.features', { returnObjects: true });
-                          } else if (service.id === '25') {
-                            return t('services.servicesList.insightsNewsletter.features', { returnObjects: true });
-                          }
-                        }
-                        return service.features || [];
-                      };
-                      
-                      const features = getFeatures();
-                      return Array.isArray(features) ? features.map((feature, idx) => (
-                        <li key={idx} className="flex items-start">
-                          <Check className="h-5 w-5 text-blue-500 mr-2 flex-shrink-0" />
-                          <span>{feature}</span>
-                        </li>
-                      )) : null;
-                    })()}
+                    {Array.isArray(service.features) && service.features.map((feature, idx) => (
+                      <li key={idx} className="flex items-start">
+                        <Check className="h-5 w-5 text-blue-500 mr-2 flex-shrink-0" />
+                        <span>{feature}</span>
+                      </li>
+                    ))}
                   </ul>
                 </div>
               )}
@@ -175,33 +130,14 @@ export default function ServiceDetailsPage() {
               <div className="mt-6">
                 <h3 className="text-xl font-semibold mb-4">{t('services.scope')}</h3>
                 <ul className="space-y-3">
-                  {(() => {
-                      // Używamy IIFE dla funkcji zakresu
-                      const getScope = () => {
-                        if (i18n.language === 'de') {
-                          if (service.id === '1') {
-                            return t('services.servicesList.uxAudit.scope', { returnObjects: true });
-                          } else if (service.id === '2') {
-                            return t('services.servicesList.uxAuditAi.scope', { returnObjects: true });
-                          } else if (service.id === '24') {
-                            return t('services.servicesList.monthlyAiUxCare.scope', { returnObjects: true });
-                          } else if (service.id === '25') {
-                            return t('services.servicesList.insightsNewsletter.scope', { returnObjects: true });
-                          }
-                        }
-                        return service.scope || [];
-                      };
-                      
-                      const scope = getScope();
-                      return Array.isArray(scope) ? scope.map((item, idx) => (
-                        <li key={idx} className="flex items-start">
-                          <span className="h-5 w-5 rounded-full bg-purple-100 text-purple-500 flex items-center justify-center mr-2 flex-shrink-0">
-                            {idx + 1}
-                          </span>
-                          <span>{item}</span>
-                        </li>
-                      )) : null;
-                    })()}
+                  {Array.isArray(service.scope) && service.scope.map((item, idx) => (
+                    <li key={idx} className="flex items-start">
+                      <span className="h-5 w-5 rounded-full bg-purple-100 text-purple-500 flex items-center justify-center mr-2 flex-shrink-0">
+                        {idx + 1}
+                      </span>
+                      <span>{item}</span>
+                    </li>
+                  ))}
                 </ul>
               </div>
             )}

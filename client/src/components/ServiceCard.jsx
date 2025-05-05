@@ -23,11 +23,11 @@ export default function ServiceCard({
       <CardHeader className="pb-2">
         <div className="flex justify-between items-start">
           <CardTitle className="text-xl">
-            {getServiceTranslation(service.name, currentLanguage)}
+            {service.name}
           </CardTitle>
           {showCategory && (
             <Badge variant="outline" className="bg-blue-50">
-              {getCategoryTranslation(service.category || 'Inne', currentLanguage)}
+              {service.category || 'Inne'}
             </Badge>
           )}
         </div>
