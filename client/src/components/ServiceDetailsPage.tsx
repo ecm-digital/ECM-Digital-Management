@@ -7,8 +7,10 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { ArrowLeft, Clock, Calendar, CheckCircle, Check } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 export default function ServiceDetailsPage() {
+  const { t } = useTranslation();
   const [match, params] = useRoute('/service/:id');
   const [_, setLocation] = useLocation();
   const serviceId = params?.id;
@@ -39,9 +41,9 @@ export default function ServiceDetailsPage() {
   if (isError || !service) {
     return (
       <div className="container mx-auto p-8 text-center">
-        <h2 className="text-red-500 font-bold text-xl mb-4">Usługa nie znaleziona</h2>
-        <p className="mb-6">Przepraszamy, nie udało się znaleźć wybranej usługi.</p>
-        <Button onClick={handleBack}>Wróć do listy usług</Button>
+        <h2 className="text-red-500 font-bold text-xl mb-4">{t('services.notFound')}</h2>
+        <p className="mb-6">{t('services.notFoundDescription')}</p>
+        <Button onClick={handleBack}>{t('buttons.back')}</Button>
       </div>
     );
   }

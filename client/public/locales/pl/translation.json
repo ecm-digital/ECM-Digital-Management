@@ -5,7 +5,8 @@
     "about": "O nas",
     "contact": "Kontakt",
     "clientPanel": "Panel klienta",
-    "adminPanel": "Panel administracyjny"
+    "adminPanel": "Panel administracyjny",
+    "caseStudies": "Nasze realizacje"
   },
   "home": {
     "title": "ECM Digital",
@@ -31,7 +32,13 @@
     "scope": "Zakres prac",
     "configure": "Skonfiguruj usługę",
     "orderNow": "Zamów teraz",
-    "viewAllServices": "Zobacz wszystkie usługi"
+    "viewAllServices": "Zobacz wszystkie usługi",
+    "notFound": "Usługa nie znaleziona",
+    "notFoundDescription": "Przepraszamy, nie udało się znaleźć wybranej usługi.",
+    "backToList": "Wróć do listy usług",
+    "summary": "Podsumowanie",
+    "priceDetails": "Szczegóły cenowe i czas realizacji",
+    "basePrice": "Powyższa cena jest ceną podstawową. Ostateczna cena zależy od wybranych opcji konfiguracji."
   },
   "contact": {
     "title": "Skontaktuj się z nami",
