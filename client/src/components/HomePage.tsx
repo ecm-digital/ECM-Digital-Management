@@ -492,7 +492,7 @@ export default function HomePage() {
           <div className="mt-10 text-center">
             <Link href="/services">
               <Button variant="outline" size="lg">
-                Zobacz wszystkie usługi
+                {t('services.viewAllServices')}
               </Button>
             </Link>
           </div>
@@ -507,19 +507,19 @@ export default function HomePage() {
         </div>
         <div className="container-tight relative z-10">
           <div className="max-w-3xl mx-auto text-center">
-            <h2 className="text-3xl md:text-5xl font-bold mb-6">Gotowy, aby rozpocząć współpracę?</h2>
+            <h2 className="text-3xl md:text-5xl font-bold mb-6">{t('contact.title')}</h2>
             <p className="text-xl opacity-90 mb-10 max-w-2xl mx-auto">
-              Skontaktuj się z nami już dziś, aby omówić, jak możemy pomóc Twojemu biznesowi osiągnąć sukces w cyfrowym świecie.
+              {t('contact.subtitle')}
             </p>
             <div className="flex flex-wrap gap-6 justify-center">
               <Link href="/services">
                 <Button size="lg" className="btn-modern bg-white text-primary hover:bg-gray-100 shadow-lg">
-                  Sprawdź nasze usługi
+                  {t('services.viewAllServices')}
                 </Button>
               </Link>
               <a href="#contact-form">
                 <Button variant="outline" size="lg" className="btn-modern border-2 border-white text-white hover:bg-white/10">
-                  Napisz do nas
+                  {t('contact.send')}
                 </Button>
               </a>
             </div>
@@ -532,10 +532,10 @@ export default function HomePage() {
         <div className="container-tight">
           <div className="max-w-4xl mx-auto">
             <div className="text-center mb-16">
-              <Badge className="bg-primary/10 text-primary mb-4 py-1 px-3 rounded-full">Skontaktuj się</Badge>
-              <h2 className="text-3xl md:text-4xl font-bold mb-6 tracking-tight">Zamów darmowy audyt UX</h2>
+              <Badge className="bg-primary/10 text-primary mb-4 py-1 px-3 rounded-full">{t('contact.title')}</Badge>
+              <h2 className="text-3xl md:text-4xl font-bold mb-6 tracking-tight">{t('services.orderNow')}</h2>
               <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-                Wypełnij formularz poniżej, a nasz zespół skontaktuje się z Tobą w ciągu 24 godzin, aby pomóc Ci zrealizować Twój projekt
+                {t('contact.subtitle')}
               </p>
             </div>
             
@@ -543,20 +543,20 @@ export default function HomePage() {
               <form className="space-y-8">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
-                    <Label htmlFor="name">Imię i nazwisko</Label>
+                    <Label htmlFor="name">{t('contact.name')}</Label>
                     <Input id="name" placeholder="Jan Kowalski" required />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="email">Email</Label>
+                    <Label htmlFor="email">{t('contact.email')}</Label>
                     <Input id="email" type="email" placeholder="jan@firma.pl" required />
                   </div>
                 </div>
                 
                 <div className="space-y-2">
-                  <Label htmlFor="service-type">Rodzaj usługi</Label>
+                  <Label htmlFor="service-type">{t('contact.service')}</Label>
                   <Select defaultValue="ux-audit">
                     <SelectTrigger>
-                      <SelectValue placeholder="Wybierz usługę" />
+                      <SelectValue placeholder={t('contact.service')} />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="ux-audit">Audyt UX z AI</SelectItem>
@@ -569,17 +569,17 @@ export default function HomePage() {
                 </div>
                 
                 <div className="space-y-2">
-                  <Label htmlFor="website">Strona WWW (opcjonalnie)</Label>
-                  <Input id="website" placeholder="https://twojafirma.pl" />
+                  <Label htmlFor="website">URL (optional)</Label>
+                  <Input id="website" placeholder="https://yourwebsite.com" />
                 </div>
                 
                 <div className="space-y-2">
-                  <Label htmlFor="message">Wiadomość</Label>
+                  <Label htmlFor="message">{t('contact.message')}</Label>
                   <Textarea id="message" placeholder="Opisz swój projekt lub zadaj pytanie..." className="min-h-[120px]" />
                 </div>
                 
                 <div className="space-y-2">
-                  <Label htmlFor="file" className="block mb-1">Załącznik (opcjonalnie)</Label>
+                  <Label htmlFor="file" className="block mb-1">Attachment (optional)</Label>
                   <Input id="file" type="file" className="cursor-pointer" />
                   <p className="text-xs text-gray-500 mt-1">Dodaj brief lub materiały do projektu (max 5MB)</p>
                 </div>
@@ -592,7 +592,7 @@ export default function HomePage() {
                 </div>
                 
                 <Button className="w-full btn-modern btn-gradient text-lg py-6">
-                  Zamów darmowy audyt UX
+                  {t('services.orderNow')}
                 </Button>
               </form>
             </div>
@@ -606,7 +606,7 @@ export default function HomePage() {
                 </div>
                 <h3 className="text-xl font-semibold mb-3">Email</h3>
                 <p className="text-gray-600">hello@ecm-digital.com</p>
-                <a href="mailto:hello@ecm-digital.com" className="inline-block mt-4 text-primary hover:underline">Wyślij email</a>
+                <a href="mailto:hello@ecm-digital.com" className="inline-block mt-4 text-primary hover:underline">{t('contact.send')}</a>
               </div>
               
               <div className="card-modern p-6 text-center hover:shadow-xl transition-all duration-300">
