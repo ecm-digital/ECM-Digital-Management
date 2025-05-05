@@ -136,7 +136,16 @@ export default function MainApp({ services, isLoading }: MainAppProps) {
         const formData = new FormData();
         formData.append('file', data.uploadedFile);
         
-        const response = await apiRequest('POST', '/api/upload', formData);
+        const response = await fetch('/api/upload', {
+          method: 'POST',
+          body: formData,
+          credentials: 'include'
+        });
+        
+        if (!response.ok) {
+          throw new Error(t('errors.fileUploadFailed'));
+        }
+        
         const { url } = await response.json();
         fileUrl = url;
       }
@@ -149,20 +158,33 @@ export default function MainApp({ services, isLoading }: MainAppProps) {
         createdAt: new Date().toISOString()
       };
       
-      return apiRequest('POST', '/api/orders', orderData);
+      const response = await fetch('/api/orders', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(orderData),
+        credentials: 'include'
+      });
+      
+      if (!response.ok) {
+        throw new Error(t('errors.orderSubmissionFailed'));
+      }
+      
+      return response.json();
     },
     onSuccess: () => {
       // Go to final step (summary)
       goTo(steps.length - 1);
       toast({
-        title: "Zamówienie złożone",
-        description: "Twoje zamówienie zostało przyjęte do realizacji.",
+        title: t('configurator.orderSubmitted'),
+        description: t('configurator.orderAccepted'),
       });
     },
     onError: (error) => {
       toast({
-        title: "Błąd",
-        description: `Wystąpił błąd podczas składania zamówienia: ${error.message}`,
+        title: t('common.error'),
+        description: t('configurator.orderError', { error: error.message }),
         variant: "destructive"
       });
     }
@@ -177,8 +199,8 @@ export default function MainApp({ services, isLoading }: MainAppProps) {
       // Validate current step
       if (currentStepIndex === 0 && !selectedService) {
         toast({
-          title: "Wybierz usługę",
-          description: "Proszę wybrać usługę aby kontynuować",
+          title: t('configurator.selectService'),
+          description: t('configurator.pleaseSelectService'),
           variant: "destructive"
         });
         return;
@@ -189,8 +211,8 @@ export default function MainApp({ services, isLoading }: MainAppProps) {
         const { name, email, company } = contactInfo;
         if (!name || !email || !company) {
           toast({
-            title: "Uzupełnij dane",
-            description: "Proszę uzupełnić wszystkie wymagane pola",
+            title: t('configurator.completeData'),
+            description: t('configurator.fillRequiredFields'),
             variant: "destructive"
           });
           return;
@@ -234,7 +256,7 @@ export default function MainApp({ services, isLoading }: MainAppProps) {
               <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
               </svg>
-              Rozpocznij ponownie
+              {t('configurator.startAgain')}
             </button>
           </div>
         </header>
@@ -242,7 +264,12 @@ export default function MainApp({ services, isLoading }: MainAppProps) {
         {/* Progress Bar */}
         <ProgressBar 
           currentStep={currentStepIndex} 
-          steps={["Wybór usługi", "Konfiguracja", "Dane kontaktowe", "Podsumowanie"]} 
+          steps={[
+            t('configurator.steps.serviceSelection'), 
+            t('configurator.steps.configuration'), 
+            t('configurator.steps.contactInfo'), 
+            t('configurator.steps.summary')
+          ]} 
         />
 
         {/* Step Container */}
