@@ -33,7 +33,7 @@ export default function Navbar() {
               {t('navigation.services')}
             </a>
             <a href={location === '/' ? "#case-studies" : "/#case-studies"} className="hover:text-blue-600 transition-colors text-gray-700">
-              Case Studies
+              {t('navigation.caseStudies')}
             </a>
             <a href={location === '/' ? "#contact-form" : "/#contact-form"} className="hover:text-blue-600 transition-colors text-gray-700">
               {t('navigation.contact')}
@@ -75,7 +75,7 @@ export default function Navbar() {
                         {t('navigation.services')}
                       </a>
                       <a href={location === '/' ? "#case-studies" : "/#case-studies"} className="block py-2 hover:text-blue-600 transition-colors text-gray-700">
-                        Case Studies
+                        {t('navigation.caseStudies')}
                       </a>
                       <a href={location === '/' ? "#contact-form" : "/#contact-form"} className="block py-2 hover:text-blue-600 transition-colors text-gray-700">
                         {t('navigation.contact')}

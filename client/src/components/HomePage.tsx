@@ -587,7 +587,7 @@ export default function HomePage() {
                 <div className="flex items-start">
                   <Checkbox id="privacy-policy" className="mt-1" />
                   <Label htmlFor="privacy-policy" className="ml-2 text-sm">
-                    Akceptuję <a href="#" className="text-blue-600 hover:underline">politykę prywatności</a> oraz wyrażam zgodę na przetwarzanie moich danych osobowych w celu odpowiedzi na zapytanie.
+                    {t('contact.privacy')}
                   </Label>
                 </div>
                 
@@ -615,9 +615,9 @@ export default function HomePage() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                   </svg>
                 </div>
-                <h3 className="text-xl font-semibold mb-3">Telefon</h3>
+                <h3 className="text-xl font-semibold mb-3">{t('contact.phone')}</h3>
                 <p className="text-gray-600">+48 535 330 323</p>
-                <a href="tel:+48535330323" className="inline-block mt-4 text-secondary hover:underline">Zadzwoń teraz</a>
+                <a href="tel:+48535330323" className="inline-block mt-4 text-secondary hover:underline">{t('contact.callNow')}</a>
               </div>
               
               <div className="card-modern p-6 text-center hover:shadow-xl transition-all duration-300">
@@ -627,9 +627,9 @@ export default function HomePage() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                   </svg>
                 </div>
-                <h3 className="text-xl font-semibold mb-3">Adres</h3>
+                <h3 className="text-xl font-semibold mb-3">{t('contact.address')}</h3>
                 <p className="text-gray-600">Warszawa, Polska</p>
-                <a href="https://maps.google.com/?q=Warszawa" target="_blank" rel="noopener noreferrer" className="inline-block mt-4 text-green-600 hover:underline">Zobacz na mapie</a>
+                <a href="https://maps.google.com/?q=Warszawa" target="_blank" rel="noopener noreferrer" className="inline-block mt-4 text-green-600 hover:underline">{t('contact.viewOnMap')}</a>
               </div>
             </div>
           </div>
