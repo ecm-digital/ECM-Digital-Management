@@ -394,17 +394,17 @@ export default function HomePage() {
                     
                     <div className="mb-4">
                       <Badge variant="outline" className="bg-red-50 text-red-700 border-red-200 mb-2 mr-2">{t('caseStudies.problem')}</Badge>
-                      <p className="text-sm text-gray-600">Niska konwersja, brak obsługi klienta 24/7, nieefektywny proces doboru produktów</p>
+                      <p className="text-sm text-gray-600">{i18next.language === 'de' ? t('caseStudies.problems.kosmetik') : 'Niska konwersja, brak obsługi klienta 24/7, nieefektywny proces doboru produktów'}</p>
                     </div>
                     
                     <div className="mb-4">
                       <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200 mb-2 mr-2">{t('caseStudies.solution')}</Badge>
-                      <p className="text-sm text-gray-600">Lejek AI + sklep Webflow + kampania Instagram Ads + chatbot dobierający produkty</p>
+                      <p className="text-sm text-gray-600">{i18next.language === 'de' ? t('caseStudies.solutions.kosmetik') : 'Lejek AI + sklep Webflow + kampania Instagram Ads + chatbot dobierający produkty'}</p>
                     </div>
                     
                     <div className="mb-4">
                       <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200 mb-2 mr-2">{t('caseStudies.result')}</Badge>
-                      <p className="text-sm text-gray-600">+40% konwersji, automatyzacja obsługi, wzrost średniej wartości koszyka o 28%</p>
+                      <p className="text-sm text-gray-600">{i18next.language === 'de' ? t('caseStudies.results.kosmetik') : '+40% konwersji, automatyzacja obsługi, wzrost średniej wartości koszyka o 28%'}</p>
                     </div>
                     
                     <div className="mt-4 pt-4 border-t border-gray-200">

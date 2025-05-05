@@ -114,7 +114,22 @@
     "result": "Ergebnis",
     "learnMore": "Mehr erfahren",
     "getFreeScorecoard": "Laden Sie kostenlose UX-Scorecoard herunter",
-    "contactUs": "Kontaktieren Sie uns"
+    "contactUs": "Kontaktieren Sie uns",
+    "problems": {
+      "kosmetik": "Geringe Konversion, kein 24/7 Kundendienst, ineffizienter Produktauswahlprozess",
+      "fitness": "Veraltete Benutzeroberfläche, kompliziertes Buchungssystem, geringe Kundenbindung",
+      "saas": "Schneller Markteintritt erforderlich, begrenztes Budget, kein technisches Team" 
+    },
+    "solutions": {
+      "kosmetik": "KI-Trichter + Webflow-Shop + Instagram Ads-Kampagne + Produkt-Chatbot",
+      "fitness": "UX-Redesign + einfacherer Buchungsablauf + Gamification + Apple Health-Integration",
+      "saas": "Lean MVP + minimalistisches UX + feedback-basierte Produktentwicklung + skalierbares Backend"
+    },
+    "results": {
+      "kosmetik": "+40% Konversion, Kundendienstautomatisierung, 28% Steigerung des durchschnittlichen Warenkorbs",
+      "fitness": "+65% Benutzerbindung, 42% mehr Buchungen, 4,8/5 Bewertung im App Store",
+      "saas": "MVP in 6 Wochen, Gewinnung der ersten 50 Kunden, Sicherung der nächsten Finanzierungsrunde"
+    }
   },
   "clientPanel": {
     "title": "Kundenbereich",
