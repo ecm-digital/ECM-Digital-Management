@@ -84,5 +84,24 @@
     "learnMore": "Dowiedz się więcej",
     "getFreeScorecoard": "Pobierz darmowy UX Scorecard",
     "contactUs": "Skontaktuj się z nami"
+  },
+  "clientPanel": {
+    "title": "Panel klienta",
+    "dashboard": "Panel",
+    "orders": "Zamówienia",
+    "profile": "Profil",
+    "backToHome": "Powrót do strony głównej",
+    "orderDetails": "Szczegóły zamówienia",
+    "orderNumber": "Numer zamówienia",
+    "orderDate": "Data zamówienia",
+    "orderStatus": "Status",
+    "orderTotal": "Kwota",
+    "orderService": "Usługa",
+    "messages": "Wiadomości",
+    "files": "Pliki",
+    "milestones": "Etapy projektu",
+    "noOrders": "Nie masz jeszcze żadnych zamówień",
+    "sendMessage": "Wyślij wiadomość",
+    "uploadFile": "Prześlij plik"
   }
 }

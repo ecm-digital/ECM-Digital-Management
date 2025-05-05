@@ -15,24 +15,26 @@ import {
   SheetContent,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { useTranslation } from "react-i18next";
 
 export default function ClientNavigation() {
+  const { t } = useTranslation();
   const [location] = useLocation();
 
   const navItems = [
     {
       href: "/client/dashboard",
-      label: "Panel",
+      label: t('clientPanel.dashboard'),
       icon: <LayoutDashboard className="h-5 w-5" />,
     },
     {
       href: "/client/orders",
-      label: "Zamówienia",
+      label: t('clientPanel.orders'),
       icon: <ShoppingCart className="h-5 w-5" />,
     },
     {
       href: "/client/profile",
-      label: "Profil",
+      label: t('clientPanel.profile'),
       icon: <User className="h-5 w-5" />,
     },
   ];
@@ -54,7 +56,7 @@ export default function ClientNavigation() {
           <Link href="/">
             <h2 className="text-2xl font-bold">ECM Digital</h2>
           </Link>
-          <p className="text-sm text-muted-foreground mt-1">Panel klienta</p>
+          <p className="text-sm text-muted-foreground mt-1">{t('clientPanel.title')}</p>
         </div>
         <nav className="flex-1 p-4">
           <ul className="space-y-2">
