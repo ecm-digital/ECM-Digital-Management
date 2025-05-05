@@ -9,6 +9,7 @@ import { Separator } from '@/components/ui/separator';
 import { ArrowLeft, Clock, Calendar, CheckCircle, Check } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import i18next from 'i18next';
+import { serviceTranslations, categoryTranslations } from '@/components/ServiceCard';
 
 // Definiujemy typ dla tablicy tłumaczeń
 type I18nArray = string[];
@@ -18,6 +19,23 @@ export default function ServiceDetailsPage() {
   const [match, params] = useRoute('/service/:id');
   const [_, setLocation] = useLocation();
   const serviceId = params?.id;
+  const currentLanguage = i18next.language || 'pl';
+  
+  // Funkcja tłumacząca nazwę usługi
+  const getServiceName = (serviceName: string) => {
+    if (currentLanguage === 'pl') return serviceName;
+    
+    const translation = serviceTranslations[serviceName as keyof typeof serviceTranslations];
+    return translation ? translation[currentLanguage as keyof typeof translation] || serviceName : serviceName;
+  };
+  
+  // Funkcja tłumacząca kategorię
+  const getCategoryName = (category: string) => {
+    if (currentLanguage === 'pl') return category;
+    
+    const translation = categoryTranslations[category as keyof typeof categoryTranslations];
+    return translation ? translation[currentLanguage as keyof typeof translation] || category : category;
+  };
 
   const { data: service, isLoading, isError } = useQuery<Service>({ 
     queryKey: [`/api/services/${serviceId}`],
@@ -64,16 +82,12 @@ export default function ServiceDetailsPage() {
         <div className="lg:col-span-2">
           <div className="mb-6">
             <h1 className="text-3xl md:text-4xl font-bold mb-3">
-              {i18next.language === 'de' && service.id === '1' ? t('services.servicesList.uxAudit.name') : 
-               i18next.language === 'de' && service.id === '2' ? t('services.servicesList.uxAuditAi.name') :
-               i18next.language === 'de' && service.id === '24' ? t('services.servicesList.monthlyAiUxCare.name') :
-               i18next.language === 'de' && service.id === '25' ? t('services.servicesList.insightsNewsletter.name') :
-               service.name}
+              {getServiceName(service.name)}
             </h1>
             
             <div className="flex flex-wrap gap-2 mb-4">
               <Badge variant="outline" className="bg-blue-50">
-                {service.category || 'Inne'}
+                {getCategoryName(service.category || 'Inne')}
               </Badge>
               <Badge variant="outline" className="bg-green-50 flex items-center gap-1">
                 <Clock size={14} /> {service.deliveryTime} {t('services.days')}

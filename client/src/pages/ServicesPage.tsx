@@ -168,43 +168,13 @@ export default function ServicesPage() {
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                       {category.services.map((service) => (
-                        <Card key={service.id} className="overflow-hidden hover:shadow-md transition-shadow">
-                          <CardHeader className="pb-2">
-                            <div className="flex justify-between items-start">
-                              <CardTitle className="text-xl">{service.name}</CardTitle>
-                              <Badge variant="outline" className="bg-blue-50">
-                                {service.category || 'Inne'}
-                              </Badge>
-                            </div>
-                            <CardDescription>
-                              {service.shortDescription || service.description.substring(0, 100) + (service.description.length > 100 ? '...' : '')}
-                            </CardDescription>
-                          </CardHeader>
-                          <CardContent className="pb-4">
-                            <div className="space-y-1">
-                              {service.features?.slice(0, 3).map((feature, idx) => (
-                                <p key={idx} className="flex items-start text-sm text-gray-600">
-                                  <Check className="h-4 w-4 text-green-500 mr-1 mt-0.5 flex-shrink-0" />
-                                  <span>{feature}</span>
-                                </p>
-                              ))}
-                              {service.features && service.features.length > 3 && (
-                                <p className="text-sm text-gray-600 italic">i więcej...</p>
-                              )}
-                            </div>
-                          </CardContent>
-                          <CardFooter className="pt-0 flex justify-between items-center">
-                            <div>
-                              <span className="text-lg font-semibold text-blue-600">{service.basePrice} PLN</span>
-                              <span className="text-xs text-gray-500 ml-2">Czas realizacji: {service.deliveryTime} dni</span>
-                            </div>
-                            <Link href={`/service/${service.id}`}>
-                              <Button variant="outline">
-                                Szczegóły <ArrowRight className="ml-1 h-4 w-4" />
-                              </Button>
-                            </Link>
-                          </CardFooter>
-                        </Card>
+                        <ServiceCard 
+                          key={service.id}
+                          service={service}
+                          colorClass="text-blue-600"
+                          showCategory={true}
+                          showFeatures={true}
+                        />
                       ))}
                     </div>
                   </div>
@@ -229,43 +199,13 @@ export default function ServicesPage() {
             // Wyświetl wyfiltrowane usługi
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {filteredServices.map((service) => (
-                <Card key={service.id} className="overflow-hidden hover:shadow-md transition-shadow">
-                  <CardHeader className="pb-2">
-                    <div className="flex justify-between items-start">
-                      <CardTitle className="text-xl">{service.name}</CardTitle>
-                      <Badge variant="outline" className="bg-blue-50">
-                        {service.category || 'Inne'}
-                      </Badge>
-                    </div>
-                    <CardDescription>
-                      {service.shortDescription || service.description.substring(0, 100) + (service.description.length > 100 ? '...' : '')}
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent className="pb-4">
-                    <div className="space-y-1">
-                      {service.features?.slice(0, 3).map((feature, idx) => (
-                        <p key={idx} className="flex items-start text-sm text-gray-600">
-                          <Check className="h-4 w-4 text-green-500 mr-1 mt-0.5 flex-shrink-0" />
-                          <span>{feature}</span>
-                        </p>
-                      ))}
-                      {service.features && service.features.length > 3 && (
-                        <p className="text-sm text-gray-600 italic">i więcej...</p>
-                      )}
-                    </div>
-                  </CardContent>
-                  <CardFooter className="pt-0 flex justify-between items-center">
-                    <div>
-                      <span className="text-lg font-semibold text-blue-600">{service.basePrice} PLN</span>
-                      <span className="text-xs text-gray-500 ml-2">Czas realizacji: {service.deliveryTime} dni</span>
-                    </div>
-                    <Link href={`/service/${service.id}`}>
-                      <Button variant="outline">
-                        Szczegóły <ArrowRight className="ml-1 h-4 w-4" />
-                      </Button>
-                    </Link>
-                  </CardFooter>
-                </Card>
+                <ServiceCard 
+                  key={service.id}
+                  service={service}
+                  colorClass="text-blue-600"
+                  showCategory={true}
+                  showFeatures={true}
+                />
               ))}
             </div>
           )}

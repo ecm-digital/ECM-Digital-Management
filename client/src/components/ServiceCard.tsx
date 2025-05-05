@@ -9,7 +9,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 
 // Przechowujemy tłumaczenia nazw usług i kategorii
-const serviceTranslations = {
+export const serviceTranslations = {
   // UX/UI kategoria
   "Audyt UX": {
     de: "UX-Audit",
@@ -74,7 +74,7 @@ const serviceTranslations = {
 };
 
 // Tłumaczenia kategorii
-const categoryTranslations = {
+export const categoryTranslations = {
   "UX/UI": {
     de: "UX/UI",
     en: "UX/UI"
