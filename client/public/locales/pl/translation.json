@@ -116,6 +116,30 @@
     "getFreeScorecoard": "Pobierz darmowy UX Scorecard",
     "contactUs": "Skontaktuj się z nami"
   },
+  "common": {
+    "error": "Błąd",
+    "success": "Sukces"
+  },
+  "errors": {
+    "fileUploadFailed": "Nie udało się przesłać pliku",
+    "orderSubmissionFailed": "Nie udało się złożyć zamówienia"
+  },
+  "configurator": {
+    "orderSubmitted": "Zamówienie złożone",
+    "orderAccepted": "Twoje zamówienie zostało przyjęte do realizacji.",
+    "orderError": "Wystąpił błąd podczas składania zamówienia: {{error}}",
+    "selectService": "Wybierz usługę",
+    "pleaseSelectService": "Proszę wybrać usługę aby kontynuować",
+    "completeData": "Uzupełnij dane",
+    "fillRequiredFields": "Proszę uzupełnić wszystkie wymagane pola",
+    "startAgain": "Rozpocznij ponownie",
+    "steps": {
+      "serviceSelection": "Wybór usługi",
+      "configuration": "Konfiguracja",
+      "contactInfo": "Dane kontaktowe",
+      "summary": "Podsumowanie"
+    }
+  },
   "clientPanel": {
     "title": "Panel klienta",
     "dashboard": "Panel",

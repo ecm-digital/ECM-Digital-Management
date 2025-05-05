@@ -341,6 +341,30 @@
       "saas": "MVP in 6 Wochen, Gewinnung der ersten 50 Kunden, Sicherung der nächsten Finanzierungsrunde"
     }
   },
+  "common": {
+    "error": "Fehler",
+    "success": "Erfolg"
+  },
+  "errors": {
+    "fileUploadFailed": "Datei-Upload fehlgeschlagen",
+    "orderSubmissionFailed": "Bestellungsabgabe fehlgeschlagen"
+  },
+  "configurator": {
+    "orderSubmitted": "Bestellung aufgegeben",
+    "orderAccepted": "Ihre Bestellung wurde zur Bearbeitung angenommen.",
+    "orderError": "Bei der Bestellungsabgabe ist ein Fehler aufgetreten: {{error}}",
+    "selectService": "Dienstleistung auswählen",
+    "pleaseSelectService": "Bitte wählen Sie eine Dienstleistung aus, um fortzufahren",
+    "completeData": "Daten vervollständigen",
+    "fillRequiredFields": "Bitte füllen Sie alle erforderlichen Felder aus",
+    "startAgain": "Neu starten",
+    "steps": {
+      "serviceSelection": "Dienstleistungsauswahl",
+      "configuration": "Konfiguration",
+      "contactInfo": "Kontaktinformationen",
+      "summary": "Zusammenfassung"
+    }
+  },
   "clientPanel": {
     "title": "Kundenbereich",
     "dashboard": "Dashboard",
