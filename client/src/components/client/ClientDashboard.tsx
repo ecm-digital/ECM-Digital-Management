@@ -46,45 +46,45 @@ export default function ClientDashboard() {
 
   return (
     <div className="container px-4 py-8 mx-auto">
-      <h1 className="text-3xl font-bold mb-2">Panel Klienta</h1>
+      <h1 className="text-3xl font-bold mb-2">{t('clientPanel.title')}</h1>
       <p className="text-muted-foreground mb-8">
-        Witaj w panelu klienta ECM Digital. Tutaj możesz zarządzać swoimi zamówieniami i komunikować się z naszym zespołem.
+        {t('clientPanel.welcome')}
       </p>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        <StatCard title="Zamówienia" value={recentOrders?.length || 0} description="Wszystkie zamówienia" />
-        <StatCard title="Nieprzeczytane wiadomości" value={unreadMessages || 0} description="Czekające na odczytanie" />
-        <StatCard title="Nadchodzące kamienie milowe" value={upcomingMilestones?.length || 0} description="W ciągu 14 dni" />
+        <StatCard title={t('clientPanel.orders')} value={recentOrders?.length || 0} description={t('clientPanel.allOrders')} />
+        <StatCard title={t('clientPanel.unreadMessages')} value={unreadMessages || 0} description={t('clientPanel.waitingToRead')} />
+        <StatCard title={t('clientPanel.upcomingMilestones')} value={upcomingMilestones?.length || 0} description={t('clientPanel.inNext14Days')} />
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         <section>
-          <h2 className="text-xl font-semibold mb-4">Ostatnie zamówienia</h2>
+          <h2 className="text-xl font-semibold mb-4">{t('clientPanel.recentOrders')}</h2>
           <div className="space-y-4">
             {recentOrders && recentOrders.length > 0 ? (
               recentOrders.map((order) => (
                 <OrderCard key={order.id} order={order} />
               ))
             ) : (
-              <EmptyState message="Nie masz jeszcze żadnych zamówień." />
+              <EmptyState message={t('clientPanel.noOrders')} />
             )}
           </div>
           <div className="mt-4">
             <Link href="/client/orders">
-              <Button variant="outline" className="w-full">Zobacz wszystkie zamówienia</Button>
+              <Button variant="outline" className="w-full">{t('clientPanel.viewAllOrders')}</Button>
             </Link>
           </div>
         </section>
 
         <section>
-          <h2 className="text-xl font-semibold mb-4">Nadchodzące kamienie milowe</h2>
+          <h2 className="text-xl font-semibold mb-4">{t('clientPanel.upcomingMilestones')}</h2>
           <div className="space-y-4">
             {upcomingMilestones && upcomingMilestones.length > 0 ? (
               upcomingMilestones.map((milestone) => (
                 <MilestoneCard key={milestone.id} milestone={milestone} />
               ))
             ) : (
-              <EmptyState message="Nie masz nadchodzących kamieni milowych." />
+              <EmptyState message={t('clientPanel.noMilestones')} />
             )}
           </div>
         </section>
@@ -108,6 +108,9 @@ function StatCard({ title, value, description }) {
 }
 
 function OrderCard({ order }) {
+  const { t, i18n } = useTranslation();
+  const locale = i18n.language === 'de' ? de : pl;
+  
   const statusColors = {
     "Nowe": "bg-blue-500",
     "W realizacji": "bg-amber-500",
@@ -136,10 +139,10 @@ function OrderCard({ order }) {
           </Badge>
         </div>
         <CardDescription>
-          Zamówienie #{order.orderId}
+          {t('clientPanel.orderNumber')} #{order.orderId}
           {order.createdAt && (
             <span className="ml-2">
-              • Złożone {formatDistance(new Date(order.createdAt), new Date(), { addSuffix: true, locale: pl })}
+              • {formatDistance(new Date(order.createdAt), new Date(), { addSuffix: true, locale })}
             </span>
           )}
         </CardDescription>
@@ -147,11 +150,11 @@ function OrderCard({ order }) {
       <CardContent>
         <div className="flex justify-between items-center">
           <div>
-            <p className="text-sm text-muted-foreground">Wartość zamówienia</p>
+            <p className="text-sm text-muted-foreground">{t('clientPanel.orderValue')}</p>
             <p className="font-semibold">{order.totalPrice} zł</p>
           </div>
           <Link href={`/client/orders/${order.id}`}>
-            <Button variant="outline" size="sm">Szczegóły</Button>
+            <Button variant="outline" size="sm">{t('clientPanel.details')}</Button>
           </Link>
         </div>
       </CardContent>
@@ -160,6 +163,9 @@ function OrderCard({ order }) {
 }
 
 function MilestoneCard({ milestone }) {
+  const { t, i18n } = useTranslation();
+  const locale = i18n.language === 'de' ? de : pl;
+  
   const statusColors = {
     "Oczekujące": "bg-blue-500",
     "W trakcie": "bg-amber-500",
@@ -177,10 +183,10 @@ function MilestoneCard({ milestone }) {
           </Badge>
         </div>
         <CardDescription>
-          Zamówienie #{milestone.orderNumber || milestone.orderId}
+          {t('clientPanel.orderNumber')} #{milestone.orderNumber || milestone.orderId}
           {milestone.dueDate && (
             <span className="ml-2">
-              • Termin: {formatDistance(new Date(milestone.dueDate), new Date(), { addSuffix: true, locale: pl })}
+              • {formatDistance(new Date(milestone.dueDate), new Date(), { addSuffix: true, locale })}
             </span>
           )}
         </CardDescription>
@@ -189,7 +195,7 @@ function MilestoneCard({ milestone }) {
         <p className="text-sm">{milestone.description}</p>
         <div className="flex justify-end mt-2">
           <Link href={`/client/orders/${milestone.orderId}`}>
-            <Button variant="outline" size="sm">Zobacz zamówienie</Button>
+            <Button variant="outline" size="sm">{t('clientPanel.viewOrder')}</Button>
           </Link>
         </div>
       </CardContent>
