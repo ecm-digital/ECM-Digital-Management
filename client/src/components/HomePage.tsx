@@ -13,31 +13,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useTranslation } from 'react-i18next';
 import i18next from 'i18next';
-
-// Service card component with translations
-const ServiceCard = ({ service, colorClass }: { service: Service, colorClass: string }) => {
-  const { t } = useTranslation();
-  return (
-    <Card className="overflow-hidden hover:shadow-md transition-shadow">
-      <CardHeader className="pb-2">
-        <CardTitle className="text-xl">{service.name}</CardTitle>
-        <CardDescription>
-          {service.shortDescription || service.description.substring(0, 100) + (service.description.length > 100 ? '...' : '')}
-        </CardDescription>
-      </CardHeader>
-      <CardFooter className="pt-0 flex justify-between items-center">
-        <div className={`text-lg font-semibold ${colorClass}`}>
-          {service.basePrice} PLN
-        </div>
-        <Link href={`/service/${service.id}`}>
-          <Button variant="outline" size="sm">
-            {t('buttons.readMore')} <ArrowRight className="ml-1 h-4 w-4" />
-          </Button>
-        </Link>
-      </CardFooter>
-    </Card>
-  );
-};
+import ServiceCard from '@/components/ServiceCard';
 
 export default function HomePage() {
   const { t } = useTranslation();

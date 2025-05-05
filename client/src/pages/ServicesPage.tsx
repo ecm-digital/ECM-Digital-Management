@@ -10,6 +10,8 @@ import { Check, ArrowRight, Filter, Laptop, Users, BarChart, Bot, Rocket } from 
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import ServiceCard from '@/components/ServiceCard';
+import { useTranslation } from 'react-i18next';
 
 export default function ServicesPage() {
   const { data: services, isLoading } = useQuery<Service[]>({
