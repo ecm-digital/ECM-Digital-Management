@@ -36,6 +36,8 @@
   "services": {
     "title": "Unsere Dienstleistungen",
     "subtitle": "Umfassende Lösungen für Ihr Unternehmen",
+    "ourOffer": "ECM Digital Angebot",
+    "offerDescription": "Wir spezialisieren uns auf die Gestaltung effektiver Nutzererfahrungen, Webentwicklung und KI-Integration für Ihr Unternehmen.",
     "category": "Kategorie",
     "price": "Preis ab",
     "delivery": "Lieferzeit",

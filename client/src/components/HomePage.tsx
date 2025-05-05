@@ -244,10 +244,9 @@ export default function HomePage() {
         <div className="container-tight">
           <div className="max-w-3xl mx-auto text-center mb-16">
             <Badge className="bg-secondary/10 text-secondary mb-4 py-1 px-3 rounded-full">{t('home.featuredServices')}</Badge>
-            <h2 className="text-3xl md:text-4xl font-bold mb-6 tracking-tight">Oferta ECM Digital</h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-6 tracking-tight">{t('services.ourOffer')}</h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Specjalizujemy się w projektowaniu skutecznych doświadczeń użytkownika, 
-              budowie stron internetowych oraz integracji rozwiązań AI dla Twojego biznesu.
+              {t('services.offerDescription')}
             </p>
           </div>
 
