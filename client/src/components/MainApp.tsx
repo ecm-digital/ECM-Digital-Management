@@ -11,6 +11,8 @@ import { Service, ServiceOrder } from "@/types";
 import { useMutation } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
+import { useTranslation } from "react-i18next";
+import i18next from "i18next";
 
 // Define the FormData interface locally
 interface FormData {
@@ -28,6 +30,7 @@ interface MainAppProps {
 }
 
 export default function MainApp({ services, isLoading }: MainAppProps) {
+  const { t } = useTranslation();
   const { toast } = useToast();
   const [selectedService, setSelectedService] = useState<Service | null>(null);
   const [configuration, setConfiguration] = useState<Record<string, any>>({});

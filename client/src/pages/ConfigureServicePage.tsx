@@ -7,8 +7,11 @@ import { Service } from '@/types';
 import { ArrowLeft, Clock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Link } from 'wouter';
+import { useTranslation } from 'react-i18next';
+import i18next from 'i18next';
 
 export default function ConfigureServicePage() {
+  const { t } = useTranslation();
   const [match, params] = useRoute('/configure/:id');
   const serviceId = params?.id;
 
@@ -32,18 +35,18 @@ export default function ConfigureServicePage() {
           <div className="mb-6">
             <Link href={`/service/${serviceId}`}>
               <Button variant="ghost" className="flex items-center gap-2">
-                <ArrowLeft size={16} /> Powrót do szczegółów usługi
+                <ArrowLeft size={16} /> {t('services.backToDetails')}
               </Button>
             </Link>
           </div>
         )}
         
         <div className="max-w-4xl mx-auto">
-          <h1 className="text-3xl font-bold mb-4">Konfigurator usług</h1>
+          <h1 className="text-3xl font-bold mb-4">{t('services.configurator.title')}</h1>
           <p className="text-gray-600 mb-6">
             {serviceId 
-              ? "Dostosuj wybraną usługę do swoich potrzeb przy użyciu konfiguratora poniżej."
-              : "Wybierz i skonfiguruj usługę, która najlepiej pasuje do Twoich potrzeb biznesowych."}
+              ? t('services.configurator.customizeSelectedService')
+              : t('services.configurator.chooseService')}
           </p>
           
           <MainApp services={servicesToShow} isLoading={isLoading} />

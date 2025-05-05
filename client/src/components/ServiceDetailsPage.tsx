@@ -126,15 +126,16 @@ export default function ServiceDetailsPage() {
                             return (t('services.servicesList.insightsNewsletter.benefits', { returnObjects: true }) as string[]);
                           }
                         }
-                        return service.benefits;
+                        return service.benefits || [];
                       };
                       
-                      return getBenefits().map((benefit, idx) => (
+                      const benefits = getBenefits();
+                      return Array.isArray(benefits) ? benefits.map((benefit, idx) => (
                         <li key={idx} className="flex items-start">
                           <CheckCircle className="h-5 w-5 text-green-500 mr-2 flex-shrink-0" />
                           <span>{benefit}</span>
                         </li>
-                      ));
+                      )) : null;
                     })()}
                   </ul>
                 </div>
@@ -144,40 +145,31 @@ export default function ServiceDetailsPage() {
                 <div>
                   <h3 className="text-xl font-semibold mb-4">{t('services.features')}</h3>
                   <ul className="space-y-3">
-                    {i18next.language === 'de' && service.id === '1'
-                      ? t('services.servicesList.uxAudit.features', { returnObjects: true }).map((feature: string, idx: number) => (
-                          <li key={idx} className="flex items-start">
-                            <Check className="h-5 w-5 text-blue-500 mr-2 flex-shrink-0" />
-                            <span>{feature}</span>
-                          </li>
-                        ))
-                      : i18next.language === 'de' && service.id === '2'
-                      ? t('services.servicesList.uxAuditAi.features', { returnObjects: true }).map((feature: string, idx: number) => (
-                          <li key={idx} className="flex items-start">
-                            <Check className="h-5 w-5 text-blue-500 mr-2 flex-shrink-0" />
-                            <span>{feature}</span>
-                          </li>
-                        ))
-                      : i18next.language === 'de' && service.id === '24'
-                      ? t('services.servicesList.monthlyAiUxCare.features', { returnObjects: true }).map((feature: string, idx: number) => (
-                          <li key={idx} className="flex items-start">
-                            <Check className="h-5 w-5 text-blue-500 mr-2 flex-shrink-0" />
-                            <span>{feature}</span>
-                          </li>
-                        ))
-                      : i18next.language === 'de' && service.id === '25'
-                      ? t('services.servicesList.insightsNewsletter.features', { returnObjects: true }).map((feature: string, idx: number) => (
-                          <li key={idx} className="flex items-start">
-                            <Check className="h-5 w-5 text-blue-500 mr-2 flex-shrink-0" />
-                            <span>{feature}</span>
-                          </li>
-                        ))
-                      : service.features.map((feature, idx) => (
-                          <li key={idx} className="flex items-start">
-                            <Check className="h-5 w-5 text-blue-500 mr-2 flex-shrink-0" />
-                            <span>{feature}</span>
-                          </li>
-                        ))}
+                    {(() => {
+                      // Uzywamy IIFE dla funkcji cech/elementów
+                      const getFeatures = () => {
+                        if (i18next.language === 'de') {
+                          if (service.id === '1') {
+                            return (t('services.servicesList.uxAudit.features', { returnObjects: true }) as string[]);
+                          } else if (service.id === '2') {
+                            return (t('services.servicesList.uxAuditAi.features', { returnObjects: true }) as string[]);
+                          } else if (service.id === '24') {
+                            return (t('services.servicesList.monthlyAiUxCare.features', { returnObjects: true }) as string[]);
+                          } else if (service.id === '25') {
+                            return (t('services.servicesList.insightsNewsletter.features', { returnObjects: true }) as string[]);
+                          }
+                        }
+                        return service.features || [];
+                      };
+                      
+                      const features = getFeatures();
+                      return Array.isArray(features) ? features.map((feature, idx) => (
+                        <li key={idx} className="flex items-start">
+                          <Check className="h-5 w-5 text-blue-500 mr-2 flex-shrink-0" />
+                          <span>{feature}</span>
+                        </li>
+                      )) : null;
+                    })()}
                   </ul>
                 </div>
               )}
@@ -187,50 +179,33 @@ export default function ServiceDetailsPage() {
               <div className="mt-6">
                 <h3 className="text-xl font-semibold mb-4">{t('services.scope')}</h3>
                 <ul className="space-y-3">
-                  {i18next.language === 'de' && service.id === '1'
-                    ? t('services.servicesList.uxAudit.scope', { returnObjects: true }).map((item: string, idx: number) => (
+                  {(() => {
+                      // Uzywamy IIFE dla funkcji zakresu
+                      const getScope = () => {
+                        if (i18next.language === 'de') {
+                          if (service.id === '1') {
+                            return (t('services.servicesList.uxAudit.scope', { returnObjects: true }) as string[]);
+                          } else if (service.id === '2') {
+                            return (t('services.servicesList.uxAuditAi.scope', { returnObjects: true }) as string[]);
+                          } else if (service.id === '24') {
+                            return (t('services.servicesList.monthlyAiUxCare.scope', { returnObjects: true }) as string[]);
+                          } else if (service.id === '25') {
+                            return (t('services.servicesList.insightsNewsletter.scope', { returnObjects: true }) as string[]);
+                          }
+                        }
+                        return service.scope || [];
+                      };
+                      
+                      const scope = getScope();
+                      return Array.isArray(scope) ? scope.map((item, idx) => (
                         <li key={idx} className="flex items-start">
                           <span className="h-5 w-5 rounded-full bg-purple-100 text-purple-500 flex items-center justify-center mr-2 flex-shrink-0">
                             {idx + 1}
                           </span>
                           <span>{item}</span>
                         </li>
-                      ))
-                    : i18next.language === 'de' && service.id === '2'
-                    ? t('services.servicesList.uxAuditAi.scope', { returnObjects: true }).map((item: string, idx: number) => (
-                        <li key={idx} className="flex items-start">
-                          <span className="h-5 w-5 rounded-full bg-purple-100 text-purple-500 flex items-center justify-center mr-2 flex-shrink-0">
-                            {idx + 1}
-                          </span>
-                          <span>{item}</span>
-                        </li>
-                      ))
-                    : i18next.language === 'de' && service.id === '24'
-                    ? t('services.servicesList.monthlyAiUxCare.scope', { returnObjects: true }).map((item: string, idx: number) => (
-                        <li key={idx} className="flex items-start">
-                          <span className="h-5 w-5 rounded-full bg-purple-100 text-purple-500 flex items-center justify-center mr-2 flex-shrink-0">
-                            {idx + 1}
-                          </span>
-                          <span>{item}</span>
-                        </li>
-                      ))
-                    : i18next.language === 'de' && service.id === '25'
-                    ? t('services.servicesList.insightsNewsletter.scope', { returnObjects: true }).map((item: string, idx: number) => (
-                        <li key={idx} className="flex items-start">
-                          <span className="h-5 w-5 rounded-full bg-purple-100 text-purple-500 flex items-center justify-center mr-2 flex-shrink-0">
-                            {idx + 1}
-                          </span>
-                          <span>{item}</span>
-                        </li>
-                      ))
-                    : service.scope.map((item, idx) => (
-                        <li key={idx} className="flex items-start">
-                          <span className="h-5 w-5 rounded-full bg-purple-100 text-purple-500 flex items-center justify-center mr-2 flex-shrink-0">
-                            {idx + 1}
-                          </span>
-                          <span>{item}</span>
-                        </li>
-                      ))}
+                      )) : null;
+                    })()}
                 </ul>
               </div>
             )}
