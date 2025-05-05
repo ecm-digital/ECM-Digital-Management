@@ -54,6 +54,13 @@
     "summary": "Zusammenfassung",
     "priceDetails": "Preisdetails und Lieferzeit",
     "basePrice": "Der obige Preis ist der Grundpreis. Der endgültige Preis hängt von den gewählten Konfigurationsoptionen ab.",
+    "allServices": "Alle Dienstleistungen",
+    "searchServices": "Dienstleistungen suchen...",
+    "filterByCategory": "Nach Kategorie filtern",
+    "allCategories": "Alle Kategorien",
+    "noServicesFound": "Keine Dienstleistungen gefunden",
+    "noServicesFoundDescription": "Es wurden keine Dienstleistungen gefunden, die Ihren Kriterien entsprechen. Bitte ändern Sie Ihre Suche oder Filter.",
+    "resetFilters": "Filter zurücksetzen",
     "categories": {
       "uxDesign": "UX & Conversion Design",
       "webDevelopment": "Webdesign und -entwicklung",

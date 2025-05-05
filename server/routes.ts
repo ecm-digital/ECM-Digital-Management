@@ -45,14 +45,43 @@ const categoryTranslations: Record<string, string> = {
 
 // Mapowanie nazw usług do kluczy w pliku tłumaczeń
 const serviceNameToKey: Record<string, string> = {
+  // Usługi UX/UI
   "Audyt UX": "uxAudit",
   "Audyt UX z elementami AI": "uxAuditAi",
   "Miesięczna opieka AI/UX": "monthlyAiUxCare",
-  "Newsletter z insightami": "insightsNewsletter",
-  "Aplikacja webowa": "aiWebApp",
+  "UX Scorecard": "uxScorecard",
+  "Projektowanie lejków konwersji": "conversionFunnelDesign",
+  "AI UX Assistant": "aiUxAssistant",
+  
+  // Web Development
+  "Strona internetowa": "website",
   "Sklep internetowy": "webStore",
+  "Aplikacja webowa": "aiWebApp",
+  "Strony w Wix Studio i Webflow": "wixWebflow",
+  "Strona E-commerce": "ecommerceWebsite",
+  "E-commerce z AI": "aiEcommerce",
+  "Performance & SEO": "performanceSeo",
+  
+  // Marketing
   "Kampania Social Media": "socialMediaCampaign",
-  "MVP Startupu": "startupMvp"
+  "Newsletter z insightami": "insightsNewsletter",
+  "Kampania Google Ads": "googleAdsCampaign",
+  "Facebook & Instagram Ads": "fbInstagramAds",
+  "Strategie contentowe": "contentStrategies",
+  "Sklepy pod kampanie": "campaignStores",
+  
+  // AI & Automatyzacja
+  "AI Chatbot": "aiChatbot",
+  "Integracja AI": "aiIntegration",
+  "Automatyzacja Procesów Biznesowych": "businessProcessAutomation",
+  "Automatyzacje (n8n, Zapier)": "n8nZapierAutomation",
+  "Custom AI Tools": "customAiTools",
+  
+  // Startup
+  "Product Discovery Workshop": "productDiscoveryWorkshop",
+  "MVP z AI": "aiMvp",
+  "MVP Startupu": "startupMvp",
+  "Mentoring & Konsultacje": "mentoringConsulting"
 };
 
 // Funkcja pomocnicza do pobierania tłumaczeń usługi z pliku

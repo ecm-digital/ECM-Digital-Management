@@ -100,10 +100,9 @@ export default function ServicesPage() {
     <Layout>
       <div className="container mx-auto px-4 py-12">
         <div className="max-w-6xl mx-auto">
-          <h1 className="text-3xl font-bold mb-2">Oferta ECM Digital</h1>
+          <h1 className="text-3xl font-bold mb-2">{t('services.ourOffer')}</h1>
           <p className="text-gray-600 mb-8">
-            Specjalizujemy się w projektowaniu skutecznych doświadczeń użytkownika, 
-            budowie stron internetowych oraz integracji rozwiązań AI dla Twojego biznesu.
+            {t('services.offerDescription')}
           </p>
 
           {/* Main Category Tabs */}
@@ -115,7 +114,7 @@ export default function ServicesPage() {
           >
             <TabsList className="w-full justify-start overflow-x-auto whitespace-nowrap scrollbar-hide mb-4 tabs-list-wrapper">
               <TabsTrigger value="all" className="px-4">
-                Wszystkie usługi
+                {t('services.allServices')}
               </TabsTrigger>
               {mainCategories.map((category) => (
                 <TabsTrigger key={category.id} value={category.id} className="px-4">
@@ -132,7 +131,7 @@ export default function ServicesPage() {
           <div className="mb-8 flex flex-col md:flex-row gap-4">
             <div className="flex-grow">
               <Input
-                placeholder="Szukaj usług..."
+                placeholder={t('services.searchServices')}
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="w-full"
@@ -143,13 +142,13 @@ export default function ServicesPage() {
                 <SelectTrigger>
                   <div className="flex items-center">
                     <Filter className="h-4 w-4 mr-2" />
-                    <SelectValue placeholder="Filtruj po kategorii" />
+                    <SelectValue placeholder={t('services.filterByCategory')} />
                   </div>
                 </SelectTrigger>
                 <SelectContent>
                   {categories.map((category) => (
                     <SelectItem key={category} value={category}>
-                      {category === 'all' ? 'Wszystkie kategorie' : category}
+                      {category === 'all' ? t('services.allCategories') : category}
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -198,16 +197,16 @@ export default function ServicesPage() {
             </div>
           ) : filteredServices.length === 0 ? (
             <div className="text-center py-12">
-              <h3 className="text-xl font-medium mb-2">Nie znaleziono usług</h3>
+              <h3 className="text-xl font-medium mb-2">{t('services.noServicesFound')}</h3>
               <p className="text-gray-600 mb-6">
-                Nie znaleziono usług pasujących do podanych kryteriów. Spróbuj zmienić wyszukiwanie lub filtry.
+                {t('services.noServicesFoundDescription')}
               </p>
               <Button variant="outline" onClick={() => {
                 setSearchTerm('');
                 setCategoryFilter('all');
                 setActiveTab('all');
               }}>
-                Resetuj filtry
+                {t('services.resetFilters')}
               </Button>
             </div>
           ) : (
