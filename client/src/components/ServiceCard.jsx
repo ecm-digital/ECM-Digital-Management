@@ -2,29 +2,33 @@ import React from 'react';
 import { Link } from 'wouter';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { useTranslation } from 'react-i18next';
+import i18next from 'i18next';
 import { ArrowRight, Check } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { getServiceTranslation, getCategoryTranslation } from './ServiceTranslator';
+
 export default function ServiceCard({ 
   service, 
   colorClass = "text-blue-600", 
   showCategory = true,
   showFeatures = false
 }) {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
+  const currentLanguage = i18next.language || 'pl';
   
-  console.log("ServiceCard renderowanie, język:", i18n.language, "nazwa usługi:", service.name, "ID:", service.id);
+  console.log("ServiceCard renderowanie, język:", currentLanguage, "nazwa usługi:", service.name, "ID:", service.id);
   
   return (
     <Card className="overflow-hidden hover:shadow-md transition-shadow">
       <CardHeader className="pb-2">
         <div className="flex justify-between items-start">
           <CardTitle className="text-xl">
-            {service.name}
+            {getServiceTranslation(service.name, currentLanguage)}
           </CardTitle>
           {showCategory && (
             <Badge variant="outline" className="bg-blue-50">
-              {service.category || 'Inne'}
+              {getCategoryTranslation(service.category || 'Inne', currentLanguage)}
             </Badge>
           )}
         </div>
@@ -43,7 +47,7 @@ export default function ServiceCard({
               </p>
             ))}
             {service.features.length > 3 && (
-              <p className="text-sm text-gray-600 italic">i więcej...</p>
+              <p className="text-sm text-gray-600 italic">{t('services.andMore')}</p>
             )}
           </div>
         </CardContent>

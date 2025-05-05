@@ -35,6 +35,7 @@ export default function HomePage() {
 
   // Mapowanie kategorii z bazy danych do głównych kategorii
   const categoryMapping = {
+    // Polski
     'UX/UI': 'ux-design',
     'Web Development': 'web-development',
     'E-commerce': 'web-development',
@@ -43,7 +44,17 @@ export default function HomePage() {
     'AI': 'ai-automation',
     'Automatyzacja': 'ai-automation',
     'Consulting': 'startup',
-    'Development': 'startup'
+    'Development': 'startup',
+    // Niemiecki
+    'UX/UI': 'ux-design',
+    'Web-Entwicklung': 'web-development',
+    'E-commerce': 'web-development',
+    'Marketing': 'social-marketing',
+    'SEO': 'web-development',
+    'KI': 'ai-automation',
+    'Automatisierung': 'ai-automation',
+    'Beratung': 'startup',
+    'Entwicklung': 'startup'
   };
 
   // Funkcja pomocnicza do mapowania kategorii
