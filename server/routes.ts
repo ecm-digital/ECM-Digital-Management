@@ -12,6 +12,37 @@ import { ParsedQs } from "qs";
 import axios from "axios";
 import { db } from "./db";
 import { eq } from "drizzle-orm";
+// Tłumaczenia nazw usług
+const serviceTranslations: Record<string, string> = {
+  "Audyt UX": "UX-Audit",
+  "Audyt UX z elementami AI": "UX-Audit mit KI",
+  "Projektowanie lejków konwersji": "Conversion-Funnel-Design",
+  "Miesięczna opieka AI/UX": "Monatliche KI/UX-Betreuung",
+  "Strona internetowa": "Webseite",
+  "Sklep internetowy": "Online-Shop",
+  "Aplikacja webowa": "Web-Anwendung",
+  "Kampania Social Media": "Social-Media-Kampagne",
+  "Newsletter z insightami": "Insights-Newsletter",
+  "AI Chatbot": "KI-Chatbot",
+  "Integracja AI": "KI-Integration",
+  "Strategia marketingowa": "Marketingstrategie",
+  "Automatyzacja Procesów Biznesowych": "Automatisierung von Geschäftsprozessen",
+  "Mentoring & Konsultacje": "Mentoring & Beratung"
+};
+
+// Tłumaczenia kategorii
+const categoryTranslations: Record<string, string> = {
+  "UX/UI": "UX/UI",
+  "Web Development": "Web-Entwicklung",
+  "Marketing": "Marketing",
+  "SEO": "SEO",
+  "AI": "KI",
+  "Automatyzacja": "Automatisierung",
+  "Consulting": "Beratung",
+  "Development": "Entwicklung",
+  "Inne": "Andere"
+};
+
 import { 
   generateServiceData, 
   generateBenefits, 
@@ -64,36 +95,6 @@ const orderSubmissionSchema = z.object({
 });
 
 export async function registerRoutes(app: Express): Promise<Server> {
-  // Niemieckie tłumaczenia nazw usług
-  const serviceTranslations: Record<string, string> = {
-    "Audyt UX": "UX-Audit",
-    "Audyt UX z elementami AI": "UX-Audit mit KI",
-    "Projektowanie lejków konwersji": "Conversion-Funnel-Design",
-    "Miesięczna opieka AI/UX": "Monatliche KI/UX-Betreuung",
-    "Strona internetowa": "Webseite",
-    "Sklep internetowy": "Online-Shop",
-    "Aplikacja webowa": "Web-Anwendung",
-    "Kampania Social Media": "Social-Media-Kampagne",
-    "Newsletter z insightami": "Insights-Newsletter",
-    "AI Chatbot": "KI-Chatbot",
-    "Integracja AI": "KI-Integration",
-    "Strategia marketingowa": "Marketingstrategie",
-    "Automatyzacja Procesów Biznesowych": "Automatisierung von Geschäftsprozessen",
-    "Mentoring & Konsultacje": "Mentoring & Beratung"
-  };
-
-  // Niemieckie tłumaczenia kategorii
-  const categoryTranslations: Record<string, string> = {
-    "UX/UI": "UX/UI",
-    "Web Development": "Web-Entwicklung",
-    "Marketing": "Marketing",
-    "SEO": "SEO",
-    "AI": "KI",
-    "Automatyzacja": "Automatisierung",
-    "Consulting": "Beratung",
-    "Development": "Entwicklung",
-    "Inne": "Andere"
-  };
 
   // Get services from database
   app.get("/api/services", async (req, res) => {
