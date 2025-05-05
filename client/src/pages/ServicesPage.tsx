@@ -33,11 +33,11 @@ export default function ServicesPage() {
 
   // Definicja głównych kategorii z dokumentu
   const mainCategories = [
-    { id: 'ux-design', name: 'UX & Conversion Design', icon: <Users className="h-4 w-4" /> },
-    { id: 'web-development', name: 'Projektowanie i rozwój stron', icon: <Laptop className="h-4 w-4" /> },
-    { id: 'social-marketing', name: 'Social Media & Kampanie', icon: <BarChart className="h-4 w-4" /> },
-    { id: 'ai-automation', name: 'Integracje AI i Automatyzacje', icon: <Bot className="h-4 w-4" /> },
-    { id: 'startup', name: 'Oferta Startupowa', icon: <Rocket className="h-4 w-4" /> }
+    { id: 'ux-design', name: t('services.categories.uxDesign'), icon: <Users className="h-4 w-4" /> },
+    { id: 'web-development', name: t('services.categories.webDevelopment'), icon: <Laptop className="h-4 w-4" /> },
+    { id: 'social-marketing', name: t('services.categories.socialMedia'), icon: <BarChart className="h-4 w-4" /> },
+    { id: 'ai-automation', name: t('services.categories.aiIntegration'), icon: <Bot className="h-4 w-4" /> },
+    { id: 'startup', name: t('services.categories.startupOffer'), icon: <Rocket className="h-4 w-4" /> }
   ];
 
   // Mapowanie kategorii z bazy danych do głównych kategorii
