@@ -254,10 +254,10 @@ export default function HomePage() {
                       <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
                     </svg>
                   </div>
-                  <h2 className="text-2xl font-bold text-gray-900">UX & Conversion Design</h2>
+                  <h2 className="text-2xl font-bold text-gray-900">{t('services.categories.uxDesign')}</h2>
                 </div>
                 <p className="text-gray-600 mb-6 pl-12">
-                  Projektujemy nie tylko ładne, ale przede wszystkim skuteczne doświadczenia użytkownika, które zwiększają konwersję.
+                  {t('services.descriptions.uxDesign')}
                 </p>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {filteredServices
@@ -279,7 +279,7 @@ export default function HomePage() {
                       <line x1="12" y1="17" x2="12" y2="21"></line>
                     </svg>
                   </div>
-                  <h2 className="text-2xl font-bold text-gray-900">Projektowanie i rozwój stron internetowych</h2>
+                  <h2 className="text-2xl font-bold text-gray-900">{t('services.categories.webDevelopment')}</h2>
                 </div>
                 <p className="text-gray-600 mb-6 pl-12">
                   Tworzymy nowoczesne, responsywne strony i sklepy internetowe z myślą o wydajności i SEO.
@@ -304,7 +304,7 @@ export default function HomePage() {
                       <line x1="6" y1="20" x2="6" y2="16"></line>
                     </svg>
                   </div>
-                  <h2 className="text-2xl font-bold text-gray-900">Social Media & Kampanie Reklamowe</h2>
+                  <h2 className="text-2xl font-bold text-gray-900">{t('services.categories.socialMedia')}</h2>
                 </div>
                 <p className="text-gray-600 mb-6 pl-12">
                   Zwiększamy zasięg i sprzedaż dzięki dopracowanym kampaniom reklamowym i contentowi.
@@ -328,7 +328,7 @@ export default function HomePage() {
                       <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
                     </svg>
                   </div>
-                  <h2 className="text-2xl font-bold text-gray-900">Integracje AI i Automatyzacje</h2>
+                  <h2 className="text-2xl font-bold text-gray-900">{t('services.categories.aiIntegration')}</h2>
                 </div>
                 <p className="text-gray-600 mb-6 pl-12">
                   Usprawniamy procesy w firmach dzięki inteligentnym automatyzacjom i agentom AI.
@@ -352,7 +352,7 @@ export default function HomePage() {
                       <path d="M22 2l-7 20-4-9-9-4 20-7z"></path>
                     </svg>
                   </div>
-                  <h2 className="text-2xl font-bold text-gray-900">Oferta Startupowa i Discovery</h2>
+                  <h2 className="text-2xl font-bold text-gray-900">{t('services.categories.startupOffer')}</h2>
                 </div>
                 <p className="text-gray-600 mb-6 pl-12">
                   Pomagamy startupom zbudować trafiony produkt szybciej i taniej.

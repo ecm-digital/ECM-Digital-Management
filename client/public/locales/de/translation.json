@@ -51,7 +51,21 @@
     "backToList": "Zurück zur Dienstleistungsliste",
     "summary": "Zusammenfassung",
     "priceDetails": "Preisdetails und Lieferzeit",
-    "basePrice": "Der obige Preis ist der Grundpreis. Der endgültige Preis hängt von den gewählten Konfigurationsoptionen ab."
+    "basePrice": "Der obige Preis ist der Grundpreis. Der endgültige Preis hängt von den gewählten Konfigurationsoptionen ab.",
+    "categories": {
+      "uxDesign": "UX & Conversion Design",
+      "webDevelopment": "Webdesign und -entwicklung",
+      "socialMedia": "Social Media & Werbekampagnen",
+      "aiIntegration": "KI-Integrationen und Automatisierungen",
+      "startupOffer": "Startup-Angebot und Discovery"
+    },
+    "descriptions": {
+      "uxDesign": "Wir gestalten nicht nur schöne, sondern vor allem effektive Nutzererfahrungen, die die Conversion steigern.",
+      "webDevelopment": "Wir erstellen moderne, responsive Websites und Online-Shops mit Fokus auf Performance und SEO.",
+      "socialMedia": "Wir steigern Reichweite und Umsatz durch ausgefeilte Werbekampagnen und Content.",
+      "aiIntegration": "Wir optimieren Unternehmensprozesse durch intelligente Automatisierungen und KI-Agenten.",
+      "startupOffer": "Wir helfen Startups, ein erfolgreiches Produkt schneller und kostengünstiger zu entwickeln."
+    }
   },
   "contact": {
     "title": "Kontaktieren Sie uns",
