@@ -1,117 +1,13 @@
 import React from 'react';
+import { Service } from '@/types';
 import { Link } from 'wouter';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { useTranslation } from 'react-i18next';
 import i18next from 'i18next';
-import { Service } from '@/types';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { ArrowRight, Check } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-
-// Przechowujemy tłumaczenia nazw usług i kategorii
-export const serviceTranslations = {
-  // UX/UI kategoria
-  "Audyt UX": {
-    de: "UX-Audit",
-    en: "UX Audit"
-  },
-  "Audyt UX z elementami AI": {
-    de: "UX-Audit mit KI",
-    en: "UX Audit with AI"
-  },
-  "Projektowanie lejków konwersji": {
-    de: "Conversion-Funnel-Design",
-    en: "Conversion Funnel Design"
-  },
-  "Miesięczna opieka AI/UX": {
-    de: "Monatliche KI/UX-Betreuung",
-    en: "Monthly AI/UX Care"
-  },
-  // Web Development kategoria
-  "Strona internetowa": {
-    de: "Webseite",
-    en: "Website"
-  },
-  "Sklep internetowy": {
-    de: "Online-Shop",
-    en: "Online Store"
-  },
-  "Aplikacja webowa": {
-    de: "Web-Anwendung",
-    en: "Web Application"
-  },
-  // Marketing kategoria
-  "Kampania Social Media": {
-    de: "Social-Media-Kampagne",
-    en: "Social Media Campaign"
-  },
-  "Newsletter z insightami": {
-    de: "Insights-Newsletter",
-    en: "Insights Newsletter"
-  },
-  // AI kategoria
-  "AI Chatbot": {
-    de: "KI-Chatbot",
-    en: "AI Chatbot"
-  },
-  "Integracja AI": {
-    de: "KI-Integration",
-    en: "AI Integration"
-  },
-  // Inne
-  "Strategia marketingowa": {
-    de: "Marketingstrategie",
-    en: "Marketing Strategy"
-  },
-  "Automatyzacja Procesów Biznesowych": {
-    de: "Automatisierung von Geschäftsprozessen",
-    en: "Business Process Automation"
-  },
-  "Mentoring & Konsultacje": {
-    de: "Mentoring & Beratung",
-    en: "Mentoring & Consulting"
-  }
-};
-
-// Tłumaczenia kategorii
-export const categoryTranslations = {
-  "UX/UI": {
-    de: "UX/UI",
-    en: "UX/UI"
-  },
-  "Web Development": {
-    de: "Web-Entwicklung",
-    en: "Web Development"
-  },
-  "Marketing": {
-    de: "Marketing",
-    en: "Marketing"
-  },
-  "SEO": {
-    de: "SEO",
-    en: "SEO"
-  },
-  "AI": {
-    de: "KI",
-    en: "AI"
-  },
-  "Automatyzacja": {
-    de: "Automatisierung",
-    en: "Automation"
-  },
-  "Consulting": {
-    de: "Beratung",
-    en: "Consulting"
-  },
-  "Development": {
-    de: "Entwicklung",
-    en: "Development"
-  },
-  "Inne": {
-    de: "Andere",
-    en: "Other"
-  }
-};
+import { getServiceTranslation, getCategoryTranslation } from './ServiceTranslator';
 
 interface ServiceCardProps {
   service: Service;
@@ -130,36 +26,16 @@ export default function ServiceCard({
   const currentLanguage = i18next.language || 'pl';
   console.log("ServiceCard język:", currentLanguage, "dla usługi:", service.name);
   
-  // Funkcja tłumacząca nazwę usługi
-  const getServiceName = (serviceName: string) => {
-    if (currentLanguage === 'pl') return serviceName;
-    
-    console.log("Tłumaczenie usługi:", serviceName, "dla języka:", currentLanguage);
-    console.log("Dostępne tłumaczenia:", serviceTranslations[serviceName as keyof typeof serviceTranslations]);
-    
-    const translation = serviceTranslations[serviceName as keyof typeof serviceTranslations];
-    const result = translation ? translation[currentLanguage as keyof typeof translation] || serviceName : serviceName;
-    
-    console.log("Wynik tłumaczenia:", result);
-    return result;
-  };
-  
-  // Funkcja tłumacząca kategorię
-  const getCategoryName = (category: string) => {
-    if (currentLanguage === 'pl') return category;
-    
-    const translation = categoryTranslations[category as keyof typeof categoryTranslations];
-    return translation ? translation[currentLanguage as keyof typeof translation] || category : category;
-  };
-
   return (
     <Card className="overflow-hidden hover:shadow-md transition-shadow">
       <CardHeader className="pb-2">
         <div className="flex justify-between items-start">
-          <CardTitle className="text-xl">{getServiceName(service.name)}</CardTitle>
+          <CardTitle className="text-xl">
+            {getServiceTranslation(service.name, currentLanguage)}
+          </CardTitle>
           {showCategory && (
             <Badge variant="outline" className="bg-blue-50">
-              {getCategoryName(service.category || 'Inne')}
+              {getCategoryTranslation(service.category || 'Inne', currentLanguage)}
             </Badge>
           )}
         </div>

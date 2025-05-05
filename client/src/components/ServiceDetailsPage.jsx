@@ -1,29 +1,106 @@
 import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Link, useRoute, useLocation } from 'wouter';
-import { Service } from '@/types';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { ArrowLeft, Clock, Calendar, CheckCircle, Check } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import i18next from 'i18next';
-import { getServiceTranslation, getCategoryTranslation } from './ServiceTranslator';
 
-// Definiujemy typ dla tablicy tłumaczeń
-type I18nArray = string[];
+// Tłumaczenia nazw usług
+const serviceTranslations = {
+  "pl": {
+    // Wszystkie oryginalne nazwy po polsku są takie same
+  },
+  "de": {
+    "Audyt UX": "UX-Audit",
+    "Audyt UX z elementami AI": "UX-Audit mit KI",
+    "Projektowanie lejków konwersji": "Conversion-Funnel-Design",
+    "Miesięczna opieka AI/UX": "Monatliche KI/UX-Betreuung",
+    "Strona internetowa": "Webseite",
+    "Sklep internetowy": "Online-Shop",
+    "Aplikacja webowa": "Web-Anwendung",
+    "Kampania Social Media": "Social-Media-Kampagne",
+    "Newsletter z insightami": "Insights-Newsletter",
+    "AI Chatbot": "KI-Chatbot",
+    "Integracja AI": "KI-Integration",
+    "Strategia marketingowa": "Marketingstrategie",
+    "Automatyzacja Procesów Biznesowych": "Automatisierung von Geschäftsprozessen",
+    "Mentoring & Konsultacje": "Mentoring & Beratung"
+  },
+  "en": {
+    "Audyt UX": "UX Audit",
+    "Audyt UX z elementami AI": "UX Audit with AI",
+    "Projektowanie lejków konwersji": "Conversion Funnel Design",
+    "Miesięczna opieka AI/UX": "Monthly AI/UX Care",
+    "Strona internetowa": "Website",
+    "Sklep internetowy": "Online Store",
+    "Aplikacja webowa": "Web Application",
+    "Kampania Social Media": "Social Media Campaign",
+    "Newsletter z insightami": "Insights Newsletter",
+    "AI Chatbot": "AI Chatbot",
+    "Integracja AI": "AI Integration",
+    "Strategia marketingowa": "Marketing Strategy",
+    "Automatyzacja Procesów Biznesowych": "Business Process Automation",
+    "Mentoring & Konsultacje": "Mentoring & Consulting"
+  }
+};
+
+// Tłumaczenia kategorii
+const categoryTranslations = {
+  "pl": {
+    // Wszystkie oryginalne kategorie po polsku są takie same
+  },
+  "de": {
+    "UX/UI": "UX/UI",
+    "Web Development": "Web-Entwicklung",
+    "Marketing": "Marketing",
+    "SEO": "SEO",
+    "AI": "KI",
+    "Automatyzacja": "Automatisierung",
+    "Consulting": "Beratung",
+    "Development": "Entwicklung",
+    "Inne": "Andere"
+  },
+  "en": {
+    "UX/UI": "UX/UI",
+    "Web Development": "Web Development",
+    "Marketing": "Marketing",
+    "SEO": "SEO",
+    "AI": "AI",
+    "Automatyzacja": "Automation",
+    "Consulting": "Consulting",
+    "Development": "Development",
+    "Inne": "Other"
+  }
+};
 
 export default function ServiceDetailsPage() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [match, params] = useRoute('/service/:id');
   const [_, setLocation] = useLocation();
   const serviceId = params?.id;
-  const currentLanguage = i18next.language || 'pl';
+  const currentLanguage = localStorage.getItem('app_language') || i18n.language || 'pl';
   
-  // Funkcje pomocnicze do tłumaczeń zostały przeniesione do ServiceTranslator.tsx
+  // Pobierz tłumaczenie nazwy usługi
+  const getTranslatedServiceName = (serviceName) => {
+    if (currentLanguage === 'pl') return serviceName;
+    
+    const translations = serviceTranslations[currentLanguage];
+    return translations && translations[serviceName] ? translations[serviceName] : serviceName;
+  };
+  
+  // Pobierz tłumaczenie kategorii
+  const getTranslatedCategory = (category) => {
+    if (currentLanguage === 'pl') return category || 'Inne';
+    
+    const categoryName = category || 'Inne';
+    const translations = categoryTranslations[currentLanguage];
+    return translations && translations[categoryName] ? translations[categoryName] : categoryName;
+  };
 
-  const { data: service, isLoading, isError } = useQuery<Service>({ 
+  const { data: service, isLoading, isError } = useQuery({ 
     queryKey: [`/api/services/${serviceId}`],
     staleTime: 5000
   });
@@ -68,12 +145,12 @@ export default function ServiceDetailsPage() {
         <div className="lg:col-span-2">
           <div className="mb-6">
             <h1 className="text-3xl md:text-4xl font-bold mb-3">
-              {getServiceTranslation(service.name, currentLanguage)}
+              {getTranslatedServiceName(service.name)}
             </h1>
             
             <div className="flex flex-wrap gap-2 mb-4">
               <Badge variant="outline" className="bg-blue-50">
-                {getCategoryTranslation(service.category || 'Inne', currentLanguage)}
+                {getTranslatedCategory(service.category)}
               </Badge>
               <Badge variant="outline" className="bg-green-50 flex items-center gap-1">
                 <Clock size={14} /> {service.deliveryTime} {t('services.days')}
@@ -82,20 +159,20 @@ export default function ServiceDetailsPage() {
 
             {service.shortDescription && (
               <p className="text-lg text-gray-600 mb-4">
-                {i18next.language === 'de' && service.id === '1' ? t('services.servicesList.uxAudit.shortDescription') : 
-                 i18next.language === 'de' && service.id === '2' ? t('services.servicesList.uxAuditAi.shortDescription') :
-                 i18next.language === 'de' && service.id === '24' ? t('services.servicesList.monthlyAiUxCare.shortDescription') :
-                 i18next.language === 'de' && service.id === '25' ? t('services.servicesList.insightsNewsletter.shortDescription') :
+                {i18n.language === 'de' && service.id === '1' ? t('services.servicesList.uxAudit.shortDescription') : 
+                 i18n.language === 'de' && service.id === '2' ? t('services.servicesList.uxAuditAi.shortDescription') :
+                 i18n.language === 'de' && service.id === '24' ? t('services.servicesList.monthlyAiUxCare.shortDescription') :
+                 i18n.language === 'de' && service.id === '25' ? t('services.servicesList.insightsNewsletter.shortDescription') :
                  service.shortDescription}
               </p>
             )}
 
             <div className="text-gray-700 mb-6">
               <p className="mb-4">
-                {i18next.language === 'de' && service.id === '1' ? t('services.servicesList.uxAudit.description') : 
-                 i18next.language === 'de' && service.id === '2' ? t('services.servicesList.uxAuditAi.description') :
-                 i18next.language === 'de' && service.id === '24' ? t('services.servicesList.monthlyAiUxCare.description') :
-                 i18next.language === 'de' && service.id === '25' ? t('services.servicesList.insightsNewsletter.description') :
+                {i18n.language === 'de' && service.id === '1' ? t('services.servicesList.uxAudit.description') : 
+                 i18n.language === 'de' && service.id === '2' ? t('services.servicesList.uxAuditAi.description') :
+                 i18n.language === 'de' && service.id === '24' ? t('services.servicesList.monthlyAiUxCare.description') :
+                 i18n.language === 'de' && service.id === '25' ? t('services.servicesList.insightsNewsletter.description') :
                  service.description}
               </p>
               {service.longDescription && (
@@ -113,17 +190,17 @@ export default function ServiceDetailsPage() {
                   <h3 className="text-xl font-semibold mb-4">{t('services.benefits')}</h3>
                   <ul className="space-y-3">
                     {(() => {
-                      // Uzywamy IIFE (Immediately Invoked Function Expression) aby móc użyc zmiennych lokalnych
+                      // Używamy IIFE (Immediately Invoked Function Expression) aby móc użyć zmiennych lokalnych
                       const getBenefits = () => {
-                        if (i18next.language === 'de') {
+                        if (i18n.language === 'de') {
                           if (service.id === '1') {
-                            return (t('services.servicesList.uxAudit.benefits', { returnObjects: true }) as string[]);
+                            return t('services.servicesList.uxAudit.benefits', { returnObjects: true });
                           } else if (service.id === '2') {
-                            return (t('services.servicesList.uxAuditAi.benefits', { returnObjects: true }) as string[]);
+                            return t('services.servicesList.uxAuditAi.benefits', { returnObjects: true });
                           } else if (service.id === '24') {
-                            return (t('services.servicesList.monthlyAiUxCare.benefits', { returnObjects: true }) as string[]);
+                            return t('services.servicesList.monthlyAiUxCare.benefits', { returnObjects: true });
                           } else if (service.id === '25') {
-                            return (t('services.servicesList.insightsNewsletter.benefits', { returnObjects: true }) as string[]);
+                            return t('services.servicesList.insightsNewsletter.benefits', { returnObjects: true });
                           }
                         }
                         return service.benefits || [];
@@ -146,17 +223,17 @@ export default function ServiceDetailsPage() {
                   <h3 className="text-xl font-semibold mb-4">{t('services.features')}</h3>
                   <ul className="space-y-3">
                     {(() => {
-                      // Uzywamy IIFE dla funkcji cech/elementów
+                      // Używamy IIFE dla funkcji cech/elementów
                       const getFeatures = () => {
-                        if (i18next.language === 'de') {
+                        if (i18n.language === 'de') {
                           if (service.id === '1') {
-                            return (t('services.servicesList.uxAudit.features', { returnObjects: true }) as string[]);
+                            return t('services.servicesList.uxAudit.features', { returnObjects: true });
                           } else if (service.id === '2') {
-                            return (t('services.servicesList.uxAuditAi.features', { returnObjects: true }) as string[]);
+                            return t('services.servicesList.uxAuditAi.features', { returnObjects: true });
                           } else if (service.id === '24') {
-                            return (t('services.servicesList.monthlyAiUxCare.features', { returnObjects: true }) as string[]);
+                            return t('services.servicesList.monthlyAiUxCare.features', { returnObjects: true });
                           } else if (service.id === '25') {
-                            return (t('services.servicesList.insightsNewsletter.features', { returnObjects: true }) as string[]);
+                            return t('services.servicesList.insightsNewsletter.features', { returnObjects: true });
                           }
                         }
                         return service.features || [];
@@ -180,17 +257,17 @@ export default function ServiceDetailsPage() {
                 <h3 className="text-xl font-semibold mb-4">{t('services.scope')}</h3>
                 <ul className="space-y-3">
                   {(() => {
-                      // Uzywamy IIFE dla funkcji zakresu
+                      // Używamy IIFE dla funkcji zakresu
                       const getScope = () => {
-                        if (i18next.language === 'de') {
+                        if (i18n.language === 'de') {
                           if (service.id === '1') {
-                            return (t('services.servicesList.uxAudit.scope', { returnObjects: true }) as string[]);
+                            return t('services.servicesList.uxAudit.scope', { returnObjects: true });
                           } else if (service.id === '2') {
-                            return (t('services.servicesList.uxAuditAi.scope', { returnObjects: true }) as string[]);
+                            return t('services.servicesList.uxAuditAi.scope', { returnObjects: true });
                           } else if (service.id === '24') {
-                            return (t('services.servicesList.monthlyAiUxCare.scope', { returnObjects: true }) as string[]);
+                            return t('services.servicesList.monthlyAiUxCare.scope', { returnObjects: true });
                           } else if (service.id === '25') {
-                            return (t('services.servicesList.insightsNewsletter.scope', { returnObjects: true }) as string[]);
+                            return t('services.servicesList.insightsNewsletter.scope', { returnObjects: true });
                           }
                         }
                         return service.scope || [];
