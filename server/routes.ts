@@ -59,8 +59,8 @@ const serviceNameToKey: Record<string, string> = {
 const getServiceTranslation = (serviceName: string, lang: string) => {
   console.log("getServiceTranslation called for service:", serviceName, "lang:", lang);
   
+  // Skip translation for non-German language
   if (lang !== 'de') {
-    console.log("Not German language, returning null");
     return null;
   }
   
@@ -73,30 +73,33 @@ const getServiceTranslation = (serviceName: string, lang: string) => {
   try {
     // Załaduj plik tłumaczeń
     const translationsPath = path.join(process.cwd(), 'client/public/locales/de/translation.json');
-    console.log("Loading translations from:", translationsPath);
     
     const translationsFile = fs.readFileSync(translationsPath, 'utf8');
     const translations = JSON.parse(translationsFile);
     
-    if (!translations.services || !translations.services.servicesList) {
-      console.log("Missing services.servicesList in translations file!");
+    // Szukamy tłumaczenia w odpowiedniej ścieżce
+    let translation = null;
+    
+    // Na podstawie sprawdzenia struktury, wiemy że servicesList jest pod services
+    if (translations.services && translations.services.servicesList && 
+        translations.services.servicesList[serviceKey]) {
+      translation = translations.services.servicesList[serviceKey];
+      console.log(`Found translation in services.servicesList for key: ${serviceKey}`);
+    }
+    
+    if (!translation) {
+      console.log(`No translation found for service key: ${serviceKey}`);
       return null;
     }
     
-    const translation = translations.services.servicesList[serviceKey];
-    if (!translation) {
-      console.log("No translation found for key:", serviceKey);
-    } else {
-      console.log("Translation found for key:", serviceKey);
-
-      // Jeśli mamy description, a nie mamy longDescription, stwórz przynajmniej podstawowy longDescription
-      if (translation.description && !translation.longDescription) {
-        translation.longDescription = translation.description + " " + 
-          (translation.benefits || []).join(" ") + " " + 
-          (translation.features || []).join(" ");
-      }
+    // Jeśli mamy description, a nie mamy longDescription, stwórz przynajmniej podstawowy longDescription
+    if (translation.description && !translation.longDescription) {
+      translation.longDescription = translation.description + " " + 
+        (translation.benefits || []).join(" ") + " " + 
+        (translation.features || []).join(" ");
     }
     
+    console.log(`Translation found for ${serviceName}, returning translated content`);
     return translation;
   } catch (error) {
     console.error("Error loading translations:", error);
