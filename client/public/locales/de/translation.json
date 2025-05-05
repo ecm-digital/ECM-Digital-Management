@@ -19,6 +19,8 @@
     "testimonials": "Kundenstimmen",
     "recentProjects": "Aktuelle Projekte",
     "contactUs": "Kontaktieren Sie uns",
+    "getInTouch": "Kontakt aufnehmen",
+    "contactDescription": "Haben Sie Fragen oder möchten Sie ein Projekt besprechen? Kontaktieren Sie uns, und wir melden uns umgehend bei Ihnen.",
     "effectiveUX": "Effektives UX",
     "dataBasedDesign": "Wir entwerfen auf Basis von Daten",
     "fastDelivery": "Schnelle Umsetzung",
@@ -31,7 +33,30 @@
     "latestTechnologies": "Neueste Technologien",
     "longExperienceDescription": "Über 10 Jahre Erfahrung in der Marketing- und Technologiebranche. Wir haben Hunderte von Projekten für Unternehmen aus verschiedenen Branchen umgesetzt.",
     "individualApproachDescription": "Wir behandeln jedes Projekt individuell und passen unsere Dienstleistungen an die spezifischen Bedürfnisse und Ziele Ihres Unternehmens an.",
-    "latestTechnologiesDescription": "Wir setzen die neuesten Technologien und Tools ein, einschließlich fortschrittlicher KI-Lösungen, um höchste Servicequalität zu gewährleisten."
+    "latestTechnologiesDescription": "Wir setzen die neuesten Technologien und Tools ein, einschließlich fortschrittlicher KI-Lösungen, um höchste Servicequalität zu gewährleisten.",
+    "caseStudies": "Fallstudien",
+    "ourProjects": "Unsere Projekte",
+    "caseStudiesDescription": "Entdecken Sie, wie wir unseren Kunden geholfen haben, reale Geschäftsprobleme zu lösen und messbare Ergebnisse zu erzielen.",
+    "result": "Ergebnis",
+    "conversion": "Konversion",
+    "userEngagement": "Nutzerengagement",
+    "readMore": "Weiterlesen",
+    "caseStudyTypes": {
+      "ecommerce": "E-Commerce",
+      "webapp": "Web-Anwendung"
+    },
+    "caseStudies": {
+      "example1": {
+        "title": "E-Commerce-Optimierung für Online-Mode",
+        "client": "Fashion Brand GmbH",
+        "description": "Überarbeitung des Checkout-Prozesses und der Produktseiten zur Steigerung der Konversionsrate und Verbesserung des Kundenerlebnisses."
+      },
+      "example2": {
+        "title": "KI-gestützte Empfehlungsplattform",
+        "client": "Tech Solutions AG",
+        "description": "Entwicklung einer intelligenten Empfehlungsplattform, die Kundenpräferenzen analysiert und personalisierte Produktvorschläge bietet."
+      }
+    }
   },
   "services": {
     "title": "Unsere Dienstleistungen",
