@@ -569,7 +569,7 @@ export default function HomePage() {
                 </div>
                 
                 <div className="space-y-2">
-                  <Label htmlFor="website">URL (optional)</Label>
+                  <Label htmlFor="website">URL ({t('contact.optional')})</Label>
                   <Input id="website" placeholder="https://yourwebsite.com" />
                 </div>
                 
@@ -579,9 +579,9 @@ export default function HomePage() {
                 </div>
                 
                 <div className="space-y-2">
-                  <Label htmlFor="file" className="block mb-1">Attachment (optional)</Label>
+                  <Label htmlFor="file" className="block mb-1">{t('contact.attachment')} ({t('contact.optional')})</Label>
                   <Input id="file" type="file" className="cursor-pointer" />
-                  <p className="text-xs text-gray-500 mt-1">Dodaj brief lub materiały do projektu (max 5MB)</p>
+                  <p className="text-xs text-gray-500 mt-1">{t('contact.addAttachment')}</p>
                 </div>
                 
                 <div className="flex items-start">

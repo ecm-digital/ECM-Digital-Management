@@ -43,7 +43,13 @@
     "service": "Interesująca Cię usługa",
     "send": "Wyślij wiadomość",
     "address": "Adres",
-    "companyInfo": "Informacje o firmie"
+    "companyInfo": "Informacje o firmie",
+    "optional": "opcjonalnie",
+    "attachment": "Załącznik",
+    "addAttachment": "Dodaj materiały do projektu (max 5MB)",
+    "callNow": "Zadzwoń teraz",
+    "viewOnMap": "Zobacz na mapie",
+    "privacy": "Akceptuję politykę prywatności oraz wyrażam zgodę na przetwarzanie moich danych osobowych w celu odpowiedzi na zapytanie."
   },
   "footer": {
     "services": "Usługi",
