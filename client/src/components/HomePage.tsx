@@ -19,7 +19,13 @@ export default function HomePage() {
   const { t, i18n } = useTranslation();
   const { data: services, isLoading } = useQuery<Service[]>({
     queryKey: ['/api/services', i18n.language],
-    queryFn: () => fetch(`/api/services?lang=${i18n.language}`).then(res => res.json()),
+    queryFn: async () => {
+      console.log("HomePage: Pobieranie usług dla języka:", i18n.language);
+      const response = await fetch(`/api/services?lang=${i18n.language}`);
+      const data = await response.json();
+      console.log("HomePage: Pobrano usługi:", data.length, "dla języka:", i18n.language);
+      return data;
+    },
   });
 
   const filteredServices = services?.filter(service => service.status === 'Aktywna') || [];
@@ -33,8 +39,8 @@ export default function HomePage() {
     { id: 'startup', name: t('services.categories.startupOffer'), icon: <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-orange-600"><path d="M22 2L11 13"></path><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg> }
   ];
 
-  // Mapowanie kategorii z bazy danych do głównych kategorii
-  const categoryMapping = {
+  // Słownik mapowania kategorii z bazy danych na główne kategorie 
+  const categoryMapping: Record<string, string> = {
     // Polski
     'UX/UI': 'ux-design',
     'Web Development': 'web-development',
@@ -44,18 +50,19 @@ export default function HomePage() {
     'AI': 'ai-automation',
     'Automatyzacja': 'ai-automation',
     'Consulting': 'startup',
-    'Development': 'startup',
-    // Niemiecki
-    'UX/UI': 'ux-design',
-    'Web-Entwicklung': 'web-development',
-    'E-commerce': 'web-development',
-    'Marketing': 'social-marketing',
-    'SEO': 'web-development',
-    'KI': 'ai-automation',
-    'Automatisierung': 'ai-automation',
-    'Beratung': 'startup',
-    'Entwicklung': 'startup'
+    'Development': 'startup'
   };
+  
+  // Dodatkowe mapowania dla języka niemieckiego
+  if (i18n.language === 'de') {
+    Object.assign(categoryMapping, {
+      'Web-Entwicklung': 'web-development',
+      'KI': 'ai-automation',
+      'Automatisierung': 'ai-automation',
+      'Beratung': 'startup',
+      'Entwicklung': 'startup'
+    });
+  }
 
   // Funkcja pomocnicza do mapowania kategorii
   const mapServiceToMainCategory = (service: Service) => {

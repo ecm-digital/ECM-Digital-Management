@@ -177,7 +177,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
           : service.category || 'Inne';
           
         // Pobierz tłumaczenia dla usługi
-        const serviceTranslation = getServiceTranslation(service.name, lang);
+        const serviceKey = serviceNameToKey[service.name];
+        const serviceTranslation = serviceKey && lang === 'de' ? getServiceTranslation(service.name, lang) : null;
+        
+        console.log(`Service ${service.name} (key: ${serviceKey}) translation in ${lang}:`, 
+          serviceTranslation ? "Found" : "Not found");
 
         return {
           id: service.serviceId,
@@ -200,7 +204,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
         };
       });
       
-      console.log("Services being returned to client (language: " + lang + "):", services);
+      // Logowanie pierwszych kilku usług dla diagnostyki
+      if (services.length > 0) {
+        console.log(`First service after translation (${lang}):`, {
+          name: services[0].name,
+          category: services[0].category,
+          shortDescription: services[0].shortDescription.substring(0, 30) + '...'
+        });
+      }
+      
       res.json(services);
     } catch (error) {
       console.error("Error fetching services:", error);
@@ -299,7 +311,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
         : serviceFromDb.category || 'Inne';
       
       // Pobierz tłumaczenia dla usługi
-      const serviceTranslation = getServiceTranslation(serviceFromDb.name, lang);
+      const serviceKey = serviceNameToKey[serviceFromDb.name];
+      const serviceTranslation = serviceKey && lang === 'de' ? getServiceTranslation(serviceFromDb.name, lang) : null;
+      
+      console.log(`Service ${serviceFromDb.name} (key: ${serviceKey}) translation in ${lang}:`, 
+        serviceTranslation ? "Found" : "Not found");
     
       // Transform database model to client model
       const service = {
@@ -322,7 +338,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
         }
       };
       
-      console.log("Service being returned to client (language: " + lang + "):", service.name);
+      console.log("Service being returned to client (language: " + lang + "):", {
+        name: service.name,
+        category: service.category,
+        shortDescription: service.shortDescription?.substring(0, 30) + '...'
+      });
+      
       res.json(service);
     } catch (error) {
       console.error("Error fetching service:", error);

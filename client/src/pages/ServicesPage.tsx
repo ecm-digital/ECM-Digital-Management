@@ -18,7 +18,13 @@ export default function ServicesPage() {
   
   const { data: services, isLoading, refetch } = useQuery<Service[]>({
     queryKey: ['/api/services', i18n.language],
-    queryFn: () => fetch(`/api/services?lang=${i18n.language}`).then(res => res.json()),
+    queryFn: async () => {
+      console.log("Pobieranie usług dla języka:", i18n.language);
+      const response = await fetch(`/api/services?lang=${i18n.language}`);
+      const data = await response.json();
+      console.log("Pobrano usługi:", data.length, "dla języka:", i18n.language);
+      return data;
+    },
   });
   
   // Ponowne pobranie danych gdy zmieni się język
