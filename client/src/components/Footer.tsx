@@ -13,7 +13,7 @@ export default function Footer() {
               ECM Digital
             </h3>
             <p className="text-gray-600 leading-relaxed mb-6">
-              Kompleksowe rozwiązania cyfrowe dla biznesu. Świadczymy usługi marketingowe i technologiczne najwyższej jakości.
+              {t('footer.companyDescription')}
             </p>
             <div className="flex space-x-4">
               <a href="#" className="w-10 h-10 rounded-full bg-gray-100 hover:bg-primary/10 flex items-center justify-center text-gray-600 hover:text-primary transition-colors">
@@ -68,7 +68,7 @@ export default function Footer() {
                   </svg>
                 </div>
                 <div>
-                  <p className="font-medium">Telefon</p>
+                  <p className="font-medium">{t('footer.phone')}</p>
                   <a href="tel:+48535330323" className="hover:text-secondary">+48 535 330 323</a>
                 </div>
               </li>
@@ -80,8 +80,8 @@ export default function Footer() {
                   </svg>
                 </div>
                 <div>
-                  <p className="font-medium">Adres</p>
-                  <a href="https://maps.google.com/?q=Warszawa" target="_blank" rel="noopener noreferrer" className="hover:text-green-600">Warszawa, Polska</a>
+                  <p className="font-medium">{t('footer.address')}</p>
+                  <a href="https://maps.google.com/?q=Warszawa" target="_blank" rel="noopener noreferrer" className="hover:text-green-600">{t('footer.addressValue')}</a>
                 </div>
               </li>
             </ul>

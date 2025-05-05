@@ -64,7 +64,11 @@
     "contact": "Kontakt",
     "copyright": "© 2025 ECM Digital. Wszelkie prawa zastrzeżone.",
     "privacyPolicy": "Polityka prywatności",
-    "terms": "Warunki korzystania"
+    "terms": "Warunki korzystania",
+    "companyDescription": "Kompleksowe rozwiązania cyfrowe dla biznesu. Świadczymy usługi marketingowe i technologiczne najwyższej jakości.",
+    "phone": "Telefon",
+    "address": "Adres",
+    "addressValue": "Warszawa, Polska"
   },
   "buttons": {
     "readMore": "Czytaj więcej",

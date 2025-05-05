@@ -64,7 +64,11 @@
     "contact": "Kontakt",
     "copyright": "© 2025 ECM Digital. Alle Rechte vorbehalten.",
     "privacyPolicy": "Datenschutzrichtlinie",
-    "terms": "Nutzungsbedingungen"
+    "terms": "Nutzungsbedingungen",
+    "companyDescription": "Umfassende digitale Lösungen für Unternehmen. Wir bieten Marketing- und Technologiedienstleistungen auf höchstem Niveau.",
+    "phone": "Telefon",
+    "address": "Adresse",
+    "addressValue": "Warschau, Polen"
   },
   "buttons": {
     "readMore": "Weiterlesen",
