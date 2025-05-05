@@ -128,6 +128,7 @@ export default function ServiceCard({
 }: ServiceCardProps) {
   const { t } = useTranslation();
   const currentLanguage = i18next.language || 'pl';
+  console.log("ServiceCard język:", currentLanguage, "dla usługi:", service.name);
   
   // Funkcja tłumacząca nazwę usługi
   const getServiceName = (serviceName: string) => {
