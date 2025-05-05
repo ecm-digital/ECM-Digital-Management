@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Link } from 'wouter';
 import { Service } from '@/types';
@@ -15,12 +15,17 @@ import { useTranslation } from 'react-i18next';
 
 export default function ServicesPage() {
   const { t, i18n } = useTranslation();
-  const currentLanguage = localStorage.getItem('i18nextLng') || 'pl';
   
-  const { data: services, isLoading } = useQuery<Service[]>({
-    queryKey: ['/api/services', currentLanguage],
-    queryFn: () => fetch(`/api/services?lang=${currentLanguage}`).then(res => res.json()),
+  const { data: services, isLoading, refetch } = useQuery<Service[]>({
+    queryKey: ['/api/services', i18n.language],
+    queryFn: () => fetch(`/api/services?lang=${i18n.language}`).then(res => res.json()),
   });
+  
+  // Ponowne pobranie danych gdy zmieni się język
+  useEffect(() => {
+    console.log("Język zmieniony w ServicesPage:", i18n.language);
+    refetch();
+  }, [i18n.language, refetch]);
 
   const [searchTerm, setSearchTerm] = useState('');
   const [categoryFilter, setCategoryFilter] = useState('all');

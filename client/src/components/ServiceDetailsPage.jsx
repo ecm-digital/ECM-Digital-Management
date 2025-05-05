@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Link, useRoute, useLocation } from 'wouter';
 import { Button } from '@/components/ui/button';
@@ -12,15 +12,19 @@ export default function ServiceDetailsPage() {
   const [match, params] = useRoute('/service/:id');
   const [_, setLocation] = useLocation();
   const serviceId = params?.id;
-  const currentLanguage = localStorage.getItem('i18nextLng') || 'pl';
-  
-  console.log("ServiceDetailsPage renderowanie, język:", currentLanguage, "nazwa usługi:", serviceId);
+  console.log("ServiceDetailsPage renderowanie, język:", i18n.language, "nazwa usługi:", serviceId);
 
-  const { data: service, isLoading, isError } = useQuery({ 
-    queryKey: [`/api/services/${serviceId}`, currentLanguage],
-    queryFn: () => fetch(`/api/services/${serviceId}?lang=${currentLanguage}`).then(res => res.json()),
+  const { data: service, isLoading, isError, refetch } = useQuery({ 
+    queryKey: [`/api/services/${serviceId}`, i18n.language],
+    queryFn: () => fetch(`/api/services/${serviceId}?lang=${i18n.language}`).then(res => res.json()),
     staleTime: 5000
   });
+  
+  // Ponowne pobranie danych gdy zmieni się język
+  useEffect(() => {
+    console.log("Język zmieniony w ServiceDetailsPage:", i18n.language);
+    refetch();
+  }, [i18n.language, refetch]);
 
   const handleBack = () => {
     setLocation('/');
