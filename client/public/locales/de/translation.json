@@ -71,6 +71,7 @@
         "name": "UX-Audit",
         "shortDescription": "Umfassende UX-Analyse Ihrer Website oder App",
         "description": "UX-Audit - eine detaillierte Analyse Ihrer Webseite oder Anwendung mit Empfehlungen zur Verbesserung der Benutzererfahrung und Conversion.",
+        "longDescription": "Ein UX-Audit ist eine gründliche Analyse Ihrer Webseite oder App, die fundierte Erkenntnisse liefert, warum Nutzer nicht konvertieren und wie Sie die Benutzererfahrung verbessern können. Wir prüfen alle Aspekte der Benutzerinteraktion, von der Navigation und Informationsarchitektur bis hin zur visuellen Hierarchie und Inhaltsstruktur. Nach der Analyse erhalten Sie einen detaillierten Bericht mit konkreten Verbesserungsvorschlägen, die Sie sofort umsetzen können. Ein UX-Audit ist besonders wertvoll für Unternehmen, die eine hohe Absprungrate oder niedrige Conversion-Rate haben, sowie für diejenigen, die vor einem Redesign stehen und datenbasierte Entscheidungen treffen möchten.",
         "features": [
           "Detaillierte Bewertung der Benutzererfahrung",
           "Analyse der Benutzerflüsse und Informationsarchitektur",
@@ -97,6 +98,7 @@
         "name": "UX-Audit mit KI",
         "shortDescription": "KI-unterstützte UX-Analyse mit umsetzbaren Empfehlungen",
         "description": "UX-Audit mit KI - eine fortschrittliche Analyse Ihrer Webseite mit KI-unterstützten Werkzeugen und einem umfassenden Bericht mit Empfehlungen.",
+        "longDescription": "Das UX-Audit mit KI-Unterstützung erweitert die klassische UX-Analyse durch den Einsatz fortschrittlicher künstlicher Intelligenz. Mit KI-gestützten Heatmaps, automatisierter Verhaltensanalyse und maschinellem Lernen können wir versteckte Muster im Nutzerverhalten identifizieren, die bei herkömmlichen Audits möglicherweise übersehen werden. Die KI analysiert große Datenmengen und erkennt subtile Barrieren in der Nutzerreise, die die Conversion behindern. Der resultierende Bericht enthält nicht nur detaillierte Visualisierungen, sondern auch eine priorisierte Liste von Empfehlungen mit einer Auswirkungsanalyse, die Ihnen hilft, die lohnendsten Verbesserungen zuerst umzusetzen.",
         "features": [
           "KI-gestützte Heatmap-Analyse",
           "Engagement-Tracking und Verhaltensanalyse",
@@ -177,6 +179,7 @@
         "name": "KI-Web-App",
         "shortDescription": "Moderne Web-Anwendung mit KI-Funktionalität und UX-fokussiertem Design",
         "description": "KI-Web-App - Entwicklung einer modernen Webanwendung mit künstlicher Intelligenz, die Benutzererfahrung, Effizienz und Automatisierung verbessert.",
+        "longDescription": "Unsere KI-Web-Anwendungsentwicklung kombiniert modernste Frontend- und Backend-Technologien mit fortschrittlichen KI-Modellen, um leistungsstarke, intelligente und benutzerfreundliche digitale Produkte zu schaffen. Wir entwickeln reaktionsschnelle, intuitive Benutzeroberflächen, die mit KI-Funktionen wie prädiktiver Analyse, Empfehlungsalgorithmen, Bild- oder Texterkennung und automatisierter Entscheidungsfindung erweitert werden. Jede Anwendung wird mit einem benutzerzentrierten Design-Ansatz erstellt, der sicherstellt, dass die Technologie Probleme löst und die Benutzerfreundlichkeit verbessert, anstatt Komplexität zu schaffen. Unsere Lösungen sind skalierbar und cloud-basiert, so dass sie mit Ihrem Unternehmen wachsen können.",
         "features": [
           "Moderne reaktionsschnelle Benutzeroberfläche",
           "KI-gestützte Funktionalität und Automatisierung",
@@ -203,6 +206,7 @@
         "name": "Online-Shop",
         "shortDescription": "Kompletter, kundenorientierter E-Commerce-Shop mit UX-orientiertem Design",
         "description": "Online-Shop - Entwicklung eines kompletten E-Commerce-Shops mit UX-fokussiertem Design, optimiert für Conversions und Benutzerzufriedenheit.",
+        "longDescription": "Wir entwickeln hochwertige, maßgeschneiderte Online-Shops, die auf die spezifischen Anforderungen Ihres Unternehmens und Ihrer Zielgruppe zugeschnitten sind. Mit einem kundenorientierten UX/UI-Design gewährleisten wir ein nahtloses und angenehmes Einkaufserlebnis, das zu höheren Konversionen und Kundenzufriedenheit führt. Unsere E-Commerce-Lösungen sind vollständig responsive und auf allen Geräten optimal funktionsfähig, mit integrierter Zahlungsabwicklung, umfassendem Produktkatalog und effizientem Bestandsmanagement. Durch eine gründliche Markt- und Wettbewerbsanalyse stellen wir sicher, dass Ihr Online-Shop sich von der Konkurrenz abhebt und einen echten Mehrwert bietet. Die SEO-Optimierung gewährleistet eine gute Sichtbarkeit in Suchmaschinen, was zu mehr organischem Traffic und Verkäufen führt.",
         "features": [
           "Kundenorientiertes UX/UI-Design",
           "Responsive für alle Geräte",
