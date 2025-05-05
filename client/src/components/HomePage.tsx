@@ -182,7 +182,7 @@ export default function HomePage() {
               </div>
               <h3 className="text-xl font-semibold mb-3 relative z-10">{t('home.longExperience')}</h3>
               <p className="text-gray-600 relative z-10">
-                Ponad 10 lat doświadczenia w branży marketingowej i technologicznej. Zrealizowaliśmy setki projektów dla firm z różnych branż.
+                {t('home.longExperienceDescription')}
               </p>
             </div>
 
@@ -197,7 +197,7 @@ export default function HomePage() {
               </div>
               <h3 className="text-xl font-semibold mb-3 relative z-10">{t('home.individualApproach')}</h3>
               <p className="text-gray-600 relative z-10">
-                Każdy projekt traktujemy indywidualnie, dostosowując nasze usługi do specyficznych potrzeb i celów Twojego biznesu.
+                {t('home.individualApproachDescription')}
               </p>
             </div>
 
@@ -212,7 +212,7 @@ export default function HomePage() {
               </div>
               <h3 className="text-xl font-semibold mb-3 relative z-10">{t('home.latestTechnologies')}</h3>
               <p className="text-gray-600 relative z-10">
-                Wykorzystujemy najnowsze technologie i narzędzia, w tym zaawansowane rozwiązania AI, aby zapewnić najwyższą jakość usług.
+                {t('home.latestTechnologiesDescription')}
               </p>
             </div>
           </div>

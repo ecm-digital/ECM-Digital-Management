@@ -28,7 +28,10 @@
     "dataBasedApproach": "Podejście oparte na danych",
     "longExperience": "Wieloletnie doświadczenie",
     "individualApproach": "Indywidualne podejście",
-    "latestTechnologies": "Najnowsze technologie"
+    "latestTechnologies": "Najnowsze technologie",
+    "longExperienceDescription": "Ponad 10 lat doświadczenia w branży marketingowej i technologicznej. Zrealizowaliśmy setki projektów dla firm z różnych branż.",
+    "individualApproachDescription": "Każdy projekt traktujemy indywidualnie, dostosowując nasze usługi do specyficznych potrzeb i celów Twojego biznesu.",
+    "latestTechnologiesDescription": "Wykorzystujemy najnowsze technologie i narzędzia, w tym zaawansowane rozwiązania AI, aby zapewnić najwyższą jakość usług."
   },
   "services": {
     "title": "Nasze usługi",

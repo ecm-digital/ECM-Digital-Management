@@ -27,7 +27,11 @@
     "happyClients": "+120 zufriedene Kunden",
     "dataBasedApproach": "Datenbasierter Ansatz",
     "longExperience": "Langjährige Erfahrung",
-    "individualApproach": "Individueller Ansatz"
+    "individualApproach": "Individueller Ansatz",
+    "latestTechnologies": "Neueste Technologien",
+    "longExperienceDescription": "Über 10 Jahre Erfahrung in der Marketing- und Technologiebranche. Wir haben Hunderte von Projekten für Unternehmen aus verschiedenen Branchen umgesetzt.",
+    "individualApproachDescription": "Wir behandeln jedes Projekt individuell und passen unsere Dienstleistungen an die spezifischen Bedürfnisse und Ziele Ihres Unternehmens an.",
+    "latestTechnologiesDescription": "Wir setzen die neuesten Technologien und Tools ein, einschließlich fortschrittlicher KI-Lösungen, um höchste Servicequalität zu gewährleisten."
   },
   "services": {
     "title": "Unsere Dienstleistungen",
