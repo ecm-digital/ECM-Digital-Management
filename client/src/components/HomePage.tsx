@@ -374,9 +374,9 @@ export default function HomePage() {
           <section id="case-studies" className="py-16 bg-white">
             <div className="container mx-auto px-4">
               <div className="max-w-3xl mx-auto text-center mb-12">
-                <h2 className="text-3xl font-bold mb-4">Nasze realizacje</h2>
+                <h2 className="text-3xl font-bold mb-4">{t('caseStudies.title')}</h2>
                 <p className="text-gray-600">
-                  Zobacz, jak pomagamy naszym klientom osiągać realne rezultaty biznesowe
+                  {t('caseStudies.subtitle')}
                 </p>
               </div>
               
@@ -392,24 +392,24 @@ export default function HomePage() {
                     <h3 className="text-xl font-bold mb-2">Sklep AI dla branży kosmetycznej</h3>
                     
                     <div className="mb-4">
-                      <Badge variant="outline" className="bg-red-50 text-red-700 border-red-200 mb-2 mr-2">Problem</Badge>
+                      <Badge variant="outline" className="bg-red-50 text-red-700 border-red-200 mb-2 mr-2">{t('caseStudies.problem')}</Badge>
                       <p className="text-sm text-gray-600">Niska konwersja, brak obsługi klienta 24/7, nieefektywny proces doboru produktów</p>
                     </div>
                     
                     <div className="mb-4">
-                      <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200 mb-2 mr-2">Rozwiązanie</Badge>
+                      <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200 mb-2 mr-2">{t('caseStudies.solution')}</Badge>
                       <p className="text-sm text-gray-600">Lejek AI + sklep Webflow + kampania Instagram Ads + chatbot dobierający produkty</p>
                     </div>
                     
                     <div className="mb-4">
-                      <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200 mb-2 mr-2">Efekt</Badge>
+                      <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200 mb-2 mr-2">{t('caseStudies.result')}</Badge>
                       <p className="text-sm text-gray-600">+40% konwersji, automatyzacja obsługi, wzrost średniej wartości koszyka o 28%</p>
                     </div>
                     
                     <div className="mt-4 pt-4 border-t border-gray-200">
                       <Link href="/case-studies">
                         <Button variant="ghost" size="sm" className="w-full justify-center">
-                          Dowiedz się więcej <ArrowRight className="ml-2 h-4 w-4" />
+                          {t('caseStudies.learnMore')} <ArrowRight className="ml-2 h-4 w-4" />
                         </Button>
                       </Link>
                     </div>
@@ -427,24 +427,24 @@ export default function HomePage() {
                     <h3 className="text-xl font-bold mb-2">Aplikacja mobilna dla firmy fitness</h3>
                     
                     <div className="mb-4">
-                      <Badge variant="outline" className="bg-red-50 text-red-700 border-red-200 mb-2 mr-2">Problem</Badge>
+                      <Badge variant="outline" className="bg-red-50 text-red-700 border-red-200 mb-2 mr-2">{t('caseStudies.problem')}</Badge>
                       <p className="text-sm text-gray-600">Przestarzały interfejs, skomplikowany system rezerwacji, niska retencja użytkowników</p>
                     </div>
                     
                     <div className="mb-4">
-                      <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200 mb-2 mr-2">Rozwiązanie</Badge>
+                      <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200 mb-2 mr-2">{t('caseStudies.solution')}</Badge>
                       <p className="text-sm text-gray-600">Redesign UX + prostszy flow rezerwacji + gamifikacja + integracja z Apple Health</p>
                     </div>
                     
                     <div className="mb-4">
-                      <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200 mb-2 mr-2">Efekt</Badge>
+                      <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200 mb-2 mr-2">{t('caseStudies.result')}</Badge>
                       <p className="text-sm text-gray-600">+65% retencji użytkowników, wzrost rezerwacji o 42%, ocena 4.8/5 w App Store</p>
                     </div>
                     
                     <div className="mt-4 pt-4 border-t border-gray-200">
                       <a href="#contact-form">
                         <Button variant="ghost" size="sm" className="w-full justify-center">
-                          Pobierz darmowy UX Scorecard <ArrowRight className="ml-2 h-4 w-4" />
+                          {t('caseStudies.getFreeScorecoard')} <ArrowRight className="ml-2 h-4 w-4" />
                         </Button>
                       </a>
                     </div>
@@ -462,24 +462,24 @@ export default function HomePage() {
                     <h3 className="text-xl font-bold mb-2">MVP dla startupu SaaS</h3>
                     
                     <div className="mb-4">
-                      <Badge variant="outline" className="bg-red-50 text-red-700 border-red-200 mb-2 mr-2">Problem</Badge>
+                      <Badge variant="outline" className="bg-red-50 text-red-700 border-red-200 mb-2 mr-2">{t('caseStudies.problem')}</Badge>
                       <p className="text-sm text-gray-600">Potrzeba szybkiego wejścia na rynek, ograniczony budżet, brak technicznego zespołu</p>
                     </div>
                     
                     <div className="mb-4">
-                      <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200 mb-2 mr-2">Rozwiązanie</Badge>
+                      <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200 mb-2 mr-2">{t('caseStudies.solution')}</Badge>
                       <p className="text-sm text-gray-600">Lean MVP + minimalistyczny UX + rozwój produktu oparty na feedbacku + skalowalny backend</p>
                     </div>
                     
                     <div className="mb-4">
-                      <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200 mb-2 mr-2">Efekt</Badge>
+                      <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200 mb-2 mr-2">{t('caseStudies.result')}</Badge>
                       <p className="text-sm text-gray-600">MVP w 6 tygodni, pozyskanie pierwszych 50 klientów, zabezpieczenie kolejnej rundy finansowania</p>
                     </div>
                     
                     <div className="mt-4 pt-4 border-t border-gray-200">
                       <a href="#contact-form">
                         <Button variant="ghost" size="sm" className="w-full justify-center">
-                          Skontaktuj się z nami <ArrowRight className="ml-2 h-4 w-4" />
+                          {t('caseStudies.contactUs')} <ArrowRight className="ml-2 h-4 w-4" />
                         </Button>
                       </a>
                     </div>

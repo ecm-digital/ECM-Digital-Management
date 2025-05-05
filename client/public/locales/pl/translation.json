@@ -61,5 +61,15 @@
     "back": "Wstecz",
     "submit": "Wyślij",
     "cancel": "Anuluj"
+  },
+  "caseStudies": {
+    "title": "Nasze realizacje",
+    "subtitle": "Zobacz, jak pomagamy naszym klientom osiągać realne rezultaty biznesowe",
+    "problem": "Problem",
+    "solution": "Rozwiązanie",
+    "result": "Efekt",
+    "learnMore": "Dowiedz się więcej",
+    "getFreeScorecoard": "Pobierz darmowy UX Scorecard",
+    "contactUs": "Skontaktuj się z nami"
   }
 }

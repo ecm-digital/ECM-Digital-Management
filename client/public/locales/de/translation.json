@@ -61,5 +61,15 @@
     "back": "Zurück",
     "submit": "Absenden",
     "cancel": "Abbrechen"
+  },
+  "caseStudies": {
+    "title": "Unsere Projekte",
+    "subtitle": "Sehen Sie, wie wir unseren Kunden helfen, echte Geschäftsergebnisse zu erzielen",
+    "problem": "Problem",
+    "solution": "Lösung",
+    "result": "Ergebnis",
+    "learnMore": "Mehr erfahren",
+    "getFreeScorecoard": "Laden Sie kostenlose UX-Scorecoard herunter",
+    "contactUs": "Kontaktieren Sie uns"
   }
 }
