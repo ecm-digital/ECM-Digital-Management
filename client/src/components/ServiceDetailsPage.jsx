@@ -7,74 +7,9 @@ import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { ArrowLeft, Clock, Calendar, CheckCircle, Check } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { getServiceTranslation, getCategoryTranslation } from './ServiceTranslator';
 
-// Tłumaczenia nazw usług
-const serviceTranslations = {
-  "pl": {
-    // Wszystkie oryginalne nazwy po polsku są takie same
-  },
-  "de": {
-    "Audyt UX": "UX-Audit",
-    "Audyt UX z elementami AI": "UX-Audit mit KI",
-    "Projektowanie lejków konwersji": "Conversion-Funnel-Design",
-    "Miesięczna opieka AI/UX": "Monatliche KI/UX-Betreuung",
-    "Strona internetowa": "Webseite",
-    "Sklep internetowy": "Online-Shop",
-    "Aplikacja webowa": "Web-Anwendung",
-    "Kampania Social Media": "Social-Media-Kampagne",
-    "Newsletter z insightami": "Insights-Newsletter",
-    "AI Chatbot": "KI-Chatbot",
-    "Integracja AI": "KI-Integration",
-    "Strategia marketingowa": "Marketingstrategie",
-    "Automatyzacja Procesów Biznesowych": "Automatisierung von Geschäftsprozessen",
-    "Mentoring & Konsultacje": "Mentoring & Beratung"
-  },
-  "en": {
-    "Audyt UX": "UX Audit",
-    "Audyt UX z elementami AI": "UX Audit with AI",
-    "Projektowanie lejków konwersji": "Conversion Funnel Design",
-    "Miesięczna opieka AI/UX": "Monthly AI/UX Care",
-    "Strona internetowa": "Website",
-    "Sklep internetowy": "Online Store",
-    "Aplikacja webowa": "Web Application",
-    "Kampania Social Media": "Social Media Campaign",
-    "Newsletter z insightami": "Insights Newsletter",
-    "AI Chatbot": "AI Chatbot",
-    "Integracja AI": "AI Integration",
-    "Strategia marketingowa": "Marketing Strategy",
-    "Automatyzacja Procesów Biznesowych": "Business Process Automation",
-    "Mentoring & Konsultacje": "Mentoring & Consulting"
-  }
-};
 
-// Tłumaczenia kategorii
-const categoryTranslations = {
-  "pl": {
-    // Wszystkie oryginalne kategorie po polsku są takie same
-  },
-  "de": {
-    "UX/UI": "UX/UI",
-    "Web Development": "Web-Entwicklung",
-    "Marketing": "Marketing",
-    "SEO": "SEO",
-    "AI": "KI",
-    "Automatyzacja": "Automatisierung",
-    "Consulting": "Beratung",
-    "Development": "Entwicklung",
-    "Inne": "Andere"
-  },
-  "en": {
-    "UX/UI": "UX/UI",
-    "Web Development": "Web Development",
-    "Marketing": "Marketing",
-    "SEO": "SEO",
-    "AI": "AI",
-    "Automatyzacja": "Automation",
-    "Consulting": "Consulting",
-    "Development": "Development",
-    "Inne": "Other"
-  }
-};
 
 export default function ServiceDetailsPage() {
   const { t, i18n } = useTranslation();
@@ -83,22 +18,7 @@ export default function ServiceDetailsPage() {
   const serviceId = params?.id;
   const currentLanguage = localStorage.getItem('app_language') || i18n.language || 'pl';
   
-  // Pobierz tłumaczenie nazwy usługi
-  const getTranslatedServiceName = (serviceName) => {
-    if (currentLanguage === 'pl') return serviceName;
-    
-    const translations = serviceTranslations[currentLanguage];
-    return translations && translations[serviceName] ? translations[serviceName] : serviceName;
-  };
-  
-  // Pobierz tłumaczenie kategorii
-  const getTranslatedCategory = (category) => {
-    if (currentLanguage === 'pl') return category || 'Inne';
-    
-    const categoryName = category || 'Inne';
-    const translations = categoryTranslations[currentLanguage];
-    return translations && translations[categoryName] ? translations[categoryName] : categoryName;
-  };
+  console.log("ServiceDetailsPage renderowanie, język:", currentLanguage, "nazwa usługi:", serviceId);
 
   const { data: service, isLoading, isError } = useQuery({ 
     queryKey: [`/api/services/${serviceId}`],
@@ -145,12 +65,12 @@ export default function ServiceDetailsPage() {
         <div className="lg:col-span-2">
           <div className="mb-6">
             <h1 className="text-3xl md:text-4xl font-bold mb-3">
-              {getTranslatedServiceName(service.name)}
+              {getServiceTranslation(service.name, currentLanguage)}
             </h1>
             
             <div className="flex flex-wrap gap-2 mb-4">
               <Badge variant="outline" className="bg-blue-50">
-                {getTranslatedCategory(service.category)}
+                {getCategoryTranslation(service.category, currentLanguage)}
               </Badge>
               <Badge variant="outline" className="bg-green-50 flex items-center gap-1">
                 <Clock size={14} /> {service.deliveryTime} {t('services.days')}
