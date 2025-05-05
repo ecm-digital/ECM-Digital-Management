@@ -43,6 +43,38 @@ const categoryTranslations: Record<string, string> = {
   "Inne": "Andere"
 };
 
+// Mapowanie nazw usług do kluczy w pliku tłumaczeń
+const serviceNameToKey: Record<string, string> = {
+  "Audyt UX": "uxAudit",
+  "Audyt UX z elementami AI": "uxAuditAi",
+  "Miesięczna opieka AI/UX": "monthlyAiUxCare",
+  "Newsletter z insightami": "insightsNewsletter",
+  "Aplikacja webowa": "aiWebApp",
+  "Sklep internetowy": "webStore",
+  "Kampania Social Media": "socialMediaCampaign",
+  "MVP Startupu": "startupMvp"
+};
+
+// Funkcja pomocnicza do pobierania tłumaczeń usługi z pliku
+const getServiceTranslation = (serviceName: string, lang: string) => {
+  if (lang !== 'de') return null;
+  
+  const serviceKey = serviceNameToKey[serviceName];
+  if (!serviceKey) return null;
+  
+  try {
+    // Załaduj plik tłumaczeń
+    const translationsPath = path.join(process.cwd(), 'client/public/locales/de/translation.json');
+    const translationsFile = fs.readFileSync(translationsPath, 'utf8');
+    const translations = JSON.parse(translationsFile);
+    
+    return translations.services.servicesList[serviceKey];
+  } catch (error) {
+    console.error("Error loading translations:", error);
+    return null;
+  }
+};
+
 import { 
   generateServiceData, 
   generateBenefits, 
@@ -115,17 +147,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
           ? categoryTranslations[service.category]
           : service.category || 'Inne';
           
+        // Pobierz tłumaczenia dla usługi
+        const serviceTranslation = getServiceTranslation(service.name, lang);
+
         return {
           id: service.serviceId,
           name: serviceName,
-          shortDescription: service.shortDescription || '',
-          description: service.description,
-          longDescription: service.longDescription || '',
+          shortDescription: serviceTranslation?.shortDescription || service.shortDescription || '',
+          description: serviceTranslation?.description || service.description,
+          longDescription: serviceTranslation?.longDescription || service.longDescription || '',
           basePrice: service.basePrice,
           deliveryTime: service.deliveryTime,
-          features: service.features,
-          benefits: service.benefits || [],
-          scope: service.scope || [],
+          features: serviceTranslation?.features || service.features || [],
+          benefits: serviceTranslation?.benefits || service.benefits || [],
+          scope: serviceTranslation?.scope || service.scope || [],
           steps: service.steps,
           category: serviceCategory,
           status: service.status || 'Aktywna',
@@ -234,18 +269,21 @@ export async function registerRoutes(app: Express): Promise<Server> {
         ? categoryTranslations[serviceFromDb.category]
         : serviceFromDb.category || 'Inne';
       
+      // Pobierz tłumaczenia dla usługi
+      const serviceTranslation = getServiceTranslation(serviceFromDb.name, lang);
+    
       // Transform database model to client model
       const service = {
         id: serviceFromDb.serviceId,
         name: serviceName,
-        shortDescription: serviceFromDb.shortDescription || '',
-        description: serviceFromDb.description,
-        longDescription: serviceFromDb.longDescription || '',
+        shortDescription: serviceTranslation?.shortDescription || serviceFromDb.shortDescription || '',
+        description: serviceTranslation?.description || serviceFromDb.description,
+        longDescription: serviceTranslation?.longDescription || serviceFromDb.longDescription || '',
         basePrice: serviceFromDb.basePrice,
         deliveryTime: serviceFromDb.deliveryTime,
-        features: serviceFromDb.features || [],
-        benefits: serviceFromDb.benefits || [],
-        scope: serviceFromDb.scope || [],
+        features: serviceTranslation?.features || serviceFromDb.features || [],
+        benefits: serviceTranslation?.benefits || serviceFromDb.benefits || [],
+        scope: serviceTranslation?.scope || serviceFromDb.scope || [],
         steps: serviceFromDb.steps || [],
         category: serviceCategory,
         status: serviceFromDb.status || 'Aktywna',
