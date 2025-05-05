@@ -57,18 +57,40 @@ const serviceNameToKey: Record<string, string> = {
 
 // Funkcja pomocnicza do pobierania tłumaczeń usługi z pliku
 const getServiceTranslation = (serviceName: string, lang: string) => {
-  if (lang !== 'de') return null;
+  console.log("getServiceTranslation called for service:", serviceName, "lang:", lang);
+  
+  if (lang !== 'de') {
+    console.log("Not German language, returning null");
+    return null;
+  }
   
   const serviceKey = serviceNameToKey[serviceName];
-  if (!serviceKey) return null;
+  if (!serviceKey) {
+    console.log("No key mapping found for service:", serviceName);
+    return null;
+  }
   
   try {
     // Załaduj plik tłumaczeń
     const translationsPath = path.join(process.cwd(), 'client/public/locales/de/translation.json');
+    console.log("Loading translations from:", translationsPath);
+    
     const translationsFile = fs.readFileSync(translationsPath, 'utf8');
     const translations = JSON.parse(translationsFile);
     
-    return translations.services.servicesList[serviceKey];
+    if (!translations.services || !translations.services.servicesList) {
+      console.log("Missing services.servicesList in translations file!");
+      return null;
+    }
+    
+    const translation = translations.services.servicesList[serviceKey];
+    if (!translation) {
+      console.log("No translation found for key:", serviceKey);
+    } else {
+      console.log("Translation found for key:", serviceKey);
+    }
+    
+    return translation;
   } catch (error) {
     console.error("Error loading translations:", error);
     return null;
