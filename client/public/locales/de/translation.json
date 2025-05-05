@@ -1,0 +1,64 @@
+{
+  "navigation": {
+    "home": "Startseite",
+    "services": "Dienstleistungen",
+    "about": "Über uns",
+    "contact": "Kontakt",
+    "clientPanel": "Kundenbereich",
+    "adminPanel": "Administrationsbereich"
+  },
+  "home": {
+    "title": "ECM Digital",
+    "subtitle": "Digitale Marketing Agentur",
+    "description": "Wir entwerfen moderne digitale Lösungen, die Ihr Unternehmen voranbringen",
+    "ctaButton": "Projekt starten",
+    "featuredServices": "Unsere Dienstleistungen",
+    "viewAllServices": "Alle Dienstleistungen anzeigen",
+    "clients": "Unsere Kunden",
+    "testimonials": "Kundenstimmen",
+    "recentProjects": "Aktuelle Projekte",
+    "contactUs": "Kontaktieren Sie uns"
+  },
+  "services": {
+    "title": "Unsere Dienstleistungen",
+    "subtitle": "Umfassende Lösungen für Ihr Unternehmen",
+    "category": "Kategorie",
+    "price": "Preis ab",
+    "delivery": "Lieferzeit",
+    "days": "Tage",
+    "features": "Funktionen",
+    "benefits": "Vorteile",
+    "scope": "Arbeitsumfang",
+    "configure": "Dienstleistung konfigurieren",
+    "orderNow": "Jetzt bestellen"
+  },
+  "contact": {
+    "title": "Kontaktieren Sie uns",
+    "subtitle": "Wir sind hier, um zu helfen",
+    "name": "Name",
+    "email": "E-Mail",
+    "phone": "Telefon",
+    "message": "Nachricht",
+    "service": "Gewünschte Dienstleistung",
+    "send": "Nachricht senden",
+    "address": "Adresse",
+    "companyInfo": "Unternehmensinformationen"
+  },
+  "footer": {
+    "services": "Dienstleistungen",
+    "company": "Unternehmen",
+    "contact": "Kontakt",
+    "copyright": "© 2025 ECM Digital. Alle Rechte vorbehalten.",
+    "privacyPolicy": "Datenschutzrichtlinie",
+    "terms": "Nutzungsbedingungen"
+  },
+  "buttons": {
+    "readMore": "Weiterlesen",
+    "learnMore": "Mehr erfahren",
+    "seeAll": "Alle anzeigen",
+    "next": "Weiter",
+    "back": "Zurück",
+    "submit": "Absenden",
+    "cancel": "Abbrechen"
+  }
+}
