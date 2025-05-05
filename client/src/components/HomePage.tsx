@@ -282,7 +282,7 @@ export default function HomePage() {
                   <h2 className="text-2xl font-bold text-gray-900">{t('services.categories.webDevelopment')}</h2>
                 </div>
                 <p className="text-gray-600 mb-6 pl-12">
-                  Tworzymy nowoczesne, responsywne strony i sklepy internetowe z myślą o wydajności i SEO.
+                  {t('services.descriptions.webDevelopment')}
                 </p>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {filteredServices
@@ -307,7 +307,7 @@ export default function HomePage() {
                   <h2 className="text-2xl font-bold text-gray-900">{t('services.categories.socialMedia')}</h2>
                 </div>
                 <p className="text-gray-600 mb-6 pl-12">
-                  Zwiększamy zasięg i sprzedaż dzięki dopracowanym kampaniom reklamowym i contentowi.
+                  {t('services.descriptions.socialMedia')}
                 </p>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {filteredServices
@@ -331,7 +331,7 @@ export default function HomePage() {
                   <h2 className="text-2xl font-bold text-gray-900">{t('services.categories.aiIntegration')}</h2>
                 </div>
                 <p className="text-gray-600 mb-6 pl-12">
-                  Usprawniamy procesy w firmach dzięki inteligentnym automatyzacjom i agentom AI.
+                  {t('services.descriptions.aiIntegration')}
                 </p>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {filteredServices
@@ -355,7 +355,7 @@ export default function HomePage() {
                   <h2 className="text-2xl font-bold text-gray-900">{t('services.categories.startupOffer')}</h2>
                 </div>
                 <p className="text-gray-600 mb-6 pl-12">
-                  Pomagamy startupom zbudować trafiony produkt szybciej i taniej.
+                  {t('services.descriptions.startupOffer')}
                 </p>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {filteredServices
