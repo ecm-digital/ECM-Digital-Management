@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { ArrowRight, Check } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { getServiceTranslation, getCategoryTranslation } from './ServiceTranslator';
+import { getServiceTranslation, getCategoryTranslation, getCurrentLanguage } from './ServiceTranslator';
 
 export default function ServiceCard({ 
   service, 
@@ -14,9 +14,9 @@ export default function ServiceCard({
   showFeatures = false
 }) {
   const { t, i18n } = useTranslation();
-  const currentLanguage = localStorage.getItem('app_language') || i18n.language || 'pl';
+  const currentLanguage = getCurrentLanguage();
   
-  console.log("ServiceCard renderowanie, język:", currentLanguage, "nazwa usługi:", service.name);
+  console.log("ServiceCard renderowanie, język:", currentLanguage, "nazwa usługi:", service.name, "ID:", service.id);
   
   return (
     <Card className="overflow-hidden hover:shadow-md transition-shadow">

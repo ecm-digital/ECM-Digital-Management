@@ -67,28 +67,52 @@ const categoryTranslations = {
 };
 
 /**
+ * Pobiera aktualny język z localStorage
+ * @returns {string} - Kod języka (pl, de, en)
+ */
+export function getCurrentLanguage() {
+  // Sprawdź oba miejsca zapisu języka (dla kompatybilności)
+  const appLanguage = localStorage.getItem('app_language');
+  const i18nextLanguage = localStorage.getItem('i18nextLng');
+  
+  console.log(`getCurrentLanguage - app_language: ${appLanguage}, i18nextLng: ${i18nextLanguage}`);
+  
+  // Priorytet: app_language -> i18nextLng -> domyślnie 'pl'
+  return appLanguage || i18nextLanguage || 'pl';
+}
+
+/**
  * Tłumaczy nazwę usługi na wybrany język
  * @param {string} serviceName - Nazwa usługi w języku polskim
  * @param {string} language - Kod języka (pl, de, en)
  * @returns {string} - Przetłumaczona nazwa usługi
  */
 export function getServiceTranslation(serviceName, language) {
-  console.log(`Tłumaczenie nazwy usługi: ${serviceName} na język: ${language}`);
+  // Pobierz język z parametru lub z localStorage
+  const currentLanguage = language || getCurrentLanguage();
   
-  if (language === 'pl') return serviceName;
+  console.log(`Tłumaczenie nazwy usługi: "${serviceName}" na język: ${currentLanguage}`);
   
-  const translations = serviceTranslations[language];
+  if (!serviceName) {
+    console.warn('Pusta nazwa usługi!');
+    return '';
+  }
+  
+  if (currentLanguage === 'pl') return serviceName;
+  
+  const translations = serviceTranslations[currentLanguage];
   if (!translations) {
-    console.warn(`Brak tłumaczeń dla języka ${language}`);
+    console.warn(`Brak tłumaczeń dla języka ${currentLanguage}`);
     return serviceName;
   }
   
   const translation = translations[serviceName];
   if (!translation) {
-    console.warn(`Brak tłumaczenia dla usługi "${serviceName}" w języku ${language}`);
+    console.warn(`Brak tłumaczenia dla usługi "${serviceName}" w języku ${currentLanguage}`);
     return serviceName;
   }
   
+  console.log(`Przetłumaczona nazwa: "${translation}"`);
   return translation;
 }
 
@@ -99,21 +123,30 @@ export function getServiceTranslation(serviceName, language) {
  * @returns {string} - Przetłumaczona nazwa kategorii
  */
 export function getCategoryTranslation(category, language) {
-  console.log(`Tłumaczenie kategorii: ${category} na język: ${language}`);
+  // Pobierz język z parametru lub z localStorage
+  const currentLanguage = language || getCurrentLanguage();
+
+  console.log(`Tłumaczenie kategorii: "${category}" na język: ${currentLanguage}`);
   
-  if (language === 'pl') return category;
+  if (!category) {
+    console.warn('Pusta nazwa kategorii!');
+    return 'Inne';
+  }
   
-  const translations = categoryTranslations[language];
+  if (currentLanguage === 'pl') return category;
+  
+  const translations = categoryTranslations[currentLanguage];
   if (!translations) {
-    console.warn(`Brak tłumaczeń dla języka ${language}`);
+    console.warn(`Brak tłumaczeń dla języka ${currentLanguage}`);
     return category;
   }
   
   const translation = translations[category];
   if (!translation) {
-    console.warn(`Brak tłumaczenia dla kategorii "${category}" w języku ${language}`);
+    console.warn(`Brak tłumaczenia dla kategorii "${category}" w języku ${currentLanguage}`);
     return category;
   }
   
+  console.log(`Przetłumaczona kategoria: "${translation}"`);
   return translation;
 }

@@ -21,15 +21,16 @@ export default function LanguageSwitcher() {
   const handleLanguageChange = (language: string) => {
     console.log("Zmiana języka na:", language);
     
-    // Zapisz język w localStorage (nasz własny wpis)
+    // Zapisz język w localStorage - w dwóch miejscach dla pewności
     localStorage.setItem('app_language', language);
+    localStorage.setItem('i18nextLng', language);
     
     // Zmień język w i18next
     changeLanguage(language);
     setCurrentLanguage(language);
     
-    // Wyślij wiadomość do konsoli
-    console.log("Aktualny język:", language);
+    // Wyślij wiadomość do konsoli dla debugowania
+    console.log("Zmieniono język na:", language);
     console.log("localStorage.getItem('app_language'):", localStorage.getItem('app_language'));
     console.log("localStorage.getItem('i18nextLng'):", localStorage.getItem('i18nextLng'));
     
