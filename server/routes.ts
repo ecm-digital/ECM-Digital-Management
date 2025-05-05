@@ -64,29 +64,78 @@ const orderSubmissionSchema = z.object({
 });
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  // Niemieckie tłumaczenia nazw usług
+  const serviceTranslations: Record<string, string> = {
+    "Audyt UX": "UX-Audit",
+    "Audyt UX z elementami AI": "UX-Audit mit KI",
+    "Projektowanie lejków konwersji": "Conversion-Funnel-Design",
+    "Miesięczna opieka AI/UX": "Monatliche KI/UX-Betreuung",
+    "Strona internetowa": "Webseite",
+    "Sklep internetowy": "Online-Shop",
+    "Aplikacja webowa": "Web-Anwendung",
+    "Kampania Social Media": "Social-Media-Kampagne",
+    "Newsletter z insightami": "Insights-Newsletter",
+    "AI Chatbot": "KI-Chatbot",
+    "Integracja AI": "KI-Integration",
+    "Strategia marketingowa": "Marketingstrategie",
+    "Automatyzacja Procesów Biznesowych": "Automatisierung von Geschäftsprozessen",
+    "Mentoring & Konsultacje": "Mentoring & Beratung"
+  };
+
+  // Niemieckie tłumaczenia kategorii
+  const categoryTranslations: Record<string, string> = {
+    "UX/UI": "UX/UI",
+    "Web Development": "Web-Entwicklung",
+    "Marketing": "Marketing",
+    "SEO": "SEO",
+    "AI": "KI",
+    "Automatyzacja": "Automatisierung",
+    "Consulting": "Beratung",
+    "Development": "Entwicklung",
+    "Inne": "Andere"
+  };
+
   // Get services from database
   app.get("/api/services", async (req, res) => {
     try {
       const servicesFromDb = await storage.getAllServices();
+      const lang = req.query.lang as string || 'pl';
+      
+      console.log("Requested language:", lang);
       
       // Transform database model to client model
-      const services = servicesFromDb.map(service => ({
-        id: service.serviceId, // Use service_id as id (should be a string)
-        name: service.name,
-        shortDescription: service.shortDescription || '',
-        description: service.description,
-        longDescription: service.longDescription || '',
-        basePrice: service.basePrice,
-        deliveryTime: service.deliveryTime,
-        features: service.features,
-        benefits: service.benefits || [],
-        scope: service.scope || [],
-        steps: service.steps,
-        category: service.category || 'Inne',
-        status: service.status || 'Aktywna'
-      }));
+      const services = servicesFromDb.map(service => {
+        // Przetłumacz nazwę i kategorię jeśli język to niemiecki
+        const serviceName = lang === 'de' && serviceTranslations[service.name] 
+          ? serviceTranslations[service.name] 
+          : service.name;
+          
+        const serviceCategory = lang === 'de' && service.category && categoryTranslations[service.category]
+          ? categoryTranslations[service.category]
+          : service.category || 'Inne';
+          
+        return {
+          id: service.serviceId,
+          name: serviceName,
+          shortDescription: service.shortDescription || '',
+          description: service.description,
+          longDescription: service.longDescription || '',
+          basePrice: service.basePrice,
+          deliveryTime: service.deliveryTime,
+          features: service.features,
+          benefits: service.benefits || [],
+          scope: service.scope || [],
+          steps: service.steps,
+          category: serviceCategory,
+          status: service.status || 'Aktywna',
+          original: { // Zachowaj oryginalne wartości dla referencji
+            name: service.name,
+            category: service.category
+          }
+        };
+      });
       
-      console.log("Services being returned to client:", services);
+      console.log("Services being returned to client (language: " + lang + "):", services);
       res.json(services);
     } catch (error) {
       console.error("Error fetching services:", error);
@@ -165,6 +214,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/api/services/:id", async (req, res) => {
     try {
       const serviceId = req.params.id;
+      const lang = req.query.lang as string || 'pl';
+      
+      console.log("Requested language for service ID:", serviceId, "lang:", lang);
       
       const serviceFromDb = await storage.getServiceByServiceId(serviceId);
       
@@ -172,10 +224,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(404).json({ message: "Service not found" });
       }
       
-      // Transform database model to client model (same as in get all services)
+      // Przetłumacz nazwę i kategorię jeśli język to niemiecki
+      const serviceName = lang === 'de' && serviceTranslations[serviceFromDb.name] 
+        ? serviceTranslations[serviceFromDb.name] 
+        : serviceFromDb.name;
+        
+      const serviceCategory = lang === 'de' && serviceFromDb.category && categoryTranslations[serviceFromDb.category]
+        ? categoryTranslations[serviceFromDb.category]
+        : serviceFromDb.category || 'Inne';
+      
+      // Transform database model to client model
       const service = {
         id: serviceFromDb.serviceId,
-        name: serviceFromDb.name,
+        name: serviceName,
         shortDescription: serviceFromDb.shortDescription || '',
         description: serviceFromDb.description,
         longDescription: serviceFromDb.longDescription || '',
@@ -185,10 +246,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
         benefits: serviceFromDb.benefits || [],
         scope: serviceFromDb.scope || [],
         steps: serviceFromDb.steps || [],
-        category: serviceFromDb.category || 'Inne',
-        status: serviceFromDb.status || 'Aktywna'
+        category: serviceCategory,
+        status: serviceFromDb.status || 'Aktywna',
+        original: { // Zachowaj oryginalne wartości dla referencji
+          name: serviceFromDb.name,
+          category: serviceFromDb.category
+        }
       };
       
+      console.log("Service being returned to client (language: " + lang + "):", service.name);
       res.json(service);
     } catch (error) {
       console.error("Error fetching service:", error);

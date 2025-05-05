@@ -34,12 +34,16 @@ function HomePage() {
   
   const queryClient = useQueryClient();
   
-  // Pobieranie usług z lokalnej bazy
+  // Pobierz aktualny język
+  const currentLanguage = localStorage.getItem('i18nextLng') || 'pl';
+  
+  // Pobieranie usług z lokalnej bazy z parametrem języka
   const { 
     data: localServices, 
     isLoading: isLocalLoading 
   } = useQuery<Service[]>({
-    queryKey: ['/api/services'],
+    queryKey: ['/api/services', currentLanguage],
+    queryFn: () => apiRequest(`/api/services?lang=${currentLanguage}`),
     enabled: dataSource === 'local',
   });
 
