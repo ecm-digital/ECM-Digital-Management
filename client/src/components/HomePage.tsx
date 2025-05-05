@@ -180,7 +180,7 @@ export default function HomePage() {
               <div className="w-14 h-14 bg-blue-100 rounded-xl flex items-center justify-center mb-6 relative z-10">
                 <CheckCircle className="h-7 w-7 text-primary" />
               </div>
-              <h3 className="text-xl font-semibold mb-3 relative z-10">Wieloletnie doświadczenie</h3>
+              <h3 className="text-xl font-semibold mb-3 relative z-10">{t('home.longExperience')}</h3>
               <p className="text-gray-600 relative z-10">
                 Ponad 10 lat doświadczenia w branży marketingowej i technologicznej. Zrealizowaliśmy setki projektów dla firm z różnych branż.
               </p>
@@ -195,7 +195,7 @@ export default function HomePage() {
                   <path d="M12 8h.01"></path>
                 </svg>
               </div>
-              <h3 className="text-xl font-semibold mb-3 relative z-10">Indywidualne podejście</h3>
+              <h3 className="text-xl font-semibold mb-3 relative z-10">{t('home.individualApproach')}</h3>
               <p className="text-gray-600 relative z-10">
                 Każdy projekt traktujemy indywidualnie, dostosowując nasze usługi do specyficznych potrzeb i celów Twojego biznesu.
               </p>
@@ -210,7 +210,7 @@ export default function HomePage() {
                   <path d="M2 12l10 5 10-5"></path>
                 </svg>
               </div>
-              <h3 className="text-xl font-semibold mb-3 relative z-10">Najnowsze technologie</h3>
+              <h3 className="text-xl font-semibold mb-3 relative z-10">{t('home.latestTechnologies')}</h3>
               <p className="text-gray-600 relative z-10">
                 Wykorzystujemy najnowsze technologie i narzędzia, w tym zaawansowane rozwiązania AI, aby zapewnić najwyższą jakość usług.
               </p>
