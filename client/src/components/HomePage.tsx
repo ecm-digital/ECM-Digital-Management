@@ -16,12 +16,55 @@ import i18next from 'i18next';
 import ServiceCard from '../components/ServiceCard.jsx';
 
 export default function HomePage() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { data: services, isLoading } = useQuery<Service[]>({
-    queryKey: ['/api/services'],
+    queryKey: ['/api/services', i18n.language],
+    queryFn: () => fetch(`/api/services?lang=${i18n.language}`).then(res => res.json()),
   });
 
   const filteredServices = services?.filter(service => service.status === 'Aktywna') || [];
+
+  // Definicja głównych kategorii
+  const mainCategories = [
+    { id: 'ux-design', name: 'UX & Conversion Design', icon: <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-blue-600"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg> },
+    { id: 'web-development', name: 'Projektowanie i rozwój stron', icon: <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-indigo-600"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg> },
+    { id: 'social-marketing', name: 'Social Media & Kampanie', icon: <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-purple-600"><line x1="12" y1="20" x2="12" y2="10"></line><line x1="18" y1="20" x2="18" y2="4"></line><line x1="6" y1="20" x2="6" y2="16"></line></svg> },
+    { id: 'ai-automation', name: 'Integracje AI i Automatyzacje', icon: <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-green-600"><rect x="3" y="11" width="18" height="10" rx="2" ry="2"></rect><circle cx="12" cy="5" r="2"></circle><path d="M12 7v4"></path><line x1="8" y1="16" x2="8" y2="16"></line><line x1="16" y1="16" x2="16" y2="16"></line></svg> },
+    { id: 'startup', name: 'Oferta Startupowa', icon: <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-orange-600"><path d="M22 2L11 13"></path><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg> }
+  ];
+
+  // Mapowanie kategorii z bazy danych do głównych kategorii
+  const categoryMapping = {
+    'UX/UI': 'ux-design',
+    'Web Development': 'web-development',
+    'E-commerce': 'web-development',
+    'Marketing': 'social-marketing',
+    'SEO': 'web-development',
+    'AI': 'ai-automation',
+    'Automatyzacja': 'ai-automation',
+    'Consulting': 'startup',
+    'Development': 'startup'
+  };
+
+  // Funkcja pomocnicza do mapowania kategorii
+  const mapServiceToMainCategory = (service: Service) => {
+    const originalCategory = service.category || 'Inne';
+    return (originalCategory in categoryMapping) 
+      ? categoryMapping[originalCategory as keyof typeof categoryMapping] 
+      : 'other';
+  };
+
+  // Grupowanie usług według głównych kategorii
+  const groupedServices = mainCategories.map(category => {
+    const categoryServices = services?.filter(service => 
+      mapServiceToMainCategory(service) === category.id && service.status === 'Aktywna'
+    ) || [];
+    
+    return {
+      ...category,
+      services: categoryServices
+    };
+  });
 
   return (
     <div className="flex flex-col min-h-screen bg-background">
