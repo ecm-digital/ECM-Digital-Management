@@ -52,7 +52,7 @@ export default function ServiceDetailsPage() {
     <div className="container mx-auto p-4 py-10">
       <div className="mb-6">
         <Button variant="ghost" onClick={handleBack} className="flex items-center gap-2">
-          <ArrowLeft size={16} /> Powrót do listy usług
+          <ArrowLeft size={16} /> {t('services.backToList')}
         </Button>
       </div>
 
@@ -66,7 +66,7 @@ export default function ServiceDetailsPage() {
                 {service.category || 'Inne'}
               </Badge>
               <Badge variant="outline" className="bg-green-50 flex items-center gap-1">
-                <Clock size={14} /> {service.deliveryTime} dni
+                <Clock size={14} /> {service.deliveryTime} {t('services.days')}
               </Badge>
             </div>
 
@@ -90,7 +90,7 @@ export default function ServiceDetailsPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {service.benefits && service.benefits.length > 0 && (
                 <div>
-                  <h3 className="text-xl font-semibold mb-4">Korzyści</h3>
+                  <h3 className="text-xl font-semibold mb-4">{t('services.benefits')}</h3>
                   <ul className="space-y-3">
                     {service.benefits.map((benefit, idx) => (
                       <li key={idx} className="flex items-start">
@@ -104,7 +104,7 @@ export default function ServiceDetailsPage() {
 
               {service.features && service.features.length > 0 && (
                 <div>
-                  <h3 className="text-xl font-semibold mb-4">Funkcje</h3>
+                  <h3 className="text-xl font-semibold mb-4">{t('services.features')}</h3>
                   <ul className="space-y-3">
                     {service.features.map((feature, idx) => (
                       <li key={idx} className="flex items-start">
@@ -119,7 +119,7 @@ export default function ServiceDetailsPage() {
 
             {service.scope && service.scope.length > 0 && (
               <div className="mt-6">
-                <h3 className="text-xl font-semibold mb-4">Zakres usługi</h3>
+                <h3 className="text-xl font-semibold mb-4">{t('services.scope')}</h3>
                 <ul className="space-y-3">
                   {service.scope.map((item, idx) => (
                     <li key={idx} className="flex items-start">
@@ -138,8 +138,8 @@ export default function ServiceDetailsPage() {
         <div>
           <Card className="sticky top-4">
             <CardHeader>
-              <CardTitle>Podsumowanie</CardTitle>
-              <CardDescription>Szczegóły cenowe i czas realizacji</CardDescription>
+              <CardTitle>{t('services.summary')}</CardTitle>
+              <CardDescription>{t('services.priceDetails')}</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="flex items-baseline mb-6">
@@ -149,16 +149,16 @@ export default function ServiceDetailsPage() {
               
               <div className="flex items-center gap-2 mb-4">
                 <Calendar className="h-5 w-5 text-gray-500" />
-                <span>Czas realizacji: {service.deliveryTime} dni</span>
+                <span>{t('services.delivery')}: {service.deliveryTime} {t('services.days')}</span>
               </div>
               
               <p className="text-gray-500 text-sm mb-6">
-                Powyższa cena jest ceną podstawową. Ostateczna cena zależy od wybranych opcji konfiguracji.
+                {t('services.basePrice')}
               </p>
             </CardContent>
             <CardFooter>
               <Link href={`/configure/${service.id}`} className="w-full">
-                <Button className="w-full">Skonfiguruj usługę</Button>
+                <Button className="w-full">{t('services.configure')}</Button>
               </Link>
             </CardFooter>
           </Card>
