@@ -11,8 +11,10 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { useTranslation } from 'react-i18next';
 
 export default function HomePage() {
+  const { t } = useTranslation();
   const { data: services, isLoading } = useQuery<Service[]>({
     queryKey: ['/api/services'],
   });
@@ -36,26 +38,26 @@ export default function HomePage() {
             <div className="space-y-8">
               <div>
                 <Badge className="bg-primary/10 text-primary hover:bg-primary/20 transition-colors mb-5 py-1.5 px-4 rounded-full text-sm font-medium">
-                  Agencja UX & Marketing
+                  {t('home.subtitle')}
                 </Badge>
                 <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight mb-6 text-balance">
-                  <span className="inline heading-gradient">Tworzymy cyfrowe</span> <br />
-                  doświadczenia, które konwertują
+                  <span className="inline heading-gradient">{t('home.title')}</span> <br />
+                  {t('home.description')}
                 </h1>
                 <p className="text-xl text-gray-700 leading-relaxed max-w-xl">
-                  Specjalizujemy się w projektowaniu skutecznych doświadczeń użytkownika, budowie stron internetowych oraz integracji rozwiązań AI dla Twojego biznesu.
+                  {t('home.description')}
                 </p>
               </div>
               
               <div className="flex flex-wrap gap-5 pt-4">
                 <Link href="/services">
                   <Button className="btn-modern btn-gradient text-white py-6 px-8 text-base">
-                    Poznaj nasze usługi <ArrowRight className="ml-2 h-5 w-5" />
+                    {t('services.viewAllServices')} <ArrowRight className="ml-2 h-5 w-5" />
                   </Button>
                 </Link>
                 <a href="#contact-form">
                   <Button variant="outline" className="btn-modern border-2 py-6 px-8 text-base">
-                    Zamów bezpłatny audyt UX
+                    {t('home.ctaButton')}
                   </Button>
                 </a>
               </div>
@@ -89,9 +91,9 @@ export default function HomePage() {
                 <div className="card-modern glassmorphism p-8 sm:p-10 relative border-0 shadow-none">
                   <div className="grid gap-8">
                     <div>
-                      <Badge className="bg-blue-100 text-blue-700 mb-3">Pozwól nam pomóc Twojemu biznesowi</Badge>
-                      <h3 className="text-2xl font-bold mb-4">Tworzymy rozwiązania, które przekraczają oczekiwania klientów</h3>
-                      <p className="text-gray-600 mb-2">Nasze podejście łączy strategiczne myślenie, kreatywne projektowanie i technologiczną innowację.</p>
+                      <Badge className="bg-blue-100 text-blue-700 mb-3">{t('home.featuredServices')}</Badge>
+                      <h3 className="text-2xl font-bold mb-4">{t('services.subtitle')}</h3>
+                      <p className="text-gray-600 mb-2">{t('services.title')}</p>
                     </div>
                     
                     <div className="space-y-4">
@@ -125,7 +127,7 @@ export default function HomePage() {
                     
                     <a href="#contact-form" className="inline-block">
                       <Button className="w-full btn-gradient btn-modern">
-                        Skontaktuj się z nami
+                        {t('home.contactUs')}
                       </Button>
                     </a>
                   </div>
@@ -140,10 +142,10 @@ export default function HomePage() {
       <section className="py-24 bg-white">
         <div className="container-tight">
           <div className="max-w-3xl mx-auto text-center mb-16">
-            <Badge className="bg-primary/10 text-primary mb-4 py-1 px-3 rounded-full">Nasze zalety</Badge>
-            <h2 className="text-3xl md:text-4xl font-bold mb-6 tracking-tight">Dlaczego warto z nami współpracować?</h2>
+            <Badge className="bg-primary/10 text-primary mb-4 py-1 px-3 rounded-full">{t('home.featuredServices')}</Badge>
+            <h2 className="text-3xl md:text-4xl font-bold mb-6 tracking-tight">{t('services.subtitle')}</h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Łączymy kreatywność z technologią, aby dostarczać rozwiązania, które przynoszą realne rezultaty i pomagają Twojemu biznesowi osiągnąć sukces.
+              {t('services.title')}
             </p>
           </div>
 
@@ -196,11 +198,10 @@ export default function HomePage() {
       <section id="services" className="py-24 bg-background">
         <div className="container-tight">
           <div className="max-w-3xl mx-auto text-center mb-16">
-            <Badge className="bg-secondary/10 text-secondary mb-4 py-1 px-3 rounded-full">Nasze usługi</Badge>
-            <h2 className="text-3xl md:text-4xl font-bold mb-6 tracking-tight">Oferta ECM Digital</h2>
+            <Badge className="bg-secondary/10 text-secondary mb-4 py-1 px-3 rounded-full">{t('home.featuredServices')}</Badge>
+            <h2 className="text-3xl md:text-4xl font-bold mb-6 tracking-tight">{t('services.title')}</h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Specjalizujemy się w projektowaniu skutecznych doświadczeń użytkownika, 
-              budowie stron internetowych oraz integracji rozwiązań AI dla Twojego biznesu.
+              {t('services.subtitle')}
             </p>
           </div>
 
