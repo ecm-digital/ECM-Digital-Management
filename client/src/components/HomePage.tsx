@@ -244,9 +244,10 @@ export default function HomePage() {
         <div className="container-tight">
           <div className="max-w-3xl mx-auto text-center mb-16">
             <Badge className="bg-secondary/10 text-secondary mb-4 py-1 px-3 rounded-full">{t('home.featuredServices')}</Badge>
-            <h2 className="text-3xl md:text-4xl font-bold mb-6 tracking-tight">{t('services.title')}</h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-6 tracking-tight">Oferta ECM Digital</h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              {t('services.subtitle')}
+              Specjalizujemy się w projektowaniu skutecznych doświadczeń użytkownika, 
+              budowie stron internetowych oraz integracji rozwiązań AI dla Twojego biznesu.
             </p>
           </div>
 
@@ -263,393 +264,257 @@ export default function HomePage() {
             </div>
           ) : (
             <div className="space-y-16">
-              {/* UX & Conversion Design */}
-              <div className="mb-10">
-                <div className="flex items-center mb-6">
-                  <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mr-3">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-blue-600">
-                      <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
-                      <circle cx="9" cy="7" r="4"></circle>
-                      <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
-                      <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-                    </svg>
+              {/* Wyświetl usługi według głównych kategorii - tak samo jak na stronie Oferta */}
+              {groupedServices
+                .filter(category => category.services.length > 0)
+                .map((category) => (
+                <div key={category.id} className="mb-10">
+                  <div className="flex items-center mb-6">
+                    <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mr-3">
+                      {category.icon}
+                    </div>
+                    <h2 className="text-2xl font-bold text-gray-900">{category.name}</h2>
                   </div>
-                  <h2 className="text-2xl font-bold text-gray-900">{t('services.categories.uxDesign')}</h2>
-                </div>
-                <p className="text-gray-600 mb-6 pl-12">
-                  {t('services.descriptions.uxDesign')}
-                </p>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {filteredServices
-                    .filter(service => ['UX/UI'].includes(service.category || 'Inne'))
-                    .slice(0, 3)
-                    .map((service) => (
-                      <ServiceCard key={service.id} service={service} colorClass="text-blue-600" />
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {category.services.slice(0, 3).map((service) => (
+                      <ServiceCard key={service.id} service={service} colorClass={
+                        category.id === 'ux-design' ? 'text-blue-600' : 
+                        category.id === 'web-development' ? 'text-indigo-600' :
+                        category.id === 'social-marketing' ? 'text-purple-600' :
+                        category.id === 'ai-automation' ? 'text-green-600' : 
+                        'text-orange-600'
+                      } />
                     ))}
-                </div>
-              </div>
-
-              {/* Projektowanie i rozwój stron internetowych */}
-              <div className="mb-10">
-                <div className="flex items-center mb-6">
-                  <div className="w-10 h-10 bg-indigo-100 rounded-full flex items-center justify-center mr-3">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-indigo-600">
-                      <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
-                      <line x1="8" y1="21" x2="16" y2="21"></line>
-                      <line x1="12" y1="17" x2="12" y2="21"></line>
-                    </svg>
                   </div>
-                  <h2 className="text-2xl font-bold text-gray-900">{t('services.categories.webDevelopment')}</h2>
                 </div>
-                <p className="text-gray-600 mb-6 pl-12">
-                  {t('services.descriptions.webDevelopment')}
-                </p>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {filteredServices
-                    .filter(service => ['Web Development', 'E-commerce', 'SEO'].includes(service.category || 'Inne'))
-                    .slice(0, 3)
-                    .map((service) => (
-                      <ServiceCard key={service.id} service={service} colorClass="text-indigo-600" />
-                    ))}
-                </div>
-              </div>
-
-              {/* Social Media & Kampanie Reklamowe */}
-              <div className="mb-10">
-                <div className="flex items-center mb-6">
-                  <div className="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center mr-3">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-purple-600">
-                      <line x1="12" y1="20" x2="12" y2="10"></line>
-                      <line x1="18" y1="20" x2="18" y2="4"></line>
-                      <line x1="6" y1="20" x2="6" y2="16"></line>
-                    </svg>
-                  </div>
-                  <h2 className="text-2xl font-bold text-gray-900">{t('services.categories.socialMedia')}</h2>
-                </div>
-                <p className="text-gray-600 mb-6 pl-12">
-                  {t('services.descriptions.socialMedia')}
-                </p>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {filteredServices
-                    .filter(service => ['Marketing'].includes(service.category || 'Inne'))
-                    .slice(0, 3)
-                    .map((service) => (
-                      <ServiceCard key={service.id} service={service} colorClass="text-purple-600" />
-                    ))}
-                </div>
-              </div>
-
-              {/* Integracje AI i Automatyzacje */}
-              <div className="mb-10">
-                <div className="flex items-center mb-6">
-                  <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center mr-3">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-green-600">
-                      <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-                      <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-                    </svg>
-                  </div>
-                  <h2 className="text-2xl font-bold text-gray-900">{t('services.categories.aiIntegration')}</h2>
-                </div>
-                <p className="text-gray-600 mb-6 pl-12">
-                  {t('services.descriptions.aiIntegration')}
-                </p>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {filteredServices
-                    .filter(service => ['AI', 'Automatyzacja'].includes(service.category || 'Inne'))
-                    .slice(0, 3)
-                    .map((service) => (
-                      <ServiceCard key={service.id} service={service} colorClass="text-green-600" />
-                    ))}
-                </div>
-              </div>
-
-              {/* Oferta Startupowa i Discovery */}
-              <div className="mb-10">
-                <div className="flex items-center mb-6">
-                  <div className="w-10 h-10 bg-amber-100 rounded-full flex items-center justify-center mr-3">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-amber-600">
-                      <path d="M22 2L11 13"></path>
-                      <path d="M22 2l-7 20-4-9-9-4 20-7z"></path>
-                    </svg>
-                  </div>
-                  <h2 className="text-2xl font-bold text-gray-900">{t('services.categories.startupOffer')}</h2>
-                </div>
-                <p className="text-gray-600 mb-6 pl-12">
-                  {t('services.descriptions.startupOffer')}
-                </p>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {filteredServices
-                    .filter(service => ['Consulting', 'Development'].includes(service.category || 'Inne'))
-                    .slice(0, 3)
-                    .map((service) => (
-                      <ServiceCard key={service.id} service={service} colorClass="text-amber-600" />
-                    ))}
-                </div>
-
-              </div>
+              ))}
             </div>
           )}
 
-          {/* Case Studies Section */}
-          <section id="case-studies" className="py-16 bg-white">
-            <div className="container mx-auto px-4">
-              <div className="max-w-3xl mx-auto text-center mb-12">
-                <h2 className="text-3xl font-bold mb-4">{t('caseStudies.title')}</h2>
-                <p className="text-gray-600">
-                  {t('caseStudies.subtitle')}
-                </p>
-              </div>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {/* Case Study 1 */}
-                <div className="bg-gray-50 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-                  <div className="h-48 bg-gradient-to-r from-blue-500 to-indigo-600 relative">
-                    <div className="absolute inset-0 flex items-center justify-center text-white text-2xl font-bold">
-                      AI
-                    </div>
-                  </div>
-                  <div className="p-6">
-                    <h3 className="text-xl font-bold mb-2">{i18next.language === 'de' ? 'KI-Shop für die Kosmetikbranche' : 'Sklep AI dla branży kosmetycznej'}</h3>
-                    
-                    <div className="mb-4">
-                      <Badge variant="outline" className="bg-red-50 text-red-700 border-red-200 mb-2 mr-2">{t('caseStudies.problem')}</Badge>
-                      <p className="text-sm text-gray-600">{i18next.language === 'de' ? t('caseStudies.problems.kosmetik') : 'Niska konwersja, brak obsługi klienta 24/7, nieefektywny proces doboru produktów'}</p>
-                    </div>
-                    
-                    <div className="mb-4">
-                      <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200 mb-2 mr-2">{t('caseStudies.solution')}</Badge>
-                      <p className="text-sm text-gray-600">{i18next.language === 'de' ? t('caseStudies.solutions.kosmetik') : 'Lejek AI + sklep Webflow + kampania Instagram Ads + chatbot dobierający produkty'}</p>
-                    </div>
-                    
-                    <div className="mb-4">
-                      <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200 mb-2 mr-2">{t('caseStudies.result')}</Badge>
-                      <p className="text-sm text-gray-600">{i18next.language === 'de' ? t('caseStudies.results.kosmetik') : '+40% konwersji, automatyzacja obsługi, wzrost średniej wartości koszyka o 28%'}</p>
-                    </div>
-                    
-                    <div className="mt-4 pt-4 border-t border-gray-200">
-                      <Link href="/case-studies">
-                        <Button variant="ghost" size="sm" className="w-full justify-center">
-                          {t('caseStudies.learnMore')} <ArrowRight className="ml-2 h-4 w-4" />
-                        </Button>
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-                
-                {/* Case Study 2 */}
-                <div className="bg-gray-50 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-                  <div className="h-48 bg-gradient-to-r from-purple-500 to-pink-500 relative">
-                    <div className="absolute inset-0 flex items-center justify-center text-white text-2xl font-bold">
-                      UX
-                    </div>
-                  </div>
-                  <div className="p-6">
-                    <h3 className="text-xl font-bold mb-2">{i18next.language === 'de' ? 'Mobile App für ein Fitnessunternehmen' : 'Aplikacja mobilna dla firmy fitness'}</h3>
-                    
-                    <div className="mb-4">
-                      <Badge variant="outline" className="bg-red-50 text-red-700 border-red-200 mb-2 mr-2">{t('caseStudies.problem')}</Badge>
-                      <p className="text-sm text-gray-600">Przestarzały interfejs, skomplikowany system rezerwacji, niska retencja użytkowników</p>
-                    </div>
-                    
-                    <div className="mb-4">
-                      <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200 mb-2 mr-2">{t('caseStudies.solution')}</Badge>
-                      <p className="text-sm text-gray-600">Redesign UX + prostszy flow rezerwacji + gamifikacja + integracja z Apple Health</p>
-                    </div>
-                    
-                    <div className="mb-4">
-                      <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200 mb-2 mr-2">{t('caseStudies.result')}</Badge>
-                      <p className="text-sm text-gray-600">+65% retencji użytkowników, wzrost rezerwacji o 42%, ocena 4.8/5 w App Store</p>
-                    </div>
-                    
-                    <div className="mt-4 pt-4 border-t border-gray-200">
-                      <a href="#contact-form">
-                        <Button variant="ghost" size="sm" className="w-full justify-center">
-                          {t('caseStudies.getFreeScorecoard')} <ArrowRight className="ml-2 h-4 w-4" />
-                        </Button>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-                
-                {/* Case Study 3 */}
-                <div className="bg-gray-50 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-                  <div className="h-48 bg-gradient-to-r from-amber-500 to-orange-500 relative">
-                    <div className="absolute inset-0 flex items-center justify-center text-white text-2xl font-bold">
-                      MVP
-                    </div>
-                  </div>
-                  <div className="p-6">
-                    <h3 className="text-xl font-bold mb-2">{i18next.language === 'de' ? 'MVP für ein SaaS-Startup' : 'MVP dla startupu SaaS'}</h3>
-                    
-                    <div className="mb-4">
-                      <Badge variant="outline" className="bg-red-50 text-red-700 border-red-200 mb-2 mr-2">{t('caseStudies.problem')}</Badge>
-                      <p className="text-sm text-gray-600">Potrzeba szybkiego wejścia na rynek, ograniczony budżet, brak technicznego zespołu</p>
-                    </div>
-                    
-                    <div className="mb-4">
-                      <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200 mb-2 mr-2">{t('caseStudies.solution')}</Badge>
-                      <p className="text-sm text-gray-600">Lean MVP + minimalistyczny UX + rozwój produktu oparty na feedbacku + skalowalny backend</p>
-                    </div>
-                    
-                    <div className="mb-4">
-                      <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200 mb-2 mr-2">{t('caseStudies.result')}</Badge>
-                      <p className="text-sm text-gray-600">MVP w 6 tygodni, pozyskanie pierwszych 50 klientów, zabezpieczenie kolejnej rundy finansowania</p>
-                    </div>
-                    
-                    <div className="mt-4 pt-4 border-t border-gray-200">
-                      <a href="#contact-form">
-                        <Button variant="ghost" size="sm" className="w-full justify-center">
-                          {t('caseStudies.contactUs')} <ArrowRight className="ml-2 h-4 w-4" />
-                        </Button>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
-
-          <div className="mt-10 text-center">
+          <div className="text-center mt-12">
             <Link href="/services">
-              <Button variant="outline" size="lg">
-                {t('services.viewAllServices')}
+              <Button className="rounded-full bg-primary/10 text-primary hover:bg-primary/20 py-2 px-8">
+                {t('services.viewAllServices')} <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
             </Link>
           </div>
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-28 bg-gradient-to-br from-primary to-secondary text-white overflow-hidden relative">
-        <div className="absolute top-0 left-0 w-full h-full opacity-10">
-          <div className="absolute top-1/4 left-1/4 w-[600px] h-[600px] rounded-full bg-white blur-3xl"></div>
-          <div className="absolute bottom-1/3 right-1/4 w-[400px] h-[400px] rounded-full bg-white blur-3xl"></div>
-        </div>
-        <div className="container-tight relative z-10">
-          <div className="max-w-3xl mx-auto text-center">
-            <h2 className="text-3xl md:text-5xl font-bold mb-6">{t('contact.title')}</h2>
-            <p className="text-xl opacity-90 mb-10 max-w-2xl mx-auto">
-              {t('contact.subtitle')}
+      {/* Case Studies Section */}
+      <section id="case-studies" className="py-24 bg-white">
+        <div className="container-tight">
+          <div className="max-w-3xl mx-auto text-center mb-16">
+            <Badge className="bg-indigo-100 text-indigo-700 mb-4 py-1 px-3 rounded-full">{t('home.caseStudies')}</Badge>
+            <h2 className="text-3xl md:text-4xl font-bold mb-6 tracking-tight">{t('home.ourProjects')}</h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              {t('home.caseStudiesDescription')}
             </p>
-            <div className="flex flex-wrap gap-6 justify-center">
-              <Link href="/services">
-                <Button size="lg" className="btn-modern bg-white text-primary hover:bg-gray-100 shadow-lg">
-                  {t('services.viewAllServices')}
-                </Button>
-              </Link>
-              <a href="#contact-form">
-                <Button variant="outline" size="lg" className="btn-modern border-2 border-white text-white hover:bg-white/10">
-                  {t('contact.send')}
-                </Button>
-              </a>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="card-modern p-0 overflow-hidden">
+              <div className="h-60 bg-gray-100 relative">
+                <div className="absolute inset-0 bg-gradient-to-tr from-primary/30 to-secondary/30 mix-blend-multiply"></div>
+                <div className="absolute bottom-4 left-4">
+                  <Badge className="bg-white/80 text-primary">{t('home.caseStudyTypes.ecommerce')}</Badge>
+                </div>
+              </div>
+              <div className="p-6">
+                <h3 className="text-xl font-bold mb-2">{t('home.caseStudies.example1.title')}</h3>
+                <p className="text-gray-500 mb-4 text-sm">{t('home.caseStudies.example1.client')}</p>
+                <p className="text-gray-700 mb-6">
+                  {t('home.caseStudies.example1.description')}
+                </p>
+                <div className="flex justify-between items-center">
+                  <div>
+                    <span className="text-sm font-medium text-gray-600">{t('home.result')}: </span>
+                    <span className="text-green-600 font-medium">+156% {t('home.conversion')}</span>
+                  </div>
+                  <Link href="/case-studies/1">
+                    <Button variant="ghost" className="text-primary hover:text-primary/80 p-0">
+                      {t('home.readMore')} <ArrowRight className="ml-1 h-4 w-4" />
+                    </Button>
+                  </Link>
+                </div>
+              </div>
+            </div>
+            
+            <div className="card-modern p-0 overflow-hidden">
+              <div className="h-60 bg-gray-100 relative">
+                <div className="absolute inset-0 bg-gradient-to-tr from-purple-500/30 to-indigo-500/30 mix-blend-multiply"></div>
+                <div className="absolute bottom-4 left-4">
+                  <Badge className="bg-white/80 text-purple-600">{t('home.caseStudyTypes.webapp')}</Badge>
+                </div>
+              </div>
+              <div className="p-6">
+                <h3 className="text-xl font-bold mb-2">{t('home.caseStudies.example2.title')}</h3>
+                <p className="text-gray-500 mb-4 text-sm">{t('home.caseStudies.example2.client')}</p>
+                <p className="text-gray-700 mb-6">
+                  {t('home.caseStudies.example2.description')}
+                </p>
+                <div className="flex justify-between items-center">
+                  <div>
+                    <span className="text-sm font-medium text-gray-600">{t('home.result')}: </span>
+                    <span className="text-green-600 font-medium">+78% {t('home.userEngagement')}</span>
+                  </div>
+                  <Link href="/case-studies/2">
+                    <Button variant="ghost" className="text-primary hover:text-primary/80 p-0">
+                      {t('home.readMore')} <ArrowRight className="ml-1 h-4 w-4" />
+                    </Button>
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div className="text-center mt-12">
+            <Link href="/case-studies">
+              <Button className="rounded-full bg-indigo-50 text-indigo-700 hover:bg-indigo-100 py-2 px-8">
+                {t('home.allCaseStudies')} <ArrowRight className="ml-2 h-5 w-5" />
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Contact Section */}
+      <section id="contact-form" className="py-24 bg-background">
+        <div className="container-tight">
+          <div className="max-w-4xl mx-auto">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+              <div>
+                <Badge className="bg-secondary/10 text-secondary mb-4 py-1 px-3 rounded-full">{t('home.contactUs')}</Badge>
+                <h2 className="text-3xl md:text-4xl font-bold mb-6 tracking-tight">{t('home.getInTouch')}</h2>
+                <p className="text-gray-600 mb-8">
+                  {t('home.contactDescription')}
+                </p>
+                
+                <div className="space-y-6">
+                  <div className="flex items-start gap-4">
+                    <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-blue-600">
+                        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                      </svg>
+                    </div>
+                    <div>
+                      <h3 className="font-medium text-lg mb-1">{t('contact.phone')}</h3>
+                      <p className="text-gray-600">+48 535 330 323</p>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-start gap-4">
+                    <div className="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center flex-shrink-0">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-purple-600">
+                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                        <polyline points="22,6 12,13 2,6"></polyline>
+                      </svg>
+                    </div>
+                    <div>
+                      <h3 className="font-medium text-lg mb-1">{t('contact.email')}</h3>
+                      <p className="text-gray-600">hello@ecm-digital.com</p>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-start gap-4">
+                    <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-green-600">
+                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                        <circle cx="12" cy="10" r="3"></circle>
+                      </svg>
+                    </div>
+                    <div>
+                      <h3 className="font-medium text-lg mb-1">{t('contact.address')}</h3>
+                      <p className="text-gray-600">Wrocław, Polska</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="card-modern p-8">
+                <h3 className="text-xl font-bold mb-6">{t('contact.sendMessage')}</h3>
+                <form className="space-y-6">
+                  <div className="grid grid-cols-1 gap-6">
+                    <div className="space-y-2">
+                      <Label htmlFor="name">{t('contact.name')}</Label>
+                      <Input id="name" placeholder={t('contact.namePlaceholder')} />
+                    </div>
+                    
+                    <div className="space-y-2">
+                      <Label htmlFor="email">{t('contact.email')}</Label>
+                      <Input id="email" type="email" placeholder={t('contact.emailPlaceholder')} />
+                    </div>
+                    
+                    <div className="space-y-2">
+                      <Label htmlFor="service">{t('contact.service')}</Label>
+                      <Select>
+                        <SelectTrigger>
+                          <SelectValue placeholder={t('contact.servicePlaceholder')} />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {filteredServices.map((service) => (
+                            <SelectItem key={service.id} value={service.id}>{service.name}</SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    
+                    <div className="space-y-2">
+                      <Label htmlFor="message">{t('contact.message')}</Label>
+                      <Textarea id="message" placeholder={t('contact.messagePlaceholder')} className="min-h-[120px]" />
+                    </div>
+                    
+                    <div className="flex items-center space-x-2">
+                      <Checkbox id="terms" />
+                      <label
+                        htmlFor="terms"
+                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                      >
+                        {t('contact.acceptTerms')}
+                      </label>
+                    </div>
+                  </div>
+                  
+                  <Button className="w-full btn-gradient btn-modern">{t('contact.send')}</Button>
+                </form>
+              </div>
             </div>
           </div>
         </div>
       </section>
-      
-      {/* Contact Form Section */}
-      <section id="contact-form" className="py-28 bg-background">
+
+      {/* CTA Section */}
+      <section className="py-16 bg-secondary/5">
         <div className="container-tight">
-          <div className="max-w-4xl mx-auto">
-            <div className="text-center mb-16">
-              <Badge className="bg-primary/10 text-primary mb-4 py-1 px-3 rounded-full">{t('contact.title')}</Badge>
-              <h2 className="text-3xl md:text-4xl font-bold mb-6 tracking-tight">{t('services.orderNow')}</h2>
-              <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-                {t('contact.subtitle')}
-              </p>
-            </div>
-            
-            <div className="card-modern p-8 md:p-10">
-              <form className="space-y-8">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="space-y-2">
-                    <Label htmlFor="name">{t('contact.name')}</Label>
-                    <Input id="name" placeholder="Jan Kowalski" required />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="email">{t('contact.email')}</Label>
-                    <Input id="email" type="email" placeholder="jan@firma.pl" required />
-                  </div>
-                </div>
-                
-                <div className="space-y-2">
-                  <Label htmlFor="service-type">{t('contact.service')}</Label>
-                  <Select defaultValue="ux-audit">
-                    <SelectTrigger>
-                      <SelectValue placeholder={t('contact.service')} />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="ux-audit">{i18next.language === 'de' ? 'UX-Audit mit KI' : 'Audyt UX z AI'}</SelectItem>
-                      <SelectItem value="web-development">{i18next.language === 'de' ? 'Webseite' : 'Strona internetowa'}</SelectItem>
-                      <SelectItem value="mvp">{i18next.language === 'de' ? 'MVP für Startup' : 'MVP dla startupu'}</SelectItem>
-                      <SelectItem value="marketing">{i18next.language === 'de' ? 'Werbekampagnen' : 'Kampanie reklamowe'}</SelectItem>
-                      <SelectItem value="other">{i18next.language === 'de' ? 'Andere Dienstleistung' : 'Inna usługa'}</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-                
-                <div className="space-y-2">
-                  <Label htmlFor="website">URL ({t('contact.optional')})</Label>
-                  <Input id="website" placeholder="https://yourwebsite.com" />
-                </div>
-                
-                <div className="space-y-2">
-                  <Label htmlFor="message">{t('contact.message')}</Label>
-                  <Textarea id="message" placeholder="Opisz swój projekt lub zadaj pytanie..." className="min-h-[120px]" />
-                </div>
-                
-                <div className="space-y-2">
-                  <Label htmlFor="file" className="block mb-1">{t('contact.attachment')} ({t('contact.optional')})</Label>
-                  <Input id="file" type="file" className="cursor-pointer" />
-                  <p className="text-xs text-gray-500 mt-1">{t('contact.addAttachment')}</p>
-                </div>
-                
-                <div className="flex items-start">
-                  <Checkbox id="privacy-policy" className="mt-1" />
-                  <Label htmlFor="privacy-policy" className="ml-2 text-sm">
-                    {t('contact.privacy')}
-                  </Label>
-                </div>
-                
-                <Button className="w-full btn-modern btn-gradient text-lg py-6">
-                  {t('services.orderNow')}
-                </Button>
-              </form>
-            </div>
-            
-            <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div className="card-modern p-6 text-center hover:shadow-xl transition-all duration-300">
-                <div className="w-14 h-14 bg-primary/10 rounded-xl flex items-center justify-center mx-auto mb-4">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                  </svg>
-                </div>
-                <h3 className="text-xl font-semibold mb-3">Email</h3>
-                <p className="text-gray-600">hello@ecm-digital.com</p>
-                <a href="mailto:hello@ecm-digital.com" className="inline-block mt-4 text-primary hover:underline">{t('contact.send')}</a>
+          <div className="card-modern p-8 md:p-12 bg-white">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+              <div>
+                <h2 className="text-2xl md:text-3xl font-bold mb-6">{t('cta.title')}</h2>
+                <p className="text-gray-600 mb-8">
+                  {t('cta.description')}
+                </p>
+                <Link href="/services">
+                  <Button className="btn-gradient btn-modern">{t('cta.button')}</Button>
+                </Link>
               </div>
-              
-              <div className="card-modern p-6 text-center hover:shadow-xl transition-all duration-300">
-                <div className="w-14 h-14 bg-secondary/10 rounded-xl flex items-center justify-center mx-auto mb-4">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 text-secondary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                  </svg>
+              <div className="relative mx-auto max-w-md">
+                <div className="absolute -top-6 -right-6 w-32 h-32 bg-secondary/10 rounded-full blur-xl"></div>
+                <div className="absolute -bottom-6 -left-6 w-32 h-32 bg-primary/10 rounded-full blur-xl"></div>
+                <div className="relative z-10 bg-gradient-to-br from-primary/5 to-secondary/5 rounded-2xl p-8 border border-white/20">
+                  <CheckCircle className="h-12 w-12 text-green-500 mb-6" />
+                  <h3 className="text-xl font-bold mb-4">{t('cta.benefitsTitle')}</h3>
+                  <ul className="space-y-3">
+                    {[1, 2, 3].map((item) => (
+                      <li key={item} className="flex items-start gap-3">
+                        <div className="w-5 h-5 bg-green-100 rounded-full flex items-center justify-center mt-0.5 flex-shrink-0">
+                          <Check className="h-3 w-3 text-green-600" />
+                        </div>
+                        <span className="text-gray-700">{t(`cta.benefits.${item}`)}</span>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
-                <h3 className="text-xl font-semibold mb-3">{t('contact.phone')}</h3>
-                <p className="text-gray-600">+48 535 330 323</p>
-                <a href="tel:+48535330323" className="inline-block mt-4 text-secondary hover:underline">{t('contact.callNow')}</a>
-              </div>
-              
-              <div className="card-modern p-6 text-center hover:shadow-xl transition-all duration-300">
-                <div className="w-14 h-14 bg-green-100 rounded-xl flex items-center justify-center mx-auto mb-4">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                  </svg>
-                </div>
-                <h3 className="text-xl font-semibold mb-3">{t('contact.address')}</h3>
-                <p className="text-gray-600">Warszawa, Polska</p>
-                <a href="https://maps.google.com/?q=Warszawa" target="_blank" rel="noopener noreferrer" className="inline-block mt-4 text-green-600 hover:underline">{t('contact.viewOnMap')}</a>
               </div>
             </div>
           </div>
