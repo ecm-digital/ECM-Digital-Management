@@ -102,6 +102,21 @@
     "milestones": "Etapy projektu",
     "noOrders": "Nie masz jeszcze żadnych zamówień",
     "sendMessage": "Wyślij wiadomość",
-    "uploadFile": "Prześlij plik"
+    "uploadFile": "Prześlij plik",
+    "loading": "Ładowanie panelu klienta...",
+    "error": "Wystąpił błąd podczas ładowania panelu klienta.",
+    "tryAgain": "Spróbuj ponownie",
+    "welcome": "Witaj w panelu klienta ECM Digital. Tutaj możesz zarządzać swoimi zamówieniami i komunikować się z naszym zespołem.",
+    "recentOrders": "Ostatnie zamówienia",
+    "upcomingMilestones": "Nadchodzące kamienie milowe",
+    "viewAllOrders": "Zobacz wszystkie zamówienia",
+    "allOrders": "Wszystkie zamówienia",
+    "unreadMessages": "Nieprzeczytane wiadomości",
+    "waitingToRead": "Czekające na odczytanie",
+    "inNext14Days": "W ciągu 14 dni",
+    "orderValue": "Wartość zamówienia",
+    "details": "Szczegóły",
+    "viewOrder": "Zobacz zamówienie",
+    "noMilestones": "Nie masz nadchodzących kamieni milowych."
   }
 }

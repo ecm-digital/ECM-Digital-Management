@@ -6,9 +6,11 @@ import { useQuery } from "@tanstack/react-query";
 import { Link } from "wouter";
 import { Loader2, AlertCircle, CheckCircle, Clock } from "lucide-react";
 import { formatDistance } from "date-fns";
-import { pl } from "date-fns/locale";
+import { pl, de } from "date-fns/locale";
+import { useTranslation } from "react-i18next";
 
 export default function ClientDashboard() {
+  const { t, i18n } = useTranslation();
   const { data, isLoading, isError } = useQuery({
     queryKey: ["/api/client/dashboard"],
     retry: false,
@@ -18,7 +20,7 @@ export default function ClientDashboard() {
     return (
       <div className="flex flex-col items-center justify-center min-h-[400px]">
         <Loader2 className="h-12 w-12 animate-spin text-primary" />
-        <p className="mt-4 text-muted-foreground">Ładowanie panelu klienta...</p>
+        <p className="mt-4 text-muted-foreground">{t('clientPanel.loading')}</p>
       </div>
     );
   }
@@ -27,9 +29,9 @@ export default function ClientDashboard() {
     return (
       <div className="flex flex-col items-center justify-center min-h-[400px]">
         <AlertCircle className="h-12 w-12 text-destructive" />
-        <p className="mt-4 text-muted-foreground">Wystąpił błąd podczas ładowania panelu klienta.</p>
+        <p className="mt-4 text-muted-foreground">{t('clientPanel.error')}</p>
         <Button variant="outline" className="mt-4">
-          Spróbuj ponownie
+          {t('clientPanel.tryAgain')}
         </Button>
       </div>
     );

@@ -102,6 +102,21 @@
     "milestones": "Projektphasen",
     "noOrders": "Sie haben noch keine Bestellungen",
     "sendMessage": "Nachricht senden",
-    "uploadFile": "Datei hochladen"
+    "uploadFile": "Datei hochladen",
+    "loading": "Kundenbereich wird geladen...",
+    "error": "Beim Laden des Kundenbereichs ist ein Fehler aufgetreten.",
+    "tryAgain": "Erneut versuchen",
+    "welcome": "Willkommen im ECM Digital Kundenbereich. Hier können Sie Ihre Bestellungen verwalten und mit unserem Team kommunizieren.",
+    "recentOrders": "Aktuelle Bestellungen",
+    "upcomingMilestones": "Kommende Projektphasen",
+    "viewAllOrders": "Alle Bestellungen anzeigen",
+    "allOrders": "Alle Bestellungen",
+    "unreadMessages": "Ungelesene Nachrichten",
+    "waitingToRead": "Warten auf Lesen",
+    "inNext14Days": "In den nächsten 14 Tagen",
+    "orderValue": "Bestellwert",
+    "details": "Details",
+    "viewOrder": "Bestellung anzeigen",
+    "noMilestones": "Sie haben keine kommenden Projektphasen."
   }
 }

@@ -84,7 +84,7 @@ export default function ClientNavigation() {
           <Link href="/">
             <Button variant="outline" className="w-full justify-start gap-2">
               <LogOut className="h-5 w-5" />
-              Powrót do strony głównej
+              {t('clientPanel.backToHome')}
             </Button>
           </Link>
         </div>
@@ -109,7 +109,7 @@ export default function ClientNavigation() {
                     <h2 className="text-xl font-bold">ECM Digital</h2>
                   </Link>
                 </div>
-                <p className="text-sm text-muted-foreground mt-1">Panel klienta</p>
+                <p className="text-sm text-muted-foreground mt-1">{t('clientPanel.title')}</p>
               </div>
               <nav className="flex-1 p-4">
                 <ul className="space-y-2">
@@ -137,7 +137,7 @@ export default function ClientNavigation() {
                 <Link href="/">
                   <Button variant="outline" className="w-full justify-start gap-2">
                     <LogOut className="h-5 w-5" />
-                    Powrót do strony głównej
+                    {t('clientPanel.backToHome')}
                   </Button>
                 </Link>
               </div>
