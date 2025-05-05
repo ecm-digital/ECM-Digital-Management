@@ -19,8 +19,11 @@ export default function LanguageSwitcher() {
   }, [i18n.language]);
 
   const handleLanguageChange = (language: string) => {
+    console.log("Zmiana języka na:", language);
     changeLanguage(language);
     setCurrentLanguage(language);
+    // Odśwież stronę, aby wymusić aktualizację wszystkich komponentów
+    window.location.reload();
   };
 
   return (

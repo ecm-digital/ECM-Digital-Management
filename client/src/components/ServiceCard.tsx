@@ -134,8 +134,14 @@ export default function ServiceCard({
   const getServiceName = (serviceName: string) => {
     if (currentLanguage === 'pl') return serviceName;
     
+    console.log("Tłumaczenie usługi:", serviceName, "dla języka:", currentLanguage);
+    console.log("Dostępne tłumaczenia:", serviceTranslations[serviceName as keyof typeof serviceTranslations]);
+    
     const translation = serviceTranslations[serviceName as keyof typeof serviceTranslations];
-    return translation ? translation[currentLanguage as keyof typeof translation] || serviceName : serviceName;
+    const result = translation ? translation[currentLanguage as keyof typeof translation] || serviceName : serviceName;
+    
+    console.log("Wynik tłumaczenia:", result);
+    return result;
   };
   
   // Funkcja tłumacząca kategorię
