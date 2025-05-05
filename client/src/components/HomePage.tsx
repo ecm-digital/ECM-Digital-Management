@@ -13,6 +13,31 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useTranslation } from 'react-i18next';
 
+// Service card component with translations
+const ServiceCard = ({ service, colorClass }: { service: Service, colorClass: string }) => {
+  const { t } = useTranslation();
+  return (
+    <Card className="overflow-hidden hover:shadow-md transition-shadow">
+      <CardHeader className="pb-2">
+        <CardTitle className="text-xl">{service.name}</CardTitle>
+        <CardDescription>
+          {service.shortDescription || service.description.substring(0, 100) + (service.description.length > 100 ? '...' : '')}
+        </CardDescription>
+      </CardHeader>
+      <CardFooter className="pt-0 flex justify-between items-center">
+        <div className={`text-lg font-semibold ${colorClass}`}>
+          {service.basePrice} PLN
+        </div>
+        <Link href={`/service/${service.id}`}>
+          <Button variant="outline" size="sm">
+            {t('buttons.readMore')} <ArrowRight className="ml-1 h-4 w-4" />
+          </Button>
+        </Link>
+      </CardFooter>
+    </Card>
+  );
+};
+
 export default function HomePage() {
   const { t } = useTranslation();
   const { data: services, isLoading } = useQuery<Service[]>({
@@ -239,24 +264,7 @@ export default function HomePage() {
                     .filter(service => ['UX/UI'].includes(service.category || 'Inne'))
                     .slice(0, 3)
                     .map((service) => (
-                      <Card key={service.id} className="overflow-hidden hover:shadow-md transition-shadow">
-                        <CardHeader className="pb-2">
-                          <CardTitle className="text-xl">{service.name}</CardTitle>
-                          <CardDescription>
-                            {service.shortDescription || service.description.substring(0, 100) + (service.description.length > 100 ? '...' : '')}
-                          </CardDescription>
-                        </CardHeader>
-                        <CardFooter className="pt-0 flex justify-between items-center">
-                          <div className="text-lg font-semibold text-blue-600">
-                            {service.basePrice} PLN
-                          </div>
-                          <Link href={`/service/${service.id}`}>
-                            <Button variant="outline" size="sm">
-                              Szczegóły <ArrowRight className="ml-1 h-4 w-4" />
-                            </Button>
-                          </Link>
-                        </CardFooter>
-                      </Card>
+                      <ServiceCard key={service.id} service={service} colorClass="text-blue-600" />
                     ))}
                 </div>
               </div>
@@ -281,24 +289,7 @@ export default function HomePage() {
                     .filter(service => ['Web Development', 'E-commerce', 'SEO'].includes(service.category || 'Inne'))
                     .slice(0, 3)
                     .map((service) => (
-                      <Card key={service.id} className="overflow-hidden hover:shadow-md transition-shadow">
-                        <CardHeader className="pb-2">
-                          <CardTitle className="text-xl">{service.name}</CardTitle>
-                          <CardDescription>
-                            {service.shortDescription || service.description.substring(0, 100) + (service.description.length > 100 ? '...' : '')}
-                          </CardDescription>
-                        </CardHeader>
-                        <CardFooter className="pt-0 flex justify-between items-center">
-                          <div className="text-lg font-semibold text-indigo-600">
-                            {service.basePrice} PLN
-                          </div>
-                          <Link href={`/service/${service.id}`}>
-                            <Button variant="outline" size="sm">
-                              Szczegóły <ArrowRight className="ml-1 h-4 w-4" />
-                            </Button>
-                          </Link>
-                        </CardFooter>
-                      </Card>
+                      <ServiceCard key={service.id} service={service} colorClass="text-indigo-600" />
                     ))}
                 </div>
               </div>
@@ -323,24 +314,7 @@ export default function HomePage() {
                     .filter(service => ['Marketing'].includes(service.category || 'Inne'))
                     .slice(0, 3)
                     .map((service) => (
-                      <Card key={service.id} className="overflow-hidden hover:shadow-md transition-shadow">
-                        <CardHeader className="pb-2">
-                          <CardTitle className="text-xl">{service.name}</CardTitle>
-                          <CardDescription>
-                            {service.shortDescription || service.description.substring(0, 100) + (service.description.length > 100 ? '...' : '')}
-                          </CardDescription>
-                        </CardHeader>
-                        <CardFooter className="pt-0 flex justify-between items-center">
-                          <div className="text-lg font-semibold text-purple-600">
-                            {service.basePrice} PLN
-                          </div>
-                          <Link href={`/service/${service.id}`}>
-                            <Button variant="outline" size="sm">
-                              Szczegóły <ArrowRight className="ml-1 h-4 w-4" />
-                            </Button>
-                          </Link>
-                        </CardFooter>
-                      </Card>
+                      <ServiceCard key={service.id} service={service} colorClass="text-purple-600" />
                     ))}
                 </div>
               </div>
@@ -364,24 +338,7 @@ export default function HomePage() {
                     .filter(service => ['AI', 'Automatyzacja'].includes(service.category || 'Inne'))
                     .slice(0, 3)
                     .map((service) => (
-                      <Card key={service.id} className="overflow-hidden hover:shadow-md transition-shadow">
-                        <CardHeader className="pb-2">
-                          <CardTitle className="text-xl">{service.name}</CardTitle>
-                          <CardDescription>
-                            {service.shortDescription || service.description.substring(0, 100) + (service.description.length > 100 ? '...' : '')}
-                          </CardDescription>
-                        </CardHeader>
-                        <CardFooter className="pt-0 flex justify-between items-center">
-                          <div className="text-lg font-semibold text-green-600">
-                            {service.basePrice} PLN
-                          </div>
-                          <Link href={`/service/${service.id}`}>
-                            <Button variant="outline" size="sm">
-                              Szczegóły <ArrowRight className="ml-1 h-4 w-4" />
-                            </Button>
-                          </Link>
-                        </CardFooter>
-                      </Card>
+                      <ServiceCard key={service.id} service={service} colorClass="text-green-600" />
                     ))}
                 </div>
               </div>
@@ -405,24 +362,7 @@ export default function HomePage() {
                     .filter(service => ['Consulting', 'Development'].includes(service.category || 'Inne'))
                     .slice(0, 3)
                     .map((service) => (
-                      <Card key={service.id} className="overflow-hidden hover:shadow-md transition-shadow">
-                        <CardHeader className="pb-2">
-                          <CardTitle className="text-xl">{service.name}</CardTitle>
-                          <CardDescription>
-                            {service.shortDescription || service.description.substring(0, 100) + (service.description.length > 100 ? '...' : '')}
-                          </CardDescription>
-                        </CardHeader>
-                        <CardFooter className="pt-0 flex justify-between items-center">
-                          <div className="text-lg font-semibold text-amber-600">
-                            {service.basePrice} PLN
-                          </div>
-                          <Link href={`/service/${service.id}`}>
-                            <Button variant="outline" size="sm">
-                              Szczegóły <ArrowRight className="ml-1 h-4 w-4" />
-                            </Button>
-                          </Link>
-                        </CardFooter>
-                      </Card>
+                      <ServiceCard key={service.id} service={service} colorClass="text-amber-600" />
                     ))}
                 </div>
 
