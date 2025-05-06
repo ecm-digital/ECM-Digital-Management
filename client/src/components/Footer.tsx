@@ -69,7 +69,7 @@ export default function Footer() {
                 </div>
                 <div>
                   <p className="font-medium">{t('footer.phone')}</p>
-                  <a href="tel:+48535330323" className="hover:text-secondary">+48 535 330 323</a>
+                  <a href={`tel:${t('footer.phoneValue')}`} className="hover:text-secondary">{t('footer.phoneValue')}</a>
                 </div>
               </li>
               <li className="flex items-center gap-3">
@@ -81,7 +81,7 @@ export default function Footer() {
                 </div>
                 <div>
                   <p className="font-medium">{t('footer.address')}</p>
-                  <a href="https://maps.google.com/?q=Warszawa" target="_blank" rel="noopener noreferrer" className="hover:text-green-600">{t('footer.addressValue')}</a>
+                  <a href={`https://maps.google.com/?q=${encodeURIComponent(t('footer.addressValue'))}`} target="_blank" rel="noopener noreferrer" className="hover:text-green-600">{t('footer.addressValue')}</a>
                 </div>
               </li>
             </ul>
