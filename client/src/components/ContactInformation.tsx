@@ -74,7 +74,9 @@ export default function ContactInformation({
         <Card className="shadow-md min-w-[200px]">
           <CardContent className="pt-4">
             <p className="text-sm text-dark-light mb-1">Wartość zamówienia:</p>
-            <p className="text-2xl font-bold text-dark">{totalPrice.toLocaleString()} zł</p>
+            <p className="text-2xl font-bold text-dark">
+              {totalPrice.toLocaleString()} {i18next.language === 'de' ? '€' : 'PLN'}
+            </p>
             <p className="text-xs text-dark-light">{service?.name}</p>
           </CardContent>
         </Card>

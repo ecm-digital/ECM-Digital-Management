@@ -43,16 +43,17 @@ export default function ServiceConfiguration({
       service.steps?.forEach(step => {
         step.options?.forEach(option => {
           if (option.type === 'select' && option.choices && option.choices.length > 0) {
-            defaultConfig[option.id] = option.choices[0].value;
+            const firstChoice = option.choices[0];
+            defaultConfig[option.id] = firstChoice.value;
             
             // Apply initial price from default selection
-            if (option.choices[0].priceAdjustment) {
-              setPrice(prev => prev + (option.choices[0].priceAdjustment || 0));
+            if (firstChoice && firstChoice.priceAdjustment) {
+              setPrice(prev => prev + firstChoice.priceAdjustment!);
             }
             
             // Apply initial delivery time from default selection
-            if (option.choices[0].deliveryTimeAdjustment) {
-              setDeliveryTime(prev => prev + (option.choices[0].deliveryTimeAdjustment || 0));
+            if (firstChoice && firstChoice.deliveryTimeAdjustment) {
+              setDeliveryTime(prev => prev + firstChoice.deliveryTimeAdjustment!);
             }
           } else if (option.type === 'checkbox') {
             defaultConfig[option.id] = false;

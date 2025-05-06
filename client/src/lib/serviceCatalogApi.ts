@@ -67,7 +67,15 @@ export async function fetchServiceFromCatalog(serviceId: string): Promise<Servic
     }
     
     // Konwersja na format aplikacji
+    // Sprawdź, czy mamy niemiecki język i potrzebna jest konwersja cen
+    const needsPriceConversion = i18next.language === 'de';
     const services = mapCatalogDataToServices([data]);
+    
+    // Dodajemy konwersję dla kroków konfiguracji jeśli istnieją
+    if (services.length > 0 && needsPriceConversion && services[0].steps) {
+      services[0].steps = transformConfigSteps(services[0].steps, true);
+    }
+    
     return services.length > 0 ? services[0] : null;
   } catch (error) {
     console.error(`Błąd pobierania usługi ${serviceId} z ServiceCatalog:`, error);
