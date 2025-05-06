@@ -748,6 +748,33 @@
           "Training, Testen und kontinuierliche Verbesserung"
         ]
       },
+      "businessProcessAutomation": {
+        "name": "Automatisierung von Geschäftsprozessen",
+        "shortDescription": "Effiziente Automatisierung von Arbeitsabläufen und Geschäftsprozessen",
+        "description": "Implementierung maßgeschneiderter Lösungen zur Automatisierung von Geschäftsprozessen, die die Effizienz steigern und manuelle Aufgaben reduzieren.",
+        "longDescription": "Unsere Lösungen zur Automatisierung von Geschäftsprozessen optimieren Ihre betrieblichen Abläufe durch die Implementierung maßgeschneiderter automatisierter Workflows. Wir analysieren Ihre bestehenden Prozesse, identifizieren Ineffizienzen und entwickeln automatisierte Lösungen, die repetitive Aufgaben minimieren, Fehlerraten reduzieren und die Produktivität steigern. Mit einer Kombination aus Prozessumgestaltung, Integration von Geschäftsanwendungen und innovativen Automatisierungstechnologien helfen wir Ihnen, Ressourcen freizusetzen, damit sich Ihre Mitarbeiter auf wertschöpfende Tätigkeiten konzentrieren können.",
+        "features": [
+          "Umfassende Prozessanalyse und -optimierung",
+          "Integration bestehender Geschäftssysteme",
+          "Workflow-Automatisierung und -Management",
+          "Datenerfassung und -verarbeitung",
+          "Berichterstellung und Überwachung"
+        ],
+        "benefits": [
+          "Gesteigerte betriebliche Effizienz",
+          "Reduzierung manueller Fehler",
+          "Schnellere Durchlaufzeiten für Geschäftsprozesse",
+          "Kosteneinsparungen durch optimierte Ressourcennutzung",
+          "Verbesserte Datenqualität und Entscheidungsfindung"
+        ],
+        "scope": [
+          "Geschäftsprozessanalyse und -bewertung",
+          "Prozessoptimierung und Workflow-Design",
+          "Implementierung von Automatisierungslösungen",
+          "Integration mit bestehenden Systemen",
+          "Schulung und Unterstützung bei der Einführung"
+        ]
+      },
       "startupMvp": {
         "name": "Startup MVP",
         "shortDescription": "Schnelle Entwicklung eines Minimum Viable Product für Startups",
