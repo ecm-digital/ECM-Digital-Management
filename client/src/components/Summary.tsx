@@ -8,6 +8,7 @@ import {
   CheckCircle2
 } from "lucide-react";
 import { Link } from "wouter";
+import i18next from "i18next";
 
 interface SummaryProps {
   serviceOrder: ServiceOrder;
@@ -188,7 +189,9 @@ export default function Summary({ serviceOrder }: SummaryProps) {
             
             <div className="flex justify-between items-center">
               <span className="text-dark font-medium">Wartość zamówienia:</span>
-              <span className="text-xl font-bold text-dark">{totalPrice.toLocaleString()} zł</span>
+              <span className="text-xl font-bold text-dark">
+                {totalPrice.toLocaleString()} {i18next.language === 'de' ? '€' : 'PLN'}
+              </span>
             </div>
           </div>
           

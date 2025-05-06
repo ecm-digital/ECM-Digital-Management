@@ -14,6 +14,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Textarea } from "@/components/ui/textarea";
 import FileUpload from "./FileUpload";
 import { Card, CardContent } from "@/components/ui/card";
+import i18next from "i18next";
 
 interface ServiceConfigurationProps {
   service: Service | null;
@@ -171,7 +172,9 @@ export default function ServiceConfiguration({
         <Card className="shadow-md min-w-[200px]">
           <CardContent className="pt-4">
             <p className="text-sm text-dark-light mb-1">Aktualna wycena:</p>
-            <p className="text-2xl font-bold text-dark">{price.toLocaleString()} zł</p>
+            <p className="text-2xl font-bold text-dark">
+              {price.toLocaleString()} {i18next.language === 'de' ? '€' : 'PLN'}
+            </p>
             <p className="text-xs text-dark-light">
               Czas realizacji: <span>{deliveryTime} dni roboczych</span>
             </p>
@@ -262,7 +265,7 @@ export default function ServiceConfiguration({
                 {option.choices?.map((choice) => (
                   <SelectItem key={choice.value} value={choice.value}>
                     {choice.label} {choice.priceAdjustment ? 
-                      `(${choice.priceAdjustment > 0 ? '+' : ''}${choice.priceAdjustment} zł)` : ''}
+                      `(${choice.priceAdjustment > 0 ? '+' : ''}${choice.priceAdjustment} ${i18next.language === 'de' ? '€' : 'PLN'})` : ''}
                   </SelectItem>
                 ))}
               </SelectContent>
@@ -295,7 +298,7 @@ export default function ServiceConfiguration({
               <div className="ml-3">
                 <p className="font-medium text-dark">{option.label}</p>
                 <p className="text-sm text-dark-light">
-                  {option.description} {option.priceAdjustment ? `(+${option.priceAdjustment} zł)` : ''}
+                  {option.description} {option.priceAdjustment ? `(+${option.priceAdjustment} ${i18next.language === 'de' ? '€' : 'PLN'})` : ''}
                 </p>
               </div>
             </label>
@@ -315,7 +318,7 @@ export default function ServiceConfiguration({
                 htmlFor={option.id}
                 className="ml-2 text-dark-light cursor-pointer"
               >
-                {option.label} {option.priceAdjustment ? `(+${option.priceAdjustment} zł)` : ''}
+                {option.label} {option.priceAdjustment ? `(+${option.priceAdjustment} ${i18next.language === 'de' ? '€' : 'PLN'})` : ''}
               </label>
             </div>
           );
