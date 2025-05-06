@@ -371,6 +371,141 @@
           "Dokumentation und Schulung"
         ]
       },
+      "customAiTools": {
+        "name": "Individuelle KI-Tools",
+        "shortDescription": "Maßgeschneiderte KI-Lösungen für spezifische Geschäftsanforderungen",
+        "description": "Entwicklung individueller KI-Tools und -Lösungen, die auf Ihre spezifischen Geschäftsanforderungen zugeschnitten sind.",
+        "longDescription": "Unsere individuellen KI-Lösungen werden speziell entwickelt, um Ihre einzigartigen Geschäftsherausforderungen zu bewältigen. Wir kombinieren modernste KI-Technologien mit tiefem Branchenverständnis, um Tools zu schaffen, die Ihre Prozesse automatisieren, Ihre Daten analysieren und wertvolle Erkenntnisse liefern. Von intelligenten Chatbots und Vorhersagemodellen bis hin zu Bilderkennungssystemen und Textanalyse-Tools – wir entwickeln KI-Lösungen, die einen messbaren Mehrwert für Ihr Unternehmen schaffen.",
+        "features": [
+          "Maßgeschneiderte KI-Algorithmen",
+          "Nahtlose Integration in bestehende Systeme",
+          "Benutzerfreundliche Schnittstellen",
+          "Kontinuierliche Lern- und Anpassungsfähigkeit",
+          "Skalierbare Architektur"
+        ],
+        "benefits": [
+          "Lösung spezifischer Geschäftsprobleme",
+          "Wettbewerbsvorteil durch innovative Technologie",
+          "Verbesserte Effizienz und Produktivität",
+          "Datengestützte Entscheidungsfindung",
+          "Automatisierung komplexer Aufgaben"
+        ],
+        "scope": [
+          "Bedarfsanalyse und Anforderungsdefinition",
+          "Konzeption und Design der KI-Lösung",
+          "Entwicklung und Training des KI-Modells",
+          "Integration und Implementierung",
+          "Schulung und Support"
+        ]
+      },
+      "productDiscoveryWorkshop": {
+        "name": "Product Discovery Workshop",
+        "shortDescription": "Strukturierter Prozess zur Definition von Produktvisionen und -anforderungen",
+        "description": "Ein fokussierter Workshop zur Erkundung und Definition von Produktideen, Zielen und Anforderungen für erfolgreiche digitale Lösungen.",
+        "longDescription": "Unser Product Discovery Workshop ist ein strukturierter, kollaborativer Prozess, der Ihnen hilft, Produktvisionen zu klären, Nutzeranforderungen zu verstehen und Geschäftsziele zu definieren. In intensiven Sitzungen nutzen wir bewährte Methoden wie Design Thinking, User Journey Mapping und Feature Priorisierung, um einen klaren Weg für Ihre Produktentwicklung zu schaffen. Der Workshop liefert Ihnen nicht nur ein gemeinsames Verständnis Ihrer Ziele, sondern auch einen konkreten Plan, wie Sie Ihre Produktidee in eine erfolgreiche Lösung umsetzen können.",
+        "features": [
+          "Strukturierte Moderation durch erfahrene Produktexperten",
+          "Kreative Ideenfindungs- und Validierungstechniken",
+          "User Persona und Journey Mapping",
+          "Feature-Priorisierung und Roadmap-Entwicklung",
+          "Dokumentation aller Erkenntnisse und nächsten Schritte"
+        ],
+        "benefits": [
+          "Klarheit über Produktvision und -ziele",
+          "Ausrichtung aller Stakeholder auf gemeinsame Ziele",
+          "Reduzierte Entwicklungsrisiken",
+          "Fokussierung auf wertschöpfende Features",
+          "Beschleunigte Entscheidungsfindung"
+        ],
+        "scope": [
+          "Vorbereitung und Stakeholder-Interviews",
+          "Eintägiger intensiver Workshop",
+          "Nachbereitung und Dokumentation",
+          "Präsentation der Ergebnisse",
+          "Entwicklung einer ersten Produktroadmap"
+        ]
+      },
+      "aiMvp": {
+        "name": "MVP mit KI",
+        "shortDescription": "Entwicklung eines minimalen tragfähigen Produkts mit KI-Funktionen",
+        "description": "Schnelle Entwicklung eines minimalen tragfähigen Produkts (MVP) mit integrierten KI-Funktionen zur Validierung Ihrer Geschäftsidee.",
+        "longDescription": "Unser KI-MVP-Ansatz kombiniert agile Entwicklungsmethoden mit modernen KI-Technologien, um in kurzer Zeit ein funktionierendes Produkt zu erstellen, das Ihre Idee validiert. Wir integrieren KI-Funktionen wie Textanalyse, Bilderkennung oder prädiktive Analytik, die Ihrem Produkt von Anfang an Intelligenz verleihen. Durch diesen Ansatz können Sie schnell Marktfeedback sammeln, Ihre Geschäftsidee testen und den Weg für eine umfassendere Entwicklung ebnen – alles während Sie die transformative Kraft der künstlichen Intelligenz nutzen.",
+        "features": [
+          "Schnelle MVP-Entwicklung (4-8 Wochen)",
+          "Integration von KI-Funktionen",
+          "Nutzerorientiertes Design",
+          "Skalierbare Architektur",
+          "Kontinuierliche Feedback-Integration"
+        ],
+        "benefits": [
+          "Schnellere Markteinführung",
+          "Kostengünstige Validierung von Geschäftsideen",
+          "Frühe Nutzergewinnung und -feedback",
+          "Reduzierte Entwicklungsrisiken",
+          "Intelligentes Produkt von Anfang an"
+        ],
+        "scope": [
+          "Strategieworkshop und Anforderungsdefinition",
+          "Design und Architekturplanung",
+          "Entwicklung des Kernprodukts",
+          "Integration ausgewählter KI-Funktionen",
+          "Deployment und erste Nutzertest"
+        ]
+      },
+      "mentoringConsulting": {
+        "name": "Mentoring & Beratung",
+        "shortDescription": "Expertenberatung und Mentoring für digitale Projekte und Teams",
+        "description": "Professionelles Mentoring und strategische Beratung für digitale Produkte, Teams und Projekte von erfahrenen Branchenexperten.",
+        "longDescription": "Unser Mentoring- und Beratungsservice bietet Ihnen Zugang zu erfahrenen Experten im Bereich digitaler Produktentwicklung, UX Design und KI-Integration. Wir unterstützen Sie und Ihr Team durch strategische Beratung, praktisches Coaching und lösungsorientierte Workshops. Ob Sie bei spezifischen Herausforderungen Hilfe benötigen, Ihre internen Prozesse optimieren möchten oder Orientierung bei digitalen Transformationsprojekten suchen – unsere Experten stehen Ihnen mit ihrem umfassenden Wissen und ihrer langjährigen Erfahrung zur Seite.",
+        "features": [
+          "Individuelle Mentoring-Sitzungen",
+          "Strategische Beratung zu digitalen Produkten",
+          "Fachliche Workshops für Teams",
+          "Prozessoptimierung und Best Practices",
+          "Lösungsorientierte Unterstützung bei Herausforderungen"
+        ],
+        "benefits": [
+          "Beschleunigte Lernkurve für Teams",
+          "Verbesserung interner Prozesse und Methoden",
+          "Unterstützung bei strategischen Entscheidungen",
+          "Zugang zu Branchenexperten und -netzwerken",
+          "Langfristige Steigerung der Teamkompetenz"
+        ],
+        "scope": [
+          "Bedarfsanalyse und Zieldefinition",
+          "Regelmäßige Mentoring-Sitzungen (1-2 Stunden)",
+          "Strategische Beratungstreffen",
+          "Themenspezifische Workshops",
+          "Kontinuierliche Unterstützung per E-Mail/Chat"
+        ]
+      },
+      "uxScorecard": {
+        "name": "UX Scorecard",
+        "shortDescription": "Umfassende Bewertung und Benchmark Ihrer Nutzererfahrung",
+        "description": "UX Scorecard - eine detaillierte Bewertung und Benchmark Ihrer Website oder App mit konkreten Verbesserungsempfehlungen.",
+        "longDescription": "Die UX Scorecard ist ein umfassendes Bewertungstool für die Nutzererfahrung Ihrer digitalen Produkte. Durch die Analyse von über 50 UX-Faktoren in Kategorien wie Navigation, Informationsarchitektur, visuelle Hierarchie und Benutzerflüsse erstellen wir eine detaillierte Scorecard, die Ihre Stärken und Schwächen aufzeigt. Im Vergleich zum klassischen UX-Audit bietet die Scorecard einen stärker strukturierten, quantitativen Ansatz mit klaren Benchmarks und messbaren Verbesserungszielen. Ideal für Teams, die eine objektive Bewertung ihrer aktuellen UX-Leistung benötigen und wichtige Verbesserungsbereiche priorisieren möchten.",
+        "features": [
+          "Bewertung von über 50 UX-Faktoren",
+          "Quantitative Scoring-Methodik",
+          "Vergleich mit Branchenstandards",
+          "Visualisierte Ergebnisdarstellung",
+          "Priorisierte Empfehlungsliste"
+        ],
+        "benefits": [
+          "Objektive Bewertung Ihrer aktuellen UX",
+          "Identifizierung kritischer Verbesserungsbereiche",
+          "Klare Prioritäten für UX-Optimierungen",
+          "Messbare Ziele für UX-Verbesserungen",
+          "Fundierte Grundlage für UX-Investitionsentscheidungen"
+        ],
+        "scope": [
+          "Definition von Bewertungskriterien",
+          "Durchführung der UX-Analyse",
+          "Erstellung der Scorecard mit Benchmarks",
+          "Entwicklung von Empfehlungen",
+          "Präsentation und Besprechung der Ergebnisse"
+        ]
+      },
       "uxAuditAi": {
         "name": "UX-Audit mit KI",
         "shortDescription": "KI-unterstützte UX-Analyse mit umsetzbaren Empfehlungen",
