@@ -128,6 +128,249 @@
           "Präsentation der Empfehlungen"
         ]
       },
+      "conversionFunnelDesign": {
+        "name": "Konversionstrichter-Design",
+        "shortDescription": "Optimierung von Verkaufsprozessen für maximale Konversion",
+        "description": "Professionelles Design von Konversionstrichtern zur Steigerung von Verkäufen und Lead-Generierung.",
+        "longDescription": "Wir entwerfen effektive Konversionstrichter, die Besucher systematisch durch den Verkaufsprozess führen und sie in zahlende Kunden verwandeln. Unsere datengestützte Methodik identifiziert Schwachstellen in Ihrem aktuellen Verkaufsprozess und optimiert jeden Schritt für maximale Konversion. Ideal für E-Commerce-Unternehmen und Dienstleister, die ihre Online-Verkäufe steigern möchten.",
+        "features": [
+          "Strategische Planung des Konversionspfads",
+          "Optimierung jeder Trichterstufe",
+          "Psychologisch fundierte Designelemente",
+          "A/B-Testing-Empfehlungen",
+          "Analyse von Absprung- und Ausstiegspunkten"
+        ],
+        "benefits": [
+          "Deutlich höhere Konversionsraten",
+          "Optimierter Verkaufsprozess",
+          "Reduzierung von Kaufabbrüchen",
+          "Verbesserte Lead-Qualifizierung",
+          "Datenbasierte Optimierungsstrategie"
+        ],
+        "scope": [
+          "Detaillierte Analyse des aktuellen Verkaufsprozesses",
+          "Entwicklung einer Konversionsstrategie",
+          "Design von Landing Pages und Verkaufsseiten",
+          "Erstellen von überzeugenden Call-to-Actions",
+          "Implementierung von Vertrauenselementen und sozialen Beweisen"
+        ]
+      },
+      "aiUxAssistant": {
+        "name": "KI-UX-Assistent",
+        "shortDescription": "KI-unterstützte Optimierung der Benutzererfahrung",
+        "description": "Nutzen Sie die Kraft der künstlichen Intelligenz, um Ihre Benutzererfahrung kontinuierlich zu verbessern und zu optimieren.",
+        "longDescription": "Unser KI-UX-Assistent analysiert kontinuierlich das Nutzerverhalten auf Ihrer Website oder App und liefert datenbasierte Empfehlungen zur Verbesserung der Benutzererfahrung. Durch den Einsatz von maschinellem Lernen identifiziert unser System Muster, Probleme und Optimierungsmöglichkeiten, die mit herkömmlichen Analysen möglicherweise übersehen werden. Perfekt für Unternehmen, die ihre digitale Präsenz kontinuierlich optimieren möchten.",
+        "features": [
+          "KI-gestützte Verhaltensanalyse",
+          "Automatisierte UX-Problemberkennung",
+          "Personalisierte Optimierungsvorschläge",
+          "Integration mit Analytics-Plattformen",
+          "Kontinuierliches Lernen und Anpassung"
+        ],
+        "benefits": [
+          "Kontinuierliche UX-Verbesserung",
+          "Datengestützte Designentscheidungen",
+          "Frühzeitige Erkennung von Nutzungsproblemen",
+          "Besseres Verständnis des Nutzerverhaltens",
+          "Gezielte Optimierungsmaßnahmen"
+        ],
+        "scope": [
+          "Implementierung des KI-Assistenten",
+          "Integration mit bestehenden Systemen",
+          "Konfiguration der Analyseparameter",
+          "Erstellung eines Dashboards zur Visualisierung",
+          "Monatliche Berichte mit Optimierungsempfehlungen"
+        ]
+      },
+      "wixWebflow": {
+        "name": "Wix Studio & Webflow Websites",
+        "shortDescription": "Professionelle Websites mit modernen No-Code-Plattformen",
+        "description": "Entwicklung hochwertiger Websites mit Wix Studio und Webflow für schnelle Umsetzung bei maximaler Flexibilität.",
+        "longDescription": "Wir nutzen die fortschrittlichen Funktionen von Wix Studio und Webflow, um beeindruckende, responsive Websites zu erstellen, ohne Kompromisse bei Design oder Funktionalität einzugehen. Diese modernen No-Code-Plattformen ermöglichen eine schnellere Entwicklung und einfachere Wartung bei gleichzeitig professionellen Ergebnissen. Ideal für Unternehmen, die eine hochwertige Website benötigen, aber keine komplexe benutzerdefinierte Entwicklung wünschen.",
+        "features": [
+          "Responsive, mobilfreundliches Design",
+          "Visuelle Effekte und Animationen",
+          "SEO-Optimierung",
+          "Integration von Content-Management-Systemen",
+          "Einfache Wartung und Aktualisierung"
+        ],
+        "benefits": [
+          "Schnellere Markteinführung",
+          "Kosteneffiziente Entwicklung",
+          "Einfache Inhaltsbearbeitung",
+          "Professionelles Design ohne Programmierung",
+          "Regelmäßige Updates und Support"
+        ],
+        "scope": [
+          "Konzeption und Wireframing",
+          "Design von bis zu 5-7 Seitentypen",
+          "Implementierung in Wix Studio oder Webflow",
+          "Integration von CMS und Formularen",
+          "Schulung zur Inhaltsverwaltung"
+        ]
+      },
+      "aiEcommerce": {
+        "name": "E-Commerce mit KI",
+        "shortDescription": "KI-optimierter Online-Shop für höhere Umsätze",
+        "description": "Entwicklung eines intelligenten E-Commerce-Systems mit KI-basierten Funktionen für Personalisierung und Automatisierung.",
+        "longDescription": "Unser KI-gestützter E-Commerce-Ansatz revolutioniert das Online-Shopping-Erlebnis durch intelligente Produktempfehlungen, personalisierte Benutzeroberflächen und automatisierte Kundenservice-Lösungen. Wir integrieren fortschrittliche KI-Technologien in Ihre E-Commerce-Plattform, um den Umsatz zu steigern, das Kundenerlebnis zu verbessern und betriebliche Effizienz zu maximieren. Ideal für Unternehmen, die über traditionelle E-Commerce-Lösungen hinausgehen möchten.",
+        "features": [
+          "KI-gestützte Produktempfehlungen",
+          "Personalisierte Shopping-Erlebnisse",
+          "Intelligente Suche und Filterung",
+          "Automatisierte Kundenservice-Bots",
+          "Prädiktive Bestandsführung"
+        ],
+        "benefits": [
+          "Höhere Conversion-Rate",
+          "Gesteigerter durchschnittlicher Warenkorbwert",
+          "Verbesserte Kundenbindung",
+          "Reduzierte Betriebskosten",
+          "Datengestützte Geschäftsentscheidungen"
+        ],
+        "scope": [
+          "Integration von KI-Empfehlungsalgorithmen",
+          "Implementierung personalisierter Benutzeroberflächen",
+          "Einrichtung intelligenter Suchfunktionen",
+          "Entwicklung automatisierter Kundenservice-Lösungen",
+          "Schulung zur Verwaltung der KI-Funktionen"
+        ]
+      },
+      "performanceSeo": {
+        "name": "Performance & SEO",
+        "shortDescription": "Optimierung von Website-Geschwindigkeit und Suchmaschinenranking",
+        "description": "Umfassende Optimierung Ihrer Website für schnellere Ladezeiten und bessere Positionierung in Suchmaschinen.",
+        "longDescription": "Unsere Performance- und SEO-Optimierung verbessert die technische Grundlage Ihrer Website und ihre Sichtbarkeit in Suchmaschinen. Wir analysieren und beheben Performance-Probleme, optimieren Inhalte und Strukturen für Suchmaschinen und implementieren bewährte SEO-Praktiken. Das Ergebnis ist eine schnellere, benutzerfreundlichere Website, die in Suchmaschinen besser rankt und mehr qualifizierten Traffic generiert.",
+        "features": [
+          "Umfassende technische SEO-Analyse",
+          "Website-Geschwindigkeitsoptimierung",
+          "Keyword-Recherche und -Optimierung",
+          "Mobile Optimierung",
+          "Strukturierte Daten-Implementierung"
+        ],
+        "benefits": [
+          "Verbesserte Suchmaschinenrankings",
+          "Schnellere Ladezeiten",
+          "Erhöhter organischer Traffic",
+          "Bessere Nutzererfahrung",
+          "Höhere Conversion-Raten"
+        ],
+        "scope": [
+          "Technische SEO-Prüfung und Optimierung",
+          "Performance-Audit und Verbesserungen",
+          "Optimierung von Metadaten und Inhalten",
+          "Implementierung von Core Web Vitals-Verbesserungen",
+          "Monatlicher Leistungsbericht mit Empfehlungen"
+        ]
+      },
+      "fbInstagramAds": {
+        "name": "Facebook & Instagram Ads",
+        "shortDescription": "Effektive Werbekampagnen in sozialen Medien",
+        "description": "Strategische Planung und Umsetzung von Werbekampagnen auf Facebook und Instagram zur Steigerung der Markenbekanntheit und des Umsatzes.",
+        "longDescription": "Unsere Facebook- und Instagram-Werbekampagnen werden strategisch geplant und umgesetzt, um Ihre spezifischen Geschäftsziele zu erreichen. Wir entwickeln zielgerichtete Anzeigen mit überzeugenden Inhalten, definieren präzise Zielgruppen und optimieren kontinuierlich für maximale Leistung. Mit datengesteuerter Analyse und kreativer Expertise helfen wir Ihnen, Ihre Reichweite zu vergrößern, Leads zu generieren und Verkäufe zu steigern.",
+        "features": [
+          "Strategische Kampagnenplanung",
+          "Zielgruppenanalyse und -segmentierung",
+          "Kreative Anzeigengestaltung",
+          "A/B-Testing von Anzeigenvarianten",
+          "Kontinuierliche Performance-Optimierung"
+        ],
+        "benefits": [
+          "Gezielte Kundenansprache",
+          "Erhöhte Markenbekanntheit",
+          "Effiziente Werbeausgaben",
+          "Messbare Ergebnisse und ROI",
+          "Flexibilität bei sich ändernden Marktbedingungen"
+        ],
+        "scope": [
+          "Entwicklung einer Social-Media-Werbestrategie",
+          "Erstellung von Anzeigenkampagnen",
+          "Einrichtung von Conversion-Tracking",
+          "Tägliche Kampagnenüberwachung",
+          "Wöchentliche Leistungsberichte mit Optimierungsempfehlungen"
+        ]
+      },
+      "contentStrategies": {
+        "name": "Content-Strategien",
+        "shortDescription": "Maßgeschneiderte Content-Strategien für Ihre Marketingziele",
+        "description": "Entwicklung umfassender Content-Strategien, die Ihre Markengeschichte erzählen und Ihr Publikum begeistern.",
+        "longDescription": "Unsere Content-Strategien sind speziell auf Ihre Geschäftsziele, Zielgruppe und Branche zugeschnitten. Wir entwickeln einen umfassenden Plan, der festlegt, welche Art von Inhalten erstellt werden sollten, wann und wo sie veröffentlicht werden sollten und wie sie zur Erreichung Ihrer Marketingziele beitragen. Durch strategisch geplante Inhalte stärken wir Ihre Markenposition, erhöhen die Kundenbindung und verbessern Ihre Conversion-Raten.",
+        "features": [
+          "Umfassende Content-Audit",
+          "Zielgruppenanalyse und Persona-Entwicklung",
+          "Themenfindung und Redaktionsplanung",
+          "Kanal- und Formatstrategie",
+          "Content-Erfolgsmessung"
+        ],
+        "benefits": [
+          "Konsistente Markenkommunikation",
+          "Höhere Kundenbindung und Engagement",
+          "Verbesserte SEO und organische Sichtbarkeit",
+          "Effiziente Ressourcennutzung",
+          "Messbare Marketing-Ergebnisse"
+        ],
+        "scope": [
+          "Content-Audit und Wettbewerbsanalyse",
+          "Entwicklung von Content-Personas",
+          "Erstellung eines Redaktionskalenders",
+          "Definition von Content-Typen und -Formaten",
+          "Implementierungsplan und Erfolgsmessung"
+        ]
+      },
+      "campaignStores": {
+        "name": "Kampagnen-Shops",
+        "shortDescription": "Spezialisierte Online-Shops für temporäre Marketingkampagnen",
+        "description": "Entwicklung temporärer E-Commerce-Lösungen, die speziell auf Ihre Marketingkampagnen zugeschnitten sind.",
+        "longDescription": "Unsere Kampagnen-Shops sind maßgeschneiderte E-Commerce-Plattformen, die speziell für zeitlich begrenzte Marketingaktionen entwickelt werden. Ob für Produkteinführungen, saisonale Angebote oder spezielle Promotionen - wir gestalten einen Online-Shop, der nahtlos in Ihre Kampagnenstrategie integriert ist und ein optimales Kauferlebnis bietet. Diese spezialisierten Shops maximieren den ROI Ihrer Marketingkampagnen durch fokussierte Produktpräsentation und optimierte Conversion-Pfade.",
+        "features": [
+          "Kampagnenspezifisches Design",
+          "Integrierte Zahlungslösungen",
+          "Mobile Optimierung",
+          "Kampagnen-Tracking und Analytics",
+          "Zeitlich begrenzte Funktionalität"
+        ],
+        "benefits": [
+          "Höhere Conversion-Raten für Kampagnen",
+          "Fokussiertes Kundenerlebnis",
+          "Verbesserte Kampagnenmessung",
+          "Kosteneffiziente E-Commerce-Lösung",
+          "Schnelle Implementierung"
+        ],
+        "scope": [
+          "Kampagnenanalyse und Anforderungsdefinition",
+          "Design und Entwicklung des Kampagnen-Shops",
+          "Integration von Zahlungs- und Versandoptionen",
+          "Einrichtung von Tracking und Analytics",
+          "Technischer Support während der Kampagnenlaufzeit"
+        ]
+      },
+      "n8nZapierAutomation": {
+        "name": "Automatisierungen (n8n, Zapier)",
+        "shortDescription": "Optimierung von Geschäftsprozessen durch intelligente Automatisierung",
+        "description": "Implementierung von Workflow-Automatisierungen mit n8n und Zapier zur Steigerung der Effizienz und Produktivität.",
+        "longDescription": "Unsere Automatisierungslösungen verbinden Ihre verschiedenen Geschäftsanwendungen und -systeme, um manuelle Prozesse zu reduzieren und die Effizienz zu steigern. Mit leistungsstarken Tools wie n8n und Zapier automatisieren wir wiederkehrende Aufgaben, Datenübertragungen und komplexe Workflows. Dies spart nicht nur Zeit und Ressourcen, sondern reduziert auch Fehler und ermöglicht Ihrem Team, sich auf wertschöpfende Aktivitäten zu konzentrieren.",
+        "features": [
+          "Prozessanalyse und Automatisierungspotenzial",
+          "Maßgeschneiderte Workflow-Designs",
+          "Integration mehrerer Anwendungen und Systeme",
+          "Echtzeit-Datensynchronisation",
+          "Benutzerfreundliche Verwaltungsschnittstellen"
+        ],
+        "benefits": [
+          "Erhebliche Zeitersparnis bei Routineaufgaben",
+          "Reduzierung manueller Fehler",
+          "Verbesserte Datengenauigkeit und -konsistenz",
+          "Skalierbare Prozesse für Unternehmenswachstum",
+          "Höhere Mitarbeiterproduktivität"
+        ],
+        "scope": [
+          "Analyse bestehender Prozesse und Systeme",
+          "Definition der zu automatisierenden Workflows",
+          "Implementierung der Automatisierungen mit n8n oder Zapier",
+          "Tests und Optimierung der Workflows",
+          "Dokumentation und Schulung"
+        ]
+      },
       "uxAuditAi": {
         "name": "UX-Audit mit KI",
         "shortDescription": "KI-unterstützte UX-Analyse mit umsetzbaren Empfehlungen",
