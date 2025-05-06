@@ -9,13 +9,43 @@ import {
 } from "@/components/ui/select";
 import { changeLanguage } from '../i18n';
 
+// Funkcja pomocnicza do uzyskiwania etykiety języka
+const getLanguageLabel = (code: string): string => {
+  switch (code) {
+    case 'pl':
+      return 'Polski';
+    case 'de':
+      return 'Deutsch';
+    default:
+      return 'Język';
+  }
+};
+
+// Funkcja pomocnicza do uzyskiwania flagi kraju
+const getCountryFlag = (code: string): string => {
+  switch (code) {
+    case 'pl':
+      return '🇵🇱';
+    case 'de':
+      return '🇩🇪';
+    default:
+      return '🌐';
+  }
+};
+
 export default function LanguageSwitcher() {
   const { i18n } = useTranslation();
   const [currentLanguage, setCurrentLanguage] = useState(i18n.language);
 
   // Aktualizacja stanu po zmianie języka
   useEffect(() => {
-    setCurrentLanguage(i18n.language);
+    // Czyszczenie kodu języka (np. z "de-DE" do "de")
+    const cleanLanguageCode = i18n.language.split('-')[0];
+    if (['pl', 'de'].includes(cleanLanguageCode)) {
+      setCurrentLanguage(cleanLanguageCode);
+    } else {
+      setCurrentLanguage(i18n.language);
+    }
   }, [i18n.language]);
 
   const handleLanguageChange = (language: string) => {
@@ -24,6 +54,9 @@ export default function LanguageSwitcher() {
     // Zmień język w i18next - ta funkcja również zapisuje w localStorage
     changeLanguage(language);
     setCurrentLanguage(language);
+    
+    // Opcjonalnie: przeładuj stronę, aby wszystkie komponenty zostały odpowiednio zaktualizowane
+    // window.location.reload();
     
     // Wyślij wiadomość do konsoli dla debugowania
     console.log("Zmieniono język na:", language);
@@ -34,7 +67,12 @@ export default function LanguageSwitcher() {
   return (
     <Select value={currentLanguage} onValueChange={handleLanguageChange}>
       <SelectTrigger className="w-[120px]">
-        <SelectValue placeholder="Język" />
+        <SelectValue>
+          <div className="flex items-center">
+            <span className="mr-2">{getCountryFlag(currentLanguage)}</span> 
+            {getLanguageLabel(currentLanguage)}
+          </div>
+        </SelectValue>
       </SelectTrigger>
       <SelectContent>
         <SelectItem value="pl">
