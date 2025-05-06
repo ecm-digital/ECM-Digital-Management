@@ -221,7 +221,7 @@ export default function ServiceDetailsPage() {
             <CardContent>
               <div className="flex items-baseline mb-6">
                 <span className="text-4xl font-bold text-blue-600">{service.basePrice}</span>
-                <span className="ml-1 text-gray-600">PLN</span>
+                <span className="ml-1 text-gray-600">{currentLanguage === 'de' ? '€' : 'PLN'}</span>
               </div>
               
               <div className="flex items-center gap-2 mb-4">

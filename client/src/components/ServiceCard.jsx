@@ -55,7 +55,7 @@ export default function ServiceCard({
       
       <CardFooter className="pt-0 flex justify-between items-center">
         <div className={`text-lg font-semibold ${colorClass}`}>
-          {service.basePrice} PLN
+          {service.basePrice} {currentLanguage === 'de' ? '€' : 'PLN'}
         </div>
         <Link href={`/service/${service.id}`}>
           <Button variant="outline" size="sm">

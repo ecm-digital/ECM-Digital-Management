@@ -227,6 +227,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
         
         console.log(`Service ${service.name} (key: ${serviceKey}) translation in ${lang}:`, 
           serviceTranslation ? "Found" : "Not found");
+        
+        // Przelicz cenę na euro dla niemieckiej wersji (kurs 4.3 PLN za 1 EUR)
+        const basePrice = lang === 'de' 
+          ? Math.round(service.basePrice / 4.3) 
+          : service.basePrice;
 
         return {
           id: service.serviceId,
@@ -234,7 +239,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           shortDescription: serviceTranslation?.shortDescription || service.shortDescription || '',
           description: serviceTranslation?.description || service.description,
           longDescription: serviceTranslation?.longDescription || service.longDescription || '',
-          basePrice: service.basePrice,
+          basePrice: basePrice,
           deliveryTime: service.deliveryTime,
           features: serviceTranslation?.features || service.features || [],
           benefits: serviceTranslation?.benefits || service.benefits || [],
@@ -362,6 +367,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
       console.log(`Service ${serviceFromDb.name} (key: ${serviceKey}) translation in ${lang}:`, 
         serviceTranslation ? "Found" : "Not found");
     
+      // Przelicz cenę na euro dla niemieckiej wersji (kurs 4.3 PLN za 1 EUR)
+      const basePrice = lang === 'de' 
+        ? Math.round(serviceFromDb.basePrice / 4.3) 
+        : serviceFromDb.basePrice;
+        
       // Transform database model to client model
       const service = {
         id: serviceFromDb.serviceId,
@@ -369,7 +379,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         shortDescription: serviceTranslation?.shortDescription || serviceFromDb.shortDescription || '',
         description: serviceTranslation?.description || serviceFromDb.description,
         longDescription: serviceTranslation?.longDescription || serviceFromDb.longDescription || '',
-        basePrice: serviceFromDb.basePrice,
+        basePrice: basePrice,
         deliveryTime: serviceFromDb.deliveryTime,
         features: serviceTranslation?.features || serviceFromDb.features || [],
         benefits: serviceTranslation?.benefits || serviceFromDb.benefits || [],
