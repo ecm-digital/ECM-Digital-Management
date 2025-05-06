@@ -891,6 +891,17 @@
       "summary": "Zusammenfassung"
     }
   },
+  "cta": {
+    "title": "Starten Sie Ihr Projekt noch heute",
+    "description": "Kontaktieren Sie uns, um Ihr Projekt zu besprechen und zu erfahren, wie wir Ihrem Unternehmen helfen können.",
+    "button": "Zusammenarbeit beginnen",
+    "benefitsTitle": "Warum ECM Digital?",
+    "benefits": {
+      "1": "Umfassender Ansatz für digitale Projekte",
+      "2": "Erfahrenes Team von Spezialisten",
+      "3": "Effektive, datengestützte Lösungen"
+    }
+  },
   "clientPanel": {
     "title": "Kundenbereich",
     "dashboard": "Dashboard",
