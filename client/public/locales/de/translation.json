@@ -819,7 +819,13 @@
     "addAttachment": "Fügen Sie Projekt-Materialien hinzu (max 5MB)",
     "callNow": "Jetzt anrufen",
     "viewOnMap": "Auf der Karte anzeigen",
-    "privacy": "Ich akzeptiere die Datenschutzrichtlinie und stimme der Verarbeitung meiner persönlichen Daten zum Zweck der Beantwortung meiner Anfrage zu."
+    "privacy": "Ich akzeptiere die Datenschutzrichtlinie und stimme der Verarbeitung meiner persönlichen Daten zum Zweck der Beantwortung meiner Anfrage zu.",
+    "sendMessage": "Nachricht senden",
+    "namePlaceholder": "Ihr Name",
+    "emailPlaceholder": "ihre.email@beispiel.de",
+    "servicePlaceholder": "Dienstleistung auswählen",
+    "messagePlaceholder": "Ihre Nachricht...",
+    "acceptTerms": "Ich akzeptiere die Datenschutzrichtlinie und stimme der Verarbeitung meiner persönlichen Daten zu."
   },
   "footer": {
     "services": "Dienstleistungen",

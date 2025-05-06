@@ -109,7 +109,13 @@
     "addAttachment": "Dodaj materiały do projektu (max 5MB)",
     "callNow": "Zadzwoń teraz",
     "viewOnMap": "Zobacz na mapie",
-    "privacy": "Akceptuję politykę prywatności oraz wyrażam zgodę na przetwarzanie moich danych osobowych w celu odpowiedzi na zapytanie."
+    "privacy": "Akceptuję politykę prywatności oraz wyrażam zgodę na przetwarzanie moich danych osobowych w celu odpowiedzi na zapytanie.",
+    "sendMessage": "Wyślij wiadomość",
+    "namePlaceholder": "Twoje imię i nazwisko",
+    "emailPlaceholder": "twoj.email@example.pl",
+    "servicePlaceholder": "Wybierz usługę",
+    "messagePlaceholder": "Twoja wiadomość...",
+    "acceptTerms": "Akceptuję politykę prywatności oraz wyrażam zgodę na przetwarzanie moich danych osobowych."
   },
   "footer": {
     "services": "Usługi",
