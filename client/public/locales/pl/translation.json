@@ -31,7 +31,33 @@
     "latestTechnologies": "Najnowsze technologie",
     "longExperienceDescription": "Ponad 10 lat doświadczenia w branży marketingowej i technologicznej. Zrealizowaliśmy setki projektów dla firm z różnych branż.",
     "individualApproachDescription": "Każdy projekt traktujemy indywidualnie, dostosowując nasze usługi do specyficznych potrzeb i celów Twojego biznesu.",
-    "latestTechnologiesDescription": "Wykorzystujemy najnowsze technologie i narzędzia, w tym zaawansowane rozwiązania AI, aby zapewnić najwyższą jakość usług."
+    "latestTechnologiesDescription": "Wykorzystujemy najnowsze technologie i narzędzia, w tym zaawansowane rozwiązania AI, aby zapewnić najwyższą jakość usług.",
+    "caseStudies": "Nasze realizacje",
+    "ourProjects": "Nasze projekty",
+    "caseStudiesDescription": "Zobacz, jak pomagamy naszym klientom rozwiązywać realne problemy biznesowe i osiągać wymierne rezultaty.",
+    "result": "Rezultat",
+    "conversion": "Konwersja",
+    "userEngagement": "Zaangażowanie użytkowników",
+    "readMore": "Czytaj więcej",
+    "allCaseStudies": "Wszystkie realizacje",
+    "caseStudyTypes": {
+      "ecommerce": "E-commerce",
+      "webapp": "Aplikacja webowa"
+    },
+    "getInTouch": "Skontaktuj się",
+    "contactDescription": "Masz pytania lub chcesz omówić projekt? Skontaktuj się z nami, a my szybko się z Tobą skontaktujemy.",
+    "caseStudiesItems": {
+      "example1": {
+        "title": "Optymalizacja e-commerce dla sklepu modowego",
+        "client": "Fashion Brand Polska",
+        "description": "Przeprojektowanie procesu zamówienia i stron produktowych w celu zwiększenia konwersji i poprawy doświadczenia klienta."
+      },
+      "example2": {
+        "title": "Platforma rekomendacji oparta na AI",
+        "client": "Tech Solutions Polska",
+        "description": "Opracowanie inteligentnej platformy rekomendacji, która analizuje preferencje klientów i dostarcza spersonalizowane sugestie produktów."
+      }
+    }
   },
   "services": {
     "title": "Nasze usługi",
@@ -106,16 +132,7 @@
     "submit": "Wyślij",
     "cancel": "Anuluj"
   },
-  "caseStudiesItems": {
-    "title": "Nasze realizacje",
-    "subtitle": "Zobacz, jak pomagamy naszym klientom osiągać realne rezultaty biznesowe",
-    "problem": "Problem",
-    "solution": "Rozwiązanie",
-    "result": "Efekt",
-    "learnMore": "Dowiedz się więcej",
-    "getFreeScorecoard": "Pobierz darmowy UX Scorecard",
-    "contactUs": "Skontaktuj się z nami"
-  },
+
   "common": {
     "error": "Błąd",
     "success": "Sukces"
