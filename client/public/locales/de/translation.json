@@ -45,7 +45,7 @@
       "ecommerce": "E-Commerce",
       "webapp": "Web-Anwendung"
     },
-    "caseStudies": {
+    "caseStudiesItems": {
       "example1": {
         "title": "E-Commerce-Optimierung für Online-Mode",
         "client": "Fashion Brand GmbH",

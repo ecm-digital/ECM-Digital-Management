@@ -339,10 +339,10 @@ export default function HomePage() {
                 </div>
               </div>
               <div className="p-6">
-                <h3 className="text-xl font-bold mb-2">{t('home.caseStudies.example1.title')}</h3>
-                <p className="text-gray-500 mb-4 text-sm">{t('home.caseStudies.example1.client')}</p>
+                <h3 className="text-xl font-bold mb-2">{t('home.caseStudiesItems.example1.title')}</h3>
+                <p className="text-gray-500 mb-4 text-sm">{t('home.caseStudiesItems.example1.client')}</p>
                 <p className="text-gray-700 mb-6">
-                  {t('home.caseStudies.example1.description')}
+                  {t('home.caseStudiesItems.example1.description')}
                 </p>
                 <div className="flex justify-between items-center">
                   <div>
@@ -366,10 +366,10 @@ export default function HomePage() {
                 </div>
               </div>
               <div className="p-6">
-                <h3 className="text-xl font-bold mb-2">{t('home.caseStudies.example2.title')}</h3>
-                <p className="text-gray-500 mb-4 text-sm">{t('home.caseStudies.example2.client')}</p>
+                <h3 className="text-xl font-bold mb-2">{t('home.caseStudiesItems.example2.title')}</h3>
+                <p className="text-gray-500 mb-4 text-sm">{t('home.caseStudiesItems.example2.client')}</p>
                 <p className="text-gray-700 mb-6">
-                  {t('home.caseStudies.example2.description')}
+                  {t('home.caseStudiesItems.example2.description')}
                 </p>
                 <div className="flex justify-between items-center">
                   <div>
