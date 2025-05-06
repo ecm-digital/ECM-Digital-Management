@@ -667,6 +667,87 @@
           "Überwachung und Optimierung"
         ]
       },
+      "ecommerceWebsite": {
+        "name": "E-Commerce-Website",
+        "shortDescription": "Professioneller Online-Shop mit optimierten Conversion-Raten",
+        "description": "Entwicklung einer benutzerfreundlichen E-Commerce-Website mit optimierter Conversion und nahtloser Kundenerfahrung.",
+        "longDescription": "Wir entwerfen und entwickeln maßgeschneiderte E-Commerce-Websites, die nicht nur optisch ansprechend sind, sondern auch strategisch auf Conversion-Optimierung ausgerichtet sind. Unsere E-Commerce-Lösungen bieten eine intuitive Benutzererfahrung, effiziente Checkout-Prozesse und sind vollständig responsive für alle Geräte. Mit leistungsstarken Analysewerkzeugen, integrierten Zahlungslösungen und optimierter Produktpräsentation schaffen wir Online-Shops, die Ihre Verkäufe steigern und das Kundenerlebnis verbessern.",
+        "features": [
+          "Benutzerfreundliches, responsives Design",
+          "Optimierte Produkt- und Kategorieseiten",
+          "Vereinfachter Checkout-Prozess",
+          "Integrierte Zahlungslösungen",
+          "Umfassende Analyse- und Tracking-Tools"
+        ],
+        "benefits": [
+          "Höhere Conversion-Raten",
+          "Verbesserte Kundenzufriedenheit",
+          "Reduzierte Warenkorbabbrüche",
+          "Steigerung des durchschnittlichen Bestellwerts",
+          "Einfache Content- und Produktverwaltung"
+        ],
+        "scope": [
+          "Marktanalyse und Wettbewerbsvergleich",
+          "UX/UI-Design und Prototyping",
+          "E-Commerce-Plattform-Entwicklung",
+          "Zahlungs- und Versandintegration",
+          "SEO-Optimierung und Analytics-Setup"
+        ]
+      },
+      "googleAdsCampaign": {
+        "name": "Google Ads Kampagne",
+        "shortDescription": "Zielgerichtete Werbekampagnen in der Google-Suche und im Display-Netzwerk",
+        "description": "Strategisch geplante und optimierte Google Ads Kampagnen, die qualifizierten Traffic generieren und Conversions steigern.",
+        "longDescription": "Unsere Google Ads Kampagnen werden strategisch geplant und kontinuierlich optimiert, um maximale Ergebnisse zu erzielen. Wir beginnen mit einer gründlichen Keyword-Recherche und Wettbewerbsanalyse, um die profitabelsten Suchbegriffe und Zielgruppen zu identifizieren. Anschließend erstellen wir überzeugende Anzeigentexte, optimieren Ihre Landing Pages und implementieren präzises Conversion-Tracking. Durch kontinuierliche Überwachung und Optimierung steigern wir die Effizienz Ihrer Kampagnen, senken die Kosten pro Klick und maximieren Ihren ROI.",
+        "features": [
+          "Umfassende Keyword-Recherche und -Analyse",
+          "Strategische Kampagnenstruktur",
+          "A/B-Testing von Anzeigentexten",
+          "Landing-Page-Optimierung",
+          "Präzises Conversion-Tracking"
+        ],
+        "benefits": [
+          "Sofortige Sichtbarkeit in Suchmaschinen",
+          "Gezielte Ansprache kaufbereiter Kunden",
+          "Höhere Conversion-Raten",
+          "Messbarer ROI und transparente Berichterstattung",
+          "Skalierbare Marketingstrategie"
+        ],
+        "scope": [
+          "Konkurrenzanalyse und Marktforschung",
+          "Kampagnenstrategie und -struktur",
+          "Anzeigenerstellung und Keyword-Auswahl",
+          "Conversion-Tracking-Implementierung",
+          "Kontinuierliche Optimierung und Berichterstattung"
+        ]
+      },
+      "aiChatbot": {
+        "name": "KI-Chatbot",
+        "shortDescription": "Intelligenter Kundenservice-Chatbot mit fortschrittlicher KI",
+        "description": "Entwicklung eines intelligenten KI-Chatbots, der Kundenanfragen automatisiert beantwortet und das Serviceerlebnis verbessert.",
+        "longDescription": "Unser KI-Chatbot-Service umfasst die Entwicklung und Implementierung eines fortschrittlichen, conversational AI-Systems, das Kundenanfragen rund um die Uhr automatisch und präzise beantwortet. Wir nutzen modernste Natural Language Processing (NLP) Technologien, um Chatbots zu entwickeln, die natürliche Gespräche führen, Kundenprobleme verstehen und personalisierte Lösungen bieten können. Der Chatbot wird auf Ihre spezifischen Geschäftsanforderungen trainiert und kann nahtlos in Ihre bestehende Website, App oder soziale Medien integriert werden. Mit kontinuierlichem Lernen und Optimierung verbessert sich der Chatbot stetig und bietet ein immer besseres Kundenerlebnis.",
+        "features": [
+          "Natürliche Sprachverarbeitung und -verständnis",
+          "Personalisierte Gesprächsführung",
+          "Mehrsprachige Unterstützung",
+          "Nahtlose Integration in bestehende Plattformen",
+          "Lernfähigkeit und kontinuierliche Verbesserung"
+        ],
+        "benefits": [
+          "24/7 Kundensupport ohne zusätzliche Personalkosten",
+          "Schnellere Reaktionszeiten bei Kundenanfragen",
+          "Höhere Kundenzufriedenheit",
+          "Entlastung des Servicepersonals",
+          "Wertvolle Einblicke in Kundenbedürfnisse"
+        ],
+        "scope": [
+          "Bedarfsanalyse und Definition von Anwendungsfällen",
+          "Entwicklung und Training des KI-Modells",
+          "Frontend-Design und UX-Optimierung",
+          "Integration in bestehende Systeme",
+          "Training, Testen und kontinuierliche Verbesserung"
+        ]
+      },
       "startupMvp": {
         "name": "Startup MVP",
         "shortDescription": "Schnelle Entwicklung eines Minimum Viable Product für Startups",
