@@ -411,7 +411,7 @@ export default function HomePage() {
                     </div>
                     <div>
                       <h3 className="font-medium text-lg mb-1">{t('contact.phone')}</h3>
-                      <p className="text-gray-600">+48 535 330 323</p>
+                      <p className="text-gray-600">{t('footer.phoneValue')}</p>
                     </div>
                   </div>
                   
