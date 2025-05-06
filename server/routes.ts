@@ -27,7 +27,20 @@ const serviceTranslations: Record<string, string> = {
   "Integracja AI": "KI-Integration",
   "Strategia marketingowa": "Marketingstrategie",
   "Automatyzacja Procesów Biznesowych": "Automatisierung von Geschäftsprozessen",
-  "Mentoring & Konsultacje": "Mentoring & Beratung"
+  "Mentoring & Konsultacje": "Mentoring & Beratung",
+  "Strona E-commerce": "E-Commerce-Website",
+  "Strony w Wix Studio i Webflow": "Wix Studio & Webflow Websites",
+  "E-commerce z AI": "E-Commerce mit KI",
+  "Kampania Google Ads": "Google Ads Kampagne",
+  "MVP z AI": "MVP mit KI",
+  "Performance & SEO": "Performance & SEO",
+  "Facebook & Instagram Ads": "Facebook & Instagram Ads",
+  "Strategie contentowe": "Content-Strategien",
+  "Sklepy pod kampanie": "Kampagnen-Shops",
+  "Automatyzacje (n8n, Zapier)": "Automatisierungen (n8n, Zapier)",
+  "Custom AI Tools": "Individuelle KI-Tools",
+  "Product Discovery Workshop": "Product Discovery Workshop",
+  "UX Scorecard": "UX Scorecard"
 };
 
 // Tłumaczenia kategorii
