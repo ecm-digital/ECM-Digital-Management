@@ -828,11 +828,23 @@
     "copyright": "© 2025 ECM Digital. Alle Rechte vorbehalten.",
     "privacyPolicy": "Datenschutzrichtlinie",
     "terms": "Nutzungsbedingungen",
+    "cookies": "Cookies",
     "companyDescription": "Umfassende digitale Lösungen für Unternehmen. Wir bieten Marketing- und Technologiedienstleistungen auf höchstem Niveau.",
     "phone": "Telefon",
     "phoneValue": "+49 309 1234567",
     "address": "Adresse",
-    "addressValue": "Frankfurt am Main, Deutschland"
+    "addressValue": "Frankfurt am Main, Deutschland",
+    "serviceCategories": {
+      "uxui": "UX/UI Design",
+      "webDevelopment": "Webentwicklung",
+      "marketing": "Marketing",
+      "aiAutomation": "KI & Automatisierung"
+    },
+    "companyLinks": {
+      "team": "Team",
+      "career": "Karriere",
+      "blog": "Blog"
+    }
   },
   "buttons": {
     "readMore": "Weiterlesen",

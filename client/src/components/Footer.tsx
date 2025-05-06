@@ -29,10 +29,10 @@ export default function Footer() {
             <h4 className="text-lg font-semibold mb-5">{t('footer.services')}</h4>
             <ul className="space-y-3 text-gray-600">
               <li><Link href="/services"><span className="hover:text-primary transition-colors cursor-pointer">{t('services.viewAllServices')}</span></Link></li>
-              <li><Link href="/services"><span className="hover:text-primary transition-colors cursor-pointer">UX/UI Design</span></Link></li>
-              <li><Link href="/services"><span className="hover:text-primary transition-colors cursor-pointer">Web Development</span></Link></li>
-              <li><Link href="/services"><span className="hover:text-primary transition-colors cursor-pointer">Marketing</span></Link></li>
-              <li><Link href="/services"><span className="hover:text-primary transition-colors cursor-pointer">AI & Automatyzacja</span></Link></li>
+              <li><Link href="/services"><span className="hover:text-primary transition-colors cursor-pointer">{t('footer.serviceCategories.uxui')}</span></Link></li>
+              <li><Link href="/services"><span className="hover:text-primary transition-colors cursor-pointer">{t('footer.serviceCategories.webDevelopment')}</span></Link></li>
+              <li><Link href="/services"><span className="hover:text-primary transition-colors cursor-pointer">{t('footer.serviceCategories.marketing')}</span></Link></li>
+              <li><Link href="/services"><span className="hover:text-primary transition-colors cursor-pointer">{t('footer.serviceCategories.aiAutomation')}</span></Link></li>
             </ul>
           </div>
           
@@ -40,10 +40,10 @@ export default function Footer() {
             <h4 className="text-lg font-semibold mb-5">{t('footer.company')}</h4>
             <ul className="space-y-3 text-gray-600">
               <li><a href="#" className="hover:text-primary transition-colors">{t('navigation.about')}</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">Team</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">Karriere</a></li>
+              <li><a href="#" className="hover:text-primary transition-colors">{t('footer.companyLinks.team')}</a></li>
+              <li><a href="#" className="hover:text-primary transition-colors">{t('footer.companyLinks.career')}</a></li>
               <li><a href="#" className="hover:text-primary transition-colors">{t('navigation.contact')}</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">Blog</a></li>
+              <li><a href="#" className="hover:text-primary transition-colors">{t('footer.companyLinks.blog')}</a></li>
             </ul>
           </div>
           
@@ -100,7 +100,7 @@ export default function Footer() {
               {t('footer.terms')}
             </a>
             <a href="#" className="text-gray-500 hover:text-primary transition-colors">
-              Cookies
+              {t('footer.cookies')}
             </a>
           </div>
         </div>

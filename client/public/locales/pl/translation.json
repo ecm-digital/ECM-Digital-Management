@@ -118,11 +118,23 @@
     "copyright": "© 2025 ECM Digital. Wszelkie prawa zastrzeżone.",
     "privacyPolicy": "Polityka prywatności",
     "terms": "Warunki korzystania",
+    "cookies": "Pliki cookie",
     "companyDescription": "Kompleksowe rozwiązania cyfrowe dla biznesu. Świadczymy usługi marketingowe i technologiczne najwyższej jakości.",
     "phone": "Telefon",
     "phoneValue": "+48 535 330 323",
     "address": "Adres",
-    "addressValue": "Warszawa, Polska"
+    "addressValue": "Warszawa, Polska",
+    "serviceCategories": {
+      "uxui": "UX/UI Design",
+      "webDevelopment": "Web Development",
+      "marketing": "Marketing",
+      "aiAutomation": "AI & Automatyzacja"
+    },
+    "companyLinks": {
+      "team": "Zespół",
+      "career": "Kariera",
+      "blog": "Blog"
+    }
   },
   "buttons": {
     "readMore": "Czytaj więcej",
