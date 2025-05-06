@@ -386,13 +386,7 @@ export default function HomePage() {
             </div>
           </div>
           
-          <div className="text-center mt-12">
-            <Link href="/case-studies">
-              <Button className="rounded-full bg-indigo-50 text-indigo-700 hover:bg-indigo-100 py-2 px-8">
-                {t('home.allCaseStudies')} <ArrowRight className="ml-2 h-5 w-5" />
-              </Button>
-            </Link>
-          </div>
+
         </div>
       </section>
 
