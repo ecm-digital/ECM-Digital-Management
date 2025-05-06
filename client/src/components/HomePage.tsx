@@ -437,7 +437,7 @@ export default function HomePage() {
                     </div>
                     <div>
                       <h3 className="font-medium text-lg mb-1">{t('contact.address')}</h3>
-                      <p className="text-gray-600">Wrocław, Polska</p>
+                      <p className="text-gray-600">{t('footer.addressValue')}</p>
                     </div>
                   </div>
                 </div>
