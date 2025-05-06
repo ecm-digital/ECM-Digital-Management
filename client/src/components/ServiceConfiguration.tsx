@@ -47,12 +47,12 @@ export default function ServiceConfiguration({
             
             // Apply initial price from default selection
             if (option.choices[0].priceAdjustment) {
-              setPrice(prev => prev + option.choices[0].priceAdjustment!);
+              setPrice(prev => prev + (option.choices[0].priceAdjustment || 0));
             }
             
             // Apply initial delivery time from default selection
             if (option.choices[0].deliveryTimeAdjustment) {
-              setDeliveryTime(prev => prev + option.choices[0].deliveryTimeAdjustment!);
+              setDeliveryTime(prev => prev + (option.choices[0].deliveryTimeAdjustment || 0));
             }
           } else if (option.type === 'checkbox') {
             defaultConfig[option.id] = false;

@@ -1,7 +1,16 @@
 import { Service } from '@/types';
+import i18next from 'i18next';
 
 // URL bazy aplikacji ServiceCatalog - możesz zmienić to na właściwy URL
 let SERVICECATALOG_BASE_URL = 'https://servicecatalog.replit.app';
+
+// Kurs wymiany: 4.3 PLN = 1 EUR
+const PLN_TO_EUR_RATE = 4.3;
+
+// Funkcja do konwersji cen z PLN na EUR
+export function convertToEuro(priceInPLN: number): number {
+  return +(priceInPLN / PLN_TO_EUR_RATE).toFixed(2);
+}
 
 // Funkcja do zmiany URL bazowego - używana w trybie deweloperskim
 export function setServiceCatalogBaseUrl(url: string): void {
@@ -104,14 +113,21 @@ function mapCatalogDataToServices(catalogData: any): Service[] {
   return catalogData.map(item => {
     // Założenie: ServiceCatalog ma podobną strukturę, ale może mieć inne nazwy pól
     // Dlatego mapujemy do naszego formatu
+    const basePrice = item.basePrice || item.base_price || 0;
+    
+    // Konwersja ceny na euro dla niemieckiej wersji
+    const priceToUse = i18next.language === 'de' 
+      ? convertToEuro(basePrice)
+      : basePrice;
+    
     return {
       id: item.id ? item.id.toString() : 'unknown-id',
       name: item.name || 'Nieznana usługa',
       description: item.description || '',
-      basePrice: item.basePrice || item.base_price || 0,
+      basePrice: priceToUse,
       deliveryTime: item.deliveryTime || item.delivery_time || 14,
       features: item.features || [],
-      steps: transformConfigSteps(item.configuration || item.steps || []),
+      steps: transformConfigSteps(item.configuration || item.steps || [], i18next.language === 'de'),
       categories: item.categories || [],
     };
   });
@@ -119,8 +135,10 @@ function mapCatalogDataToServices(catalogData: any): Service[] {
 
 /**
  * Transformuje kroki konfiguracji z formatu ServiceCatalog do formatu używanego w tej aplikacji
+ * @param configData Dane konfiguracji z ServiceCatalog
+ * @param convertPrices Czy konwertować ceny na EUR
  */
-function transformConfigSteps(configData: any[]): any[] {
+function transformConfigSteps(configData: any[], convertPrices: boolean = false): any[] {
   // Ta funkcja może wymagać dostosowania w zależności od rzeczywistego formatu danych w ServiceCatalog
   // Poniżej jest przykładowa implementacja
   return configData.map((step, index) => {
@@ -129,14 +147,36 @@ function transformConfigSteps(configData: any[]): any[] {
       title: step.title || `Krok ${index + 1}`,
       layout: step.layout || 'default',
       options: (step.options || []).map((option: any, optIndex: number) => {
+        const priceAdjustment = option.priceAdjustment || option.price_adjustment || 0;
+        
+        // Konwertuj cenę na EUR jeśli potrzeba
+        const adjustedPrice = convertPrices 
+          ? convertToEuro(priceAdjustment)
+          : priceAdjustment;
+          
+        // Transformacja wyborów opcji (np. dla elementów select)
+        let transformedChoices = option.choices || [];
+        
+        if (convertPrices && Array.isArray(transformedChoices) && transformedChoices.length > 0) {
+          transformedChoices = transformedChoices.map((choice: any) => {
+            if (choice.priceAdjustment) {
+              return {
+                ...choice,
+                priceAdjustment: convertToEuro(choice.priceAdjustment)
+              };
+            }
+            return choice;
+          });
+        }
+          
         return {
           id: option.id || `option-${optIndex}`,
           type: option.type || 'select',
           label: option.label || `Opcja ${optIndex + 1}`,
           description: option.description || '',
-          priceAdjustment: option.priceAdjustment || option.price_adjustment || 0,
+          priceAdjustment: adjustedPrice,
           deliveryTimeAdjustment: option.deliveryTimeAdjustment || option.delivery_time_adjustment || 0,
-          choices: option.choices || []
+          choices: transformedChoices
         };
       })
     };
