@@ -39,7 +39,7 @@ export default function Footer() {
           <div>
             <h4 className="text-lg font-semibold mb-5">{t('footer.company')}</h4>
             <ul className="space-y-3 text-gray-600">
-              <li><a href="#" className="hover:text-primary transition-colors">{t('navigation.about')}</a></li>
+              <li><Link href="/about"><span className="hover:text-primary transition-colors cursor-pointer">{t('navigation.about')}</span></Link></li>
               <li><a href="#" className="hover:text-primary transition-colors">{t('footer.companyLinks.team')}</a></li>
               <li><a href="#" className="hover:text-primary transition-colors">{t('footer.companyLinks.career')}</a></li>
               <li><a href="#" className="hover:text-primary transition-colors">{t('navigation.contact')}</a></li>
