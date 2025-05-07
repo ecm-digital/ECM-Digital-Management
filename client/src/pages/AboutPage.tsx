@@ -5,14 +5,26 @@ import {
   LinkedinIcon, 
   GithubIcon, 
   Globe, 
-  Mail
+  Mail,
+  ArrowRight,
+  CheckCircle
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Layout from '@/components/Layout';
+import { motion } from 'framer-motion';
 
 const AboutPage: React.FC = () => {
   const { t, i18n } = useTranslation();
   const currentLanguage = i18n.language;
+  
+  const fadeIn = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: { duration: 0.6 }
+    }
+  };
   
   const teamMembers = [
     {
@@ -50,156 +62,293 @@ const AboutPage: React.FC = () => {
     }
   ];
 
+  const companyStats = [
+    {
+      number: "10+",
+      label: currentLanguage === 'de' ? "Jahre Erfahrung" : "Lat doświadczenia"
+    },
+    {
+      number: "120+",
+      label: currentLanguage === 'de' ? "Abgeschlossene Projekte" : "Ukończonych projektów"
+    },
+    {
+      number: "96%",
+      label: currentLanguage === 'de' ? "Kundenzufriedenheit" : "Zadowolonych klientów"
+    },
+    {
+      number: "3",
+      label: currentLanguage === 'de' ? "Spezialisierte Experten" : "Wyspecjalizowanych ekspertów"
+    }
+  ];
+
+  const achievements = [
+    {
+      icon: "🏆",
+      title: currentLanguage === 'de' ? "Top 10 E-Commerce Anbieter 2023" : "Top 10 Dostawców E-Commerce 2023",
+      description: currentLanguage === 'de' 
+        ? "Ausgezeichnet als einer der führenden E-Commerce-Dienstleister in Polen." 
+        : "Wyróżnienie jako jeden z wiodących dostawców usług e-commerce w Polsce."
+    },
+    {
+      icon: "🚀",
+      title: currentLanguage === 'de' ? "50+ Startups unterstützt" : "Wsparcie dla 50+ startupów",
+      description: currentLanguage === 'de' 
+        ? "Wir haben über 50 Startups bei ihrem Wachstum und ihrer digitalen Präsenz unterstützt." 
+        : "Pomogliśmy ponad 50 startupom w ich rozwoju i obecności cyfrowej."
+    },
+    {
+      icon: "💡",
+      title: currentLanguage === 'de' ? "15+ Branchen bedient" : "Obsługa 15+ branż",
+      description: currentLanguage === 'de' 
+        ? "Erfahrung in verschiedenen Branchen, von E-Commerce bis zu Finanzdienstleistungen." 
+        : "Doświadczenie w różnych branżach, od e-commerce po usługi finansowe."
+    }
+  ];
+
+  const values = [
+    {
+      title: currentLanguage === 'de' ? "Innovation" : "Innowacyjność",
+      description: currentLanguage === 'de' 
+        ? "Wir erforschen ständig neue Technologien und Ansätze, um die wirksamsten digitalen Lösungen zu entwickeln." 
+        : "Nieustannie eksplorujemy nowe technologie i podejścia, aby tworzyć najbardziej efektywne rozwiązania cyfrowe."
+    },
+    {
+      title: currentLanguage === 'de' ? "Qualität" : "Jakość",
+      description: currentLanguage === 'de' 
+        ? "Bei allem, was wir tun, setzen wir auf höchste Qualität und die Einhaltung bewährter Branchenstandards." 
+        : "We wszystkim, co robimy, stawiamy na najwyższą jakość i przestrzeganie sprawdzonych standardów branżowych."
+    },
+    {
+      title: currentLanguage === 'de' ? "Zusammenarbeit" : "Współpraca",
+      description: currentLanguage === 'de' 
+        ? "Wir glauben an die Kraft der Zusammenarbeit und arbeiten eng mit unseren Kunden zusammen, um echten Mehrwert zu schaffen." 
+        : "Wierzymy w siłę współpracy i blisko współpracujemy z naszymi klientami, aby tworzyć prawdziwą wartość."
+    },
+    {
+      title: currentLanguage === 'de' ? "Transparenz" : "Transparentność",
+      description: currentLanguage === 'de' 
+        ? "Wir stehen für offene Kommunikation und halten unsere Kunden während des gesamten Projekts auf dem Laufenden." 
+        : "Stawiamy na otwartą komunikację i informujemy naszych klientów na bieżąco przez cały czas trwania projektu."
+    }
+  ];
+
   return (
     <Layout>
-      <div className="bg-background">
-      <section className="py-24 bg-gradient-to-br from-primary/5 to-secondary/5">
-        <div className="container-tight">
-          <div className="max-w-3xl mx-auto text-center">
-            <Badge className="bg-primary/10 text-primary mb-4 py-1 px-3 rounded-full">
-              {currentLanguage === 'de' ? 'Über uns' : 'O nas'}
-            </Badge>
-            <h1 className="text-4xl md:text-5xl font-bold mb-6 tracking-tight">
-              {currentLanguage === 'de' ? 'Wir sind ECM Digital' : 'Jesteśmy ECM Digital'}
-            </h1>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              {currentLanguage === 'de' 
-                ? 'Eine Agentur, die darauf spezialisiert ist, effektive und innovative digitale Lösungen für Unternehmen jeder Größe zu entwickeln.' 
-                : 'Agencja specjalizująca się w tworzeniu skutecznych i innowacyjnych rozwiązań cyfrowych dla firm każdej wielkości.'}
-            </p>
+      {/* Hero section */}
+      <section className="py-20 md:py-32 bg-gradient-to-b from-white to-gray-50">
+        <div className="container max-w-7xl mx-auto px-4">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <motion.div 
+              className="max-w-2xl" 
+              initial="hidden"
+              animate="visible"
+              variants={fadeIn}
+            >
+              <Badge className="bg-primary/10 text-primary mb-6 py-1.5 px-4 rounded-full text-sm font-medium">
+                {currentLanguage === 'de' ? 'Über uns' : 'O nas'}
+              </Badge>
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 tracking-tight leading-tight">
+                {currentLanguage === 'de' 
+                  ? 'Wir erschaffen digitale Lösungen, die Ergebnisse liefern' 
+                  : 'Tworzymy cyfrowe rozwiązania, które przynoszą rezultaty'}
+              </h1>
+              <p className="text-xl text-gray-600 mb-8 leading-relaxed">
+                {currentLanguage === 'de' 
+                  ? 'ECM Digital ist eine Agentur, die sich auf die Entwicklung effektiver und innovativer digitaler Lösungen für Unternehmen jeder Größe spezialisiert hat. Mit einem Fokus auf UX Design, Web-Entwicklung und KI-Integration helfen wir Ihnen, Ihre digitalen Ziele zu erreichen.' 
+                  : 'ECM Digital to agencja specjalizująca się w tworzeniu skutecznych i innowacyjnych rozwiązań cyfrowych dla firm każdej wielkości. Skupiając się na projektowaniu UX, tworzeniu stron internetowych i integracji AI, pomagamy osiągać cyfrowe cele.'}
+              </p>
+              <div className="flex flex-wrap gap-4">
+                <Button className="rounded-full bg-primary hover:bg-primary/90 text-white py-2 px-8 flex items-center gap-2 group">
+                  {currentLanguage === 'de' ? 'Unsere Dienste erkunden' : 'Poznaj nasze usługi'}
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </Button>
+                <Button variant="outline" className="rounded-full py-2 px-8">
+                  {currentLanguage === 'de' ? 'Kontakt aufnehmen' : 'Skontaktuj się'}
+                </Button>
+              </div>
+            </motion.div>
+            <motion.div 
+              className="relative hidden lg:block aspect-square"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.8 }}
+            >
+              <div className="absolute inset-0 bg-gradient-to-br from-blue-600/20 to-purple-600/20 rounded-3xl transform rotate-6"></div>
+              <div className="absolute inset-0 bg-white rounded-3xl shadow-xl overflow-hidden">
+                <img 
+                  src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2340&q=80" 
+                  alt="ECM Digital Team"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* Stats section */}
+      <section className="py-16 bg-white">
+        <div className="container max-w-7xl mx-auto px-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            {companyStats.map((stat, index) => (
+              <motion.div 
+                key={index}
+                className="text-center"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1, duration: 0.5 }}
+              >
+                <p className="text-4xl md:text-5xl font-bold text-primary mb-2">{stat.number}</p>
+                <p className="text-gray-600">{stat.label}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Our Story section */}
+      <section className="py-24 bg-gray-50">
+        <div className="container max-w-7xl mx-auto px-4">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <div>
+              <Badge className="bg-secondary/10 text-secondary mb-6 py-1.5 px-4 rounded-full text-sm font-medium">
+                {currentLanguage === 'de' ? 'Unsere Geschichte' : 'Nasza historia'}
+              </Badge>
+              <h2 className="text-3xl md:text-4xl font-bold mb-6 tracking-tight">
+                {currentLanguage === 'de' ? 'Von der Vision zur digitalen Exzellenz' : 'Od wizji do cyfrowej doskonałości'}
+              </h2>
+              <div className="space-y-6 text-gray-600">
+                <p>
+                  {currentLanguage === 'de' 
+                    ? 'ECM Digital wurde 2017 mit der Vision gegründet, die Lücke zwischen Design und Technologie zu schließen. Wir begannen als kleine Gruppe leidenschaftlicher Fachleute mit dem Ziel, digitale Produkte zu entwickeln, die nicht nur gut aussehen, sondern auch geschäftliche Herausforderungen lösen.' 
+                    : 'ECM Digital zostało założone w 2017 roku z wizją wypełnienia luki między designem a technologią. Zaczynaliśmy jako mała grupa pasjonatów z celem tworzenia cyfrowych produktów, które nie tylko dobrze wyglądają, ale przede wszystkim rozwiązują wyzwania biznesowe.'}
+                </p>
+                <p>
+                  {currentLanguage === 'de' 
+                    ? 'Im Laufe der Jahre haben wir unser Team erweitert und unser Angebot diversifiziert, um den sich wandelnden Bedürfnissen des digitalen Marktes gerecht zu werden. Heute sind wir stolz darauf, eine Vielzahl von Dienstleistungen anzubieten, von UX/UI-Design über Webentwicklung bis hin zu KI-Integration und Marketing.' 
+                    : 'Na przestrzeni lat rozszerzyliśmy nasz zespół i zdywersyfikowaliśmy ofertę, aby sprostać zmieniającym się potrzebom cyfrowego rynku. Dziś z dumą oferujemy szeroki zakres usług, od projektowania UX/UI, przez tworzenie stron internetowych, po integrację AI i marketing.'}
+                </p>
+                <p>
+                  {currentLanguage === 'de' 
+                    ? 'Unser Engagement für Qualität und Kundenzufriedenheit hat uns zu einem vertrauenswürdigen Partner für Unternehmen gemacht, die ihre digitale Präsenz stärken und ihre Geschäftsziele erreichen wollen.' 
+                    : 'Nasze zaangażowanie w jakość i zadowolenie klientów uczyniło nas zaufanym partnerem dla firm, które chcą wzmocnić swoją obecność cyfrową i osiągnąć swoje cele biznesowe.'}
+                </p>
+              </div>
+            </div>
+            <div className="grid grid-cols-2 gap-6">
+              {achievements.map((achievement, index) => (
+                <div key={index} className="bg-white p-8 rounded-xl shadow-sm">
+                  <div className="text-4xl mb-4">{achievement.icon}</div>
+                  <h3 className="text-xl font-semibold mb-3">{achievement.title}</h3>
+                  <p className="text-gray-600">{achievement.description}</p>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
       {/* Mission & Vision section */}
       <section className="py-24 bg-white">
-        <div className="container-tight">
+        <div className="container max-w-7xl mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
-            <div className="card-modern p-8 md:p-10">
-              <h2 className="text-2xl md:text-3xl font-bold mb-6">
+            <div className="bg-gray-50 rounded-2xl p-10">
+              <h2 className="text-2xl md:text-3xl font-bold mb-6 text-primary">
                 {currentLanguage === 'de' ? 'Unsere Mission' : 'Nasza misja'}
               </h2>
-              <p className="text-gray-600 mb-6">
+              <p className="text-gray-600 mb-6 text-lg">
                 {currentLanguage === 'de' 
                   ? 'Wir bei ECM Digital haben es uns zur Aufgabe gemacht, Unternehmen durch effektive digitale Lösungen zum Erfolg zu verhelfen. Wir glauben, dass gut gestaltete digitale Erlebnisse, die auf soliden UX-Prinzipien und Datenanalysen basieren, messbare Ergebnisse für Unternehmen jeder Größe liefern können.' 
                   : 'W ECM Digital naszą misją jest pomaganie firmom w osiągnięciu sukcesu poprzez efektywne rozwiązania cyfrowe. Wierzymy, że dobrze zaprojektowane doświadczenia cyfrowe, oparte na solidnych zasadach UX i analizie danych, mogą przynieść wymierne rezultaty dla firm każdej wielkości.'}
               </p>
-              <p className="text-gray-600">
-                {currentLanguage === 'de' 
-                  ? 'Wir konzentrieren uns darauf, digitale Produkte und Dienstleistungen zu entwickeln, die nicht nur ästhetisch ansprechend sind, sondern auch geschäftliche Herausforderungen lösen und einen echten Mehrwert für Kunden und Endbenutzer schaffen.' 
-                  : 'Skupiamy się na tworzeniu produktów i usług cyfrowych, które są nie tylko estetycznie atrakcyjne, ale przede wszystkim rozwiązują wyzwania biznesowe i dostarczają realną wartość klientom i użytkownikom końcowym.'}
-              </p>
+              <div className="space-y-4">
+                {[
+                  currentLanguage === 'de' ? 'Nutzerorientierte Lösungen schaffen' : 'Tworzenie rozwiązań zorientowanych na użytkownika',
+                  currentLanguage === 'de' ? 'Innovation und Kreativität fördern' : 'Wspieranie innowacji i kreatywności',
+                  currentLanguage === 'de' ? 'Datengestützte Entscheidungen treffen' : 'Podejmowanie decyzji w oparciu o dane'
+                ].map((item, index) => (
+                  <div key={index} className="flex items-start gap-3">
+                    <CheckCircle className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
+                    <p className="text-gray-700">{item}</p>
+                  </div>
+                ))}
+              </div>
             </div>
             
-            <div className="card-modern p-8 md:p-10">
-              <h2 className="text-2xl md:text-3xl font-bold mb-6">
+            <div className="bg-gray-50 rounded-2xl p-10">
+              <h2 className="text-2xl md:text-3xl font-bold mb-6 text-secondary">
                 {currentLanguage === 'de' ? 'Unsere Vision' : 'Nasza wizja'}
               </h2>
-              <p className="text-gray-600 mb-6">
+              <p className="text-gray-600 mb-6 text-lg">
                 {currentLanguage === 'de' 
                   ? 'Unsere Vision ist es, ein führender Innovator im Bereich digitaler Lösungen zu sein, der die neuesten Technologien wie KI, Machine Learning und Datenanalyse nutzt, um Unternehmen zu transformieren und in der digitalen Landschaft voranzubringen.' 
                   : 'Naszą wizją jest bycie wiodącym innowatorem w obszarze rozwiązań cyfrowych, wykorzystującym najnowsze technologie, takie jak AI, machine learning i analiza danych, aby transformować firmy i prowadzić je do przodu w cyfrowym krajobrazie.'}
               </p>
-              <p className="text-gray-600">
-                {currentLanguage === 'de' 
-                  ? 'Wir streben danach, die Lücke zwischen Design und Technologie zu schließen, indem wir kreative Lösungen entwickeln, die sowohl menschenzentriert als auch technologisch fortschrittlich sind. Wir möchten unseren Kunden helfen, in der sich schnell verändernden digitalen Welt nicht nur zu überleben, sondern zu gedeihen.' 
-                  : 'Dążymy do wypełnienia luki między designem a technologią, tworząc kreatywne rozwiązania, które są zarówno zorientowane na człowieka, jak i zaawansowane technologicznie. Chcemy pomagać naszym klientom nie tylko przetrwać, ale prosperować w szybko zmieniającym się świecie cyfrowym.'}
-              </p>
+              <div className="space-y-4">
+                {[
+                  currentLanguage === 'de' ? 'Technologische Grenzen verschieben' : 'Przesuwanie granic technologicznych',
+                  currentLanguage === 'de' ? 'Branchenübergreifende Zusammenarbeit fördern' : 'Wspieranie współpracy międzybranżowej',
+                  currentLanguage === 'de' ? 'Nachhaltige digitale Lösungen entwickeln' : 'Rozwijanie zrównoważonych rozwiązań cyfrowych'
+                ].map((item, index) => (
+                  <div key={index} className="flex items-start gap-3">
+                    <CheckCircle className="w-5 h-5 text-secondary mt-0.5 flex-shrink-0" />
+                    <p className="text-gray-700">{item}</p>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
       </section>
 
       {/* Values section */}
-      <section className="py-24 bg-background">
-        <div className="container-tight">
+      <section className="py-24 bg-gray-50">
+        <div className="container max-w-7xl mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center mb-16">
-            <Badge className="bg-secondary/10 text-secondary mb-4 py-1 px-3 rounded-full">
+            <Badge className="bg-secondary/10 text-secondary mb-4 py-1.5 px-4 rounded-full text-sm font-medium">
               {currentLanguage === 'de' ? 'Unsere Werte' : 'Nasze wartości'}
             </Badge>
             <h2 className="text-3xl md:text-4xl font-bold mb-6 tracking-tight">
               {currentLanguage === 'de' ? 'Was leitet uns' : 'Co nas prowadzi'}
             </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            <p className="text-xl text-gray-600">
               {currentLanguage === 'de' 
                 ? 'Diese Grundprinzipien definieren, wie wir arbeiten und mit unseren Kunden umgehen.' 
                 : 'Te podstawowe zasady definiują, jak pracujemy i jak współpracujemy z naszymi klientami.'}
             </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="card-modern p-8">
-              <div className="w-14 h-14 bg-blue-100 rounded-xl flex items-center justify-center mb-6">
-                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-blue-600">
-                  <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
-                  <line x1="12" y1="9" x2="12" y2="13"></line>
-                  <line x1="12" y1="17" x2="12.01" y2="17"></line>
-                </svg>
-              </div>
-              <h3 className="text-xl font-semibold mb-3">
-                {currentLanguage === 'de' ? 'Innovation' : 'Innowacyjność'}
-              </h3>
-              <p className="text-gray-600">
-                {currentLanguage === 'de' 
-                  ? 'Wir erforschen ständig neue Ideen und Technologien, um die effektivsten Lösungen zu entwickeln. Wir glauben, dass Innovation der Schlüssel ist, um in der digitalen Welt relevant zu bleiben.' 
-                  : 'Nieustannie eksplorujemy nowe pomysły i technologie, aby tworzyć najbardziej efektywne rozwiązania. Wierzymy, że innowacja jest kluczem do pozostania istotnym w cyfrowym świecie.'}
-              </p>
-            </div>
-            
-            <div className="card-modern p-8">
-              <div className="w-14 h-14 bg-purple-100 rounded-xl flex items-center justify-center mb-6">
-                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-purple-600">
-                  <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
-                  <polyline points="7.5 4.21 12 6.81 16.5 4.21"></polyline>
-                  <polyline points="7.5 19.79 7.5 14.6 3 12"></polyline>
-                  <polyline points="21 12 16.5 14.6 16.5 19.79"></polyline>
-                  <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
-                  <line x1="12" y1="22.08" x2="12" y2="12"></line>
-                </svg>
-              </div>
-              <h3 className="text-xl font-semibold mb-3">
-                {currentLanguage === 'de' ? 'Qualität' : 'Jakość'}
-              </h3>
-              <p className="text-gray-600">
-                {currentLanguage === 'de' 
-                  ? 'Wir setzen auf höchste Qualität in allem, was wir tun. Von der ersten Beratung bis zur endgültigen Lieferung sind wir bestrebt, Exzellenz zu gewährleisten und die Erwartungen unserer Kunden zu übertreffen.' 
-                  : 'Stawiamy na najwyższą jakość we wszystkim, co robimy. Od pierwszej konsultacji po ostateczne wdrożenie, dążymy do doskonałości i przekraczania oczekiwań naszych klientów.'}
-              </p>
-            </div>
-            
-            <div className="card-modern p-8">
-              <div className="w-14 h-14 bg-green-100 rounded-xl flex items-center justify-center mb-6">
-                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-green-600">
-                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                  <circle cx="9" cy="7" r="4"></circle>
-                  <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-                  <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-                </svg>
-              </div>
-              <h3 className="text-xl font-semibold mb-3">
-                {currentLanguage === 'de' ? 'Zusammenarbeit' : 'Współpraca'}
-              </h3>
-              <p className="text-gray-600">
-                {currentLanguage === 'de' 
-                  ? 'Wir glauben an die Kraft der Zusammenarbeit und des Teamworks. Wir arbeiten eng mit unseren Kunden zusammen, um sicherzustellen, dass wir ihre Bedürfnisse und Ziele vollständig verstehen und gemeinsam die besten Ergebnisse erzielen.' 
-                  : 'Wierzymy w siłę współpracy i pracy zespołowej. Blisko współpracujemy z naszymi klientami, aby upewnić się, że w pełni rozumiemy ich potrzeby i cele, wspólnie osiągając najlepsze rezultaty.'}
-              </p>
-            </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+            {values.map((value, index) => (
+              <motion.div 
+                key={index} 
+                className="bg-white p-10 rounded-xl shadow-sm"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1, duration: 0.5 }}
+              >
+                <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-6 text-primary">
+                  {index + 1}
+                </div>
+                <h3 className="text-xl font-semibold mb-3">{value.title}</h3>
+                <p className="text-gray-600">{value.description}</p>
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>
 
       {/* Team section */}
       <section className="py-24 bg-white">
-        <div className="container-tight">
+        <div className="container max-w-7xl mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center mb-16">
-            <Badge className="bg-primary/10 text-primary mb-4 py-1 px-3 rounded-full">
+            <Badge className="bg-primary/10 text-primary mb-4 py-1.5 px-4 rounded-full text-sm font-medium">
               {currentLanguage === 'de' ? 'Unser Team' : 'Nasz zespół'}
             </Badge>
             <h2 className="text-3xl md:text-4xl font-bold mb-6 tracking-tight">
               {currentLanguage === 'de' ? 'Die Gesichter hinter ECM Digital' : 'Twarze za ECM Digital'}
             </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            <p className="text-xl text-gray-600">
               {currentLanguage === 'de' 
                 ? 'Lernen Sie die Experten kennen, die Ihre digitalen Projekte zum Leben erwecken.' 
                 : 'Poznaj ekspertów, którzy ożywiają Twoje cyfrowe projekty.'}
@@ -208,12 +357,18 @@ const AboutPage: React.FC = () => {
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
             {teamMembers.map((member, index) => (
-              <div key={index} className="card-modern p-0 overflow-hidden">
-                <div className="h-72 bg-gray-100 relative">
+              <motion.div 
+                key={index} 
+                className="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1, duration: 0.5 }}
+              >
+                <div className="h-72 bg-gray-100 relative overflow-hidden">
                   <img 
                     src={member.imageSrc} 
                     alt={member.name} 
-                    className="w-full h-full object-cover object-center"
+                    className="w-full h-full object-cover object-center transition-transform hover:scale-105 duration-500"
                   />
                 </div>
                 <div className="p-8">
@@ -231,40 +386,40 @@ const AboutPage: React.FC = () => {
                     <a href={member.website} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-green-50 flex items-center justify-center text-green-600 hover:bg-green-100 transition-colors">
                       <Globe className="h-5 w-5" />
                     </a>
-                    <a href={`mailto:${member.name.toLowerCase().replace(" ", ".")}@ecm-digital.com`} className="w-10 h-10 rounded-full bg-purple-50 flex items-center justify-center text-purple-600 hover:bg-purple-100 transition-colors">
-                      <Mail className="h-5 w-5" />
-                    </a>
                   </div>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Join us section */}
-      <section className="py-24 bg-gradient-to-br from-secondary/5 to-primary/5">
-        <div className="container-tight">
-          <div className="max-w-3xl mx-auto text-center">
-            <Badge className="bg-secondary/10 text-secondary mb-4 py-1 px-3 rounded-full">
-              {currentLanguage === 'de' ? 'Arbeiten Sie mit uns' : 'Współpracuj z nami'}
-            </Badge>
-            <h2 className="text-3xl md:text-4xl font-bold mb-6 tracking-tight">
-              {currentLanguage === 'de' ? 'Bereit, Ihr Projekt zu starten?' : 'Gotowy, by rozpocząć swój projekt?'}
-            </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto mb-10">
-              {currentLanguage === 'de' 
-                ? 'Kontaktieren Sie uns noch heute, um zu besprechen, wie wir Ihnen bei der Verwirklichung Ihrer digitalen Vision helfen können.' 
-                : 'Skontaktuj się z nami już dziś, aby omówić, jak możemy pomóc Ci w realizacji Twojej cyfrowej wizji.'}
-            </p>
-            
-            <Button className="rounded-full bg-primary hover:bg-primary/90 text-white py-2 px-8">
+      {/* CTA section */}
+      <section className="py-24 bg-gradient-to-br from-primary/5 to-secondary/5">
+        <div className="container max-w-5xl mx-auto px-4 text-center">
+          <Badge className="bg-secondary/10 text-secondary mb-4 py-1.5 px-4 rounded-full text-sm font-medium inline-block">
+            {currentLanguage === 'de' ? 'Bereit loszulegen?' : 'Gotowy do rozpoczęcia?'}
+          </Badge>
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 tracking-tight">
+            {currentLanguage === 'de' ? 'Lassen Sie uns gemeinsam etwas Großartiges schaffen' : 'Stwórzmy razem coś wspaniałego'}
+          </h2>
+          <p className="text-xl text-gray-600 max-w-2xl mx-auto mb-10">
+            {currentLanguage === 'de' 
+              ? 'Kontaktieren Sie uns noch heute, um zu besprechen, wie wir Ihnen bei der Verwirklichung Ihrer digitalen Vision helfen können.' 
+              : 'Skontaktuj się z nami już dziś, aby omówić, jak możemy pomóc Ci w realizacji Twojej cyfrowej wizji.'}
+          </p>
+          
+          <div className="flex flex-wrap gap-4 justify-center">
+            <Button className="rounded-full bg-primary hover:bg-primary/90 text-white py-2 px-8 flex items-center gap-2 group">
               {currentLanguage === 'de' ? 'Kontakt aufnehmen' : 'Skontaktuj się'}
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </Button>
+            <Button variant="outline" className="rounded-full py-2 px-8">
+              {currentLanguage === 'de' ? 'Unsere Dienste erkunden' : 'Poznaj nasze usługi'}
             </Button>
           </div>
         </div>
       </section>
-    </div>
     </Layout>
   );
 };
