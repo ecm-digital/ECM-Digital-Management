@@ -29,9 +29,9 @@ export const serviceTranslations: ServiceTranslations = {
     de: "Conversion-Funnel-Design",
     en: "Conversion Funnel Design"
   },
-  "Miesięczna opieka AI/UX": {
-    de: "Monatliche KI/UX-Betreuung",
-    en: "Monthly AI/UX Care"
+  "Miesięczna opieka AI/UX (cena za miesiąc)": {
+    de: "Monatliche KI/UX-Betreuung (Preis pro Monat)",
+    en: "Monthly AI/UX Care (price per month)"
   },
   // Web Development kategoria
   "Strona internetowa": {
