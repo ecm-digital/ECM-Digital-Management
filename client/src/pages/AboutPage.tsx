@@ -364,34 +364,86 @@ const AboutPage: React.FC = () => {
             {teamMembers.map((member, index) => (
               <motion.div 
                 key={index} 
-                className="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100"
+                className="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 group"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1, duration: 0.5 }}
+                whileHover={{ 
+                  y: -8,
+                  boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)"
+                }}
               >
                 <div className="h-72 bg-gray-100 relative overflow-hidden">
-                  <img 
+                  <motion.img 
                     src={member.imageSrc} 
                     alt={member.name} 
-                    className="w-full h-full object-cover object-center transition-transform hover:scale-105 duration-500"
+                    className="w-full h-full object-cover object-center"
+                    whileHover={{ scale: 1.1 }}
+                    transition={{ type: "spring", stiffness: 300, damping: 20 }}
                   />
+                  <motion.div
+                    className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                    initial={{ opacity: 0 }}
+                    whileHover={{ opacity: 1 }}
+                  >
+                    <div className="absolute bottom-4 left-4 right-4">
+                      <motion.h3 
+                        className="text-xl font-bold text-white mb-1"
+                        initial={{ y: 20, opacity: 0 }}
+                        whileHover={{ y: 0, opacity: 1 }}
+                        transition={{ delay: 0.1 }}
+                      >
+                        {member.name}
+                      </motion.h3>
+                      <motion.p 
+                        className="text-cyan-300 font-medium"
+                        initial={{ y: 20, opacity: 0 }}
+                        whileHover={{ y: 0, opacity: 1 }}
+                        transition={{ delay: 0.2 }}
+                      >
+                        {member.role}
+                      </motion.p>
+                    </div>
+                  </motion.div>
                 </div>
                 <div className="p-8">
                   <h3 className="text-xl font-bold mb-1">{member.name}</h3>
                   <p className="text-primary mb-4">{member.role}</p>
                   <p className="text-gray-600 mb-6">{member.description}</p>
                   
-                  <div className="flex space-x-3">
-                    <a href={member.linkedin} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center text-blue-600 hover:bg-blue-100 transition-colors">
+                  <motion.div 
+                    className="flex space-x-3"
+                    initial={{ opacity: 0.8 }}
+                    whileHover={{ opacity: 1 }}
+                  >
+                    <motion.a 
+                      href={member.linkedin} 
+                      target="_blank" 
+                      rel="noopener noreferrer" 
+                      className="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center text-blue-600 hover:bg-blue-100 transition-all"
+                      whileHover={{ scale: 1.15, backgroundColor: "#e1e9fe" }}
+                    >
                       <LinkedinIcon className="h-5 w-5" />
-                    </a>
-                    <a href={member.github} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-700 hover:bg-gray-200 transition-colors">
+                    </motion.a>
+                    <motion.a 
+                      href={member.github} 
+                      target="_blank" 
+                      rel="noopener noreferrer" 
+                      className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-700 hover:bg-gray-200 transition-all"
+                      whileHover={{ scale: 1.15, backgroundColor: "#f1f1f1" }}
+                    >
                       <GithubIcon className="h-5 w-5" />
-                    </a>
-                    <a href={member.website} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-green-50 flex items-center justify-center text-green-600 hover:bg-green-100 transition-colors">
+                    </motion.a>
+                    <motion.a 
+                      href={member.website} 
+                      target="_blank" 
+                      rel="noopener noreferrer" 
+                      className="w-10 h-10 rounded-full bg-green-50 flex items-center justify-center text-green-600 hover:bg-green-100 transition-all"
+                      whileHover={{ scale: 1.15, backgroundColor: "#dcfce7" }}
+                    >
                       <Globe className="h-5 w-5" />
-                    </a>
-                  </div>
+                    </motion.a>
+                  </motion.div>
                 </div>
               </motion.div>
             ))}
