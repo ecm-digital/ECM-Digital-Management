@@ -34,11 +34,11 @@ const AboutPage: React.FC = () => {
   const teamMembers = [
     {
       name: "Tomasz Gnat",
-      role: currentLanguage === 'de' ? "UX Designer & Gründer" : "UX Designer & Założyciel",
+      role: currentLanguage === 'de' ? "Discovery Consultant & Gründer" : "Discovery Consultant & Założyciel",
       imageSrc: tomaszImage,
       description: currentLanguage === 'de' 
-        ? "Experte für nutzerzentriertes Design und Conversion-Optimierung. Über 10 Jahre Erfahrung in der Gestaltung digitaler Erlebnisse." 
-        : "Ekspert w zakresie projektowania zorientowanego na użytkownika i optymalizacji konwersji. Ponad 10 lat doświadczenia w projektowaniu doświadczeń cyfrowych.",
+        ? "Spezialist für Produkt-Discovery und Geschäftsprozesse. Hilft Unternehmen, digitale Lösungen zu definieren, die echten Mehrwert schaffen und messbare Ergebnisse liefern." 
+        : "Specjalista w zakresie product discovery i procesów biznesowych. Pomaga firmom definiować rozwiązania cyfrowe, które tworzą realną wartość i dostarczają mierzalne rezultaty.",
       linkedin: "https://linkedin.com/in/tomaszgnat",
       github: "https://github.com/tomaszgnat",
       website: "https://ecm-digital.com"
