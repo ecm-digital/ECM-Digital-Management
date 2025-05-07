@@ -12,6 +12,7 @@ import { ParsedQs } from "qs";
 import axios from "axios";
 import { db } from "./db";
 import { eq } from "drizzle-orm";
+import { setupAuth, isAuthenticated, ensureAuthenticated } from "./replitAuth";
 // Tłumaczenia nazw usług
 const serviceTranslations: Record<string, string> = {
   "Audyt UX": "UX-Audit",

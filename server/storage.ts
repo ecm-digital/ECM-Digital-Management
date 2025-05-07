@@ -18,19 +18,20 @@ import { nanoid } from "nanoid";
 // Interface for storage operations
 export interface IStorage {
   // User operations
-  getUser(id: number): Promise<User | undefined>;
+  getUser(id: string): Promise<User | undefined>;
   getUserByUsername(username: string): Promise<User | undefined>;
   getUserByEmail(email: string): Promise<User | undefined>;
   createUser(user: InsertUser): Promise<User>;
-  updateUser(id: number, userData: Partial<InsertUser>): Promise<User | undefined>;
+  upsertUser(userData: UpsertUser): Promise<User>;
+  updateUser(id: string, userData: Partial<UpsertUser>): Promise<User | undefined>;
   getAllUsers(role?: string): Promise<User[]>;
   
   // Order operations
   getOrder(id: number): Promise<Order | undefined>;
   getOrderByOrderId(orderId: string): Promise<Order | undefined>;
-  getOrdersByUserId(userId: number): Promise<Order[]>;
+  getOrdersByUserId(userId: string): Promise<Order[]>;
   getOrdersByStatus(status: string): Promise<Order[]>;
-  getOrdersByAssignedToId(assignedToId: number): Promise<Order[]>;
+  getOrdersByAssignedToId(assignedToId: string): Promise<Order[]>;
   getRecentOrders(limit?: number): Promise<Order[]>;
   createOrder(order: InsertOrder): Promise<Order>;
   updateOrder(id: number, orderData: Partial<InsertOrder>): Promise<Order | undefined>;
@@ -45,9 +46,9 @@ export interface IStorage {
   // Message operations
   getMessage(id: number): Promise<Message | undefined>;
   getMessagesByOrderId(orderId: number): Promise<Message[]>;
-  getMessagesBySenderId(senderId: number): Promise<Message[]>;
-  getMessagesByReceiverId(receiverId: number): Promise<Message[]>;
-  getUnreadMessagesByReceiverId(receiverId: number): Promise<Message[]>;
+  getMessagesBySenderId(senderId: string): Promise<Message[]>;
+  getMessagesByReceiverId(receiverId: string): Promise<Message[]>;
+  getUnreadMessagesByReceiverId(receiverId: string): Promise<Message[]>;
   createMessage(message: InsertMessage): Promise<Message>;
   markMessageAsRead(id: number): Promise<Message | undefined>;
   
@@ -76,12 +77,12 @@ export interface IStorage {
   searchServices(query: string): Promise<Service[]>;
   
   // Onboarding operations
-  getUserOnboardingStep(userId: number): Promise<number>;
-  updateUserOnboardingStep(userId: number, step: number): Promise<User | undefined>;
-  completeUserOnboarding(userId: number, preferences: any): Promise<User | undefined>;
-  getWelcomeMessagesByUserId(userId: number): Promise<WelcomeMessage[]>;
-  getWelcomeMessageByStep(userId: number, step: number): Promise<WelcomeMessage | undefined>;
-  createWelcomeMessage(userId: number, step: number, title: string, content: string, actionLabel?: string, actionType?: string): Promise<WelcomeMessage>;
+  getUserOnboardingStep(userId: string): Promise<number>;
+  updateUserOnboardingStep(userId: string, step: number): Promise<User | undefined>;
+  completeUserOnboarding(userId: string, preferences: any): Promise<User | undefined>;
+  getWelcomeMessagesByUserId(userId: string): Promise<WelcomeMessage[]>;
+  getWelcomeMessageByStep(userId: string, step: number): Promise<WelcomeMessage | undefined>;
+  createWelcomeMessage(userId: string, step: number, title: string, content: string, actionLabel?: string, actionType?: string): Promise<WelcomeMessage>;
   updateWelcomeMessage(id: number, data: Partial<WelcomeMessage>): Promise<WelcomeMessage | undefined>;
   markWelcomeMessageAsCompleted(id: number): Promise<WelcomeMessage | undefined>;
 }
@@ -96,7 +97,7 @@ function generateOrderId(): string {
 // DatabaseStorage implements IStorage using PostgreSQL
 export class DatabaseStorage implements IStorage {
   // User operations
-  async getUser(id: number): Promise<User | undefined> {
+  async getUser(id: string): Promise<User | undefined> {
     const [user] = await db.select().from(users).where(eq(users.id, id));
     return user || undefined;
   }
@@ -119,11 +120,30 @@ export class DatabaseStorage implements IStorage {
     return user;
   }
 
-  async updateUser(id: number, userData: Partial<InsertUser>): Promise<User | undefined> {
+  async upsertUser(userData: UpsertUser): Promise<User> {
+    const [user] = await db
+      .insert(users)
+      .values({
+        ...userData,
+        updatedAt: new Date()
+      })
+      .onConflictDoUpdate({
+        target: users.id,
+        set: {
+          ...userData,
+          updatedAt: new Date(),
+        },
+      })
+      .returning();
+    return user;
+  }
+
+  async updateUser(id: string, userData: Partial<UpsertUser>): Promise<User | undefined> {
     const [user] = await db
       .update(users)
       .set({
         ...userData,
+        updatedAt: new Date()
       })
       .where(eq(users.id, id))
       .returning();
@@ -148,7 +168,7 @@ export class DatabaseStorage implements IStorage {
     return order || undefined;
   }
   
-  async getOrdersByUserId(userId: number): Promise<Order[]> {
+  async getOrdersByUserId(userId: string): Promise<Order[]> {
     return await db
       .select()
       .from(orders)
@@ -164,7 +184,7 @@ export class DatabaseStorage implements IStorage {
       .orderBy(desc(orders.createdAt));
   }
 
-  async getOrdersByAssignedToId(assignedToId: number): Promise<Order[]> {
+  async getOrdersByAssignedToId(assignedToId: string): Promise<Order[]> {
     return await db
       .select()
       .from(orders)
@@ -265,7 +285,7 @@ export class DatabaseStorage implements IStorage {
       .orderBy(desc(messages.createdAt));
   }
 
-  async getMessagesBySenderId(senderId: number): Promise<Message[]> {
+  async getMessagesBySenderId(senderId: string): Promise<Message[]> {
     return await db
       .select()
       .from(messages)
@@ -273,7 +293,7 @@ export class DatabaseStorage implements IStorage {
       .orderBy(desc(messages.createdAt));
   }
 
-  async getMessagesByReceiverId(receiverId: number): Promise<Message[]> {
+  async getMessagesByReceiverId(receiverId: string): Promise<Message[]> {
     return await db
       .select()
       .from(messages)
@@ -281,7 +301,7 @@ export class DatabaseStorage implements IStorage {
       .orderBy(desc(messages.createdAt));
   }
 
-  async getUnreadMessagesByReceiverId(receiverId: number): Promise<Message[]> {
+  async getUnreadMessagesByReceiverId(receiverId: string): Promise<Message[]> {
     return await db
       .select()
       .from(messages)
@@ -460,18 +480,18 @@ export class DatabaseStorage implements IStorage {
   }
 
   // Onboarding operations
-  async getUserOnboardingStep(userId: number): Promise<number> {
+  async getUserOnboardingStep(userId: string): Promise<number> {
     const user = await this.getUser(userId);
     return user?.onboardingStep || 0;
   }
 
-  async updateUserOnboardingStep(userId: number, step: number): Promise<User | undefined> {
+  async updateUserOnboardingStep(userId: string, step: number): Promise<User | undefined> {
     return await this.updateUser(userId, {
       onboardingStep: step
     });
   }
 
-  async completeUserOnboarding(userId: number, preferences: any): Promise<User | undefined> {
+  async completeUserOnboarding(userId: string, preferences: any): Promise<User | undefined> {
     return await this.updateUser(userId, {
       onboardingStep: 999, // Oznacza zakończony onboarding
       onboardingCompleted: true,
@@ -479,7 +499,7 @@ export class DatabaseStorage implements IStorage {
     });
   }
 
-  async getWelcomeMessagesByUserId(userId: number): Promise<WelcomeMessage[]> {
+  async getWelcomeMessagesByUserId(userId: string): Promise<WelcomeMessage[]> {
     return await db
       .select()
       .from(welcomeMessages)
@@ -487,7 +507,7 @@ export class DatabaseStorage implements IStorage {
       .orderBy(welcomeMessages.step);
   }
 
-  async getWelcomeMessageByStep(userId: number, step: number): Promise<WelcomeMessage | undefined> {
+  async getWelcomeMessageByStep(userId: string, step: number): Promise<WelcomeMessage | undefined> {
     const [message] = await db
       .select()
       .from(welcomeMessages)
@@ -501,7 +521,7 @@ export class DatabaseStorage implements IStorage {
   }
 
   async createWelcomeMessage(
-    userId: number, 
+    userId: string, 
     step: number, 
     title: string, 
     content: string, 
