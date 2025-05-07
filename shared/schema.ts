@@ -210,7 +210,7 @@ export const projectMilestonesRelations = relations(projectMilestones, ({ one })
 // Insert schemas
 export const insertServiceSchema = createInsertSchema(services).omit({ id: true, createdAt: true });
 export const insertOrderSchema = createInsertSchema(orders).omit({ id: true, createdAt: true, updatedAt: true });
-export const insertUserSchema = createInsertSchema(users).omit({ id: true, createdAt: true });
+export const insertUserSchema = createInsertSchema(users).omit({ createdAt: true });
 export const insertProjectFileSchema = createInsertSchema(projectFiles).omit({ id: true, createdAt: true });
 export const insertMessageSchema = createInsertSchema(messages).omit({ id: true, createdAt: true });
 export const insertProjectNoteSchema = createInsertSchema(projectNotes).omit({ id: true, createdAt: true, updatedAt: true });

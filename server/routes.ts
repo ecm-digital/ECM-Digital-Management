@@ -776,13 +776,23 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Create a test user (for development)
   app.post("/api/admin/create-test-user", async (req, res) => {
     try {
-      const { username, password } = req.body;
+      const { username } = req.body;
       
-      if (!username || !password) {
-        return res.status(400).json({ message: "Username and password are required" });
+      if (!username) {
+        return res.status(400).json({ message: "Username is required" });
       }
       
-      const user = await storage.createUser({ username, password });
+      // Unikatowe ID dla użytkownika
+      const userId = `user_${Date.now()}`;
+      
+      const user = await storage.createUser({ 
+        id: userId,
+        username,
+        email: `${username}@example.com`,
+        firstName: "Test",
+        lastName: "User",
+        role: "client"
+      });
       
       res.json({
         id: user.id,
@@ -942,7 +952,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
             fields: {
               id: "id",
               username: "username",
-              password: "password",
+              email: "email",
+              firstName: "first_name",
+              lastName: "last_name",
+              profileImageUrl: "profile_image_url",
+              role: "role",
               createdAt: "created_at"
             }
           }
@@ -1702,10 +1716,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(404).json({ message: "User not found" });
       }
       
-      // Nie zwracaj hasła
-      const { password, ...userProfile } = updatedUser;
-      
-      res.json(userProfile);
+      res.json(updatedUser);
     } catch (error) {
       console.error("Error updating profile:", error);
       res.status(500).json({ message: "Error updating profile" });
