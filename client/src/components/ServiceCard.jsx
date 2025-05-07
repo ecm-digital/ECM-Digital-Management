@@ -37,21 +37,34 @@ export default function ServiceCard({
         </CardDescription>
       </CardHeader>
       
-      {showFeatures && service.features && service.features.length > 0 && (
-        <CardContent className="pb-4">
-          <div className="space-y-1">
-            {service.features.slice(0, 3).map((feature, idx) => (
+      <CardContent className="pb-4">
+        <div className="space-y-1">
+          {service.benefits && service.benefits.length > 0 ? (
+            service.benefits.slice(0, 4).map((benefit, idx) => (
               <p key={idx} className="flex items-start text-sm text-gray-600">
                 <Check className="h-4 w-4 text-green-500 mr-1 mt-0.5 flex-shrink-0" />
-                <span>{feature}</span>
+                <span>{benefit}</span>
               </p>
-            ))}
-            {service.features.length > 3 && (
-              <p className="text-sm text-gray-600 italic">{t('services.andMore')}</p>
-            )}
-          </div>
-        </CardContent>
-      )}
+            ))
+          ) : (
+            service.features && service.features.length > 0 && showFeatures ? (
+              service.features.slice(0, 4).map((feature, idx) => (
+                <p key={idx} className="flex items-start text-sm text-gray-600">
+                  <Check className="h-4 w-4 text-green-500 mr-1 mt-0.5 flex-shrink-0" />
+                  <span>{feature}</span>
+                </p>
+              ))
+            ) : (
+              Array(4).fill(0).map((_, idx) => (
+                <p key={idx} className="flex items-start text-sm text-gray-600">
+                  <Check className="h-4 w-4 text-green-500 mr-1 mt-0.5 flex-shrink-0" />
+                  <span>{t(`benefits.${service.name.replace(/\s+/g, '')}.${idx+1}`, `${t('benefits.default.'+String(idx+1))}`)} </span>
+                </p>
+              ))
+            )
+          )}
+        </div>
+      </CardContent>
       
       <CardFooter className="pt-0 flex justify-between items-center">
         <div className={`text-lg font-semibold ${colorClass}`}>

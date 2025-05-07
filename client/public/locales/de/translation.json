@@ -1,4 +1,72 @@
 {
+  "benefits": {
+    "default": {
+      "1": "Steigerung der Effizienz",
+      "2": "Zeit- und Ressourceneinsparung",
+      "3": "Verbesserung der Benutzererfahrung",
+      "4": "Steigerung von Konversionen und Umsatz"
+    },
+    "AudytUX": {
+      "1": "Identifizierung von UX-Problemen, die Konversionen blockieren",
+      "2": "Analyse von Benutzerpfaden und Schmerzpunkten",
+      "3": "Konkrete Empfehlungen zur Verbesserung",
+      "4": "Umsatzsteigerung durch Beseitigung von Barrieren"
+    },
+    "KampaniaSocialMedia": {
+      "1": "Präzises Targeting der idealen Zielgruppe",
+      "2": "Erhöhung der Reichweite und des Engagements",
+      "3": "Ergebnisanalyse und Optimierung",
+      "4": "Konsistentes Markenimage in sozialen Medien"
+    },
+    "StronaE-commerce": {
+      "1": "Optimierung des Kaufprozesses",
+      "2": "Intuitive Benutzeroberfläche für höhere Konversionen",
+      "3": "Integration mit Zahlungssystemen",
+      "4": "Reaktionsfähigkeit auf allen Geräten"
+    },
+    "AutomatyzacjaProcesówBiznesowych": {
+      "1": "Beseitigung sich wiederholender Aufgaben",
+      "2": "Reduzierung der Betriebskosten",
+      "3": "Schnellerer Informationsfluss",
+      "4": "Skalierbarkeit von Geschäftsaktivitäten"
+    },
+    "AIChatbot": {
+      "1": "24/7 Kundenservice",
+      "2": "Sofortige Antworten auf Fragen",
+      "3": "Automatisierung einfacher Prozesse",
+      "4": "Sammlung von Kundendaten und -bedürfnissen"
+    },
+    "AILandingPages": {
+      "1": "Express-Umsetzung in 72 Stunden",
+      "2": "Testen mehrerer Landing-Page-Versionen",
+      "3": "Responsives und modernes Design",
+      "4": "Konversionselemente und Call-to-Actions"
+    },
+    "AIPrototypyUI": {
+      "1": "Schnelle Validierung von Produktideen",
+      "2": "Zeitersparnis bei der Erstellung von Mockups",
+      "3": "Visualisierung von Konzepten für Stakeholder",
+      "4": "Iterationsmöglichkeit vor vollständiger Implementierung"
+    },
+    "KampanieGraficzneZAI": {
+      "1": "Konsistentes Branding in verschiedenen Formaten",
+      "2": "Schnelle Skalierung der Grafikproduktion",
+      "3": "Automatisierung von Designprozessen",
+      "4": "Testen verschiedener Kreativvarianten"
+    },
+    "IlustracjeIkony": {
+      "1": "Einzigartige Grafikmaterialien für die Marke",
+      "2": "Konsistentes Symbolsystem zur Verbesserung der UX",
+      "3": "Materialien für verschiedene Formate",
+      "4": "Visuelle Differenzierung von der Konkurrenz"
+    },
+    "Pixel-perfectDevReady": {
+      "1": "Perfekte Umsetzung des Designs im Code",
+      "2": "Code, der für Entwickler einsatzbereit ist",
+      "3": "Responsivität auf allen Geräten",
+      "4": "Optimierte Leistung und Zugänglichkeit"
+    }
+  },
   "navigation": {
     "home": "Startseite",
     "services": "Dienstleistungen",

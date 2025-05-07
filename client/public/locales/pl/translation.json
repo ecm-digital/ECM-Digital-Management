@@ -1,4 +1,72 @@
 {
+  "benefits": {
+    "default": {
+      "1": "Zwiększenie efektywności działań",
+      "2": "Oszczędność czasu i zasobów",
+      "3": "Poprawa doświadczenia użytkownika",
+      "4": "Wzrost konwersji i sprzedaży"
+    },
+    "AudytUX": {
+      "1": "Identyfikacja problemów UX blokujących konwersję",
+      "2": "Analiza ścieżek użytkowników i punktów bólu",
+      "3": "Konkretne rekomendacje naprawcze",
+      "4": "Zwiększenie sprzedaży przez eliminację barier"
+    },
+    "KampaniaSocialMedia": {
+      "1": "Precyzyjne targetowanie idealnych odbiorców",
+      "2": "Zwiększenie zasięgu i zaangażowania",
+      "3": "Analityka wyników i optymalizacja",
+      "4": "Spójny wizerunek marki w social mediach"
+    },
+    "StronaE-commerce": {
+      "1": "Optymalizacja ścieżki zakupowej",
+      "2": "Intuicyjny interfejs zwiększający konwersję",
+      "3": "Integracja z systemami płatności",
+      "4": "Responsywność na wszystkich urządzeniach"
+    },
+    "AutomatyzacjaProcesówBiznesowych": {
+      "1": "Eliminacja powtarzalnych zadań",
+      "2": "Redukcja kosztów operacyjnych",
+      "3": "Szybszy przepływ informacji",
+      "4": "Skalowalność działań biznesowych"
+    },
+    "AIChatbot": {
+      "1": "Obsługa klienta 24/7",
+      "2": "Natychmiastowe odpowiedzi na pytania",
+      "3": "Automatyzacja prostych procesów",
+      "4": "Zbieranie danych o klientach i ich potrzebach"
+    },
+    "AILandingPages": {
+      "1": "Ekspresowa realizacja w 72 godziny",
+      "2": "Testowanie kilku wersji landing page",
+      "3": "Responsywność i nowoczesny design",
+      "4": "Konwersyjne elementy i wezwania do działania"
+    },
+    "AIPrototypyUI": {
+      "1": "Szybka walidacja pomysłów produktowych",
+      "2": "Oszczędność czasu na tworzeniu makiet",
+      "3": "Wizualizacja koncepcji dla interesariuszy",
+      "4": "Możliwość iteracji przed pełnym wdrożeniem"
+    },
+    "KampanieGraficzneZAI": {
+      "1": "Spójny branding w wielu formatach",
+      "2": "Szybkie skalowanie produkcji grafik",
+      "3": "Automatyzacja procesów projektowych",
+      "4": "Testowanie różnych wariantów kreacji"
+    },
+    "IlustracjeIkony": {
+      "1": "Unikalne materiały graficzne dla marki",
+      "2": "Spójny system ikon poprawiający UX",
+      "3": "Materiały gotowe do różnych formatów",
+      "4": "Wizualne wyróżnienie na tle konkurencji"
+    },
+    "Pixel-perfectDevReady": {
+      "1": "Idealne odwzorowanie projektu w kodzie",
+      "2": "Kod gotowy do wdrożenia przez programistów",
+      "3": "Responsywność na wszystkich urządzeniach",
+      "4": "Zoptymalizowana wydajność i dostępność"
+    }
+  },
   "navigation": {
     "home": "Strona główna",
     "services": "Usługi",
