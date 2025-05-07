@@ -215,6 +215,41 @@ const orderSubmissionSchema = z.object({
 });
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  // Setup Auth middleware
+  await setupAuth(app);
+
+  // Auth route for client panel
+  app.get('/api/auth/user', isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.claims.sub;
+      const user = await storage.getUser(userId);
+      res.json(user);
+    } catch (error) {
+      console.error("Error fetching user:", error);
+      res.status(500).json({ message: "Failed to fetch user" });
+    }
+  });
+
+  // Client panel protected route
+  app.get('/api/client/dashboard', isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.claims.sub;
+      // Fetch client-specific data
+      const orders = await storage.getOrdersByUserId(userId);
+      const messages = await storage.getMessagesByReceiverId(userId);
+      const welcomeMessages = await storage.getWelcomeMessagesByUserId(userId);
+      
+      res.json({
+        orders,
+        messages,
+        welcomeMessages,
+        unreadMessageCount: messages.filter(m => !m.isRead).length
+      });
+    } catch (error) {
+      console.error("Error fetching client dashboard data:", error);
+      res.status(500).json({ message: "Failed to fetch dashboard data" });
+    }
+  });
 
   // Get services from database
   app.get("/api/services", async (req, res) => {
