@@ -215,7 +215,7 @@ const orderSubmissionSchema = z.object({
 });
 
 export async function registerRoutes(app: Express): Promise<Server> {
-  // Setup Auth middleware
+  // Auth middleware setup
   await setupAuth(app);
 
   // Auth route for client panel

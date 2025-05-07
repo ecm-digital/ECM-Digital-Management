@@ -23,7 +23,7 @@ const getOidcConfig = memoize(
 );
 
 export function getSession() {
-  const sessionTtl = 7 * 24 * 60 * 60 * 1000; // 1 week
+  const sessionTtl = 7 * 24 * 60 * 60 * 1000; // 1 tydzień
   const pgStore = connectPg(session);
   const sessionStore = new pgStore({
     conString: process.env.DATABASE_URL,
@@ -32,13 +32,13 @@ export function getSession() {
     tableName: "sessions",
   });
   return session({
-    secret: process.env.SESSION_SECRET || "your-secret-key",
+    secret: process.env.SESSION_SECRET!,
     store: sessionStore,
     resave: false,
     saveUninitialized: false,
     cookie: {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
+      secure: true,
       maxAge: sessionTtl,
     },
   });
@@ -112,7 +112,7 @@ export async function setupAuth(app: Express) {
 
   app.get("/api/callback", (req, res, next) => {
     passport.authenticate(`replitauth:${req.hostname}`, {
-      successReturnToOrRedirect: "/client",
+      successReturnToOrRedirect: "/client/dashboard",
       failureRedirect: "/api/login",
     })(req, res, next);
   });
@@ -129,10 +129,11 @@ export async function setupAuth(app: Express) {
   });
 }
 
+// Middleware do sprawdzania, czy użytkownik jest zalogowany (dla API)
 export const isAuthenticated: RequestHandler = async (req, res, next) => {
   const user = req.user as any;
 
-  if (!req.isAuthenticated() || !user?.expires_at) {
+  if (!req.isAuthenticated() || !user.expires_at) {
     return res.status(401).json({ message: "Unauthorized" });
   }
 
@@ -156,9 +157,10 @@ export const isAuthenticated: RequestHandler = async (req, res, next) => {
   }
 };
 
+// Middleware do przekierowania niezalogowanych użytkowników (dla stron)
 export const ensureAuthenticated: RequestHandler = (req, res, next) => {
   if (req.isAuthenticated()) {
     return next();
   }
-  res.redirect("/api/login");
+  res.redirect('/api/login');
 };
