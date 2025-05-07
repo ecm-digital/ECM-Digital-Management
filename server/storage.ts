@@ -1,6 +1,7 @@
 import { 
   users, orders, services, 
   projectFiles, messages, projectNotes, projectMilestones, welcomeMessages,
+  blogPosts, knowledgeBase,
   type User, type InsertUser, 
   type Order, type InsertOrder, 
   type Service, type InsertService,
@@ -9,7 +10,9 @@ import {
   type ProjectNote, type InsertProjectNote,
   type ProjectMilestone, type InsertProjectMilestone,
   type WelcomeMessage,
-  type UpsertUser
+  type UpsertUser,
+  type BlogPost, type InsertBlogPost,
+  type KnowledgeBase, type InsertKnowledgeBase
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, and, desc, sql, or, like } from "drizzle-orm";
@@ -121,6 +124,8 @@ function generateOrderId(): string {
 
 // DatabaseStorage implements IStorage using PostgreSQL
 export class DatabaseStorage implements IStorage {
+  // Importy są już na górze pliku
+  // Z { blogPosts, knowledgeBase, ... } from "@shared/schema";
   // User operations
   async getUser(id: string): Promise<User | undefined> {
     const [user] = await db.select().from(users).where(eq(users.id, id));
@@ -601,6 +606,241 @@ export class DatabaseStorage implements IStorage {
       .where(eq(welcomeMessages.id, id))
       .returning();
     return message;
+  }
+  
+  // Blog operations
+  async getBlogPost(id: number): Promise<BlogPost | undefined> {
+    const [post] = await db.select().from(blogPosts).where(eq(blogPosts.id, id));
+    return post || undefined;
+  }
+
+  async getBlogPostBySlug(slug: string): Promise<BlogPost | undefined> {
+    const [post] = await db.select().from(blogPosts).where(eq(blogPosts.slug, slug));
+    return post || undefined;
+  }
+
+  async getAllBlogPosts(status: string = 'published'): Promise<BlogPost[]> {
+    return await db
+      .select()
+      .from(blogPosts)
+      .where(status ? eq(blogPosts.status, status) : undefined)
+      .orderBy(desc(blogPosts.publishedAt));
+  }
+
+  async getRecentBlogPosts(limit: number = 5, status: string = 'published'): Promise<BlogPost[]> {
+    return await db
+      .select()
+      .from(blogPosts)
+      .where(status ? eq(blogPosts.status, status) : undefined)
+      .orderBy(desc(blogPosts.publishedAt))
+      .limit(limit);
+  }
+
+  async getBlogPostsByCategory(category: string, status: string = 'published'): Promise<BlogPost[]> {
+    return await db
+      .select()
+      .from(blogPosts)
+      .where(
+        and(
+          eq(blogPosts.category, category),
+          status ? eq(blogPosts.status, status) : undefined
+        )
+      )
+      .orderBy(desc(blogPosts.publishedAt));
+  }
+
+  async getBlogPostsByTag(tag: string, status: string = 'published'): Promise<BlogPost[]> {
+    // Wyszukiwanie po tagach (pole tags jest tablicą)
+    return await db
+      .select()
+      .from(blogPosts)
+      .where(
+        and(
+          sql`${tag} = ANY(${blogPosts.tags})`,
+          status ? eq(blogPosts.status, status) : undefined
+        )
+      )
+      .orderBy(desc(blogPosts.publishedAt));
+  }
+
+  async createBlogPost(post: InsertBlogPost): Promise<BlogPost> {
+    const [createdPost] = await db
+      .insert(blogPosts)
+      .values({
+        ...post,
+        publishedAt: post.status === 'published' ? new Date() : undefined,
+        updatedAt: new Date(),
+      })
+      .returning();
+    return createdPost;
+  }
+
+  async updateBlogPost(id: number, postData: Partial<InsertBlogPost>): Promise<BlogPost | undefined> {
+    // Jeśli status zmienia się na "published", ustaw publishedAt
+    const updatedData = { ...postData };
+    if (postData.status === 'published') {
+      // Sprawdź aktualny status
+      const [currentPost] = await db.select({ status: blogPosts.status }).from(blogPosts).where(eq(blogPosts.id, id));
+      if (currentPost && currentPost.status !== 'published') {
+        updatedData.publishedAt = new Date();
+      }
+    }
+
+    const [post] = await db
+      .update(blogPosts)
+      .set({
+        ...updatedData,
+        updatedAt: new Date(),
+      })
+      .where(eq(blogPosts.id, id))
+      .returning();
+    return post;
+  }
+
+  async deleteBlogPost(id: number): Promise<boolean> {
+    const [deletedPost] = await db
+      .delete(blogPosts)
+      .where(eq(blogPosts.id, id))
+      .returning();
+    return !!deletedPost;
+  }
+
+  async incrementBlogPostViewCount(id: number): Promise<void> {
+    await db.execute(sql`
+      UPDATE blog_posts 
+      SET view_count = view_count + 1 
+      WHERE id = ${id}
+    `);
+  }
+
+  async searchBlogPosts(query: string, status: string = 'published'): Promise<BlogPost[]> {
+    return await db
+      .select()
+      .from(blogPosts)
+      .where(
+        and(
+          or(
+            like(blogPosts.title, `%${query}%`),
+            like(blogPosts.excerpt, `%${query}%`),
+            like(blogPosts.content, `%${query}%`)
+          ),
+          status ? eq(blogPosts.status, status) : undefined
+        )
+      )
+      .orderBy(desc(blogPosts.publishedAt));
+  }
+  
+  // Knowledge base operations
+  async getKnowledgeBaseArticle(id: number): Promise<KnowledgeBase | undefined> {
+    const [article] = await db.select().from(knowledgeBase).where(eq(knowledgeBase.id, id));
+    return article || undefined;
+  }
+
+  async getKnowledgeBaseArticleBySlug(slug: string): Promise<KnowledgeBase | undefined> {
+    const [article] = await db.select().from(knowledgeBase).where(eq(knowledgeBase.slug, slug));
+    return article || undefined;
+  }
+
+  async getAllKnowledgeBaseArticles(status: string = 'published'): Promise<KnowledgeBase[]> {
+    return await db
+      .select()
+      .from(knowledgeBase)
+      .where(status ? eq(knowledgeBase.status, status) : undefined)
+      .orderBy(desc(knowledgeBase.updatedAt));
+  }
+
+  async getKnowledgeBaseArticlesByCategory(category: string, status: string = 'published'): Promise<KnowledgeBase[]> {
+    return await db
+      .select()
+      .from(knowledgeBase)
+      .where(
+        and(
+          eq(knowledgeBase.category, category),
+          status ? eq(knowledgeBase.status, status) : undefined
+        )
+      )
+      .orderBy(desc(knowledgeBase.updatedAt));
+  }
+
+  async getKnowledgeBaseArticlesByTag(tag: string, status: string = 'published'): Promise<KnowledgeBase[]> {
+    // Wyszukiwanie po tagach (pole tags jest tablicą)
+    return await db
+      .select()
+      .from(knowledgeBase)
+      .where(
+        and(
+          sql`${tag} = ANY(${knowledgeBase.tags})`,
+          status ? eq(knowledgeBase.status, status) : undefined
+        )
+      )
+      .orderBy(desc(knowledgeBase.updatedAt));
+  }
+
+  async createKnowledgeBaseArticle(article: InsertKnowledgeBase): Promise<KnowledgeBase> {
+    const [createdArticle] = await db
+      .insert(knowledgeBase)
+      .values({
+        ...article,
+        publishedAt: article.status === 'published' ? new Date() : undefined,
+        updatedAt: new Date(),
+      })
+      .returning();
+    return createdArticle;
+  }
+
+  async updateKnowledgeBaseArticle(id: number, articleData: Partial<InsertKnowledgeBase>): Promise<KnowledgeBase | undefined> {
+    // Jeśli status zmienia się na "published", ustaw publishedAt
+    const updatedData = { ...articleData };
+    if (articleData.status === 'published') {
+      // Sprawdź aktualny status
+      const [currentArticle] = await db.select({ status: knowledgeBase.status }).from(knowledgeBase).where(eq(knowledgeBase.id, id));
+      if (currentArticle && currentArticle.status !== 'published') {
+        updatedData.publishedAt = new Date();
+      }
+    }
+
+    const [article] = await db
+      .update(knowledgeBase)
+      .set({
+        ...updatedData,
+        updatedAt: new Date(),
+      })
+      .where(eq(knowledgeBase.id, id))
+      .returning();
+    return article;
+  }
+
+  async deleteKnowledgeBaseArticle(id: number): Promise<boolean> {
+    const [deletedArticle] = await db
+      .delete(knowledgeBase)
+      .where(eq(knowledgeBase.id, id))
+      .returning();
+    return !!deletedArticle;
+  }
+
+  async incrementKnowledgeBaseArticleViewCount(id: number): Promise<void> {
+    await db.execute(sql`
+      UPDATE knowledge_base 
+      SET view_count = view_count + 1 
+      WHERE id = ${id}
+    `);
+  }
+
+  async searchKnowledgeBaseArticles(query: string, status: string = 'published'): Promise<KnowledgeBase[]> {
+    return await db
+      .select()
+      .from(knowledgeBase)
+      .where(
+        and(
+          or(
+            like(knowledgeBase.title, `%${query}%`),
+            like(knowledgeBase.excerpt, `%${query}%`),
+            like(knowledgeBase.content, `%${query}%`)
+          ),
+          status ? eq(knowledgeBase.status, status) : undefined
+        )
+      )
+      .orderBy(desc(knowledgeBase.updatedAt));
   }
 }
 
