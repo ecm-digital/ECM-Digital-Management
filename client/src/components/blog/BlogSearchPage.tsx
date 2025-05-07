@@ -1,142 +1,142 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
-import { Link, useLocation } from 'wouter';
-import { BlogPost } from '@shared/schema';
-import BlogPostCard from './BlogPostCard';
-import { Skeleton } from '@/components/ui/skeleton';
+import { apiRequest } from '@/lib/queryClient';
+import { Link } from 'wouter';
+import { ChevronLeft, Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Search, AlertCircle } from 'lucide-react';
+import { Input } from '@/components/ui/input';
+import BlogPostCard from './BlogPostCard';
+import LoadingSpinner from '../ui/loading-spinner';
 
-const BlogSearchPage: React.FC = () => {
+interface BlogSearchPageProps {
+  initialQuery: string;
+}
+
+interface BlogPost {
+  id: string;
+  title: string;
+  slug: string;
+  excerpt: string;
+  content: string;
+  imageUrl: string;
+  authorId: string;
+  authorName: string;
+  publishedAt: string;
+  category: string;
+  tags: string[];
+}
+
+export default function BlogSearchPage({ initialQuery }: BlogSearchPageProps) {
   const { t } = useTranslation();
-  const [location] = useLocation();
-  
-  // Pobranie parametru wyszukiwania z URL
-  const searchParams = new URLSearchParams(location.split('?')[1] || '');
-  const query = searchParams.get('q') || '';
-  
-  // Pobieranie wyników wyszukiwania z API
-  const { data: posts, isLoading, isError } = useQuery<BlogPost[]>({
-    queryKey: [`/api/blog/search?q=${query}`],
-    queryFn: async () => {
-      if (!query || query.trim().length < 3) {
-        return [];
-      }
-      
-      const response = await fetch(`/api/blog/search?q=${encodeURIComponent(query)}`);
-      if (!response.ok) {
-        throw new Error('Failed to search blog posts');
-      }
-      return response.json();
-    },
-    enabled: query.trim().length >= 3
+  const [searchQuery, setSearchQuery] = useState(initialQuery);
+  const [debouncedQuery, setDebouncedQuery] = useState(initialQuery);
+
+  // Debounce mechanizm do opóźnienia wyszukiwania podczas wpisywania
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedQuery(searchQuery);
+    }, 300);
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [searchQuery]);
+
+  // Pobierz wyniki wyszukiwania
+  const { data: searchResults, isLoading, error } = useQuery<BlogPost[]>({
+    queryKey: ['/api/blog/search', debouncedQuery],
+    queryFn: () => apiRequest(`/api/blog/search?q=${encodeURIComponent(debouncedQuery)}`),
+    enabled: debouncedQuery.length > 0,
   });
 
-  if (query.trim().length < 3) {
-    return (
-      <div className="container mx-auto px-4 py-12">
-        <div className="max-w-3xl mx-auto text-center">
-          <AlertCircle className="h-12 w-12 text-yellow-500 mx-auto mb-4" />
-          <h1 className="text-3xl font-bold mb-4">
-            {t('blog.invalidSearchQuery', 'Nieprawidłowe zapytanie')}
-          </h1>
-          <p className="text-gray-600 mb-8">
-            {t('blog.searchQueryTooShort', 'Zapytanie musi zawierać co najmniej 3 znaki, aby rozpocząć wyszukiwanie.')}
-          </p>
-          <Button asChild>
-            <Link href="/blog">
-              <ArrowLeft className="h-4 w-4 mr-2" />
-              {t('blog.backToBlog', 'Wróć do bloga')}
-            </Link>
-          </Button>
-        </div>
-      </div>
-    );
-  }
+  // Obsługa wyszukiwania
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery !== debouncedQuery) {
+      setDebouncedQuery(searchQuery);
+    }
+  };
 
   return (
-    <div className="container mx-auto px-4 py-12">
-      <div className="mb-8">
-        <Link href="/blog" className="inline-flex items-center text-blue-600 hover:text-blue-800 mb-4">
-          <ArrowLeft className="h-4 w-4 mr-2" />
-          {t('blog.backToBlog', 'Wróć do bloga')}
+    <div className="py-12">
+      <div className="container">
+        {/* Przycisk powrotu */}
+        <Link href="/blog">
+          <Button variant="ghost" size="sm" className="group mb-8">
+            <ChevronLeft className="mr-2 h-4 w-4 transition-transform group-hover:-translate-x-1" />
+            {t('blog.backToList', 'Wróć do listy wpisów')}
+          </Button>
         </Link>
-        
-        <h1 className="text-3xl font-bold mb-2">
-          {t('blog.searchResults', 'Wyniki wyszukiwania')}
-        </h1>
-        
-        <p className="text-gray-600">
-          {t('blog.searchResultsFor', 'Wyniki dla zapytania')}: <span className="font-semibold">"{query}"</span>
-        </p>
-      </div>
 
-      {isLoading ? (
-        // Skeleton loader
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {[...Array(6)].map((_, i) => (
-            <div key={i} className="border rounded-lg overflow-hidden">
-              <Skeleton className="h-48 w-full" />
-              <div className="p-4">
-                <Skeleton className="h-6 w-3/4 mb-2" />
-                <Skeleton className="h-4 w-full mb-1" />
-                <Skeleton className="h-4 w-full mb-4" />
-                <div className="flex justify-between items-center">
-                  <Skeleton className="h-8 w-24" />
-                  <Skeleton className="h-6 w-16" />
+        {/* Nagłówek sekcji */}
+        <div className="mb-12 text-center">
+          <h1 className="text-4xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-cyan-500">
+            {t('blog.searchTitle', 'Wyszukiwanie wpisów')}
+          </h1>
+          
+          {/* Formularz wyszukiwania */}
+          <form onSubmit={handleSearch} className="mt-8 flex max-w-md mx-auto">
+            <Input
+              type="text"
+              placeholder={t('blog.searchPlaceholder', 'Szukaj artykułów...')}
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="rounded-r-none"
+            />
+            <Button type="submit" className="rounded-l-none">
+              <Search className="h-4 w-4 mr-2" />
+              {t('blog.search', 'Szukaj')}
+            </Button>
+          </form>
+        </div>
+
+        {/* Wyświetl wyniki wyszukiwania */}
+        {isLoading ? (
+          <div className="flex justify-center">
+            <LoadingSpinner size="lg" />
+          </div>
+        ) : error ? (
+          <div className="text-center p-8 bg-red-50 rounded-lg">
+            <h2 className="text-xl font-bold text-red-700 mb-2">{t('blog.errorTitle', 'Wystąpił błąd')}</h2>
+            <p className="text-red-600">{t('blog.searchError', 'Nie udało się wykonać wyszukiwania. Spróbuj ponownie później.')}</p>
+          </div>
+        ) : (
+          <>
+            {searchResults && searchResults.length > 0 ? (
+              <div>
+                <h2 className="text-2xl font-bold mb-6">
+                  {t('blog.searchResults', 'Wyniki wyszukiwania')} ({searchResults.length})
+                </h2>
+                <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                  {searchResults.map((post) => (
+                    <BlogPostCard key={post.id} post={post} />
+                  ))}
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
-      ) : isError ? (
-        // Error state
-        <div className="text-center py-12 border rounded-lg">
-          <AlertCircle className="h-12 w-12 text-red-500 mx-auto mb-4" />
-          <h3 className="text-xl font-semibold text-red-500 mb-2">
-            {t('blog.searchErrorTitle', 'Wystąpił błąd podczas wyszukiwania')}
-          </h3>
-          <p className="text-gray-600 mb-6">
-            {t('blog.searchErrorDescription', 'Nie udało się przeprowadzić wyszukiwania. Spróbuj ponownie później.')}
-          </p>
-          <Button onClick={() => window.location.reload()}>
-            {t('blog.tryAgain', 'Spróbuj ponownie')}
-          </Button>
-        </div>
-      ) : posts && posts.length > 0 ? (
-        // Search results
-        <>
-          <p className="mb-6 text-gray-600">
-            {t('blog.foundResults', 'Znaleziono {{count}} wyników', { count: posts.length })}
-          </p>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {posts.map(post => (
-              <BlogPostCard key={post.id} post={post} />
-            ))}
-          </div>
-        </>
-      ) : (
-        // No results found
-        <div className="text-center py-12 border border-dashed rounded-lg">
-          <Search className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-          <h3 className="text-xl font-semibold text-gray-600 mb-2">
-            {t('blog.noSearchResultsTitle', 'Brak wyników wyszukiwania')}
-          </h3>
-          <p className="text-gray-500 mb-6">
-            {t('blog.noSearchResultsDescription', 'Nie znaleziono wpisów pasujących do podanego zapytania. Spróbuj innych słów kluczowych.')}
-          </p>
-          <Button asChild variant="outline">
-            <Link href="/blog">
-              <ArrowLeft className="h-4 w-4 mr-2" />
-              {t('blog.backToBlog', 'Wróć do bloga')}
-            </Link>
-          </Button>
-        </div>
-      )}
+            ) : debouncedQuery ? (
+              <div className="text-center p-12 bg-gray-50 rounded-lg">
+                <h2 className="text-xl font-bold text-gray-700 mb-2">{t('blog.noSearchResults', 'Brak wyników')}</h2>
+                <p className="text-gray-600">
+                  {t('blog.noSearchResultsMessage', 'Nie znaleziono wpisów pasujących do zapytania: ')}
+                  <span className="font-semibold">"{debouncedQuery}"</span>
+                </p>
+                <p className="mt-2 text-gray-600">{t('blog.tryDifferentSearch', 'Spróbuj użyć innych słów kluczowych lub przeglądaj wszystkie wpisy.')}</p>
+                <Link href="/blog">
+                  <Button className="mt-4">
+                    {t('blog.browseAllPosts', 'Przeglądaj wszystkie wpisy')}
+                  </Button>
+                </Link>
+              </div>
+            ) : (
+              <div className="text-center p-12 bg-gray-50 rounded-lg">
+                <h2 className="text-xl font-bold text-gray-700 mb-2">{t('blog.enterSearchTerms', 'Wprowadź zapytanie')}</h2>
+                <p className="text-gray-600">{t('blog.enterSearchTermsMessage', 'Wpisz słowa kluczowe, aby znaleźć interesujące Cię wpisy.')}</p>
+              </div>
+            )}
+          </>
+        )}
+      </div>
     </div>
   );
-};
-
-export default BlogSearchPage;
+}

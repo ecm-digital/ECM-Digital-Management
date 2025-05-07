@@ -40,6 +40,16 @@ export default function Navbar() {
             <a href={location === '/' ? "#case-studies" : "/#case-studies"} className="hover:text-blue-600 transition-colors text-gray-700">
               {t('navigation.caseStudies')}
             </a>
+            <Link href="/blog">
+              <span className={`hover:text-blue-600 transition-colors cursor-pointer ${location === '/blog' ? 'text-blue-600 font-medium' : 'text-gray-700'}`}>
+                {t('navigation.blog', 'Blog')}
+              </span>
+            </Link>
+            <Link href="/knowledge">
+              <span className={`hover:text-blue-600 transition-colors cursor-pointer ${location === '/knowledge' ? 'text-blue-600 font-medium' : 'text-gray-700'}`}>
+                {t('navigation.knowledge', 'Baza Wiedzy')}
+              </span>
+            </Link>
             <a href={location === '/' ? "#contact-form" : "/#contact-form"} className="hover:text-blue-600 transition-colors text-gray-700">
               {t('navigation.contact')}
             </a>
@@ -87,6 +97,16 @@ export default function Navbar() {
                       <a href={location === '/' ? "#case-studies" : "/#case-studies"} className="block py-2 hover:text-blue-600 transition-colors text-gray-700">
                         {t('navigation.caseStudies')}
                       </a>
+                      <Link href="/blog">
+                        <span className={`block py-2 hover:text-blue-600 transition-colors ${location === '/blog' ? 'text-blue-600 font-medium' : 'text-gray-700'}`}>
+                          {t('navigation.blog', 'Blog')}
+                        </span>
+                      </Link>
+                      <Link href="/knowledge">
+                        <span className={`block py-2 hover:text-blue-600 transition-colors ${location === '/knowledge' ? 'text-blue-600 font-medium' : 'text-gray-700'}`}>
+                          {t('navigation.knowledge', 'Baza Wiedzy')}
+                        </span>
+                      </Link>
                       <a href={location === '/' ? "#contact-form" : "/#contact-form"} className="block py-2 hover:text-blue-600 transition-colors text-gray-700">
                         {t('navigation.contact')}
                       </a>

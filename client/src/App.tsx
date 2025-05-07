@@ -17,6 +17,12 @@ import ClientProfilePage from "@/pages/ClientProfilePage";
 import AboutPage from "@/pages/AboutPage";
 import CaseStudyOne from "@/pages/case-studies/CaseStudyOne";
 import CaseStudyTwo from "@/pages/case-studies/CaseStudyTwo";
+import BlogPage from "./pages/BlogPage";
+import BlogPostPage from "./pages/BlogPostPage";
+import BlogSearchPage from "./pages/BlogSearchPage";
+import KnowledgeBasePage from "./pages/KnowledgeBasePage";
+import KnowledgeArticlePage from "./pages/KnowledgeArticlePage";
+import KnowledgeSearchPage from "./pages/KnowledgeSearchPage";
 import NotFound from "@/pages/not-found";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Service } from "@/types";
@@ -511,6 +517,14 @@ function App() {
         <Route path="/client/orders" component={ClientOrdersPage} />
         <Route path="/client/orders/:orderId" component={ClientOrderDetailsPage} />
         <Route path="/client/profile" component={ClientProfilePage} />
+        {/* Blog Routes */}
+        <Route path="/blog" component={BlogPage} />
+        <Route path="/blog/search" component={BlogSearchPage} />
+        <Route path="/blog/:slug" component={BlogPostPage} />
+        {/* Knowledge Base Routes */}
+        <Route path="/knowledge" component={KnowledgeBasePage} />
+        <Route path="/knowledge/search" component={KnowledgeSearchPage} />
+        <Route path="/knowledge/:slug" component={KnowledgeArticlePage} />
         <Route component={NotFound} />
       </Switch>
       <Toaster />
