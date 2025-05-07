@@ -17,7 +17,7 @@ import { motion, AnimatePresence } from "framer-motion";
 
 interface WelcomeMessage {
   id: number;
-  userId: number;
+  userId: string; // Zmienione z number na string po migracji do Replit Auth
   step: number;
   title: string;
   content: string;
@@ -193,8 +193,8 @@ export function WelcomeMessages() {
                   <div className="flex justify-between items-start">
                     <CardTitle className="text-lg">{message.title}</CardTitle>
                     <Badge 
-                      variant={completedIds.includes(message.id) ? "success" : "outline"} 
-                      className="text-xs"
+                      variant="outline"
+                      className={`text-xs ${completedIds.includes(message.id) ? "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400" : ""}`}
                     >
                       {t('clientPanel.welcomeMessages.step')} {message.step}
                     </Badge>
@@ -211,7 +211,7 @@ export function WelcomeMessages() {
                 </CardContent>
                 <CardFooter className="flex justify-between pt-0">
                   <Button 
-                    variant={completedIds.includes(message.id) ? "success" : "ghost"}
+                    variant={completedIds.includes(message.id) ? "ghost" : "ghost"}
                     size="sm"
                     onClick={() => handleMarkAsCompleted(message.id)}
                     className={`${

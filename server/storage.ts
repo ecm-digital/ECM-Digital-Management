@@ -113,11 +113,21 @@ export class DatabaseStorage implements IStorage {
   }
 
   async createUser(insertUser: InsertUser): Promise<User> {
-    const [user] = await db
-      .insert(users)
-      .values([insertUser])
-      .returning();
-    return user;
+    // Sprawdź czy zawiera id - teraz wymagane po migracji do Replit Auth
+    if (!insertUser.id) {
+      throw new Error('User ID is required for creating a user');
+    }
+    
+    try {
+      const [user] = await db
+        .insert(users)
+        .values(insertUser)
+        .returning();
+      return user;
+    } catch (error) {
+      console.error('Error creating user:', error);
+      throw error;
+    }
   }
 
   async upsertUser(userData: UpsertUser): Promise<User> {

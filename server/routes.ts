@@ -479,8 +479,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get('/api/test/client-panel-data', async (req, res) => {
     try {
       const testData = {
-        orders: await storage.getOrdersByUserId(1),
-        messages: await storage.getMessagesByReceiverId(1),
+        orders: await storage.getOrdersByUserId("1"),
+        messages: await storage.getMessagesByReceiverId("1"),
         milestones: await db.select().from(schema.projectMilestones).where(eq(schema.projectMilestones.orderId, 1))
       };
       
