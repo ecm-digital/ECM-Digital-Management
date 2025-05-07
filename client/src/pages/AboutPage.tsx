@@ -40,23 +40,23 @@ const AboutPage: React.FC = () => {
     },
     {
       name: "Mario Rifaat",
-      role: currentLanguage === 'de' ? "Entwickler & AI-Spezialist" : "Developer & Specjalista AI",
+      role: currentLanguage === 'de' ? "Lead Developer" : "Lead Developer",
       imageSrc: "https://ui-avatars.com/api/?name=Mario+Rifaat&background=6366F1&color=fff&size=512",
       description: currentLanguage === 'de' 
-        ? "Full-Stack-Entwickler mit Schwerpunkt auf innovative Webentwicklung und KI-Integration. Erfolgreich beim Erstellen skalierbarer Lösungen." 
-        : "Full-stack developer specjalizujący się w innowacyjnych rozwiązaniach webowych i integracji AI. Specjalista od tworzenia skalowalnych rozwiązań.",
-      linkedin: "https://linkedin.com/in/mariorifaat",
+        ? "Erfahrener Entwickler bei Merixstudio spezialisiert auf Frontend, React und Next.js. Integriert moderne Web-Technologien und fortschrittliche UI-Frameworks in verschiedenen Projekten." 
+        : "Doświadczony developer w Merixstudio specjalizujący się w technologiach frontendowych, React i Next.js. Integruje nowoczesne technologie webowe i zaawansowane frameworki UI w różnorodnych projektach.",
+      linkedin: "https://www.linkedin.com/in/mario-rifaat-4b8460164/",
       github: "https://github.com/mariorifaat",
       website: "https://ecm-digital.com"
     },
     {
       name: "Michał Bieguszewski",
-      role: currentLanguage === 'de' ? "Marketing & Business Development" : "Marketing & Business Development",
+      role: currentLanguage === 'de' ? "Sales & Business Development Manager" : "Sales & Business Development Manager",
       imageSrc: "https://ui-avatars.com/api/?name=Michal+Bieguszewski&background=22C55E&color=fff&size=512",
       description: currentLanguage === 'de' 
-        ? "Stratege für digitales Marketing und Geschäftsentwicklung. Erfahrung bei der Umsetzung erfolgreicher Kampagnen und der Förderung des Unternehmenswachstums." 
-        : "Strateg marketingu cyfrowego i rozwoju biznesu. Doświadczenie w prowadzeniu skutecznych kampanii i rozwoju firm.",
-      linkedin: "https://linkedin.com/in/michalbieguszewski",
+        ? "Spezialist für internationalen Handel und B2B-Vertrieb bei Cross-Border Commerce Europe. Erfahrung in der Expansion der Vertriebsreichweite und im Aufbau innovativer Partnerschaften." 
+        : "Specjalista ds. handlu międzynarodowego i sprzedaży B2B w Cross-Border Commerce Europe. Doświadczenie w rozszerzaniu zasięgu sprzedaży i budowaniu innowacyjnych partnerstw.",
+      linkedin: "https://www.linkedin.com/in/bieguszewski/",
       github: "https://github.com/michalbieguszewski",
       website: "https://ecm-digital.com"
     }
