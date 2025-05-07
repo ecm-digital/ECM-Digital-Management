@@ -2,7 +2,7 @@ import express, { Express, Request, Response, NextFunction } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import * as schema from "@shared/schema";
-import { insertOrderSchema, insertServiceSchema } from "@shared/schema";
+import { insertOrderSchema, insertServiceSchema, leads } from "@shared/schema";
 import multer from "multer";
 import { z } from "zod";
 import { nanoid } from "nanoid";
@@ -2506,6 +2506,74 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error fetching dashboard data:", error);
       res.status(500).json({ message: "Error fetching dashboard data" });
+    }
+  });
+
+  // API dla Lead Magnet
+  app.post('/api/leads', async (req: Request, res: Response) => {
+    try {
+      const { email, leadType, source, consentGiven, additionalData } = req.body;
+      
+      if (!email) {
+        return res.status(400).json({ message: 'Adres email jest wymagany' });
+      }
+      
+      // Pobierz informacje o kliencie
+      const ipAddress = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+      const userAgent = req.headers['user-agent'];
+      
+      // Zapisz lead w bazie danych
+      const [lead] = await db
+        .insert(leads)
+        .values({
+          email,
+          leadType: leadType || 'newsletter',
+          source,
+          ipAddress: ipAddress?.toString(),
+          userAgent: userAgent,
+          consentGiven: consentGiven !== false,
+          additionalData
+        })
+        .returning();
+      
+      // Opcjonalnie - integracja z SendGrid do wysyłki emaila
+      
+      return res.status(201).json({ success: true, lead });
+    } catch (error) {
+      console.error('Błąd podczas zapisywania leada:', error);
+      return res.status(500).json({ 
+        message: 'Wystąpił błąd podczas zapisywania danych',
+        error: process.env.NODE_ENV === 'development' ? error.message : undefined
+      });
+    }
+  });
+
+  // Endpoint do weryfikacji adresu email (sprawdza, czy email już istnieje w bazie)
+  app.get('/api/leads/verify-email', async (req: Request, res: Response) => {
+    try {
+      const { email } = req.query;
+      
+      if (!email) {
+        return res.status(400).json({ message: 'Adres email jest wymagany' });
+      }
+      
+      // Sprawdź, czy lead już istnieje
+      const existingLead = await db
+        .select()
+        .from(leads)
+        .where(eq(leads.email, email.toString()))
+        .limit(1);
+      
+      return res.json({ 
+        exists: existingLead.length > 0,
+        isSubscribed: existingLead.length > 0 && existingLead[0].leadType === 'newsletter'
+      });
+    } catch (error) {
+      console.error('Błąd podczas weryfikacji adresu email:', error);
+      return res.status(500).json({ 
+        message: 'Wystąpił błąd podczas weryfikacji adresu email',
+        error: process.env.NODE_ENV === 'development' ? error.message : undefined
+      });
     }
   });
 

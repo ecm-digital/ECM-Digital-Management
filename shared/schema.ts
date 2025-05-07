@@ -166,6 +166,21 @@ export const knowledgeBase = pgTable("knowledge_base", {
   updatedAt: timestamp("updated_at").defaultNow(),
 });
 
+// Lead Magnet - tabela do przechowywania leadów
+export const leads = pgTable("leads", {
+  id: serial("id").primaryKey(),
+  email: varchar("email").notNull(),
+  leadType: varchar("lead_type").notNull().default("newsletter"),
+  source: varchar("source"), // skąd pochodzi lead (ścieżka URL)
+  ipAddress: varchar("ip_address"),
+  userAgent: text("user_agent"),
+  consentGiven: boolean("consent_given").notNull().default(true),
+  createdAt: timestamp("created_at").defaultNow(),
+  convertedAt: timestamp("converted_at"),
+  convertedToCustomer: boolean("converted_to_customer").default(false),
+  additionalData: jsonb("additional_data"), // dodatkowe dane zależne od typu leada
+});
+
 // Relations
 export const ordersRelations = relations(orders, ({ one, many }) => ({
   user: one(users, {
@@ -272,6 +287,7 @@ export const insertProjectMilestoneSchema = createInsertSchema(projectMilestones
 export const insertWelcomeMessageSchema = createInsertSchema(welcomeMessages).omit({ id: true, createdAt: true, completedAt: true });
 export const insertBlogPostSchema = createInsertSchema(blogPosts).omit({ id: true, createdAt: true, updatedAt: true, viewCount: true });
 export const insertKnowledgeBaseSchema = createInsertSchema(knowledgeBase).omit({ id: true, createdAt: true, updatedAt: true, viewCount: true });
+export const insertLeadSchema = createInsertSchema(leads).omit({ id: true, createdAt: true, convertedAt: true, convertedToCustomer: true });
 
 // Types
 export type InsertService = z.infer<typeof insertServiceSchema>;
@@ -295,6 +311,8 @@ export type ProjectMilestone = typeof projectMilestones.$inferSelect;
 export type WelcomeMessage = typeof welcomeMessages.$inferSelect;
 export type BlogPost = typeof blogPosts.$inferSelect;
 export type KnowledgeBase = typeof knowledgeBase.$inferSelect;
+export type Lead = typeof leads.$inferSelect;
+export type InsertLead = z.infer<typeof insertLeadSchema>;
 
 // Specjalny typ dla użytkownika z Replit Auth
 export type UpsertUser = {
