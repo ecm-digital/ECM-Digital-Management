@@ -209,6 +209,149 @@
           "Schulung zur Inhaltsverwaltung"
         ]
       },
+      "aiLandingPages": {
+        "name": "AI Landing Pages",
+        "shortDescription": "Wir erstellen responsive Seiten in 72 Stunden mit Figma Sites - ideal für MVP, A/B-Tests und Werbekampagnen.",
+        "description": "Wir erstellen responsive Seiten in 72 Stunden mit Figma Sites - ideal für MVP, A/B-Tests und Werbekampagnen.",
+        "longDescription": "Mit den neuen Figma Sites-Tools können wir vollständig responsive Landing Pages in nur 72 Stunden erstellen und implementieren. Diese Art von Seiten eignet sich hervorragend als schnelles MVP, für A/B-Tests verschiedener Inhaltsversionen und als dedizierte Landing Pages für Werbekampagnen. Der gesamte Prozess ist sehr effizient und ermöglicht schnelle Iterationen.",
+        "features": [
+          "Responsive Seite basierend auf Figma Sites",
+          "Implementierung innerhalb von 72 Stunden",
+          "Google Analytics-Integration",
+          "Kontaktformular",
+          "SEO-Optimierung"
+        ],
+        "benefits": [
+          "Schnelle Implementierung in 72 Stunden",
+          "Ideal zum Testen von Produkten und Kampagnen",
+          "Vollständige Responsivität auf allen Geräten",
+          "Einfache Integration mit Analysetools",
+          "Benutzerfreundliches CMS für Inhaltsaktualisierungen"
+        ],
+        "scope": [
+          "UX/UI-Design der Seite in Figma",
+          "Implementierung mit Figma Sites",
+          "Optimierung der Ladegeschwindigkeit",
+          "Domain- und Hosting-Konfiguration",
+          "Google Analytics-Implementierung",
+          "CMS-Schulung"
+        ]
+      },
+      "aiUiPrototypes": {
+        "name": "AI UI-Prototypen",
+        "shortDescription": "Basierend auf Ihrem Briefing generieren wir 3 UI-Versionen mit Figma Make. Schnelle Ideenvalidierung.",
+        "description": "Basierend auf Ihrem Briefing generieren wir 3 UI-Versionen mit Figma Make. Schnelle Ideenvalidierung.",
+        "longDescription": "Mit dem neuesten Tool Figma Make können wir basierend auf Ihrem Briefing 3 verschiedene UI-Vorschläge generieren. Dies ermöglicht eine schnelle Validierung von Ideen und Designrichtungen ohne kostspieligen und zeitaufwändigen Entwurfsprozess von Grund auf. Jeder Prototyp enthält Hauptbildschirme und Interaktionen, was schnelle Benutzertests ermöglicht.",
+        "features": [
+          "3 verschiedene KI-generierte UI-Konzepte",
+          "Interaktive Prototypen wichtiger Bildschirme",
+          "Ergebnispräsentation und Empfehlungen",
+          "Einfache Iterationsmöglichkeit",
+          "Vorbereitung für Benutzertests"
+        ],
+        "benefits": [
+          "Schnelle Validierung von Geschäftsideen",
+          "Zeit- und Kostenersparnis bei der Gestaltung",
+          "Erkundung verschiedener Designrichtungen",
+          "Material bereit für Benutzertests",
+          "Grundlage für das endgültige UI-Design"
+        ],
+        "scope": [
+          "Vorbereitung des Designbriefings",
+          "Generierung von 3 UI-Konzepten in Figma Make",
+          "Verfeinerung und Kohärenz der generierten Schnittstellen",
+          "Erstellung interaktiver Prototypen",
+          "Vorbereitung von Testszenarien",
+          "Ergebnispräsentation und Empfehlungen"
+        ]
+      },
+      "aiGraphicCampaigns": {
+        "name": "KI-gestützte Grafikdesign-Kampagnen",
+        "shortDescription": "Massenproduktion von Grafiken (Social Media, Banner) mit Excel und Figma Buzz. Schnell, konsistent und kreativ.",
+        "description": "Massenproduktion von Grafiken (Social Media, Banner) mit Excel und Figma Buzz. Schnell, konsistent und kreativ.",
+        "longDescription": "Durch die Kombination von Excel mit Figma Buzz können wir konsistente Grafiken für Social-Media-Kampagnen, Werbebanner und andere Marketingmaterialien in großen Mengen erstellen. Der Prozess ist automatisiert, was die Generierung einer großen Anzahl von Materialien in kurzer Zeit ermöglicht, während gleichzeitig visuelle Konsistenz und hohe Qualität gewährleistet werden. Dies ist die ideale Lösung für Kampagnen, die viele Grafikvarianten erfordern.",
+        "features": [
+          "Massengenerierung von Grafiken basierend auf Excel-Daten",
+          "Einheitlicher visueller Stil für die gesamte Kampagne",
+          "Unterstützung verschiedener Formate (Facebook, Instagram, Google Ads)",
+          "System zur Kennzeichnung und Kategorisierung von Grafiken",
+          "Vorbereitung für Social-Media-Veröffentlichungen"
+        ],
+        "benefits": [
+          "Erhebliche Zeitersparnis bei der Erstellung vieler Materialien",
+          "Visuelle Konsistenz aller Materialien",
+          "Einfache Aktualisierung von Grafiken bei Angebotsänderungen",
+          "Schnelle Anpassung an verschiedene Werbeformate",
+          "Möglichkeit zur Generierung von A/B-Testvarianten"
+        ],
+        "scope": [
+          "Vorbereitung der Datenstruktur in Excel",
+          "Entwurf von Basisvorlagen in Figma",
+          "Konfiguration von Figma Buzz für die Automatisierung",
+          "Generierung von Grafiken für alle Formate",
+          "Organisation und Kennzeichnung von Materialien",
+          "Export in veröffentlichungsbereiten Formaten",
+          "Schulung zur Grafikaktualisierung"
+        ]
+      },
+      "illustrationsIcons": {
+        "name": "Illustrationen & Icons",
+        "shortDescription": "Einzigartige Vektoren mit Figma Draw - Icons, Illustrationen, Hintergründe - ohne externe Tools.",
+        "description": "Einzigartige Vektoren mit Figma Draw - Icons, Illustrationen, Hintergründe - ohne externe Tools.",
+        "longDescription": "Mit dem neuen Figma Draw-Tool erstellen wir einzigartige Vektorillustrationen und Icons, die auf Ihre Marke zugeschnitten sind. Alles geschieht in einer einzigen Umgebung, ohne dass externe Programme erforderlich sind, was vollständige Kohärenz mit dem Rest des Projekts ermöglicht. Die Illustrationen werden im Vektorformat erstellt, was eine Skalierung ohne Qualitätsverlust ermöglicht.",
+        "features": [
+          "Einzigartige Vektorillustrationen erstellt mit Figma Draw",
+          "Kohärenter Icon-Satz für das gesamte Produkt",
+          "Hintergründe und dekorative Grafiken passend zur Marke",
+          "Komponentenbibliothek zur Wiederverwendung",
+          "Vollständige Stildokumentation"
+        ],
+        "benefits": [
+          "Einzigartiger Grafikstil, der die Marke hervorhebt",
+          "Visuelle Kohärenz aller Elemente",
+          "Einfache Modifikationen und Erweiterungen in der Zukunft",
+          "Vektorgrafiken, die auf jedem Gerät funktionieren",
+          "Keine Probleme mit Lizenzen für Stock-Grafiken"
+        ],
+        "scope": [
+          "Definition eines markentauglichen Illustrationsstils",
+          "Erstellung von 3 wichtigen Hauptillustrationen",
+          "Design eines Sets von 20 Systemsymbolen",
+          "Vorbereitung von 5 Hintergrund-/Texturmustern",
+          "Organisation der Komponentenbibliothek",
+          "Export in Formaten .svg, .ai und .fig",
+          "Stildokumentation und Richtlinien"
+        ]
+      },
+      "pixelPerfectDevReady": {
+        "name": "Pixel-perfect Dev Ready",
+        "shortDescription": "Mit Grid + Dev Mode erstellen wir implementierungsfertige Layouts mit CSS und Responsive Design standardmäßig.",
+        "description": "Mit Grid + Dev Mode erstellen wir implementierungsfertige Layouts mit CSS und Responsive Design standardmäßig.",
+        "longDescription": "Wir verwenden das Grid-System und den Dev Mode in Figma, um perfekt organisierte Layouts zu erstellen, die vollständig für die Implementierung durch Entwickler bereit sind. Jedes Element ist genau dimensioniert, hat entsprechende Abstände und Paddings, und das gesamte Layout ist mit Blick auf Responsivität gestaltet. Zusätzlich generieren wir einsatzbereiten CSS-Code, was den Programmierprozess erheblich beschleunigt.",
+        "features": [
+          "Präzise Layouts basierend auf dem Grid-System",
+          "Vollständige Responsivität für alle Breakpoints",
+          "Automatisch generierter CSS-Code",
+          "Vollständige Spezifikationen für Entwickler",
+          "Interaktive Komponenten mit Zustandsdokumentation"
+        ],
+        "benefits": [
+          "Erheblich verkürzte Implementierungszeit",
+          "Beseitigung von Missverständnissen zwischen Designern und Entwicklern",
+          "Konsistenz der Benutzeroberfläche auf allen Geräten",
+          "Einfachere Wartung und Erweiterung in der Zukunft",
+          "Einhaltung der besten UI/UX-Praktiken"
+        ],
+        "scope": [
+          "Analyse der technischen Projektanforderungen",
+          "Design des Grid-Systems für alle Breakpoints",
+          "Vorbereitung von Layouts für alle wichtigen Ansichten",
+          "Konfiguration des Dev Mode für Elemente",
+          "Generierung von Spezifikationen und Dokumentation",
+          "Vorbereitung der Komponentenbibliothek",
+          "Unterstützung des Entwicklerteams während der Implementierung"
+        ]
+      },
       "aiEcommerce": {
         "name": "E-Commerce mit KI",
         "shortDescription": "KI-optimierter Online-Shop für höhere Umsätze",
