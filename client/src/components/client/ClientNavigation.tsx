@@ -80,7 +80,13 @@ export default function ClientNavigation() {
             ))}
           </ul>
         </nav>
-        <div className="p-4 border-t">
+        <div className="p-4 border-t space-y-2">
+          <a href="/api/logout">
+            <Button variant="default" className="w-full justify-start gap-2">
+              <LogOut className="h-5 w-5" />
+              {t('clientPanel.logout') || 'Wyloguj się'}
+            </Button>
+          </a>
           <Link href="/">
             <Button variant="outline" className="w-full justify-start gap-2">
               <LogOut className="h-5 w-5" />
@@ -133,7 +139,13 @@ export default function ClientNavigation() {
                   ))}
                 </ul>
               </nav>
-              <div className="p-4 border-t">
+              <div className="p-4 border-t space-y-2">
+                <a href="/api/logout">
+                  <Button variant="default" className="w-full justify-start gap-2">
+                    <LogOut className="h-5 w-5" />
+                    {t('clientPanel.logout') || 'Wyloguj się'}
+                  </Button>
+                </a>
                 <Link href="/">
                   <Button variant="outline" className="w-full justify-start gap-2">
                     <LogOut className="h-5 w-5" />
