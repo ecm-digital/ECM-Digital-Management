@@ -6,6 +6,62 @@
       "3": "Verbesserung der Benutzererfahrung",
       "4": "Steigerung von Konversionen und Umsatz"
     },
+  "clientPanel": {
+    "title": "Kundenpanel",
+    "welcome": "Willkommen in Ihrem persönlichen Bereich. Hier können Sie Ihre Projekte verfolgen und mit unserem Team kommunizieren.",
+    "dashboard": "Dashboard",
+    "orders": "Bestellungen",
+    "profile": "Profil",
+    "logout": "Abmelden",
+    "mobileMenuTitle": "Kundenmenü",
+    "allOrders": "Alle Bestellungen",
+    "unreadMessages": "Ungelesene Nachrichten",
+    "waitingToRead": "Warten auf Lesen",
+    "upcomingMilestones": "Bevorstehende Meilensteine",
+    "inNext14Days": "In den nächsten 14 Tagen",
+    "orderValue": "Bestellwert",
+    "details": "Details",
+    "viewOrder": "Bestellung anzeigen",
+    "noMilestones": "Sie haben keine bevorstehenden Meilensteine.",
+    "onboarding": {
+      "welcome": "Willkommen bei ECM Digital!",
+      "title": "Willkommen in Ihrem neuen Kundenpanel",
+      "subtitle": "Wir freuen uns, Sie in unserem Team begrüßen zu dürfen",
+      "skip": "Einführung überspringen",
+      "next": "Weiter",
+      "previous": "Zurück",
+      "finish": "Abschließen",
+      "step1": {
+        "title": "Willkommen bei ECM Digital",
+        "content": "Wir freuen uns, dass Sie bei uns sind! Wir sind ein Team von Experten für UX/UI, Webentwicklung und Marketing. Unser Ziel ist es, Ihnen zu helfen, Ihr Unternehmen durch effektive digitale Lösungen zu entwickeln."
+      },
+      "step2": {
+        "title": "Entdecken Sie Ihr Kundenpanel",
+        "content": "Das Kundenpanel ist der Ort, an dem Sie den Fortschritt Ihrer Projekte verfolgen, mit unserem Team kommunizieren und die wichtigsten Informationen zu unserer Zusammenarbeit einsehen können."
+      },
+      "step3": {
+        "title": "Erzählen Sie uns mehr über Ihr Unternehmen",
+        "content": "Um unsere Dienstleistungen besser an Ihre Bedürfnisse anzupassen, möchten wir gerne mehr über Ihr Unternehmen und Ihre Projekte erfahren.",
+        "industry": "Branche",
+        "companySize": "Unternehmensgröße",
+        "projectType": "Projekttyp",
+        "goal": "Hauptgeschäftsziel"
+      },
+      "step4": {
+        "title": "Ihr dediziertes Team",
+        "content": "Wir haben Ihnen ein dediziertes Team zugewiesen, das an Ihren Projekten arbeiten wird. Sie können sie jederzeit über den Nachrichten-Tab kontaktieren.",
+        "projectManager": "Projektbetreuer",
+        "designer": "UX/UI-Designer",
+        "developer": "Entwickler"
+      },
+      "step5": {
+        "title": "Bereit zum Start!",
+        "content": "Alles ist fertig! Jetzt können Sie das Kundenpanel nutzen und effektiv mit unserem Team zusammenarbeiten. Wenn Sie Fragen haben, zögern Sie nicht, uns zu kontaktieren."
+      },
+      "complete": "Konfiguration abgeschlossen",
+      "completeMessage": "Vielen Dank für das Ausfüllen der Informationen. Ihr Panel ist jetzt einsatzbereit!"
+    }
+  },
     "AudytUX": {
       "1": "Identifizierung von UX-Problemen, die Konversionen blockieren",
       "2": "Analyse von Benutzerpfaden und Schmerzpunkten",
