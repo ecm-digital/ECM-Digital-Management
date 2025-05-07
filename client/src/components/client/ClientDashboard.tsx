@@ -8,6 +8,7 @@ import { Loader2, AlertCircle, CheckCircle, Clock } from "lucide-react";
 import { formatDistance } from "date-fns";
 import { pl, de } from "date-fns/locale";
 import { useTranslation } from "react-i18next";
+import { WelcomeMessages } from "./WelcomeMessages";
 
 export default function ClientDashboard() {
   const { t, i18n } = useTranslation();
@@ -50,6 +51,9 @@ export default function ClientDashboard() {
       <p className="text-muted-foreground mb-8">
         {t('clientPanel.welcome')}
       </p>
+      
+      {/* Wyświetlanie wiadomości powitalnych */}
+      <WelcomeMessages />
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
         <StatCard title={t('clientPanel.orders')} value={recentOrders?.length || 0} description={t('clientPanel.allOrders')} />
