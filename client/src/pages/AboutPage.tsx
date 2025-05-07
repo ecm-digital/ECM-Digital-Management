@@ -16,6 +16,7 @@ import { motion } from 'framer-motion';
 // Import team member images
 import marioImage from '@/assets/mario.png';
 import michalImage from '@/assets/michal.png';
+import tomaszImage from '@/assets/tomasz.png';
 
 const AboutPage: React.FC = () => {
   const { t, i18n } = useTranslation();
@@ -34,7 +35,7 @@ const AboutPage: React.FC = () => {
     {
       name: "Tomasz Gnat",
       role: currentLanguage === 'de' ? "UX Designer & Gründer" : "UX Designer & Założyciel",
-      imageSrc: "https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1148&q=80",
+      imageSrc: tomaszImage,
       description: currentLanguage === 'de' 
         ? "Experte für nutzerzentriertes Design und Conversion-Optimierung. Über 10 Jahre Erfahrung in der Gestaltung digitaler Erlebnisse." 
         : "Ekspert w zakresie projektowania zorientowanego na użytkownika i optymalizacji konwersji. Ponad 10 lat doświadczenia w projektowaniu doświadczeń cyfrowych.",
