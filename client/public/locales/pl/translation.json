@@ -303,6 +303,13 @@
     "details": "Szczegóły",
     "viewOrder": "Zobacz zamówienie",
     "noMilestones": "Nie masz nadchodzących kamieni milowych.",
+    "welcomeMessages": {
+      "title": "Wiadomości powitalne",
+      "step": "Krok",
+      "markAsRead": "Oznacz jako przeczytane",
+      "completed": "Ukończone",
+      "error": "Wystąpił błąd"
+    },
     "onboarding": {
       "welcome": "Witaj w ECM Digital!",
       "title": "Witaj w Twoim nowym panelu klienta",

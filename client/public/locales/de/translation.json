@@ -23,6 +23,13 @@
     "details": "Details",
     "viewOrder": "Bestellung anzeigen",
     "noMilestones": "Sie haben keine bevorstehenden Meilensteine.",
+    "welcomeMessages": {
+      "title": "Willkommensnachrichten",
+      "step": "Schritt",
+      "markAsRead": "Als gelesen markieren",
+      "completed": "Abgeschlossen",
+      "error": "Ein Fehler ist aufgetreten"
+    },
     "onboarding": {
       "welcome": "Willkommen bei ECM Digital!",
       "title": "Willkommen in Ihrem neuen Kundenpanel",

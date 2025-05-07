@@ -10,9 +10,36 @@ import { pl, de } from "date-fns/locale";
 import { useTranslation } from "react-i18next";
 import { WelcomeMessages } from "./WelcomeMessages";
 
+// Interfejsy dla typów danych
+interface DashboardData {
+  recentOrders: Order[];
+  unreadMessages: number;
+  upcomingMilestones: Milestone[];
+}
+
+interface Order {
+  id: number;
+  serviceId: string;
+  serviceName?: string;
+  orderId: string;
+  status: string;
+  totalPrice: number;
+  createdAt: string;
+}
+
+interface Milestone {
+  id: number;
+  orderId: number;
+  orderNumber?: string;
+  title: string;
+  description: string;
+  status: string;
+  dueDate: string;
+}
+
 export default function ClientDashboard() {
   const { t, i18n } = useTranslation();
-  const { data, isLoading, isError } = useQuery({
+  const { data, isLoading, isError } = useQuery<DashboardData>({
     queryKey: ["/api/client/dashboard"],
     retry: false,
   });
@@ -38,11 +65,11 @@ export default function ClientDashboard() {
     );
   }
 
-  // Gdy używamy testowego endpointu (możemy dostosować to później do właściwego API)
+  // Dane z API z typami
   const { recentOrders, unreadMessages, upcomingMilestones } = data || {
-    recentOrders: [],
+    recentOrders: [] as Order[],
     unreadMessages: 0,
-    upcomingMilestones: [],
+    upcomingMilestones: [] as Milestone[],
   };
 
   return (
@@ -97,7 +124,13 @@ export default function ClientDashboard() {
   );
 }
 
-function StatCard({ title, value, description }) {
+interface StatCardProps {
+  title: string;
+  value: number;
+  description: string;
+}
+
+function StatCard({ title, value, description }: StatCardProps) {
   return (
     <Card>
       <CardHeader className="pb-2">
@@ -111,18 +144,22 @@ function StatCard({ title, value, description }) {
   );
 }
 
-function OrderCard({ order }) {
+interface OrderCardProps {
+  order: Order;
+}
+
+function OrderCard({ order }: OrderCardProps) {
   const { t, i18n } = useTranslation();
   const locale = i18n.language === 'de' ? de : pl;
   
-  const statusColors = {
+  const statusColors: Record<string, string> = {
     "Nowe": "bg-blue-500",
     "W realizacji": "bg-amber-500",
     "Zakończone": "bg-green-500",
     "Anulowane": "bg-red-500"
   };
 
-  const getStatusIcon = (status) => {
+  const getStatusIcon = (status: string): React.ReactNode => {
     switch (status) {
       case "Nowe": return <Clock className="h-4 w-4" />;
       case "W realizacji": return <Loader2 className="h-4 w-4" />;
@@ -166,11 +203,15 @@ function OrderCard({ order }) {
   );
 }
 
-function MilestoneCard({ milestone }) {
+interface MilestoneCardProps {
+  milestone: Milestone;
+}
+
+function MilestoneCard({ milestone }: MilestoneCardProps) {
   const { t, i18n } = useTranslation();
   const locale = i18n.language === 'de' ? de : pl;
   
-  const statusColors = {
+  const statusColors: Record<string, string> = {
     "Oczekujące": "bg-blue-500",
     "W trakcie": "bg-amber-500",
     "Zakończone": "bg-green-500",
@@ -207,7 +248,11 @@ function MilestoneCard({ milestone }) {
   );
 }
 
-function EmptyState({ message }) {
+interface EmptyStateProps {
+  message: string;
+}
+
+function EmptyState({ message }: EmptyStateProps) {
   return (
     <Card>
       <CardContent className="flex flex-col items-center justify-center p-6">
