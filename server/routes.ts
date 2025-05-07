@@ -40,7 +40,13 @@ const serviceTranslations: Record<string, string> = {
   "Automatyzacje (n8n, Zapier)": "Automatisierungen (n8n, Zapier)",
   "Custom AI Tools": "Individuelle KI-Tools",
   "Product Discovery Workshop": "Product Discovery Workshop",
-  "UX Scorecard": "UX Scorecard"
+  "UX Scorecard": "UX Scorecard",
+  // Nowe usługi Figma 2025
+  "AI Landing Pages": "AI Landing Pages",
+  "AI Prototypy UI": "AI UI-Prototypen",
+  "Kampanie graficzne z AI": "KI-gestützte Grafikdesign-Kampagnen",
+  "Ilustracje & ikony": "Illustrationen & Icons",
+  "Pixel-perfect Dev Ready": "Pixel-perfect Dev Ready"
 };
 
 // Tłumaczenia kategorii
@@ -94,7 +100,14 @@ const serviceNameToKey: Record<string, string> = {
   "Product Discovery Workshop": "productDiscoveryWorkshop",
   "MVP z AI": "aiMvp",
   "MVP Startupu": "startupMvp",
-  "Mentoring & Konsultacje": "mentoringConsulting"
+  "Mentoring & Konsultacje": "mentoringConsulting",
+  
+  // Figma 2025
+  "AI Landing Pages": "aiLandingPages",
+  "AI Prototypy UI": "aiUiPrototypes",
+  "Kampanie graficzne z AI": "aiGraphicCampaigns",
+  "Ilustracje & ikony": "illustrationsIcons",
+  "Pixel-perfect Dev Ready": "pixelPerfectDevReady"
 };
 
 // Funkcja pomocnicza do pobierania tłumaczeń usługi z pliku
