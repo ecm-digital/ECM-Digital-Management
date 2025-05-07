@@ -29,6 +29,11 @@ export default function Navbar() {
                 {t('navigation.home')}
               </span>
             </Link>
+            <Link href="/about">
+              <span className={`hover:text-blue-600 transition-colors cursor-pointer ${location === '/about' ? 'text-blue-600 font-medium' : 'text-gray-700'}`}>
+                {t('navigation.about')}
+              </span>
+            </Link>
             <a href={location === '/' ? "#services" : "/#services"} className="hover:text-blue-600 transition-colors text-gray-700">
               {t('navigation.services')}
             </a>
@@ -69,6 +74,11 @@ export default function Navbar() {
                       <Link href="/">
                         <span className={`block py-2 hover:text-blue-600 transition-colors ${location === '/' ? 'text-blue-600 font-medium' : 'text-gray-700'}`}>
                           {t('navigation.home')}
+                        </span>
+                      </Link>
+                      <Link href="/about">
+                        <span className={`block py-2 hover:text-blue-600 transition-colors ${location === '/about' ? 'text-blue-600 font-medium' : 'text-gray-700'}`}>
+                          {t('navigation.about')}
                         </span>
                       </Link>
                       <a href={location === '/' ? "#services" : "/#services"} className="block py-2 hover:text-blue-600 transition-colors text-gray-700">
