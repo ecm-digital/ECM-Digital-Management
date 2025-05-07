@@ -14,6 +14,7 @@ import ClientDashboardPage from "@/pages/ClientDashboardPage";
 import ClientOrdersPage from "@/pages/ClientOrdersPage";
 import ClientOrderDetailsPage from "@/pages/ClientOrderDetailsPage";
 import ClientProfilePage from "@/pages/ClientProfilePage";
+import AboutPage from "@/pages/AboutPage";
 import NotFound from "@/pages/not-found";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Service } from "@/types";
@@ -499,6 +500,7 @@ function App() {
         <Route path="/service/:id" component={ServiceDetailsPage} />
         <Route path="/configure" component={ConfigureServicePage} />
         <Route path="/configure/:id" component={ConfigureServicePage} />
+        <Route path="/about" component={AboutPage} />
         {/* Client Panel Routes */}
         <Route path="/client/dashboard" component={ClientDashboardPage} />
         <Route path="/client/orders" component={ClientOrdersPage} />
