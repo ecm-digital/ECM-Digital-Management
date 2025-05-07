@@ -1,29 +1,37 @@
-import { pgTable, text, serial, integer, boolean, jsonb, timestamp, uniqueIndex, varchar } from "drizzle-orm/pg-core";
+import { pgTable, text, serial, integer, boolean, jsonb, timestamp, uniqueIndex, varchar, index } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 import { relations } from "drizzle-orm";
 
-// Users table
+// Session storage table dla Replit Auth
+export const sessions = pgTable(
+  "sessions",
+  {
+    sid: varchar("sid").primaryKey(),
+    sess: jsonb("sess").notNull(),
+    expire: timestamp("expire").notNull(),
+  },
+  (table) => [index("IDX_session_expire").on(table.expire)],
+);
+
+// Users table - zmodyfikowana dla Replit Auth
 export const users = pgTable("users", {
-  id: serial("id").primaryKey(),
-  username: text("username").notNull(),
-  password: text("password").notNull(),
-  email: text("email"),
-  firstName: text("first_name"),
-  lastName: text("last_name"),
+  id: varchar("id").primaryKey().notNull(), // ID z Replit Auth (sub z JWT)
+  username: varchar("username").unique().notNull(),
+  email: varchar("email").unique(),
+  firstName: varchar("first_name"),
+  lastName: varchar("last_name"),
+  bio: text("bio"),
+  profileImageUrl: varchar("profile_image_url"),
   company: text("company"),
   role: text("role").default("client"), // client, admin, agent
-  profileImage: text("profile_image"),
   onboardingStep: integer("onboarding_step").default(0), // Śledzenie postępu w sekwencji powitalnej
   onboardingCompleted: boolean("onboarding_completed").default(false), // Czy sekwencja powitalna została ukończona
   preferences: jsonb("preferences"), // Preferencje użytkownika zebrane podczas sekwencji powitalnej
   industry: text("industry"), // Branża klienta
   projectType: text("project_type"), // Rodzaj projektu, którym jest zainteresowany
   createdAt: timestamp("created_at").defaultNow(),
-}, (table) => {
-  return {
-    usernameIdx: uniqueIndex("username_idx").on(table.username),
-  };
+  updatedAt: timestamp("updated_at").defaultNow(),
 });
 
 // Services table - for storing service configuration options
@@ -56,8 +64,8 @@ export const orders = pgTable("orders", {
   deliveryTime: integer("delivery_time").notNull(),
   fileUrl: text("file_url"),
   status: text("status").default("Nowe"), // Nowe, W realizacji, Zakończone, Anulowane
-  userId: integer("user_id").references(() => users.id),
-  assignedToId: integer("assigned_to_id").references(() => users.id),
+  userId: varchar("user_id").references(() => users.id),
+  assignedToId: varchar("assigned_to_id").references(() => users.id),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
   deadline: timestamp("deadline"),
@@ -71,7 +79,7 @@ export const projectFiles = pgTable("project_files", {
   fileUrl: text("file_url").notNull(),
   fileType: text("file_type"), // Typ pliku (np. 'brief', 'design', 'final')
   fileSize: integer("file_size"),
-  uploadedById: integer("uploaded_by_id").references(() => users.id),
+  uploadedById: varchar("uploaded_by_id").references(() => users.id),
   createdAt: timestamp("created_at").defaultNow(),
 });
 
@@ -79,8 +87,8 @@ export const projectFiles = pgTable("project_files", {
 export const messages = pgTable("messages", {
   id: serial("id").primaryKey(),
   orderId: integer("order_id").references(() => orders.id).notNull(),
-  senderId: integer("sender_id").references(() => users.id).notNull(),
-  receiverId: integer("receiver_id").references(() => users.id),
+  senderId: varchar("sender_id").references(() => users.id).notNull(),
+  receiverId: varchar("receiver_id").references(() => users.id),
   content: text("content").notNull(),
   isRead: boolean("is_read").default(false),
   createdAt: timestamp("created_at").defaultNow(),
@@ -90,7 +98,7 @@ export const messages = pgTable("messages", {
 export const projectNotes = pgTable("project_notes", {
   id: serial("id").primaryKey(),
   orderId: integer("order_id").references(() => orders.id).notNull(),
-  createdById: integer("created_by_id").references(() => users.id).notNull(),
+  createdById: varchar("created_by_id").references(() => users.id).notNull(),
   content: text("content").notNull(),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
@@ -111,7 +119,7 @@ export const projectMilestones = pgTable("project_milestones", {
 // Tabela wiadomości powitalnych
 export const welcomeMessages = pgTable("welcome_messages", {
   id: serial("id").primaryKey(),
-  userId: integer("user_id").references(() => users.id).notNull(),
+  userId: varchar("user_id").references(() => users.id).notNull(),
   step: integer("step").notNull(), // Kolejny krok w sekwencji powitalnej
   title: text("title").notNull(), // Tytuł wiadomości
   content: text("content").notNull(), // Treść wiadomości
@@ -227,3 +235,22 @@ export type Message = typeof messages.$inferSelect;
 export type ProjectNote = typeof projectNotes.$inferSelect;
 export type ProjectMilestone = typeof projectMilestones.$inferSelect;
 export type WelcomeMessage = typeof welcomeMessages.$inferSelect;
+
+// Specjalny typ dla użytkownika z Replit Auth
+export type UpsertUser = {
+  id: string;
+  username: string;
+  email?: string | null;
+  firstName?: string | null;
+  lastName?: string | null;
+  bio?: string | null;
+  profileImageUrl?: string | null;
+  company?: string | null;
+  role?: string | null;
+  onboardingStep?: number | null;
+  onboardingCompleted?: boolean | null;
+  preferences?: any | null;
+  industry?: string | null;
+  projectType?: string | null;
+  updatedAt?: Date | null;
+};

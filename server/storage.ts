@@ -8,7 +8,8 @@ import {
   type Message, type InsertMessage,
   type ProjectNote, type InsertProjectNote,
   type ProjectMilestone, type InsertProjectMilestone,
-  type WelcomeMessage
+  type WelcomeMessage,
+  type UpsertUser
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, and, desc, sql, or, like } from "drizzle-orm";
