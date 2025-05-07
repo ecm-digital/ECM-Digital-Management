@@ -1647,26 +1647,24 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   // Authentication middleware for client panel
   const authenticateClient = async (req: Request, res: Response, next: NextFunction) => {
+    if (!req.isAuthenticated()) {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
+    
     try {
-      // Tutaj później będzie prawdziwa autentykacja (OAuth, JWT, itp.)
-      // Na razie prostym token-em w nagłówku lub użytkownikiem demo
-      const authToken = req.headers.authorization?.split(' ')[1];
+      const user = req.user as any;
+      const userId = user.claims.sub;
       
-      // Dla celów developerskich używamy tokenu testowego lub id użytkownika
-      if (authToken === 'test-token' || req.query.userId) {
-        const userId = req.query.userId ? parseInt(req.query.userId as string) : 1;
-        const user = await storage.getUser(userId);
-        
-        if (!user) {
-          return res.status(404).json({ message: "User not found" });
-        }
-        
-        // Dodaj użytkownika do obiektu żądania
-        (req as any).user = user;
-        return next();
+      // Pobierz pełne dane użytkownika z bazy
+      const userFromDb = await storage.getUser(userId);
+      
+      if (!userFromDb) {
+        return res.status(404).json({ message: "User not found. Please complete registration." });
       }
       
-      return res.status(401).json({ message: "Unauthorized" });
+      // Dodaj użytkownika z bazy do obiektu żądania
+      (req as any).user = userFromDb;
+      next();
     } catch (error) {
       console.error("Auth error:", error);
       return res.status(500).json({ message: "Authentication error" });
@@ -1679,11 +1677,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get('/api/client/profile', authenticateClient, async (req: Request, res: Response) => {
     try {
       const user = (req as any).user;
-      
-      // Nie zwracaj hasła
-      const { password, ...userProfile } = user;
-      
-      res.json(userProfile);
+      res.json(user);
     } catch (error) {
       console.error("Error fetching profile:", error);
       res.status(500).json({ message: "Error fetching profile" });

@@ -115,18 +115,23 @@ export class DatabaseStorage implements IStorage {
   async createUser(insertUser: InsertUser): Promise<User> {
     const [user] = await db
       .insert(users)
-      .values(insertUser)
+      .values([insertUser])
       .returning();
     return user;
   }
 
   async upsertUser(userData: UpsertUser): Promise<User> {
+    // Upewnij się, że userData zawiera id, które jest wymagane przy insert
+    if (!userData.id) {
+      throw new Error('User ID is required for upsert operation');
+    }
+    
     const [user] = await db
       .insert(users)
-      .values({
+      .values([{
         ...userData,
         updatedAt: new Date()
-      })
+      }])
       .onConflictDoUpdate({
         target: users.id,
         set: {
