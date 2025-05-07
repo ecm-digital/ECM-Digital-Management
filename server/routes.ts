@@ -1840,6 +1840,423 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // === BLOG ROUTES ===
+  
+  // Get all blog posts (public)
+  app.get('/api/blog/posts', async (req: Request, res: Response) => {
+    try {
+      const status = req.query.status as string || 'published';
+      const category = req.query.category as string;
+      const tag = req.query.tag as string;
+      const limit = req.query.limit ? parseInt(req.query.limit as string) : undefined;
+      
+      let posts;
+      
+      if (category) {
+        posts = await storage.getBlogPostsByCategory(category, status);
+      } else if (tag) {
+        posts = await storage.getBlogPostsByTag(tag, status);
+      } else if (limit) {
+        posts = await storage.getRecentBlogPosts(limit, status);
+      } else {
+        posts = await storage.getAllBlogPosts(status);
+      }
+      
+      res.json(posts);
+    } catch (error) {
+      console.error("Error fetching blog posts:", error);
+      res.status(500).json({ message: "Failed to fetch blog posts" });
+    }
+  });
+  
+  // Get a single blog post by slug (public)
+  app.get('/api/blog/posts/:slug', async (req: Request, res: Response) => {
+    try {
+      const { slug } = req.params;
+      const post = await storage.getBlogPostBySlug(slug);
+      
+      if (!post) {
+        return res.status(404).json({ message: "Blog post not found" });
+      }
+      
+      // Increment view count
+      await storage.incrementBlogPostViewCount(post.id);
+      
+      res.json(post);
+    } catch (error) {
+      console.error("Error fetching blog post:", error);
+      res.status(500).json({ message: "Failed to fetch blog post" });
+    }
+  });
+  
+  // Create a new blog post (admin only)
+  app.post('/api/blog/posts', isAuthenticated, async (req: Request, res: Response) => {
+    try {
+      const user = (req as any).user;
+      
+      // Sprawdź, czy użytkownik ma uprawnienia administratora
+      const userFromDb = await storage.getUser(user.claims.sub);
+      if (!userFromDb || userFromDb.role !== 'admin') {
+        return res.status(403).json({ message: "Permission denied" });
+      }
+      
+      const {
+        slug,
+        title,
+        excerpt,
+        content,
+        category,
+        tags,
+        thumbnailUrl,
+        status = 'draft'
+      } = req.body;
+      
+      if (!slug || !title || !excerpt || !content) {
+        return res.status(400).json({ message: "Missing required fields" });
+      }
+      
+      // Sprawdź czy slug jest już używany
+      const existingPost = await storage.getBlogPostBySlug(slug);
+      if (existingPost) {
+        return res.status(409).json({ message: "Slug already exists" });
+      }
+      
+      const post = await storage.createBlogPost({
+        slug,
+        title,
+        excerpt,
+        content,
+        authorId: parseInt(userFromDb.id),
+        category,
+        tags,
+        thumbnailUrl,
+        status,
+        publishedAt: status === 'published' ? new Date() : undefined
+      });
+      
+      res.status(201).json(post);
+    } catch (error) {
+      console.error("Error creating blog post:", error);
+      res.status(500).json({ message: "Failed to create blog post" });
+    }
+  });
+  
+  // Update a blog post (admin only)
+  app.put('/api/blog/posts/:id', isAuthenticated, async (req: Request, res: Response) => {
+    try {
+      const user = (req as any).user;
+      const postId = parseInt(req.params.id);
+      
+      if (isNaN(postId)) {
+        return res.status(400).json({ message: "Invalid post ID" });
+      }
+      
+      // Sprawdź, czy użytkownik ma uprawnienia administratora
+      const userFromDb = await storage.getUser(user.claims.sub);
+      if (!userFromDb || userFromDb.role !== 'admin') {
+        return res.status(403).json({ message: "Permission denied" });
+      }
+      
+      const post = await storage.getBlogPost(postId);
+      if (!post) {
+        return res.status(404).json({ message: "Blog post not found" });
+      }
+      
+      const {
+        slug,
+        title,
+        excerpt,
+        content,
+        category,
+        tags,
+        thumbnailUrl,
+        status
+      } = req.body;
+      
+      // Jeśli slug się zmienił, sprawdź czy nowy slug jest już używany
+      if (slug && slug !== post.slug) {
+        const existingPost = await storage.getBlogPostBySlug(slug);
+        if (existingPost && existingPost.id !== postId) {
+          return res.status(409).json({ message: "Slug already exists" });
+        }
+      }
+      
+      const updatedPost = await storage.updateBlogPost(postId, {
+        slug,
+        title,
+        excerpt,
+        content,
+        category,
+        tags,
+        thumbnailUrl,
+        status
+      });
+      
+      res.json(updatedPost);
+    } catch (error) {
+      console.error("Error updating blog post:", error);
+      res.status(500).json({ message: "Failed to update blog post" });
+    }
+  });
+  
+  // Delete a blog post (admin only)
+  app.delete('/api/blog/posts/:id', isAuthenticated, async (req: Request, res: Response) => {
+    try {
+      const user = (req as any).user;
+      const postId = parseInt(req.params.id);
+      
+      if (isNaN(postId)) {
+        return res.status(400).json({ message: "Invalid post ID" });
+      }
+      
+      // Sprawdź, czy użytkownik ma uprawnienia administratora
+      const userFromDb = await storage.getUser(user.claims.sub);
+      if (!userFromDb || userFromDb.role !== 'admin') {
+        return res.status(403).json({ message: "Permission denied" });
+      }
+      
+      const post = await storage.getBlogPost(postId);
+      if (!post) {
+        return res.status(404).json({ message: "Blog post not found" });
+      }
+      
+      const deleted = await storage.deleteBlogPost(postId);
+      if (!deleted) {
+        return res.status(500).json({ message: "Failed to delete blog post" });
+      }
+      
+      res.status(204).end();
+    } catch (error) {
+      console.error("Error deleting blog post:", error);
+      res.status(500).json({ message: "Failed to delete blog post" });
+    }
+  });
+  
+  // Search blog posts (public)
+  app.get('/api/blog/search', async (req: Request, res: Response) => {
+    try {
+      const query = req.query.q as string;
+      const status = req.query.status as string || 'published';
+      
+      if (!query || query.trim().length < 3) {
+        return res.status(400).json({ message: "Search query must be at least 3 characters" });
+      }
+      
+      const posts = await storage.searchBlogPosts(query, status);
+      res.json(posts);
+    } catch (error) {
+      console.error("Error searching blog posts:", error);
+      res.status(500).json({ message: "Failed to search blog posts" });
+    }
+  });
+  
+  // === KNOWLEDGE BASE ROUTES ===
+  
+  // Get all knowledge base articles (public)
+  app.get('/api/kb/articles', async (req: Request, res: Response) => {
+    try {
+      const status = req.query.status as string || 'published';
+      const category = req.query.category as string;
+      const tag = req.query.tag as string;
+      
+      let articles;
+      
+      if (category) {
+        articles = await storage.getKnowledgeBaseArticlesByCategory(category, status);
+      } else if (tag) {
+        articles = await storage.getKnowledgeBaseArticlesByTag(tag, status);
+      } else {
+        articles = await storage.getAllKnowledgeBaseArticles(status);
+      }
+      
+      res.json(articles);
+    } catch (error) {
+      console.error("Error fetching knowledge base articles:", error);
+      res.status(500).json({ message: "Failed to fetch knowledge base articles" });
+    }
+  });
+  
+  // Get a single knowledge base article by slug (public)
+  app.get('/api/kb/articles/:slug', async (req: Request, res: Response) => {
+    try {
+      const { slug } = req.params;
+      const article = await storage.getKnowledgeBaseArticleBySlug(slug);
+      
+      if (!article) {
+        return res.status(404).json({ message: "Knowledge base article not found" });
+      }
+      
+      // Increment view count
+      await storage.incrementKnowledgeBaseArticleViewCount(article.id);
+      
+      res.json(article);
+    } catch (error) {
+      console.error("Error fetching knowledge base article:", error);
+      res.status(500).json({ message: "Failed to fetch knowledge base article" });
+    }
+  });
+  
+  // Create a new knowledge base article (admin only)
+  app.post('/api/kb/articles', isAuthenticated, async (req: Request, res: Response) => {
+    try {
+      const user = (req as any).user;
+      
+      // Sprawdź, czy użytkownik ma uprawnienia administratora
+      const userFromDb = await storage.getUser(user.claims.sub);
+      if (!userFromDb || userFromDb.role !== 'admin') {
+        return res.status(403).json({ message: "Permission denied" });
+      }
+      
+      const {
+        slug,
+        title,
+        excerpt,
+        content,
+        category,
+        tags,
+        thumbnailUrl,
+        status = 'draft'
+      } = req.body;
+      
+      if (!slug || !title || !excerpt || !content || !category) {
+        return res.status(400).json({ message: "Missing required fields" });
+      }
+      
+      // Sprawdź czy slug jest już używany
+      const existingArticle = await storage.getKnowledgeBaseArticleBySlug(slug);
+      if (existingArticle) {
+        return res.status(409).json({ message: "Slug already exists" });
+      }
+      
+      const article = await storage.createKnowledgeBaseArticle({
+        slug,
+        title,
+        excerpt,
+        content,
+        category,
+        authorId: parseInt(userFromDb.id),
+        tags,
+        thumbnailUrl,
+        status,
+        publishedAt: status === 'published' ? new Date() : undefined
+      });
+      
+      res.status(201).json(article);
+    } catch (error) {
+      console.error("Error creating knowledge base article:", error);
+      res.status(500).json({ message: "Failed to create knowledge base article" });
+    }
+  });
+  
+  // Update a knowledge base article (admin only)
+  app.put('/api/kb/articles/:id', isAuthenticated, async (req: Request, res: Response) => {
+    try {
+      const user = (req as any).user;
+      const articleId = parseInt(req.params.id);
+      
+      if (isNaN(articleId)) {
+        return res.status(400).json({ message: "Invalid article ID" });
+      }
+      
+      // Sprawdź, czy użytkownik ma uprawnienia administratora
+      const userFromDb = await storage.getUser(user.claims.sub);
+      if (!userFromDb || userFromDb.role !== 'admin') {
+        return res.status(403).json({ message: "Permission denied" });
+      }
+      
+      const article = await storage.getKnowledgeBaseArticle(articleId);
+      if (!article) {
+        return res.status(404).json({ message: "Knowledge base article not found" });
+      }
+      
+      const {
+        slug,
+        title,
+        excerpt,
+        content,
+        category,
+        tags,
+        thumbnailUrl,
+        status
+      } = req.body;
+      
+      // Jeśli slug się zmienił, sprawdź czy nowy slug jest już używany
+      if (slug && slug !== article.slug) {
+        const existingArticle = await storage.getKnowledgeBaseArticleBySlug(slug);
+        if (existingArticle && existingArticle.id !== articleId) {
+          return res.status(409).json({ message: "Slug already exists" });
+        }
+      }
+      
+      const updatedArticle = await storage.updateKnowledgeBaseArticle(articleId, {
+        slug,
+        title,
+        excerpt,
+        content,
+        category,
+        tags,
+        thumbnailUrl,
+        status
+      });
+      
+      res.json(updatedArticle);
+    } catch (error) {
+      console.error("Error updating knowledge base article:", error);
+      res.status(500).json({ message: "Failed to update knowledge base article" });
+    }
+  });
+  
+  // Delete a knowledge base article (admin only)
+  app.delete('/api/kb/articles/:id', isAuthenticated, async (req: Request, res: Response) => {
+    try {
+      const user = (req as any).user;
+      const articleId = parseInt(req.params.id);
+      
+      if (isNaN(articleId)) {
+        return res.status(400).json({ message: "Invalid article ID" });
+      }
+      
+      // Sprawdź, czy użytkownik ma uprawnienia administratora
+      const userFromDb = await storage.getUser(user.claims.sub);
+      if (!userFromDb || userFromDb.role !== 'admin') {
+        return res.status(403).json({ message: "Permission denied" });
+      }
+      
+      const article = await storage.getKnowledgeBaseArticle(articleId);
+      if (!article) {
+        return res.status(404).json({ message: "Knowledge base article not found" });
+      }
+      
+      const deleted = await storage.deleteKnowledgeBaseArticle(articleId);
+      if (!deleted) {
+        return res.status(500).json({ message: "Failed to delete knowledge base article" });
+      }
+      
+      res.status(204).end();
+    } catch (error) {
+      console.error("Error deleting knowledge base article:", error);
+      res.status(500).json({ message: "Failed to delete knowledge base article" });
+    }
+  });
+  
+  // Search knowledge base articles (public)
+  app.get('/api/kb/search', async (req: Request, res: Response) => {
+    try {
+      const query = req.query.q as string;
+      const status = req.query.status as string || 'published';
+      
+      if (!query || query.trim().length < 3) {
+        return res.status(400).json({ message: "Search query must be at least 3 characters" });
+      }
+      
+      const articles = await storage.searchKnowledgeBaseArticles(query, status);
+      res.json(articles);
+    } catch (error) {
+      console.error("Error searching knowledge base articles:", error);
+      res.status(500).json({ message: "Failed to search knowledge base articles" });
+    }
+  });
+
   // === ORDER ROUTES ===
   
   // Get client's orders
