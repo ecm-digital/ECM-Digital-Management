@@ -142,6 +142,21 @@
       "blog": "Blog"
     }
   },
+  "figmaAi": {
+    "title": "UX + AI Boost z Figma 2025",
+    "subtitle": "Wdrażamy najnowsze możliwości Figmy, aby przyspieszyć, zautomatyzować i wznieść Twój projekt na wyższy poziom.",
+    "landing": "AI Landing Pages",
+    "landingDesc": "Tworzymy responsywne strony w 72h dzięki Figma Sites – idealne do MVP, testów A/B i kampanii reklamowych.",
+    "prototype": "AI Prototypy UI",
+    "prototypeDesc": "Na podstawie briefu generujemy 3 wersje UI z pomocą Figma Make. Ekspresowa walidacja pomysłów.",
+    "campaign": "Kampanie graficzne z AI",
+    "campaignDesc": "Masowe tworzenie grafik (social media, banery) z użyciem Excela i Figma Buzz. Szybko, spójnie i z pomysłem.",
+    "illustrations": "Ilustracje & ikony",
+    "illustrationsDesc": "Unikalne wektory z Figma Draw – ikony, ilustracje, tła – bez potrzeby używania zewnętrznych narzędzi.",
+    "pixelPerfect": "Pixel-perfect Dev Ready",
+    "pixelPerfectDesc": "Dzięki Grid + Dev Mode tworzymy układy gotowe do wdrożenia z CSS i responsywnością w standardzie.",
+    "learnMore": "Dowiedz się więcej"
+  },
   "buttons": {
     "readMore": "Czytaj więcej",
     "learnMore": "Dowiedz się więcej",

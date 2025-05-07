@@ -319,6 +319,111 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* UX + AI Boost z Figma 2025 Section */}
+      <section id="figma-ai-offer" className="py-24 bg-white">
+        <div className="container-tight">
+          <div className="max-w-3xl mx-auto text-center mb-16">
+            <Badge className="bg-primary/10 text-primary mb-4 py-1 px-3 rounded-full">Figma 2025</Badge>
+            <h2 className="text-3xl md:text-4xl font-bold mb-6 tracking-tight">UX + AI Boost z Figma 2025</h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Wdrażamy najnowsze możliwości Figmy, aby przyspieszyć, zautomatyzować i wznieść Twój projekt na wyższy poziom.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="card-modern p-8 relative group">
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-secondary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl"></div>
+              <div className="w-14 h-14 bg-blue-100 rounded-xl flex items-center justify-center mb-6 relative z-10">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-primary">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <path d="M9 3v18"></path>
+                  <path d="M14 15l3-3-3-3"></path>
+                </svg>
+              </div>
+              <h3 className="text-xl font-semibold mb-3 relative z-10">AI Landing Pages</h3>
+              <p className="text-gray-600 relative z-10">
+                Tworzymy responsywne strony w 72h dzięki Figma Sites – idealne do MVP, testów A/B i kampanii reklamowych.
+              </p>
+            </div>
+
+            <div className="card-modern p-8 relative group">
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-secondary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl"></div>
+              <div className="w-14 h-14 bg-purple-100 rounded-xl flex items-center justify-center mb-6 relative z-10">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-purple-600">
+                  <path d="M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20z"></path>
+                  <path d="M12 16v-4"></path>
+                  <path d="M12 8h.01"></path>
+                </svg>
+              </div>
+              <h3 className="text-xl font-semibold mb-3 relative z-10">AI Prototypy UI</h3>
+              <p className="text-gray-600 relative z-10">
+                Na podstawie briefu generujemy 3 wersje UI z pomocą Figma Make. Ekspresowa walidacja pomysłów.
+              </p>
+            </div>
+
+            <div className="card-modern p-8 relative group">
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-secondary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl"></div>
+              <div className="w-14 h-14 bg-secondary/10 rounded-xl flex items-center justify-center mb-6 relative z-10">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-secondary">
+                  <path d="M4 3h16a2 2 0 0 1 2 2v6a10 10 0 0 1-10 10A10 10 0 0 1 2 11V5a2 2 0 0 1 2-2z"></path>
+                  <polyline points="8 10 12 14 16 10"></polyline>
+                </svg>
+              </div>
+              <h3 className="text-xl font-semibold mb-3 relative z-10">Kampanie graficzne z AI</h3>
+              <p className="text-gray-600 relative z-10">
+                Masowe tworzenie grafik (social media, banery) z użyciem Excela i Figma Buzz. Szybko, spójnie i z pomysłem.
+              </p>
+            </div>
+
+            <div className="card-modern p-8 relative group">
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-secondary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl"></div>
+              <div className="w-14 h-14 bg-green-100 rounded-xl flex items-center justify-center mb-6 relative z-10">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-green-600">
+                  <path d="M2 12h5"></path>
+                  <path d="M17 12h5"></path>
+                  <path d="M12 2v5"></path>
+                  <path d="M12 17v5"></path>
+                  <path d="m9 5 3 3 3-3"></path>
+                  <path d="m9 19 3-3 3 3"></path>
+                  <path d="m5 9 3 3-3 3"></path>
+                  <path d="m19 9-3 3 3 3"></path>
+                </svg>
+              </div>
+              <h3 className="text-xl font-semibold mb-3 relative z-10">Ilustracje & ikony</h3>
+              <p className="text-gray-600 relative z-10">
+                Unikalne wektory z Figma Draw – ikony, ilustracje, tła – bez potrzeby używania zewnętrznych narzędzi.
+              </p>
+            </div>
+
+            <div className="card-modern p-8 relative group">
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-secondary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl"></div>
+              <div className="w-14 h-14 bg-amber-100 rounded-xl flex items-center justify-center mb-6 relative z-10">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-amber-600">
+                  <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                  <polyline points="7.5 4.21 12 6.81 16.5 4.21"></polyline>
+                  <polyline points="7.5 19.79 7.5 14.6 3 12"></polyline>
+                  <polyline points="21 12 16.5 14.6 16.5 19.79"></polyline>
+                  <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                  <line x1="12" y1="22.08" x2="12" y2="12"></line>
+                </svg>
+              </div>
+              <h3 className="text-xl font-semibold mb-3 relative z-10">Pixel-perfect Dev Ready</h3>
+              <p className="text-gray-600 relative z-10">
+                Dzięki Grid + Dev Mode tworzymy układy gotowe do wdrożenia z CSS i responsywnością w standardzie.
+              </p>
+            </div>
+
+            <div className="flex items-center justify-center">
+              <Link href="/services">
+                <Button className="btn-modern btn-gradient text-white py-6 px-8 text-base">
+                  Dowiedz się więcej <ArrowRight className="ml-2 h-5 w-5" />
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Case Studies Section */}
       <section id="case-studies" className="py-24 bg-white">
         <div className="container-tight">

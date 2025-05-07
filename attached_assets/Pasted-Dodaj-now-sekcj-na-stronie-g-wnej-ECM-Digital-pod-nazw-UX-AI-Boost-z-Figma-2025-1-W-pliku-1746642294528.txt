@@ -1,0 +1,70 @@
+Dodaj nową sekcję na stronie głównej ECM Digital pod nazwą "UX + AI Boost z Figma 2025".
+
+1. W pliku index.html dodaj poniższą sekcję HTML pod istniejącymi usługami:
+<!-- UX + AI Boost z Figma 2025 -->
+<section id="figma-ai-offer" class="offer-section">
+  <div class="container">
+    <h2>UX + AI Boost z Figma 2025</h2>
+    <p class="intro">Wdrażamy najnowsze możliwości Figmy, aby przyspieszyć, zautomatyzować i wznieść Twój projekt na wyższy poziom.</p>
+    <div class="offer-grid">
+      <div class="offer-card">
+        <h3>AI Landing Pages</h3>
+        <p>Tworzymy responsywne strony w 72h dzięki Figma Sites – idealne do MVP, testów A/B i kampanii reklamowych.</p>
+      </div>
+      <div class="offer-card">
+        <h3>AI Prototypy UI</h3>
+        <p>Na podstawie briefu generujemy 3 wersje UI z pomocą Figma Make. Ekspresowa walidacja pomysłów.</p>
+      </div>
+      <div class="offer-card">
+        <h3>Kampanie graficzne z AI</h3>
+        <p>Masowe tworzenie grafik (social media, banery) z użyciem Excela i Figma Buzz. Szybko, spójnie i z pomysłem.</p>
+      </div>
+      <div class="offer-card">
+        <h3>Ilustracje & ikony</h3>
+        <p>Unikalne wektory z Figma Draw – ikony, ilustracje, tła – bez potrzeby używania zewnętrznych narzędzi.</p>
+      </div>
+      <div class="offer-card">
+        <h3>Pixel-perfect Dev Ready</h3>
+        <p>Dzięki Grid + Dev Mode tworzymy układy gotowe do wdrożenia z CSS i responsywnością w standardzie.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+2. W pliku style.css (lub w <style>) dodaj stylowanie:
+.offer-section {
+  padding: 60px 20px;
+  background-color: #f8f9fb;
+  font-family: 'Inter', sans-serif;
+}
+.offer-section .container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.offer-section h2 {
+  font-size: 36px;
+  margin-bottom: 10px;
+}
+.offer-section .intro {
+  font-size: 18px;
+  color: #555;
+  margin-bottom: 40px;
+}
+.offer-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 24px;
+}
+.offer-card {
+  background-color: white;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+.offer-card h3 {
+  margin-top: 0;
+  font-size: 20px;
+  margin-bottom: 12px;
+}
+
+3. Zapisz zmiany i przetestuj responsywność na różnych szerokościach ekranu.

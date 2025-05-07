@@ -861,6 +861,21 @@
     "submit": "Absenden",
     "cancel": "Abbrechen"
   },
+  "figmaAi": {
+    "title": "UX + AI Boost mit Figma 2025",
+    "subtitle": "Wir implementieren die neuesten Figma-Funktionen, um Ihr Projekt zu beschleunigen, zu automatisieren und auf ein höheres Niveau zu bringen.",
+    "landing": "AI Landing Pages",
+    "landingDesc": "Wir erstellen responsive Seiten in 72 Stunden mit Figma Sites - ideal für MVPs, A/B-Tests und Werbekampagnen.",
+    "prototype": "AI UI-Prototypen",
+    "prototypeDesc": "Auf Basis eines Briefings generieren wir 3 UI-Versionen mit Hilfe von Figma Make. Express-Ideen-Validierung.",
+    "campaign": "KI-gestützte Grafikdesign-Kampagnen",
+    "campaignDesc": "Massenproduktion von Grafiken (Social Media, Banner) mit Excel und Figma Buzz. Schnell, konsistent und kreativ.",
+    "illustrations": "Illustrationen & Icons",
+    "illustrationsDesc": "Einzigartige Vektoren mit Figma Draw - Icons, Illustrationen, Hintergründe - ohne externe Tools.",
+    "pixelPerfect": "Pixel-perfect Dev Ready",
+    "pixelPerfectDesc": "Mit Grid + Dev Mode erstellen wir Layouts, die mit CSS und Responsive Design standardmäßig implementierungsbereit sind.",
+    "learnMore": "Mehr erfahren"
+  },
   "caseStudies": {
     "title": "Unsere Projekte",
     "subtitle": "Sehen Sie, wie wir unseren Kunden helfen, echte Geschäftsergebnisse zu erzielen",
