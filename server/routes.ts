@@ -67,7 +67,7 @@ const serviceNameToKey: Record<string, string> = {
   // Usługi UX/UI
   "Audyt UX": "uxAudit",
   "Audyt UX z elementami AI": "uxAuditAi",
-  "Miesięczna opieka AI/UX (cena za miesiąc)": "monthlyAiUxCare",
+  "Tygodniowa opieka AI/UX (cena za tydzień)": "monthlyAiUxCare",
   "UX Scorecard": "uxScorecard",
   "Projektowanie lejków konwersji": "conversionFunnelDesign",
   "AI UX Assistant": "aiUxAssistant",
