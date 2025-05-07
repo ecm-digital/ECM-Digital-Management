@@ -1681,6 +1681,123 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(500).json({ message: "Error updating profile" });
     }
   });
+  
+  // Onboarding API endpoints
+  app.get('/api/client/onboarding/status', authenticateClient, async (req: Request, res: Response) => {
+    try {
+      const user = (req as any).user;
+      const step = await storage.getUserOnboardingStep(user.id);
+      
+      res.json({
+        step,
+        completed: user.onboardingCompleted || false,
+        industry: user.industry,
+        projectType: user.projectType,
+        preferences: user.preferences
+      });
+    } catch (error) {
+      console.error("Error fetching onboarding status:", error);
+      res.status(500).json({ message: "Failed to fetch onboarding status" });
+    }
+  });
+  
+  app.post('/api/client/onboarding/step', authenticateClient, async (req: Request, res: Response) => {
+    try {
+      const user = (req as any).user;
+      const { step } = req.body;
+      
+      if (typeof step !== 'number') {
+        return res.status(400).json({ message: "Invalid step parameter" });
+      }
+      
+      const updatedUser = await storage.updateUserOnboardingStep(user.id, step);
+      res.json({ success: true, currentStep: step });
+    } catch (error) {
+      console.error("Error updating onboarding step:", error);
+      res.status(500).json({ message: "Failed to update onboarding step" });
+    }
+  });
+  
+  app.post('/api/client/onboarding/complete', authenticateClient, async (req: Request, res: Response) => {
+    try {
+      const user = (req as any).user;
+      const { preferences, industry, projectType } = req.body;
+      
+      const updatedUser = await storage.updateUser(user.id, {
+        onboardingStep: 999,
+        onboardingCompleted: true,
+        preferences,
+        industry, 
+        projectType
+      });
+      
+      res.json({ 
+        success: true, 
+        message: "Onboarding completed successfully" 
+      });
+    } catch (error) {
+      console.error("Error completing onboarding:", error);
+      res.status(500).json({ message: "Failed to complete onboarding" });
+    }
+  });
+  
+  app.get('/api/client/welcome-messages', authenticateClient, async (req: Request, res: Response) => {
+    try {
+      const user = (req as any).user;
+      
+      const messages = await storage.getWelcomeMessagesByUserId(user.id);
+      res.json(messages);
+    } catch (error) {
+      console.error("Error fetching welcome messages:", error);
+      res.status(500).json({ message: "Failed to fetch welcome messages" });
+    }
+  });
+  
+  app.post('/api/client/welcome-messages', authenticateClient, async (req: Request, res: Response) => {
+    try {
+      const user = (req as any).user;
+      const { step, title, content, actionLabel, actionType } = req.body;
+      
+      if (typeof step !== 'number' || !title || !content) {
+        return res.status(400).json({ message: "Missing required fields" });
+      }
+      
+      const message = await storage.createWelcomeMessage(
+        user.id,
+        step,
+        title,
+        content,
+        actionLabel,
+        actionType
+      );
+      
+      res.json(message);
+    } catch (error) {
+      console.error("Error creating welcome message:", error);
+      res.status(500).json({ message: "Failed to create welcome message" });
+    }
+  });
+  
+  app.put('/api/client/welcome-messages/:id/complete', authenticateClient, async (req: Request, res: Response) => {
+    try {
+      const user = (req as any).user;
+      const messageId = parseInt(req.params.id);
+      
+      if (isNaN(messageId)) {
+        return res.status(400).json({ message: "Invalid message ID" });
+      }
+      
+      const message = await storage.markWelcomeMessageAsCompleted(messageId);
+      if (!message) {
+        return res.status(404).json({ message: "Message not found" });
+      }
+      
+      res.json(message);
+    } catch (error) {
+      console.error("Error marking welcome message as completed:", error);
+      res.status(500).json({ message: "Failed to mark welcome message as completed" });
+    }
+  });
 
   // === ORDER ROUTES ===
   
