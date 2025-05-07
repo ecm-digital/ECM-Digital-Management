@@ -30,7 +30,7 @@ const AboutPage: React.FC = () => {
     {
       name: "Tomasz Gnat",
       role: currentLanguage === 'de' ? "UX Designer & Gründer" : "UX Designer & Założyciel",
-      imageSrc: "https://ui-avatars.com/api/?name=Tomasz+Gnat&background=0D8ABC&color=fff&size=512",
+      imageSrc: "https://images.unsplash.com/photo-1568602471122-7832951cc4c5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
       description: currentLanguage === 'de' 
         ? "Experte für nutzerzentriertes Design und Conversion-Optimierung. Über 10 Jahre Erfahrung in der Gestaltung digitaler Erlebnisse." 
         : "Ekspert w zakresie projektowania zorientowanego na użytkownika i optymalizacji konwersji. Ponad 10 lat doświadczenia w projektowaniu doświadczeń cyfrowych.",
@@ -41,7 +41,7 @@ const AboutPage: React.FC = () => {
     {
       name: "Mario Rifaat",
       role: currentLanguage === 'de' ? "Client Partner" : "Client Partner",
-      imageSrc: "https://ui-avatars.com/api/?name=Mario+Rifaat&background=6366F1&color=fff&size=512",
+      imageSrc: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1974&q=80",
       description: currentLanguage === 'de' 
         ? "Erfahrener Client Partner mit Fokus auf strategische Kundenbeziehungen und Projektmanagement. Spezialisiert auf die Verbindung von technischen Lösungen mit Geschäftszielen." 
         : "Doświadczony Client Partner skupiający się na strategicznych relacjach z klientami i zarządzaniu projektami. Specjalizuje się w łączeniu rozwiązań technicznych z celami biznesowymi.",
@@ -52,7 +52,7 @@ const AboutPage: React.FC = () => {
     {
       name: "Michał Bieguszewski",
       role: currentLanguage === 'de' ? "Head of Design" : "Head of Design",
-      imageSrc: "https://ui-avatars.com/api/?name=Michal+Bieguszewski&background=22C55E&color=fff&size=512",
+      imageSrc: "https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=987&q=80",
       description: currentLanguage === 'de' 
         ? "Erfahrener Design-Leiter mit Hintergrund in UX/UI und digitalen Produkten. Spezialisiert auf die Erstellung benutzerfreundlicher, ästhetisch ansprechender und effektiver Designlösungen." 
         : "Doświadczony kierownik ds. designu z doświadczeniem w UX/UI i produktach cyfrowych. Specjalizuje się w tworzeniu przyjaznych dla użytkownika, estetycznych i skutecznych rozwiązań projektowych.",
