@@ -40,22 +40,22 @@ const AboutPage: React.FC = () => {
     },
     {
       name: "Mario Rifaat",
-      role: currentLanguage === 'de' ? "Lead Developer" : "Lead Developer",
+      role: currentLanguage === 'de' ? "Client Partner" : "Client Partner",
       imageSrc: "https://ui-avatars.com/api/?name=Mario+Rifaat&background=6366F1&color=fff&size=512",
       description: currentLanguage === 'de' 
-        ? "Erfahrener Entwickler bei Merixstudio spezialisiert auf Frontend, React und Next.js. Integriert moderne Web-Technologien und fortschrittliche UI-Frameworks in verschiedenen Projekten." 
-        : "Doświadczony developer w Merixstudio specjalizujący się w technologiach frontendowych, React i Next.js. Integruje nowoczesne technologie webowe i zaawansowane frameworki UI w różnorodnych projektach.",
+        ? "Erfahrener Client Partner mit Fokus auf strategische Kundenbeziehungen und Projektmanagement. Spezialisiert auf die Verbindung von technischen Lösungen mit Geschäftszielen." 
+        : "Doświadczony Client Partner skupiający się na strategicznych relacjach z klientami i zarządzaniu projektami. Specjalizuje się w łączeniu rozwiązań technicznych z celami biznesowymi.",
       linkedin: "https://www.linkedin.com/in/mario-rifaat-4b8460164/",
       github: "https://github.com/mariorifaat",
       website: "https://ecm-digital.com"
     },
     {
       name: "Michał Bieguszewski",
-      role: currentLanguage === 'de' ? "Sales & Business Development Manager" : "Sales & Business Development Manager",
+      role: currentLanguage === 'de' ? "Head of Design" : "Head of Design",
       imageSrc: "https://ui-avatars.com/api/?name=Michal+Bieguszewski&background=22C55E&color=fff&size=512",
       description: currentLanguage === 'de' 
-        ? "Spezialist für internationalen Handel und B2B-Vertrieb bei Cross-Border Commerce Europe. Erfahrung in der Expansion der Vertriebsreichweite und im Aufbau innovativer Partnerschaften." 
-        : "Specjalista ds. handlu międzynarodowego i sprzedaży B2B w Cross-Border Commerce Europe. Doświadczenie w rozszerzaniu zasięgu sprzedaży i budowaniu innowacyjnych partnerstw.",
+        ? "Erfahrener Design-Leiter mit Hintergrund in UX/UI und digitalen Produkten. Spezialisiert auf die Erstellung benutzerfreundlicher, ästhetisch ansprechender und effektiver Designlösungen." 
+        : "Doświadczony kierownik ds. designu z doświadczeniem w UX/UI i produktach cyfrowych. Specjalizuje się w tworzeniu przyjaznych dla użytkownika, estetycznych i skutecznych rozwiązań projektowych.",
       linkedin: "https://www.linkedin.com/in/bieguszewski/",
       github: "https://github.com/michalbieguszewski",
       website: "https://ecm-digital.com"
