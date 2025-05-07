@@ -1,4 +1,4 @@
-import { pgTable, text, serial, integer, boolean, jsonb, timestamp, uniqueIndex, varchar, index } from "drizzle-orm/pg-core";
+import { pgTable, text, serial, integer, boolean, jsonb, timestamp, uniqueIndex, varchar, index, uuid } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 import { relations } from "drizzle-orm";
@@ -130,6 +130,42 @@ export const welcomeMessages = pgTable("welcome_messages", {
   createdAt: timestamp("created_at").defaultNow(),
 });
 
+// Blog posts - tabela dla wpisów na blogu
+export const blogPosts = pgTable("blog_posts", {
+  id: serial("id").primaryKey(),
+  slug: text("slug").unique().notNull(), // URL-friendly identyfikator postu
+  title: text("title").notNull(), // Tytuł wpisu
+  excerpt: text("excerpt").notNull(), // Krótki opis/fragment wpisu
+  content: text("content").notNull(), // Pełna treść wpisu w formacie HTML/Markdown
+  authorId: varchar("author_id").references(() => users.id).notNull(), // Autor wpisu
+  thumbnailUrl: text("thumbnail_url"), // URL obrazka wyróżniającego
+  tags: text("tags").array(), // Tagi dla wpisu
+  category: text("category"), // Kategoria wpisu
+  status: text("status").default("draft"), // Status: draft, published, archived
+  viewCount: integer("view_count").default(0), // Licznik wyświetleń
+  publishedAt: timestamp("published_at"), // Data publikacji
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+// Knowledge base - tabela dla bazy wiedzy
+export const knowledgeBase = pgTable("knowledge_base", {
+  id: serial("id").primaryKey(),
+  slug: text("slug").unique().notNull(), // URL-friendly identyfikator artykułu
+  title: text("title").notNull(), // Tytuł artykułu
+  excerpt: text("excerpt").notNull(), // Krótki opis/fragment artykułu
+  content: text("content").notNull(), // Pełna treść artykułu w formacie HTML/Markdown
+  category: text("category").notNull(), // Kategoria: tutorials, faq, guides, itp.
+  authorId: varchar("author_id").references(() => users.id).notNull(), // Autor artykułu
+  thumbnailUrl: text("thumbnail_url"), // URL obrazka wyróżniającego
+  tags: text("tags").array(), // Tagi dla artykułu
+  status: text("status").default("draft"), // Status: draft, published, archived
+  viewCount: integer("view_count").default(0), // Licznik wyświetleń
+  publishedAt: timestamp("published_at"), // Data publikacji
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
 // Relations
 export const ordersRelations = relations(orders, ({ one, many }) => ({
   user: one(users, {
@@ -154,6 +190,8 @@ export const usersRelations = relations(users, ({ many }) => ({
   receivedMessages: many(messages, { relationName: "receivedMessages" }),
   notes: many(projectNotes),
   welcomeMessages: many(welcomeMessages),
+  blogPosts: many(blogPosts),
+  knowledgeBaseArticles: many(knowledgeBase),
 }));
 
 export const welcomeMessagesRelations = relations(welcomeMessages, ({ one }) => ({
@@ -207,6 +245,22 @@ export const projectMilestonesRelations = relations(projectMilestones, ({ one })
   }),
 }));
 
+// Relacje dla bloga
+export const blogPostsRelations = relations(blogPosts, ({ one }) => ({
+  author: one(users, {
+    fields: [blogPosts.authorId],
+    references: [users.id],
+  }),
+}));
+
+// Relacje dla bazy wiedzy
+export const knowledgeBaseRelations = relations(knowledgeBase, ({ one }) => ({
+  author: one(users, {
+    fields: [knowledgeBase.authorId],
+    references: [users.id],
+  }),
+}));
+
 // Insert schemas
 export const insertServiceSchema = createInsertSchema(services).omit({ id: true, createdAt: true });
 export const insertOrderSchema = createInsertSchema(orders).omit({ id: true, createdAt: true, updatedAt: true });
@@ -216,6 +270,8 @@ export const insertMessageSchema = createInsertSchema(messages).omit({ id: true,
 export const insertProjectNoteSchema = createInsertSchema(projectNotes).omit({ id: true, createdAt: true, updatedAt: true });
 export const insertProjectMilestoneSchema = createInsertSchema(projectMilestones).omit({ id: true, createdAt: true });
 export const insertWelcomeMessageSchema = createInsertSchema(welcomeMessages).omit({ id: true, createdAt: true, completedAt: true });
+export const insertBlogPostSchema = createInsertSchema(blogPosts).omit({ id: true, createdAt: true, updatedAt: true, viewCount: true });
+export const insertKnowledgeBaseSchema = createInsertSchema(knowledgeBase).omit({ id: true, createdAt: true, updatedAt: true, viewCount: true });
 
 // Types
 export type InsertService = z.infer<typeof insertServiceSchema>;
@@ -226,6 +282,8 @@ export type InsertMessage = z.infer<typeof insertMessageSchema>;
 export type InsertProjectNote = z.infer<typeof insertProjectNoteSchema>;
 export type InsertProjectMilestone = z.infer<typeof insertProjectMilestoneSchema>;
 export type InsertWelcomeMessage = z.infer<typeof insertWelcomeMessageSchema>;
+export type InsertBlogPost = z.infer<typeof insertBlogPostSchema>;
+export type InsertKnowledgeBase = z.infer<typeof insertKnowledgeBaseSchema>;
 
 export type Service = typeof services.$inferSelect;
 export type Order = typeof orders.$inferSelect;
@@ -235,6 +293,8 @@ export type Message = typeof messages.$inferSelect;
 export type ProjectNote = typeof projectNotes.$inferSelect;
 export type ProjectMilestone = typeof projectMilestones.$inferSelect;
 export type WelcomeMessage = typeof welcomeMessages.$inferSelect;
+export type BlogPost = typeof blogPosts.$inferSelect;
+export type KnowledgeBase = typeof knowledgeBase.$inferSelect;
 
 // Specjalny typ dla użytkownika z Replit Auth
 export type UpsertUser = {

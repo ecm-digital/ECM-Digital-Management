@@ -85,6 +85,31 @@ export interface IStorage {
   createWelcomeMessage(userId: string, step: number, title: string, content: string, actionLabel?: string, actionType?: string): Promise<WelcomeMessage>;
   updateWelcomeMessage(id: number, data: Partial<WelcomeMessage>): Promise<WelcomeMessage | undefined>;
   markWelcomeMessageAsCompleted(id: number): Promise<WelcomeMessage | undefined>;
+  
+  // Blog operations
+  getBlogPost(id: number): Promise<BlogPost | undefined>;
+  getBlogPostBySlug(slug: string): Promise<BlogPost | undefined>;
+  getAllBlogPosts(status?: string): Promise<BlogPost[]>;
+  getRecentBlogPosts(limit?: number, status?: string): Promise<BlogPost[]>;
+  getBlogPostsByCategory(category: string, status?: string): Promise<BlogPost[]>;
+  getBlogPostsByTag(tag: string, status?: string): Promise<BlogPost[]>;
+  createBlogPost(post: InsertBlogPost): Promise<BlogPost>;
+  updateBlogPost(id: number, postData: Partial<InsertBlogPost>): Promise<BlogPost | undefined>;
+  deleteBlogPost(id: number): Promise<boolean>;
+  incrementBlogPostViewCount(id: number): Promise<void>;
+  searchBlogPosts(query: string, status?: string): Promise<BlogPost[]>;
+  
+  // Knowledge base operations
+  getKnowledgeBaseArticle(id: number): Promise<KnowledgeBase | undefined>;
+  getKnowledgeBaseArticleBySlug(slug: string): Promise<KnowledgeBase | undefined>;
+  getAllKnowledgeBaseArticles(status?: string): Promise<KnowledgeBase[]>;
+  getKnowledgeBaseArticlesByCategory(category: string, status?: string): Promise<KnowledgeBase[]>;
+  getKnowledgeBaseArticlesByTag(tag: string, status?: string): Promise<KnowledgeBase[]>;
+  createKnowledgeBaseArticle(article: InsertKnowledgeBase): Promise<KnowledgeBase>;
+  updateKnowledgeBaseArticle(id: number, articleData: Partial<InsertKnowledgeBase>): Promise<KnowledgeBase | undefined>;
+  deleteKnowledgeBaseArticle(id: number): Promise<boolean>;
+  incrementKnowledgeBaseArticleViewCount(id: number): Promise<void>;
+  searchKnowledgeBaseArticles(query: string, status?: string): Promise<KnowledgeBase[]>;
 }
 
 // Generator for unique order IDs
