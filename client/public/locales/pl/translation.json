@@ -302,6 +302,44 @@
     "orderValue": "Wartość zamówienia",
     "details": "Szczegóły",
     "viewOrder": "Zobacz zamówienie",
-    "noMilestones": "Nie masz nadchodzących kamieni milowych."
+    "noMilestones": "Nie masz nadchodzących kamieni milowych.",
+    "onboarding": {
+      "welcome": "Witaj w ECM Digital!",
+      "title": "Witaj w Twoim nowym panelu klienta",
+      "subtitle": "Jesteśmy podekscytowani, że możemy Cię powitać w naszym zespole",
+      "skip": "Pomiń wprowadzenie",
+      "next": "Dalej",
+      "previous": "Wstecz",
+      "finish": "Zakończ",
+      "step1": {
+        "title": "Witaj w ECM Digital",
+        "content": "Cieszymy się, że jesteś z nami! Jesteśmy zespołem ekspertów UX/UI, web developmentu i marketingu. Naszym celem jest pomoc w rozwijaniu Twojego biznesu poprzez skuteczne rozwiązania cyfrowe."
+      },
+      "step2": {
+        "title": "Poznaj swój panel klienta",
+        "content": "Panel klienta to miejsce, gdzie możesz śledzić postępy swoich projektów, komunikować się z naszym zespołem i przeglądać najważniejsze informacje dotyczące naszej współpracy."
+      },
+      "step3": {
+        "title": "Powiedz nam więcej o swoim biznesie",
+        "content": "Aby lepiej dostosować nasze usługi do Twoich potrzeb, chcielibyśmy dowiedzieć się nieco więcej o Twojej firmie i projektach.",
+        "industry": "Branża",
+        "companySize": "Wielkość firmy",
+        "projectType": "Rodzaj projektu",
+        "goal": "Główny cel biznesowy"
+      },
+      "step4": {
+        "title": "Twój dedykowany zespół",
+        "content": "Przydzieliliśmy Ci dedykowany zespół, który będzie pracował nad Twoimi projektami. Możesz się z nimi skontaktować w każdej chwili przez zakładkę Wiadomości.",
+        "projectManager": "Opiekun projektu",
+        "designer": "Designer UX/UI",
+        "developer": "Developer"
+      },
+      "step5": {
+        "title": "Gotowy do startu!",
+        "content": "Wszystko gotowe! Teraz możesz zacząć korzystać z panelu klienta i efektywnie współpracować z naszym zespołem. Jeśli masz jakiekolwiek pytania, nie wahaj się z nami skontaktować."
+      },
+      "complete": "Konfiguracja zakończona",
+      "completeMessage": "Dziękujemy za uzupełnienie informacji. Twój panel jest już gotowy do użycia!"
+    }
   }
 }

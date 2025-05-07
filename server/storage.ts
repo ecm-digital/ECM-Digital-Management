@@ -1,13 +1,14 @@
 import { 
   users, orders, services, 
-  projectFiles, messages, projectNotes, projectMilestones,
+  projectFiles, messages, projectNotes, projectMilestones, welcomeMessages,
   type User, type InsertUser, 
   type Order, type InsertOrder, 
   type Service, type InsertService,
   type ProjectFile, type InsertProjectFile,
   type Message, type InsertMessage,
   type ProjectNote, type InsertProjectNote,
-  type ProjectMilestone, type InsertProjectMilestone
+  type ProjectMilestone, type InsertProjectMilestone,
+  type WelcomeMessage
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, and, desc, sql, or, like } from "drizzle-orm";
@@ -72,6 +73,16 @@ export interface IStorage {
   updateService(id: number, serviceData: Partial<InsertService>): Promise<Service | undefined>;
   deleteService(id: number): Promise<boolean>;
   searchServices(query: string): Promise<Service[]>;
+  
+  // Onboarding operations
+  getUserOnboardingStep(userId: number): Promise<number>;
+  updateUserOnboardingStep(userId: number, step: number): Promise<User | undefined>;
+  completeUserOnboarding(userId: number, preferences: any): Promise<User | undefined>;
+  getWelcomeMessagesByUserId(userId: number): Promise<WelcomeMessage[]>;
+  getWelcomeMessageByStep(userId: number, step: number): Promise<WelcomeMessage | undefined>;
+  createWelcomeMessage(userId: number, step: number, title: string, content: string, actionLabel?: string, actionType?: string): Promise<WelcomeMessage>;
+  updateWelcomeMessage(id: number, data: Partial<WelcomeMessage>): Promise<WelcomeMessage | undefined>;
+  markWelcomeMessageAsCompleted(id: number): Promise<WelcomeMessage | undefined>;
 }
 
 // Generator for unique order IDs
@@ -445,6 +456,90 @@ export class DatabaseStorage implements IStorage {
           like(services.category, `%${query}%`)
         )
       );
+  }
+
+  // Onboarding operations
+  async getUserOnboardingStep(userId: number): Promise<number> {
+    const user = await this.getUser(userId);
+    return user?.onboardingStep || 0;
+  }
+
+  async updateUserOnboardingStep(userId: number, step: number): Promise<User | undefined> {
+    return await this.updateUser(userId, {
+      onboardingStep: step
+    });
+  }
+
+  async completeUserOnboarding(userId: number, preferences: any): Promise<User | undefined> {
+    return await this.updateUser(userId, {
+      onboardingStep: 999, // Oznacza zakończony onboarding
+      onboardingCompleted: true,
+      preferences: preferences
+    });
+  }
+
+  async getWelcomeMessagesByUserId(userId: number): Promise<WelcomeMessage[]> {
+    return await db
+      .select()
+      .from(welcomeMessages)
+      .where(eq(welcomeMessages.userId, userId))
+      .orderBy(welcomeMessages.step);
+  }
+
+  async getWelcomeMessageByStep(userId: number, step: number): Promise<WelcomeMessage | undefined> {
+    const [message] = await db
+      .select()
+      .from(welcomeMessages)
+      .where(
+        and(
+          eq(welcomeMessages.userId, userId),
+          eq(welcomeMessages.step, step)
+        )
+      );
+    return message;
+  }
+
+  async createWelcomeMessage(
+    userId: number, 
+    step: number, 
+    title: string, 
+    content: string, 
+    actionLabel?: string, 
+    actionType?: string
+  ): Promise<WelcomeMessage> {
+    const [message] = await db
+      .insert(welcomeMessages)
+      .values({
+        userId,
+        step,
+        title,
+        content,
+        actionLabel,
+        actionType,
+      })
+      .returning();
+    return message;
+  }
+
+  async updateWelcomeMessage(id: number, data: Partial<WelcomeMessage>): Promise<WelcomeMessage | undefined> {
+    const [message] = await db
+      .update(welcomeMessages)
+      .set(data)
+      .where(eq(welcomeMessages.id, id))
+      .returning();
+    return message;
+  }
+
+  async markWelcomeMessageAsCompleted(id: number): Promise<WelcomeMessage | undefined> {
+    const [message] = await db
+      .update(welcomeMessages)
+      .set({
+        isCompleted: true,
+        completedAt: new Date(),
+      })
+      .where(eq(welcomeMessages.id, id))
+      .returning();
+    return message;
   }
 }
 

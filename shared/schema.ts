@@ -207,6 +207,7 @@ export const insertProjectFileSchema = createInsertSchema(projectFiles).omit({ i
 export const insertMessageSchema = createInsertSchema(messages).omit({ id: true, createdAt: true });
 export const insertProjectNoteSchema = createInsertSchema(projectNotes).omit({ id: true, createdAt: true, updatedAt: true });
 export const insertProjectMilestoneSchema = createInsertSchema(projectMilestones).omit({ id: true, createdAt: true });
+export const insertWelcomeMessageSchema = createInsertSchema(welcomeMessages).omit({ id: true, createdAt: true, completedAt: true });
 
 // Types
 export type InsertService = z.infer<typeof insertServiceSchema>;
@@ -216,6 +217,7 @@ export type InsertProjectFile = z.infer<typeof insertProjectFileSchema>;
 export type InsertMessage = z.infer<typeof insertMessageSchema>;
 export type InsertProjectNote = z.infer<typeof insertProjectNoteSchema>;
 export type InsertProjectMilestone = z.infer<typeof insertProjectMilestoneSchema>;
+export type InsertWelcomeMessage = z.infer<typeof insertWelcomeMessageSchema>;
 
 export type Service = typeof services.$inferSelect;
 export type Order = typeof orders.$inferSelect;
@@ -224,3 +226,4 @@ export type ProjectFile = typeof projectFiles.$inferSelect;
 export type Message = typeof messages.$inferSelect;
 export type ProjectNote = typeof projectNotes.$inferSelect;
 export type ProjectMilestone = typeof projectMilestones.$inferSelect;
+export type WelcomeMessage = typeof welcomeMessages.$inferSelect;
