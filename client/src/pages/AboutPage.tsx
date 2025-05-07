@@ -8,6 +8,7 @@ import {
   Mail
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import Layout from '@/components/Layout';
 
 const AboutPage: React.FC = () => {
   const { t, i18n } = useTranslation();
@@ -50,8 +51,8 @@ const AboutPage: React.FC = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Hero section */}
+    <Layout>
+      <div className="bg-background">
       <section className="py-24 bg-gradient-to-br from-primary/5 to-secondary/5">
         <div className="container-tight">
           <div className="max-w-3xl mx-auto text-center">
@@ -264,6 +265,7 @@ const AboutPage: React.FC = () => {
         </div>
       </section>
     </div>
+    </Layout>
   );
 };
 
