@@ -30,7 +30,12 @@ const serviceTranslations = {
     "Automatyzacje (n8n, Zapier)": "Automatisierungen (n8n, Zapier)",
     "Custom AI Tools": "Individuelle KI-Tools",
     "Product Discovery Workshop": "Product Discovery Workshop",
-    "UX Scorecard": "UX Scorecard"
+    "UX Scorecard": "UX Scorecard",
+    "AI Landing Pages": "AI Landing Pages",
+    "AI Prototypy UI": "AI UI-Prototypen",
+    "Kampanie graficzne z AI": "KI-gestützte Grafikdesign-Kampagnen",
+    "Ilustracje & ikony": "Illustrationen & Icons",
+    "Pixel-perfect Dev Ready": "Pixel-perfect Dev Ready"
   },
   "en": {
     "Audyt UX": "UX Audit",
@@ -46,7 +51,12 @@ const serviceTranslations = {
     "Integracja AI": "AI Integration",
     "Strategia marketingowa": "Marketing Strategy",
     "Automatyzacja Procesów Biznesowych": "Business Process Automation",
-    "Mentoring & Konsultacje": "Mentoring & Consulting"
+    "Mentoring & Konsultacje": "Mentoring & Consulting",
+    "AI Landing Pages": "AI Landing Pages",
+    "AI Prototypy UI": "AI UI Prototypes",
+    "Kampanie graficzne z AI": "AI Graphic Campaigns",
+    "Ilustracje & ikony": "Illustrations & Icons",
+    "Pixel-perfect Dev Ready": "Pixel-perfect Dev Ready"
   }
 };
 
