@@ -294,7 +294,7 @@ export default function HomePage() {
                   </div>
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {category.services.slice(0, 3).map((service) => (
+                    {category.services.map((service) => (
                       <ServiceCard key={service.id} service={service} colorClass={
                         category.id === 'ux-design' ? 'text-blue-600' : 
                         category.id === 'web-development' ? 'text-indigo-600' :
