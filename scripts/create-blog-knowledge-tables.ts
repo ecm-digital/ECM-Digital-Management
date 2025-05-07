@@ -14,7 +14,7 @@ async function createBlogKnowledgeTables() {
         "title" TEXT NOT NULL,
         "excerpt" TEXT NOT NULL,
         "content" TEXT NOT NULL,
-        "author_id" VARCHAR REFERENCES "users"("id") NOT NULL,
+        "author_id" INTEGER NOT NULL,
         "thumbnail_url" TEXT,
         "tags" TEXT[],
         "category" TEXT,
@@ -22,7 +22,8 @@ async function createBlogKnowledgeTables() {
         "view_count" INTEGER DEFAULT 0,
         "published_at" TIMESTAMP,
         "created_at" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        "updated_at" TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        "updated_at" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY ("author_id") REFERENCES "users"("id")
       );
     `);
 
@@ -37,14 +38,15 @@ async function createBlogKnowledgeTables() {
         "excerpt" TEXT NOT NULL,
         "content" TEXT NOT NULL,
         "category" TEXT NOT NULL,
-        "author_id" VARCHAR REFERENCES "users"("id") NOT NULL,
+        "author_id" INTEGER NOT NULL,
         "thumbnail_url" TEXT,
         "tags" TEXT[],
         "status" TEXT DEFAULT 'draft',
         "view_count" INTEGER DEFAULT 0,
         "published_at" TIMESTAMP,
         "created_at" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        "updated_at" TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        "updated_at" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY ("author_id") REFERENCES "users"("id")
       );
     `);
 

@@ -137,7 +137,7 @@ export const blogPosts = pgTable("blog_posts", {
   title: text("title").notNull(), // Tytuł wpisu
   excerpt: text("excerpt").notNull(), // Krótki opis/fragment wpisu
   content: text("content").notNull(), // Pełna treść wpisu w formacie HTML/Markdown
-  authorId: varchar("author_id").references(() => users.id).notNull(), // Autor wpisu
+  authorId: integer("author_id").references(() => users.id).notNull(), // Autor wpisu
   thumbnailUrl: text("thumbnail_url"), // URL obrazka wyróżniającego
   tags: text("tags").array(), // Tagi dla wpisu
   category: text("category"), // Kategoria wpisu
@@ -156,7 +156,7 @@ export const knowledgeBase = pgTable("knowledge_base", {
   excerpt: text("excerpt").notNull(), // Krótki opis/fragment artykułu
   content: text("content").notNull(), // Pełna treść artykułu w formacie HTML/Markdown
   category: text("category").notNull(), // Kategoria: tutorials, faq, guides, itp.
-  authorId: varchar("author_id").references(() => users.id).notNull(), // Autor artykułu
+  authorId: integer("author_id").references(() => users.id).notNull(), // Autor artykułu
   thumbnailUrl: text("thumbnail_url"), // URL obrazka wyróżniającego
   tags: text("tags").array(), // Tagi dla artykułu
   status: text("status").default("draft"), // Status: draft, published, archived
