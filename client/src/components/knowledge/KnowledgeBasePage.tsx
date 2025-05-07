@@ -1,207 +1,175 @@
 import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
-import { KnowledgeBase } from '@shared/schema';
-import KnowledgeArticleCard from './KnowledgeArticleCard';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Skeleton } from '@/components/ui/skeleton';
-import { Input } from '@/components/ui/input';
+import { apiRequest } from '@/lib/queryClient';
+import { Link } from 'wouter';
+import { Search, Lightbulb, BookOpen, FileQuestion } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { 
-  Search, 
-  HelpCircle, 
-  FileQuestion,
-  BookOpen, 
-  Lightbulb,
-  AlertCircle, 
-  FileText
-} from 'lucide-react';
+import { Input } from '@/components/ui/input';
+import KnowledgeArticleCard from './KnowledgeArticleCard';
+import LoadingSpinner from '../ui/loading-spinner';
 
-const KnowledgeBasePage: React.FC = () => {
+interface KnowledgeArticle {
+  id: string;
+  title: string;
+  slug: string;
+  excerpt: string;
+  content: string;
+  authorId: string;
+  authorName: string;
+  publishedAt: string;
+  category: string;
+  tags: string[];
+}
+
+export default function KnowledgeBasePage() {
   const { t } = useTranslation();
   const [searchQuery, setSearchQuery] = useState('');
 
-  // Pobieranie wszystkich artykułów z API
-  const { data: articles, isLoading, isError } = useQuery<KnowledgeBase[]>({
+  // Pobierz wszystkie artykuły bazy wiedzy
+  const { data: articles, isLoading, error } = useQuery<KnowledgeArticle[]>({
     queryKey: ['/api/kb/articles'],
-    queryFn: async () => {
-      const response = await fetch('/api/kb/articles');
-      if (!response.ok) {
-        throw new Error('Failed to fetch knowledge base articles');
-      }
-      return response.json();
-    }
+    queryFn: () => apiRequest('/api/kb/articles'),
   });
 
-  // Pobranie wszystkich kategorii z artykułów
-  const allCategories = articles 
-    ? [...new Set(articles.map(article => article.category))]
-    : [];
-
-  // Ikony dla różnych kategorii
-  const getCategoryIcon = (category: string) => {
-    switch (category.toLowerCase()) {
-      case 'faq':
-      case 'frequently asked questions':
-        return <HelpCircle className="h-5 w-5" />;
-      case 'guides':
-      case 'przewodniki':
-        return <BookOpen className="h-5 w-5" />;
-      case 'tutorials':
-      case 'poradniki':
-        return <Lightbulb className="h-5 w-5" />;
-      case 'troubleshooting':
-      case 'rozwiązywanie problemów':
-        return <AlertCircle className="h-5 w-5" />;
-      default:
-        return <FileText className="h-5 w-5" />;
-    }
-  };
-
-  // Filtrowanie artykułów na podstawie wyszukiwania (frontend)
-  const filteredArticles = articles?.filter(article => 
-    article.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    article.excerpt.toLowerCase().includes(searchQuery.toLowerCase())
-  );
-
-  // Funkcja obsługująca wyszukiwanie
-  const handleSearch = () => {
-    if (searchQuery.trim().length >= 3) {
+  // Obsługa wyszukiwania
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
       window.location.href = `/knowledge/search?q=${encodeURIComponent(searchQuery)}`;
     }
   };
 
-  // Obsługa naciśnięcia Enter w polu wyszukiwania
-  const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter') {
-      handleSearch();
+  // Pogrupuj artykuły według kategorii
+  const groupedArticles = articles?.reduce((acc, article) => {
+    if (!acc[article.category]) {
+      acc[article.category] = [];
     }
+    acc[article.category].push(article);
+    return acc;
+  }, {} as Record<string, KnowledgeArticle[]>) || {};
+
+  // Przygotuj ikony dla głównych kategorii
+  const categoryIcons: Record<string, React.ReactNode> = {
+    'Poradniki': <BookOpen className="h-8 w-8 text-cyan-500" />,
+    'Tutorials': <BookOpen className="h-8 w-8 text-cyan-500" />,
+    'FAQ': <FileQuestion className="h-8 w-8 text-violet-500" />,
+    'Porady': <Lightbulb className="h-8 w-8 text-amber-500" />,
+    'Tips': <Lightbulb className="h-8 w-8 text-amber-500" />
+  };
+  
+  // Funkcja zwracająca ikonę dla danej kategorii
+  const getCategoryIcon = (category: string) => {
+    return categoryIcons[category] || <BookOpen className="h-8 w-8 text-blue-500" />;
   };
 
-  return (
-    <div className="container mx-auto px-4 py-12">
-      <div className="mb-12 text-center">
-        <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-blue-500 to-cyan-400 bg-clip-text text-transparent">
-          {t('knowledge.title', 'Baza Wiedzy')}
-        </h1>
-        <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-          {t('knowledge.description', 'Znajdź odpowiedzi na najczęściej zadawane pytania, przewodniki i porady dotyczące naszych usług.')}
-        </p>
-        <div className="mt-8 max-w-md mx-auto flex">
-          <Input
-            type="text"
-            placeholder={t('knowledge.searchPlaceholder', 'Szukaj w bazie wiedzy...')}
-            className="mr-2"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            onKeyPress={handleKeyPress}
-          />
-          <Button onClick={handleSearch} disabled={searchQuery.trim().length < 3}>
-            <Search className="h-4 w-4 mr-2" />
-            {t('knowledge.search', 'Szukaj')}
-          </Button>
+  if (isLoading) {
+    return (
+      <div className="container py-12 flex justify-center">
+        <LoadingSpinner size="lg" />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="container py-12">
+        <div className="text-center p-8 bg-red-50 rounded-lg">
+          <h2 className="text-xl font-bold text-red-700 mb-2">{t('knowledge.errorTitle', 'Wystąpił błąd')}</h2>
+          <p className="text-red-600">{t('knowledge.errorMessage', 'Nie udało się załadować artykułów. Spróbuj odświeżyć stronę.')}</p>
         </div>
       </div>
+    );
+  }
 
-      {isLoading ? (
-        // Skeleton loader
-        <div className="space-y-8">
-          <div className="flex justify-center mb-8">
-            <Skeleton className="h-10 w-64" />
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[...Array(6)].map((_, i) => (
-              <div key={i} className="border rounded-lg p-4">
-                <div className="flex justify-between mb-4">
-                  <Skeleton className="h-6 w-3/4" />
-                  <Skeleton className="h-6 w-16" />
+  return (
+    <div className="py-12">
+      <div className="container">
+        {/* Nagłówek sekcji */}
+        <div className="mb-12 text-center">
+          <h1 className="text-4xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-violet-500">
+            {t('knowledge.title', 'Baza Wiedzy ECM Digital')}
+          </h1>
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            {t('knowledge.description', 'Praktyczne poradniki, odpowiedzi na najczęstsze pytania i porady ekspertów z zakresu UX/UI, rozwoju biznesu i marketingu.')}
+          </p>
+          
+          {/* Wyszukiwarka */}
+          <form onSubmit={handleSearch} className="mt-8 flex max-w-md mx-auto">
+            <Input
+              type="text"
+              placeholder={t('knowledge.searchPlaceholder', 'Szukaj w bazie wiedzy...')}
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="rounded-r-none"
+            />
+            <Button type="submit" className="rounded-l-none">
+              <Search className="h-4 w-4 mr-2" />
+              {t('knowledge.search', 'Szukaj')}
+            </Button>
+          </form>
+        </div>
+
+        {/* Wyświetl kategorie jako kafelki */}
+        {Object.keys(groupedArticles).length > 0 && (
+          <div className="mb-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {Object.keys(groupedArticles).map((category) => (
+              <div key={category} className="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition-shadow">
+                <div className="flex items-center mb-4">
+                  {getCategoryIcon(category)}
+                  <h2 className="text-xl font-bold ml-3">{category}</h2>
                 </div>
-                <Skeleton className="h-4 w-full mb-2" />
-                <Skeleton className="h-4 w-full mb-2" />
-                <Skeleton className="h-4 w-3/4 mb-4" />
-                <div className="flex justify-between">
-                  <Skeleton className="h-4 w-16" />
-                  <Skeleton className="h-4 w-24" />
-                </div>
+                <p className="text-gray-600 mb-4">
+                  {t(`knowledge.categoryDescription.${category.toLowerCase()}`, `Artykuły z kategorii ${category}`)}
+                </p>
+                <p className="text-gray-500 mb-4">
+                  {t('knowledge.articlesCount', 'Ilość artykułów')}: {groupedArticles[category].length}
+                </p>
+                <Link href={`/knowledge/search?category=${encodeURIComponent(category)}`}>
+                  <Button variant="outline" size="sm" className="w-full">
+                    {t('knowledge.browseCategory', 'Przeglądaj kategorię')}
+                  </Button>
+                </Link>
               </div>
             ))}
           </div>
-        </div>
-      ) : isError ? (
-        // Error state
-        <div className="text-center py-12 border rounded-lg">
-          <FileQuestion className="h-16 w-16 text-red-500 mx-auto mb-4" />
-          <h3 className="text-xl font-semibold text-red-500 mb-2">
-            {t('knowledge.errorTitle', 'Ups! Coś poszło nie tak')}
-          </h3>
-          <p className="text-gray-600 mb-6">
-            {t('knowledge.errorDescription', 'Nie udało się załadować artykułów z bazy wiedzy. Spróbuj odświeżyć stronę.')}
-          </p>
-          <Button onClick={() => window.location.reload()}>
-            {t('knowledge.refresh', 'Odśwież stronę')}
-          </Button>
-        </div>
-      ) : articles && articles.length > 0 ? (
-        // Knowledge base content
-        <div className="space-y-8">
-          <Tabs defaultValue="all">
-            <div className="flex justify-center mb-8">
-              <TabsList className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5">
-                <TabsTrigger value="all">
-                  <FileText className="h-4 w-4 mr-2" />
-                  {t('knowledge.allCategories', 'Wszystkie')}
-                </TabsTrigger>
-                {allCategories.map(category => (
-                  <TabsTrigger key={category} value={category}>
-                    {getCategoryIcon(category)}
-                    <span className="ml-2">{category}</span>
-                  </TabsTrigger>
-                ))}
-              </TabsList>
-            </div>
+        )}
 
-            <TabsContent value="all" className="mt-0">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {filteredArticles?.map(article => (
+        {/* Wyświetl popularne artykuły */}
+        {articles && articles.length > 0 && (
+          <div className="mb-12">
+            <h2 className="text-2xl font-bold mb-6">{t('knowledge.popularArticles', 'Popularne artykuły')}</h2>
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {articles.slice(0, 6).map((article) => (
+                <KnowledgeArticleCard key={article.id} article={article} />
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Wyświetl najnowsze artykuły */}
+        {articles && articles.length > 0 && (
+          <div className="mb-12">
+            <h2 className="text-2xl font-bold mb-6">{t('knowledge.latestArticles', 'Najnowsze artykuły')}</h2>
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {[...articles]
+                .sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime())
+                .slice(0, 3)
+                .map((article) => (
                   <KnowledgeArticleCard key={article.id} article={article} />
                 ))}
-              </div>
-            </TabsContent>
+            </div>
+          </div>
+        )}
 
-            {allCategories.map(category => (
-              <TabsContent key={category} value={category} className="mt-0">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {filteredArticles
-                    ?.filter(article => article.category === category)
-                    .map(article => (
-                      <KnowledgeArticleCard key={article.id} article={article} />
-                    ))
-                  }
-                </div>
-              </TabsContent>
-            ))}
-          </Tabs>
-        </div>
-      ) : (
-        // No articles found
-        <div className="text-center py-12 border border-dashed rounded-lg">
-          <FileQuestion className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-          <h3 className="text-xl font-semibold text-gray-600 mb-2">
-            {t('knowledge.noArticlesTitle', 'Brak artykułów')}
-          </h3>
-          <p className="text-gray-500 mb-6">
-            {searchQuery 
-              ? t('knowledge.noSearchResults', 'Nie znaleziono artykułów pasujących do zapytania.') 
-              : t('knowledge.noArticlesDescription', 'Nie dodano jeszcze żadnych artykułów do bazy wiedzy.')
-            }
-          </p>
-          <Button variant="outline" onClick={() => setSearchQuery('')}>
-            {t('knowledge.clearSearch', 'Wyczyść wyszukiwanie')}
-          </Button>
-        </div>
-      )}
+        {/* Komunikat, gdy nie ma artykułów */}
+        {(!articles || articles.length === 0) && (
+          <div className="text-center p-12 bg-gray-50 rounded-lg">
+            <h2 className="text-xl font-bold text-gray-700 mb-2">{t('knowledge.noArticlesTitle', 'Brak artykułów')}</h2>
+            <p className="text-gray-600">{t('knowledge.noArticlesMessage', 'Aktualnie baza wiedzy jest pusta. Zajrzyj do nas później.')}</p>
+          </div>
+        )}
+      </div>
     </div>
   );
-};
-
-export default KnowledgeBasePage;
+}
