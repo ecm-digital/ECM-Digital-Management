@@ -13,6 +13,10 @@ import { Button } from '@/components/ui/button';
 import Layout from '@/components/Layout';
 import { motion } from 'framer-motion';
 
+// Import team member images
+import marioImage from '@/assets/mario.png';
+import michalImage from '@/assets/michal.png';
+
 const AboutPage: React.FC = () => {
   const { t, i18n } = useTranslation();
   const currentLanguage = i18n.language;
@@ -41,7 +45,7 @@ const AboutPage: React.FC = () => {
     {
       name: "Mario Rifaat",
       role: currentLanguage === 'de' ? "Client Partner" : "Client Partner",
-      imageSrc: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=987&q=80",
+      imageSrc: marioImage,
       description: currentLanguage === 'de' 
         ? "Erfahrener Client Partner mit Fokus auf strategische Kundenbeziehungen und Projektmanagement. Spezialisiert auf die Verbindung von technischen Lösungen mit Geschäftszielen." 
         : "Doświadczony Client Partner skupiający się na strategicznych relacjach z klientami i zarządzaniu projektami. Specjalizuje się w łączeniu rozwiązań technicznych z celami biznesowymi.",
@@ -52,7 +56,7 @@ const AboutPage: React.FC = () => {
     {
       name: "Michał Bieguszewski",
       role: currentLanguage === 'de' ? "Head of Design" : "Head of Design",
-      imageSrc: "https://images.unsplash.com/photo-1463453091185-61582044d556?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
+      imageSrc: michalImage,
       description: currentLanguage === 'de' 
         ? "Erfahrener Design-Leiter mit Hintergrund in UX/UI und digitalen Produkten. Spezialisiert auf die Erstellung benutzerfreundlicher, ästhetisch ansprechender und effektiver Designlösungen." 
         : "Doświadczony kierownik ds. designu z doświadczeniem w UX/UI i produktach cyfrowych. Specjalizuje się w tworzeniu przyjaznych dla użytkownika, estetycznych i skutecznych rozwiązań projektowych.",
