@@ -14,6 +14,11 @@ export const users = pgTable("users", {
   company: text("company"),
   role: text("role").default("client"), // client, admin, agent
   profileImage: text("profile_image"),
+  onboardingStep: integer("onboarding_step").default(0), // Śledzenie postępu w sekwencji powitalnej
+  onboardingCompleted: boolean("onboarding_completed").default(false), // Czy sekwencja powitalna została ukończona
+  preferences: jsonb("preferences"), // Preferencje użytkownika zebrane podczas sekwencji powitalnej
+  industry: text("industry"), // Branża klienta
+  projectType: text("project_type"), // Rodzaj projektu, którym jest zainteresowany
   createdAt: timestamp("created_at").defaultNow(),
 }, (table) => {
   return {
@@ -103,6 +108,20 @@ export const projectMilestones = pgTable("project_milestones", {
   createdAt: timestamp("created_at").defaultNow(),
 });
 
+// Tabela wiadomości powitalnych
+export const welcomeMessages = pgTable("welcome_messages", {
+  id: serial("id").primaryKey(),
+  userId: integer("user_id").references(() => users.id).notNull(),
+  step: integer("step").notNull(), // Kolejny krok w sekwencji powitalnej
+  title: text("title").notNull(), // Tytuł wiadomości
+  content: text("content").notNull(), // Treść wiadomości
+  actionLabel: text("action_label"), // Etykieta przycisku akcji
+  actionType: text("action_type"), // Typ akcji (np. "next", "complete", "skip")
+  isCompleted: boolean("is_completed").default(false), // Czy krok został zakończony
+  completedAt: timestamp("completed_at"), // Kiedy krok został zakończony
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
 // Relations
 export const ordersRelations = relations(orders, ({ one, many }) => ({
   user: one(users, {
@@ -126,6 +145,14 @@ export const usersRelations = relations(users, ({ many }) => ({
   sentMessages: many(messages, { relationName: "sentMessages" }),
   receivedMessages: many(messages, { relationName: "receivedMessages" }),
   notes: many(projectNotes),
+  welcomeMessages: many(welcomeMessages),
+}));
+
+export const welcomeMessagesRelations = relations(welcomeMessages, ({ one }) => ({
+  user: one(users, {
+    fields: [welcomeMessages.userId],
+    references: [users.id],
+  }),
 }));
 
 export const projectFilesRelations = relations(projectFiles, ({ one }) => ({
