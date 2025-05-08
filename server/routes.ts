@@ -1684,13 +1684,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   // Authentication middleware for client panel
   const authenticateClient = async (req: Request, res: Response, next: NextFunction) => {
-    if (!req.isAuthenticated()) {
+    if (!req.session.user) {
       return res.status(401).json({ message: "Unauthorized" });
     }
     
     try {
-      const user = req.user as any;
-      const userId = user.claims.sub;
+      const sessionUser = req.session.user;
+      const userId = sessionUser.id;
       
       // Pobierz pełne dane użytkownika z bazy
       const userFromDb = await storage.getUser(userId);
