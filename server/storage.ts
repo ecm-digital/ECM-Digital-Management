@@ -42,14 +42,14 @@ async function comparePasswords(supplied: string, stored: string): Promise<boole
 // Interface for storage operations
 export interface IStorage {
   // User operations
-  getUser(id: string): Promise<User | undefined>;
+  getUser(id: number): Promise<User | undefined>;
   getUserByUsername(username: string): Promise<User | undefined>;
   getUserByEmail(email: string): Promise<User | undefined>;
   createUser(user: InsertUser): Promise<User>;
   createLocalUser(username: string, email: string, password: string): Promise<User>;
   validatePassword(username: string, password: string): Promise<User | null>;
   upsertUser(userData: UpsertUser): Promise<User>;
-  updateUser(id: string, userData: Partial<UpsertUser>): Promise<User | undefined>;
+  updateUser(id: number, userData: Partial<UpsertUser>): Promise<User | undefined>;
   getAllUsers(role?: string): Promise<User[]>;
   
   // Order operations
@@ -103,12 +103,12 @@ export interface IStorage {
   searchServices(query: string): Promise<Service[]>;
   
   // Onboarding operations
-  getUserOnboardingStep(userId: string): Promise<number>;
-  updateUserOnboardingStep(userId: string, step: number): Promise<User | undefined>;
-  completeUserOnboarding(userId: string, preferences: any): Promise<User | undefined>;
-  getWelcomeMessagesByUserId(userId: string): Promise<WelcomeMessage[]>;
-  getWelcomeMessageByStep(userId: string, step: number): Promise<WelcomeMessage | undefined>;
-  createWelcomeMessage(userId: string, step: number, title: string, content: string, actionLabel?: string, actionType?: string): Promise<WelcomeMessage>;
+  getUserOnboardingStep(userId: number): Promise<number>;
+  updateUserOnboardingStep(userId: number, step: number): Promise<User | undefined>;
+  completeUserOnboarding(userId: number, preferences: any): Promise<User | undefined>;
+  getWelcomeMessagesByUserId(userId: number): Promise<WelcomeMessage[]>;
+  getWelcomeMessageByStep(userId: number, step: number): Promise<WelcomeMessage | undefined>;
+  createWelcomeMessage(userId: number, step: number, title: string, content: string, actionLabel?: string, actionType?: string): Promise<WelcomeMessage>;
   updateWelcomeMessage(id: number, data: Partial<WelcomeMessage>): Promise<WelcomeMessage | undefined>;
   markWelcomeMessageAsCompleted(id: number): Promise<WelcomeMessage | undefined>;
   
@@ -150,7 +150,7 @@ export class DatabaseStorage implements IStorage {
   // Importy są już na górze pliku
   // Z { blogPosts, knowledgeBase, ... } from "@shared/schema";
   // User operations
-  async getUser(id: string): Promise<User | undefined> {
+  async getUser(id: number): Promise<User | undefined> {
     const [user] = await db.select().from(users).where(eq(users.id, id));
     return user || undefined;
   }
@@ -206,7 +206,7 @@ export class DatabaseStorage implements IStorage {
     return user;
   }
 
-  async updateUser(id: string, userData: Partial<UpsertUser>): Promise<User | undefined> {
+  async updateUser(id: number, userData: Partial<UpsertUser>): Promise<User | undefined> {
     const [user] = await db
       .update(users)
       .set({
