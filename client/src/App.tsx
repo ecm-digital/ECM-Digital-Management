@@ -10,6 +10,8 @@ import { toast } from "@/hooks/use-toast";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { apiRequest } from "@/lib/queryClient";
+import { AuthProvider } from "@/hooks/use-auth";
+import { ProtectedRoute } from "@/components/ui/protected-route";
 
 // Komponent do ładowania
 import { Loader } from "lucide-react";
@@ -21,6 +23,7 @@ import ChatWidget from "@/components/chat/ChatWidget";
 import NotFound from "@/pages/not-found";
 
 // Leniwe ładowanie komponentów stron
+const AuthPage = lazy(() => import("@/pages/auth-page"));
 const ClientHomePage = lazy(() => import("@/pages/ClientHomePage"));
 const ServicesPage = lazy(() => import("@/pages/ServicesPage"));
 const ServiceDetailsPage = lazy(() => import("@/components/ServiceDetailsPage"));
@@ -530,50 +533,67 @@ function HomePage() {
 
 function App() {
   return (
-    <TooltipProvider>
-      <Suspense fallback={<LoadingFallback />}>
-        <Switch>
-          {/* Trasy z parametrami */}
-          <Route path="/service/:id" component={ServiceDetailsPage} />
-          <Route path="/configure/:id" component={ConfigureServicePage} />
-          <Route path="/client/orders/:orderId" component={ClientOrderDetailsPage} />
-          <Route path="/blog/:slug" component={BlogPostPage} />
-          <Route path="/knowledge/:slug" component={KnowledgeArticlePage} />
-          
-          {/* Trasy statyczne - ważne aby były po trasach sparametryzowanych */}
-          <Route path="/admin" component={AdminPage} />
-          <Route path="/services" component={ServicesPage} />
-          <Route path="/configure" component={ConfigureServicePage} />
-          <Route path="/about" component={AboutPage} />
-          
-          {/* Case Studies Routes */}
-          <Route path="/case-studies/1" component={CaseStudyOne} />
-          <Route path="/case-studies/2" component={CaseStudyTwo} />
-          
-          {/* Client Panel Routes */}
-          <Route path="/client/dashboard" component={ClientDashboardPage} />
-          <Route path="/client/orders" component={ClientOrdersPage} />
-          <Route path="/client/profile" component={ClientProfilePage} />
-          
-          {/* Blog Routes */}
-          <Route path="/blog/search" component={BlogSearchPage} />
-          <Route path="/blog" component={BlogPage} />
-          
-          {/* Knowledge Base Routes */}
-          <Route path="/knowledge/search" component={KnowledgeSearchPage} />
-          <Route path="/knowledge" component={KnowledgeBasePage} />
-          
-          {/* Strona główna - musi być na końcu przed 404 */}
-          <Route path="/" component={ClientHomePage} />
-          
-          {/* Strona 404 - musi być ostatnia */}
-          <Route component={NotFound} />
-        </Switch>
-      </Suspense>
-      {/* Chatbot Widget - wyświetlany na każdej stronie */}
-      <ChatWidget />
-      <Toaster />
-    </TooltipProvider>
+    <AuthProvider>
+      <TooltipProvider>
+        <Suspense fallback={<LoadingFallback />}>
+          <Switch>
+            {/* Strona uwierzytelniania */}
+            <Route path="/auth" component={AuthPage} />
+            
+            {/* Trasy z parametrami */}
+            <Route path="/service/:id" component={ServiceDetailsPage} />
+            <Route path="/configure/:id" component={ConfigureServicePage} />
+            <Route path="/client/orders/:orderId" component={ClientOrderDetailsPage} />
+            <Route path="/blog/:slug" component={BlogPostPage} />
+            <Route path="/knowledge/:slug" component={KnowledgeArticlePage} />
+            
+            {/* Trasy statyczne - ważne aby były po trasach sparametryzowanych */}
+            <Route path="/admin" component={AdminPage} />
+            <Route path="/services" component={ServicesPage} />
+            <Route path="/configure" component={ConfigureServicePage} />
+            <Route path="/about" component={AboutPage} />
+            
+            {/* Case Studies Routes */}
+            <Route path="/case-studies/1" component={CaseStudyOne} />
+            <Route path="/case-studies/2" component={CaseStudyTwo} />
+            
+            {/* Client Panel Routes - chronione */}
+            <Route path="/client/dashboard">
+              <ProtectedRoute>
+                <ClientDashboardPage />
+              </ProtectedRoute>
+            </Route>
+            <Route path="/client/orders">
+              <ProtectedRoute>
+                <ClientOrdersPage />
+              </ProtectedRoute>
+            </Route>
+            <Route path="/client/profile">
+              <ProtectedRoute>
+                <ClientProfilePage />
+              </ProtectedRoute>
+            </Route>
+            
+            {/* Blog Routes */}
+            <Route path="/blog/search" component={BlogSearchPage} />
+            <Route path="/blog" component={BlogPage} />
+            
+            {/* Knowledge Base Routes */}
+            <Route path="/knowledge/search" component={KnowledgeSearchPage} />
+            <Route path="/knowledge" component={KnowledgeBasePage} />
+            
+            {/* Strona główna - musi być na końcu przed 404 */}
+            <Route path="/" component={ClientHomePage} />
+            
+            {/* Strona 404 - musi być ostatnia */}
+            <Route component={NotFound} />
+          </Switch>
+        </Suspense>
+        {/* Chatbot Widget - wyświetlany na każdej stronie */}
+        <ChatWidget />
+        <Toaster />
+      </TooltipProvider>
+    </AuthProvider>
   );
 }
 
