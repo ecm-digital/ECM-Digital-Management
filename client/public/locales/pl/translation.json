@@ -146,6 +146,52 @@
     "summary": "Podsumowanie",
     "priceDetails": "Szczegóły cenowe i czas realizacji",
     "basePrice": "Powyższa cena jest ceną podstawową. Ostateczna cena zależy od wybranych opcji konfiguracji.",
+    "deliveryTime": "Czas dostawy",
+    "satisfaction": "Satysfakcja klientów",
+    "satisfactionRate": "zadowolonych klientów",
+    "learnMore": "Dowiedz się więcej",
+    "overview": "Przegląd usługi",
+    "aboutService": "O usłudze",
+    "challenges": "Wyzwania",
+    "problemsSolved": "Problemy, które rozwiązujemy",
+    "problemsDesc": "Nasze rozwiązanie adresuje następujące wyzwania, z którymi spotykają się nasi klienci:",
+    "value": "Wartość",
+    "whyChooseService": "Dlaczego warto wybrać tę usługę",
+    "process": "Proces",
+    "howItWorks": "Jak to działa",
+    "processDesc": "Nasz sprawdzony proces gwarantuje wysoką jakość i terminowość realizacji:",
+    "results": "Rezultaty",
+    "expectedOutcomes": "Spodziewane efekty",
+    "resultsDesc": "Oto rezultaty, jakie możesz osiągnąć dzięki naszej usłudze:",
+    "readyToStart": "Gotowy, by zacząć?",
+    "ctaDescription": "Skontaktuj się z nami już teraz, aby rozpocząć projekt i osiągnąć wymierny wzrost Twojego biznesu.",
+    "contactUs": "Skontaktuj się z nami",
+    "ourOffer": "Nasza oferta",
+    "offerDescription": "Kompleksowe rozwiązania dla Twojego biznesu",
+    "problems": {
+      "time": "Brak czasu na regularne doskonalenie doświadczenia użytkownika",
+      "expertise": "Niedostateczna wiedza wewnątrz zespołu w zakresie UX/UI",
+      "conversion": "Niski współczynnik konwersji i zaangażowania użytkowników",
+      "competition": "Rosnąca konkurencja w branży"
+    },
+    "process": {
+      "analysis": "Analiza i diagnoza",
+      "analysisDesc": "Dokładna analiza obecnego stanu, identyfikacja problemów i możliwości.",
+      "strategy": "Strategia i planowanie",
+      "strategyDesc": "Opracowanie strategii działania i priorytetyzacja zadań.",
+      "implementation": "Implementacja",
+      "implementationDesc": "Wdrożenie rozwiązań zgodnie z ustaloną strategią i harmonogramem.",
+      "optimization": "Optymalizacja",
+      "optimizationDesc": "Ciągłe doskonalenie w oparciu o dane i testy użyteczności."
+    },
+    "results": {
+      "conversion": "Wzrost konwersji",
+      "conversionDesc": "Średni wzrost konwersji u naszych klientów",
+      "engagement": "Zaangażowanie",
+      "engagementDesc": "Wzrost czasu spędzonego na stronie",
+      "satisfaction": "Satysfakcja",
+      "satisfactionDesc": "Średnia ocena zadowolenia klientów"
+    },
     "categories": {
       "uxDesign": "UX & Conversion Design",
       "webDevelopment": "Projektowanie i rozwój stron internetowych",
@@ -348,5 +394,36 @@
       "complete": "Konfiguracja zakończona",
       "completeMessage": "Dziękujemy za uzupełnienie informacji. Twój panel jest już gotowy do użycia!"
     }
+  },
+  "leadMagnets": {
+    "sectionTitle": "Darmowe materiały i zasoby",
+    "sectionDescription": "Skorzystaj z naszych darmowych materiałów, które pomogą Ci rozwinąć Twój biznes online. Zapisz się, aby otrzymać dostęp.",
+    "newsletterTab": "Newsletter UX/AI",
+    "ebookTab": "Darmowy e-book",
+    "newsletter": {
+      "title": "Dołącz do newslettera UX/AI Insights",
+      "description": "Co tydzień wysyłamy krótki newsletter z najciekawszymi trendami UX i AI, które pomagają firmom osiągać lepsze rezultaty. Dołącz do ponad 1500 specjalistów, którzy czytają nasz newsletter!",
+      "emailPlaceholder": "Twój adres email...",
+      "buttonText": "Zapisz się do newslettera",
+      "consentText": "Wyrażam zgodę na otrzymywanie newslettera UX/AI Insights oraz akceptuję politykę prywatności.",
+      "successTitle": "Dziękujemy za zapisanie się!",
+      "successMessage": "Sprawdź swoją skrzynkę email, aby potwierdzić zapis do newslettera. Następny newsletter wyślemy w najbliższy wtorek."
+    },
+    "ebook": {
+      "title": "Pobierz darmowy e-book \"UX + AI: Przewodnik 2025\"",
+      "description": "W naszym najnowszym e-booku znajdziesz przegląd 10 najskuteczniejszych strategii łączenia UX z narzędziami AI, które zwiększają konwersję i zadowolenie użytkowników. Materiał zawiera praktyczne wskazówki i przykłady wdrożeń.",
+      "emailPlaceholder": "Gdzie wysłać e-book?",
+      "buttonText": "Pobierz e-book za darmo",
+      "consentText": "Wyrażam zgodę na otrzymanie e-booka oraz powiązanych materiałów marketingowych.",
+      "successTitle": "E-book wysłany!",
+      "successMessage": "Twój e-book jest gotowy do pobrania. Sprawdź również swoją skrzynkę email, wysłaliśmy tam kopię pliku."
+    }
+  },
+  "validation": {
+    "invalidEmail": "Nieprawidłowy adres email",
+    "consentRequired": "Zgoda jest wymagana"
+  },
+  "leadMagnet": {
+    "emailLabel": "Adres email"
   }
 }
