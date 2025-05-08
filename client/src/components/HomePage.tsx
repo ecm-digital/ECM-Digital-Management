@@ -341,35 +341,36 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Case Studies Section */}
-      <section id="case-studies" className="py-24 bg-white">
+      {/* Case Studies Section - Airbnb style */}
+      <section id="case-studies" className="py-20 md:py-24 bg-white">
         <div className="container-tight">
-          <div className="max-w-3xl mx-auto text-center mb-16">
-            <Badge className="bg-indigo-100 text-indigo-700 mb-4 py-1 px-3 rounded-full">{t('home.caseStudies')}</Badge>
-            <h2 className="text-3xl md:text-4xl font-bold mb-6 tracking-tight">{t('home.ourProjects')}</h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+          <div className="max-w-3xl mx-auto text-center mb-12">
+            <Badge className="bg-accent text-primary mb-4 py-1 px-3 rounded-md text-sm">{t('home.caseStudies')}</Badge>
+            <h2 className="text-2xl md:text-3xl font-semibold mb-4 tracking-tight">{t('home.ourProjects')}</h2>
+            <p className="text-base md:text-lg text-gray-600 max-w-2xl mx-auto">
               {t('home.caseStudiesDescription')}
             </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="card-modern p-0 overflow-hidden">
-              <div className="h-60 bg-gray-100 relative">
-                <div className="absolute inset-0 bg-gradient-to-tr from-primary/30 to-secondary/30 mix-blend-multiply"></div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+            {/* Case Study Card 1 - Airbnb style */}
+            <div className="bg-white rounded-xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-md transition-shadow duration-300">
+              <div className="h-56 bg-gray-100 relative">
+                <div className="absolute inset-0 bg-gradient-to-tr from-primary/20 to-accent/20 mix-blend-multiply"></div>
                 <div className="absolute bottom-4 left-4">
-                  <Badge className="bg-white/80 text-primary">{t('home.caseStudyTypes.ecommerce')}</Badge>
+                  <Badge className="bg-white text-primary rounded-md px-3 py-1">{t('home.caseStudyTypes.ecommerce')}</Badge>
                 </div>
               </div>
               <div className="p-6">
-                <h3 className="text-xl font-bold mb-2">{t('home.caseStudiesItems.example1.title')}</h3>
-                <p className="text-gray-500 mb-4 text-sm">{t('home.caseStudiesItems.example1.client')}</p>
-                <p className="text-gray-700 mb-6">
+                <h3 className="text-xl font-semibold mb-2">{t('home.caseStudiesItems.example1.title')}</h3>
+                <p className="text-gray-500 mb-3 text-sm">{t('home.caseStudiesItems.example1.client')}</p>
+                <p className="text-gray-600 mb-5 text-sm md:text-base">
                   {t('home.caseStudiesItems.example1.description')}
                 </p>
                 <div className="flex justify-between items-center">
                   <div>
                     <span className="text-sm font-medium text-gray-600">{t('home.result')}: </span>
-                    <span className="text-green-600 font-medium">+156% {t('home.conversion')}</span>
+                    <span className="text-primary font-medium">+156% {t('home.conversion')}</span>
                   </div>
                   <Link href="/case-studies/1">
                     <Button variant="ghost" className="text-primary hover:text-primary/80 p-0">
@@ -380,23 +381,24 @@ export default function HomePage() {
               </div>
             </div>
             
-            <div className="card-modern p-0 overflow-hidden">
-              <div className="h-60 bg-gray-100 relative">
-                <div className="absolute inset-0 bg-gradient-to-tr from-purple-500/30 to-indigo-500/30 mix-blend-multiply"></div>
+            {/* Case Study Card 2 - Airbnb style */}
+            <div className="bg-white rounded-xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-md transition-shadow duration-300">
+              <div className="h-56 bg-gray-100 relative">
+                <div className="absolute inset-0 bg-gradient-to-tr from-primary/20 to-accent/30 mix-blend-multiply"></div>
                 <div className="absolute bottom-4 left-4">
-                  <Badge className="bg-white/80 text-purple-600">{t('home.caseStudyTypes.webapp')}</Badge>
+                  <Badge className="bg-white text-primary rounded-md px-3 py-1">{t('home.caseStudyTypes.webapp')}</Badge>
                 </div>
               </div>
               <div className="p-6">
-                <h3 className="text-xl font-bold mb-2">{t('home.caseStudiesItems.example2.title')}</h3>
-                <p className="text-gray-500 mb-4 text-sm">{t('home.caseStudiesItems.example2.client')}</p>
-                <p className="text-gray-700 mb-6">
+                <h3 className="text-xl font-semibold mb-2">{t('home.caseStudiesItems.example2.title')}</h3>
+                <p className="text-gray-500 mb-3 text-sm">{t('home.caseStudiesItems.example2.client')}</p>
+                <p className="text-gray-600 mb-5 text-sm md:text-base">
                   {t('home.caseStudiesItems.example2.description')}
                 </p>
                 <div className="flex justify-between items-center">
                   <div>
                     <span className="text-sm font-medium text-gray-600">{t('home.result')}: </span>
-                    <span className="text-green-600 font-medium">+78% {t('home.userEngagement')}</span>
+                    <span className="text-primary font-medium">+78% {t('home.userEngagement')}</span>
                   </div>
                   <Link href="/case-studies/2">
                     <Button variant="ghost" className="text-primary hover:text-primary/80 p-0">
@@ -407,30 +409,30 @@ export default function HomePage() {
               </div>
             </div>
           </div>
-          
-
         </div>
       </section>
 
       {/* Lead Magnets Section */}
       <HomeLeadMagnets />
 
-      {/* Contact Section */}
-      <section id="contact-form" className="py-24 bg-background">
+      {/* Contact Section - Airbnb style */}
+      <section id="contact-form" className="py-20 md:py-24 bg-background">
         <div className="container-tight">
           <div className="max-w-4xl mx-auto">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+              {/* Left Column - Contact Info */}
               <div>
-                <Badge className="bg-secondary/10 text-secondary mb-4 py-1 px-3 rounded-full">{t('home.contactUs')}</Badge>
-                <h2 className="text-3xl md:text-4xl font-bold mb-6 tracking-tight">{t('home.getInTouch')}</h2>
-                <p className="text-gray-600 mb-8">
+                <Badge className="bg-accent text-primary mb-4 py-1 px-3 rounded-md text-sm">{t('home.contactUs')}</Badge>
+                <h2 className="text-2xl md:text-3xl font-semibold mb-4 tracking-tight">{t('home.getInTouch')}</h2>
+                <p className="text-gray-600 mb-8 text-base md:text-lg">
                   {t('home.contactDescription')}
                 </p>
                 
                 <div className="space-y-6">
+                  {/* Phone Contact */}
                   <div className="flex items-start gap-4">
-                    <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-blue-600">
+                    <div className="w-10 h-10 rounded-lg bg-accent flex items-center justify-center flex-shrink-0">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-primary">
                         <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
                       </svg>
                     </div>
@@ -440,9 +442,10 @@ export default function HomePage() {
                     </div>
                   </div>
                   
+                  {/* Email Contact */}
                   <div className="flex items-start gap-4">
-                    <div className="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center flex-shrink-0">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-purple-600">
+                    <div className="w-10 h-10 rounded-lg bg-accent flex items-center justify-center flex-shrink-0">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-primary">
                         <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
                         <polyline points="22,6 12,13 2,6"></polyline>
                       </svg>
@@ -453,9 +456,10 @@ export default function HomePage() {
                     </div>
                   </div>
                   
+                  {/* Address Contact */}
                   <div className="flex items-start gap-4">
-                    <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-green-600">
+                    <div className="w-10 h-10 rounded-lg bg-accent flex items-center justify-center flex-shrink-0">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-primary">
                         <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
                         <circle cx="12" cy="10" r="3"></circle>
                       </svg>
@@ -468,24 +472,37 @@ export default function HomePage() {
                 </div>
               </div>
               
-              <div className="card-modern p-8">
-                <h3 className="text-xl font-bold mb-6">{t('contact.sendMessage')}</h3>
+              {/* Right Column - Contact Form - Airbnb style */}
+              <div className="bg-white p-6 md:p-8 rounded-xl border border-gray-100 shadow-sm">
+                <h3 className="text-xl font-semibold mb-6">{t('contact.sendMessage')}</h3>
                 <form className="space-y-6">
-                  <div className="grid grid-cols-1 gap-6">
+                  <div className="grid grid-cols-1 gap-5">
+                    {/* Name Field */}
                     <div className="space-y-2">
-                      <Label htmlFor="name">{t('contact.name')}</Label>
-                      <Input id="name" placeholder={t('contact.namePlaceholder')} />
+                      <Label htmlFor="name" className="text-gray-700 font-medium">{t('contact.name')}</Label>
+                      <Input 
+                        id="name" 
+                        placeholder={t('contact.namePlaceholder')} 
+                        className="border-gray-300 rounded-lg"
+                      />
                     </div>
                     
+                    {/* Email Field */}
                     <div className="space-y-2">
-                      <Label htmlFor="email">{t('contact.email')}</Label>
-                      <Input id="email" type="email" placeholder={t('contact.emailPlaceholder')} />
+                      <Label htmlFor="email" className="text-gray-700 font-medium">{t('contact.email')}</Label>
+                      <Input 
+                        id="email" 
+                        type="email" 
+                        placeholder={t('contact.emailPlaceholder')} 
+                        className="border-gray-300 rounded-lg"
+                      />
                     </div>
                     
+                    {/* Service Selection */}
                     <div className="space-y-2">
-                      <Label htmlFor="service">{t('contact.service')}</Label>
+                      <Label htmlFor="service" className="text-gray-700 font-medium">{t('contact.service')}</Label>
                       <Select>
-                        <SelectTrigger>
+                        <SelectTrigger className="border-gray-300 rounded-lg">
                           <SelectValue placeholder={t('contact.servicePlaceholder')} />
                         </SelectTrigger>
                         <SelectContent>
@@ -496,23 +513,32 @@ export default function HomePage() {
                       </Select>
                     </div>
                     
+                    {/* Message Field */}
                     <div className="space-y-2">
-                      <Label htmlFor="message">{t('contact.message')}</Label>
-                      <Textarea id="message" placeholder={t('contact.messagePlaceholder')} className="min-h-[120px]" />
-                    </div>
-                    
-                    <div className="flex items-center space-x-2">
-                      <Checkbox id="terms" />
-                      <label
-                        htmlFor="terms"
-                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                      >
-                        {t('contact.acceptTerms')}
-                      </label>
+                      <Label htmlFor="message" className="text-gray-700 font-medium">{t('contact.message')}</Label>
+                      <Textarea 
+                        id="message" 
+                        placeholder={t('contact.messagePlaceholder')} 
+                        className="border-gray-300 rounded-lg min-h-[120px]"
+                      />
                     </div>
                   </div>
                   
-                  <Button className="w-full btn-gradient btn-modern">{t('contact.send')}</Button>
+                  {/* Privacy Policy Checkbox */}
+                  <div className="flex space-x-3 items-start">
+                    <Checkbox id="terms" className="mt-1" />
+                    <label
+                      htmlFor="terms"
+                      className="text-sm text-gray-600 font-normal"
+                    >
+                      {t('contact.acceptTerms')}
+                    </label>
+                  </div>
+                  
+                  {/* Submit Button - Airbnb style */}
+                  <Button type="submit" className="w-full btn-primary rounded-lg py-3">
+                    {t('contact.send')}
+                  </Button>
                 </form>
               </div>
             </div>
@@ -520,31 +546,41 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-16 bg-secondary/5">
+      {/* CTA Section - Airbnb style */}
+      <section className="py-16 md:py-20 bg-accent/10">
         <div className="container-tight">
-          <div className="card-modern p-8 md:p-12 bg-white">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+          <div className="bg-white p-6 md:p-10 rounded-xl border border-gray-100 shadow-sm">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+              {/* Left column - Text and CTA button */}
               <div>
-                <h2 className="text-2xl md:text-3xl font-bold mb-6">{t('cta.title')}</h2>
-                <p className="text-gray-600 mb-8">
+                <h2 className="text-2xl md:text-3xl font-semibold mb-4 tracking-tight">{t('cta.title')}</h2>
+                <p className="text-gray-600 mb-8 text-base md:text-lg">
                   {t('cta.description')}
                 </p>
                 <Link href="/services">
-                  <Button className="btn-gradient btn-modern">{t('cta.button')}</Button>
+                  <Button className="btn-primary rounded-lg py-3 px-6 text-base">
+                    {t('cta.button')}
+                  </Button>
                 </Link>
               </div>
+              
+              {/* Right column - Benefits card */}
               <div className="relative mx-auto max-w-md">
-                <div className="absolute -top-6 -right-6 w-32 h-32 bg-secondary/10 rounded-full blur-xl"></div>
-                <div className="absolute -bottom-6 -left-6 w-32 h-32 bg-primary/10 rounded-full blur-xl"></div>
-                <div className="relative z-10 bg-gradient-to-br from-primary/5 to-secondary/5 rounded-2xl p-8 border border-white/20">
-                  <CheckCircle className="h-12 w-12 text-green-500 mb-6" />
-                  <h3 className="text-xl font-bold mb-4">{t('cta.benefitsTitle')}</h3>
-                  <ul className="space-y-3">
+                {/* Subtle background effects */}
+                <div className="absolute -top-4 -right-4 w-28 h-28 bg-accent/30 rounded-full blur-xl"></div>
+                <div className="absolute -bottom-4 -left-4 w-28 h-28 bg-primary/10 rounded-full blur-xl"></div>
+                
+                {/* Benefits card */}
+                <div className="relative z-10 bg-white rounded-xl p-6 md:p-8 border border-gray-100 shadow-sm">
+                  <div className="w-12 h-12 bg-accent rounded-lg flex items-center justify-center mb-6">
+                    <CheckCircle className="h-6 w-6 text-primary" />
+                  </div>
+                  <h3 className="text-xl font-semibold mb-4">{t('cta.benefitsTitle')}</h3>
+                  <ul className="space-y-4">
                     {[1, 2, 3].map((item) => (
                       <li key={item} className="flex items-start gap-3">
-                        <div className="w-5 h-5 bg-green-100 rounded-full flex items-center justify-center mt-0.5 flex-shrink-0">
-                          <Check className="h-3 w-3 text-green-600" />
+                        <div className="w-6 h-6 bg-accent rounded-lg flex items-center justify-center mt-0.5 flex-shrink-0">
+                          <Check className="h-4 w-4 text-primary" />
                         </div>
                         <span className="text-gray-700">{t(`cta.benefits.${item}`)}</span>
                       </li>
