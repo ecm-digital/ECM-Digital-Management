@@ -218,3 +218,122 @@
 .progress-bar-item:last-child::after {
   display: none;
 }
+
+/* Optymalizacje wydajności */
+@media screen and (max-width: 768px) {
+  /* Zmniejszone marginesy na mobile */
+  section {
+    @apply py-10 md:py-24;
+  }
+  
+  /* Mniejsze fonty na mobile */
+  h1 {
+    @apply text-3xl md:text-5xl;
+  }
+  
+  h2 {
+    @apply text-2xl md:text-4xl;
+  }
+  
+  /* Lepsze odstępy na mobile */
+  .container-tight {
+    @apply px-4 sm:px-8;
+  }
+}
+
+/* Usprawnienia wydajności ogólne */
+.contain-paint {
+  contain: paint;
+}
+
+.optimize-gpu {
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+/* Poprawa dostępności - minimum clickable area */
+.min-clickable {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* Poprawa wydajności animacji */
+.hardware-accelerated {
+  backface-visibility: hidden;
+  perspective: 1000;
+  transform: translate3d(0, 0, 0);
+}
+
+/* Lazy-loaded images */
+.lazy-image {
+  background-color: #f0f0f0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+/* Optymalizacja wyświetlania fontów */
+@supports (font-display: swap) {
+  @font-face {
+    font-display: swap;
+  }
+}
+
+/* Optymalizacja rysowania obramowania */
+.optimized-border {
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.1);
+  border: none;
+}
+
+/* Optymalizacje dla ciemnego trybu */
+@media (prefers-color-scheme: dark) {
+  .auto-dark-mode {
+    @apply bg-gray-900 text-white;
+  }
+}
+
+/* Wspieranie różnych rozmiarów ekranów */
+@media screen and (min-width: 1920px) {
+  .container-tight {
+    max-width: 1400px;
+  }
+}
+
+@media screen and (max-width: 640px) {
+  .hide-on-mobile {
+    display: none;
+  }
+}
+
+@media screen and (min-width: 641px) and (max-width: 1023px) {
+  .hide-on-tablet {
+    display: none;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .hide-on-desktop {
+    display: none;
+  }
+}
+
+/* Print styles */
+@media print {
+  .no-print {
+    display: none;
+  }
+  
+  .print-only {
+    display: block;
+  }
+  
+  a {
+    text-decoration: none;
+    color: #000;
+  }
+  
+  body {
+    font-size: 12pt;
+    line-height: 1.5;
+    color: #000;
+    background: #fff;
+  }
+}

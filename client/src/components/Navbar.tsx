@@ -1,15 +1,116 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback, memo } from 'react';
 import { Link, useLocation } from 'wouter';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { Menu, User, Globe, Search } from 'lucide-react';
+import { Menu, User, Globe, Search, Home, CreditCard, Info, BookOpen, BookText, Phone } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import LanguageSwitcher from './LanguageSwitcher';
 
-export default function Navbar() {
+// NavLink component for avoiding re-renders
+const NavLink = memo(({ href, label, isActive, isAnchor = false }: { 
+  href: string; 
+  label: string; 
+  isActive: boolean;
+  isAnchor?: boolean;
+}) => {
+  if (isAnchor) {
+    return (
+      <a 
+        href={href} 
+        className="hover:text-primary transition-colors text-gray-700 font-medium"
+      >
+        {label}
+      </a>
+    );
+  }
+  
+  return (
+    <Link href={href}>
+      <span className={`hover:text-primary transition-colors cursor-pointer font-medium ${
+        isActive ? 'text-primary border-b-2 border-primary pb-1' : 'text-gray-700'
+      }`}>
+        {label}
+      </span>
+    </Link>
+  );
+});
+
+// Mobile NavLink component
+const MobileNavLink = memo(({ href, label, isActive, isAnchor = false, icon }: { 
+  href: string; 
+  label: string; 
+  isActive: boolean;
+  isAnchor?: boolean;
+  icon?: React.ReactNode;
+}) => {
+  const content = (
+    <span className={`block py-2 hover:text-primary transition-colors font-medium ${
+      isActive ? 'text-primary' : 'text-gray-700'
+    } flex items-center gap-2`}>
+      {icon}
+      {label}
+    </span>
+  );
+  
+  if (isAnchor) {
+    return <a href={href} className="block py-2">{content}</a>;
+  }
+  
+  return <Link href={href}>{content}</Link>;
+});
+
+const Navbar = () => {
   const { t } = useTranslation();
   const [location] = useLocation();
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  
+  // Definicja linków nawigacyjnych do ponownego użycia
+  const navLinks = [
+    { 
+      href: "/", 
+      label: t('navigation.home'),
+      isActive: location === '/',
+      icon: <Home className="h-4 w-4" />
+    },
+    { 
+      href: "/about", 
+      label: t('navigation.about'),
+      isActive: location === '/about',
+      icon: <Info className="h-4 w-4" /> 
+    },
+    { 
+      href: location === '/' ? "#services" : "/#services", 
+      label: t('navigation.services'),
+      isActive: false,
+      isAnchor: true,
+      icon: <CreditCard className="h-4 w-4" />
+    },
+    { 
+      href: location === '/' ? "#case-studies" : "/#case-studies", 
+      label: t('navigation.caseStudies'),
+      isActive: false,
+      isAnchor: true,
+      icon: <BookOpen className="h-4 w-4" />
+    },
+    { 
+      href: "/blog", 
+      label: t('navigation.blog', 'Blog'),
+      isActive: location === '/blog',
+      icon: <BookText className="h-4 w-4" />
+    },
+    { 
+      href: "/knowledge", 
+      label: t('navigation.knowledge', 'Baza Wiedzy'),
+      isActive: location === '/knowledge',
+      icon: <BookText className="h-4 w-4" />
+    },
+    { 
+      href: location === '/' ? "#contact-form" : "/#contact-form", 
+      label: t('navigation.contact'),
+      isActive: false,
+      isAnchor: true,
+      icon: <Phone className="h-4 w-4" />
+    }
+  ];
 
   return (
     <header className="bg-white border-b border-gray-100 sticky top-0 z-40 shadow-sm">
@@ -26,32 +127,15 @@ export default function Navbar() {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-6">
-            <Link href="/">
-              <span className={`hover:text-primary transition-colors cursor-pointer font-medium ${location === '/' ? 'text-primary border-b-2 border-primary pb-1' : 'text-gray-700'}`}>
-                {t('navigation.home')}
-              </span>
-            </Link>
-            <Link href="/about">
-              <span className={`hover:text-primary transition-colors cursor-pointer font-medium ${location === '/about' ? 'text-primary border-b-2 border-primary pb-1' : 'text-gray-700'}`}>
-                {t('navigation.about')}
-              </span>
-            </Link>
-            <a href={location === '/' ? "#services" : "/#services"} className="hover:text-primary transition-colors text-gray-700 font-medium">
-              {t('navigation.services')}
-            </a>
-            <a href={location === '/' ? "#case-studies" : "/#case-studies"} className="hover:text-primary transition-colors text-gray-700 font-medium">
-              {t('navigation.caseStudies')}
-            </a>
-            <Link href="/blog">
-              <span className={`hover:text-primary transition-colors cursor-pointer font-medium ${location === '/blog' ? 'text-primary border-b-2 border-primary pb-1' : 'text-gray-700'}`}>
-                {t('navigation.blog', 'Blog')}
-              </span>
-            </Link>
-            <Link href="/knowledge">
-              <span className={`hover:text-primary transition-colors cursor-pointer font-medium ${location === '/knowledge' ? 'text-primary border-b-2 border-primary pb-1' : 'text-gray-700'}`}>
-                {t('navigation.knowledge', 'Baza Wiedzy')}
-              </span>
-            </Link>
+            {navLinks.map((link, index) => (
+              <NavLink 
+                key={`desktop-${link.href}-${index}`} 
+                href={link.href} 
+                label={link.label} 
+                isActive={link.isActive}
+                isAnchor={link.isAnchor} 
+              />
+            ))}
             
             <div className="border-l border-gray-200 h-6 mx-2"></div>
             
@@ -104,37 +188,18 @@ export default function Navbar() {
                     </div>
                   </div>
                   
-                  <div className="flex-1 p-5">
+                  <div className="flex-1 p-5 overflow-y-auto">
                     <nav className="flex flex-col space-y-4">
-                      <Link href="/">
-                        <span className={`block py-2 hover:text-primary transition-colors font-medium ${location === '/' ? 'text-primary' : 'text-gray-700'}`}>
-                          {t('navigation.home')}
-                        </span>
-                      </Link>
-                      <Link href="/about">
-                        <span className={`block py-2 hover:text-primary transition-colors font-medium ${location === '/about' ? 'text-primary' : 'text-gray-700'}`}>
-                          {t('navigation.about')}
-                        </span>
-                      </Link>
-                      <a href={location === '/' ? "#services" : "/#services"} className="block py-2 hover:text-primary transition-colors text-gray-700 font-medium">
-                        {t('navigation.services')}
-                      </a>
-                      <a href={location === '/' ? "#case-studies" : "/#case-studies"} className="block py-2 hover:text-primary transition-colors text-gray-700 font-medium">
-                        {t('navigation.caseStudies')}
-                      </a>
-                      <Link href="/blog">
-                        <span className={`block py-2 hover:text-primary transition-colors font-medium ${location === '/blog' ? 'text-primary' : 'text-gray-700'}`}>
-                          {t('navigation.blog', 'Blog')}
-                        </span>
-                      </Link>
-                      <Link href="/knowledge">
-                        <span className={`block py-2 hover:text-primary transition-colors font-medium ${location === '/knowledge' ? 'text-primary' : 'text-gray-700'}`}>
-                          {t('navigation.knowledge', 'Baza Wiedzy')}
-                        </span>
-                      </Link>
-                      <a href={location === '/' ? "#contact-form" : "/#contact-form"} className="block py-2 hover:text-primary transition-colors text-gray-700 font-medium">
-                        {t('navigation.contact')}
-                      </a>
+                      {navLinks.map((link, index) => (
+                        <MobileNavLink 
+                          key={`mobile-${link.href}-${index}`} 
+                          href={link.href} 
+                          label={link.label} 
+                          isActive={link.isActive}
+                          isAnchor={link.isAnchor}
+                          icon={link.icon}
+                        />
+                      ))}
                       
                       <div className="pt-4 space-y-3">
                         <Link href="/client/dashboard">
@@ -158,4 +223,6 @@ export default function Navbar() {
       </div>
     </header>
   );
-}
+};
+
+export default memo(Navbar);
