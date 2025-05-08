@@ -55,9 +55,9 @@ export interface IStorage {
   // Order operations
   getOrder(id: number): Promise<Order | undefined>;
   getOrderByOrderId(orderId: string): Promise<Order | undefined>;
-  getOrdersByUserId(userId: string): Promise<Order[]>;
+  getOrdersByUserId(userId: number): Promise<Order[]>;
   getOrdersByStatus(status: string): Promise<Order[]>;
-  getOrdersByAssignedToId(assignedToId: string): Promise<Order[]>;
+  getOrdersByAssignedToId(assignedToId: number): Promise<Order[]>;
   getRecentOrders(limit?: number): Promise<Order[]>;
   createOrder(order: InsertOrder): Promise<Order>;
   updateOrder(id: number, orderData: Partial<InsertOrder>): Promise<Order | undefined>;
@@ -72,9 +72,9 @@ export interface IStorage {
   // Message operations
   getMessage(id: number): Promise<Message | undefined>;
   getMessagesByOrderId(orderId: number): Promise<Message[]>;
-  getMessagesBySenderId(senderId: string): Promise<Message[]>;
-  getMessagesByReceiverId(receiverId: string): Promise<Message[]>;
-  getUnreadMessagesByReceiverId(receiverId: string): Promise<Message[]>;
+  getMessagesBySenderId(senderId: number): Promise<Message[]>;
+  getMessagesByReceiverId(receiverId: number): Promise<Message[]>;
+  getUnreadMessagesByReceiverId(receiverId: number): Promise<Message[]>;
   createMessage(message: InsertMessage): Promise<Message>;
   markMessageAsRead(id: number): Promise<Message | undefined>;
   
@@ -393,7 +393,7 @@ export class DatabaseStorage implements IStorage {
       .orderBy(desc(messages.createdAt));
   }
 
-  async getMessagesBySenderId(senderId: string): Promise<Message[]> {
+  async getMessagesBySenderId(senderId: number): Promise<Message[]> {
     return await db
       .select()
       .from(messages)
@@ -401,7 +401,7 @@ export class DatabaseStorage implements IStorage {
       .orderBy(desc(messages.createdAt));
   }
 
-  async getMessagesByReceiverId(receiverId: string): Promise<Message[]> {
+  async getMessagesByReceiverId(receiverId: number): Promise<Message[]> {
     return await db
       .select()
       .from(messages)
@@ -409,7 +409,7 @@ export class DatabaseStorage implements IStorage {
       .orderBy(desc(messages.createdAt));
   }
 
-  async getUnreadMessagesByReceiverId(receiverId: string): Promise<Message[]> {
+  async getUnreadMessagesByReceiverId(receiverId: number): Promise<Message[]> {
     return await db
       .select()
       .from(messages)

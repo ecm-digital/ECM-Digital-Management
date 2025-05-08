@@ -389,13 +389,14 @@ export type ChatSession = typeof chatSessions.$inferSelect;
 
 // Specjalny typ dla użytkownika z Replit Auth
 export type UpsertUser = {
-  id: string;
+  id: number;
   username: string;
   email?: string | null;
+  password?: string | null;
   firstName?: string | null;
   lastName?: string | null;
   bio?: string | null;
-  profileImageUrl?: string | null;
+  profileImage?: string | null;
   company?: string | null;
   role?: string | null;
   onboardingStep?: number | null;
