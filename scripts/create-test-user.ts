@@ -1,37 +1,62 @@
 import { db } from "../server/db";
 import { users } from "../shared/schema";
+import { sql } from "drizzle-orm";
+import { scrypt, randomBytes } from "crypto";
+import { promisify } from "util";
+import { nanoid } from "nanoid";
+
+// Funkcja pomocnicza do haszowania hasła
+const scryptAsync = promisify(scrypt);
+async function hashPassword(password: string): Promise<string> {
+  const salt = randomBytes(16).toString('hex');
+  const buf = (await scryptAsync(password, salt, 64)) as Buffer;
+  return `${buf.toString('hex')}.${salt}`;
+}
 
 async function createTestUser() {
-  console.log("Creating test user...");
-
   try {
+    console.log("Tworzenie testowego użytkownika...");
+    
+    // Dane testowego użytkownika
+    const username = "test";
+    const email = "test@example.com";
+    const password = "testpass";
+    const hashedPassword = await hashPassword(password);
+    const userId = `local_${username}_${nanoid(8)}`;
+    
     // Sprawdź czy użytkownik już istnieje
-    const existingUser = await db.select().from(users).where(users.username === 'testuser');
+    const existingUser = await db.select().from(users).where(sql`${users.username} = ${username}`);
     
     if (existingUser.length > 0) {
-      console.log("Test user already exists.");
+      console.log("Użytkownik testowy już istnieje!");
+      console.log("Nazwa użytkownika: test");
+      console.log("Hasło: testpass");
       return;
     }
-
-    // Dodaj testowego użytkownika
-    const newUser = await db.insert(users).values({
-      username: 'testuser',
-      password: 'password123', // W rzeczywistej aplikacji hasło byłoby hashowane
-      email: 'test@example.com',
-      firstName: 'Jan',
-      lastName: 'Kowalski',
-      company: 'Test Company',
+    
+    // Utwórz użytkownika
+    const [user] = await db.insert(users).values({
+      id: userId,
+      username,
+      email,
+      password: hashedPassword,
       role: 'client',
-      profileImage: null
+      authMethod: 'local',
+      bio: 'Testowe konto użytkownika',
+      createdAt: new Date(),
+      updatedAt: new Date()
     }).returning();
     
-    console.log("Test user created:", newUser);
+    console.log("Testowy użytkownik utworzony pomyślnie!");
+    console.log("Nazwa użytkownika: test");
+    console.log("Hasło: testpass");
+    console.log("ID użytkownika:", user.id);
   } catch (error) {
-    console.error("Failed to create test user:", error);
+    console.error("Błąd podczas tworzenia testowego użytkownika:", error);
   } finally {
     process.exit(0);
   }
 }
 
-// Uruchomienie skryptu
+// Uruchom skrypt
 createTestUser();
