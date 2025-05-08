@@ -16,24 +16,17 @@ export const sessions = pgTable(
 
 // Users table - obsługuje zarówno Replit Auth jak i tradycyjne logowanie
 export const users = pgTable("users", {
-  id: varchar("id").primaryKey().notNull(), // ID z Replit Auth lub generowane lokalnie
+  id: integer("id").primaryKey().notNull(), // ID użytkownika (integer)
   username: varchar("username").unique().notNull(),
   email: varchar("email").unique(),
-  password: varchar("password"), // Dodane pole na hasło (haszowane)
+  password: varchar("password"), // Pole na hasło (haszowane)
   firstName: varchar("first_name"),
   lastName: varchar("last_name"),
   bio: text("bio"),
-  profileImageUrl: varchar("profile_image_url"),
+  profileImage: varchar("profile_image"), // Zauważ zmianę z profileImageUrl na profileImage
   company: text("company"),
   role: text("role").default("client"), // client, admin, agent
-  authMethod: varchar("auth_method").default("local"), // "local" lub "replit"
-  onboardingStep: integer("onboarding_step").default(0), // Śledzenie postępu w sekwencji powitalnej
-  onboardingCompleted: boolean("onboarding_completed").default(false), // Czy sekwencja powitalna została ukończona
-  preferences: jsonb("preferences"), // Preferencje użytkownika zebrane podczas sekwencji powitalnej
-  industry: text("industry"), // Branża klienta
-  projectType: text("project_type"), // Rodzaj projektu, którym jest zainteresowany
   createdAt: timestamp("created_at").defaultNow(),
-  updatedAt: timestamp("updated_at").defaultNow(),
 });
 
 // Services table - for storing service configuration options
@@ -66,8 +59,8 @@ export const orders = pgTable("orders", {
   deliveryTime: integer("delivery_time").notNull(),
   fileUrl: text("file_url"),
   status: text("status").default("Nowe"), // Nowe, W realizacji, Zakończone, Anulowane
-  userId: varchar("user_id").references(() => users.id),
-  assignedToId: varchar("assigned_to_id").references(() => users.id),
+  userId: integer("user_id").references(() => users.id),
+  assignedToId: integer("assigned_to_id").references(() => users.id),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
   deadline: timestamp("deadline"),
@@ -81,7 +74,7 @@ export const projectFiles = pgTable("project_files", {
   fileUrl: text("file_url").notNull(),
   fileType: text("file_type"), // Typ pliku (np. 'brief', 'design', 'final')
   fileSize: integer("file_size"),
-  uploadedById: varchar("uploaded_by_id").references(() => users.id),
+  uploadedById: integer("uploaded_by_id").references(() => users.id),
   createdAt: timestamp("created_at").defaultNow(),
 });
 
@@ -89,8 +82,8 @@ export const projectFiles = pgTable("project_files", {
 export const messages = pgTable("messages", {
   id: serial("id").primaryKey(),
   orderId: integer("order_id").references(() => orders.id).notNull(),
-  senderId: varchar("sender_id").references(() => users.id).notNull(),
-  receiverId: varchar("receiver_id").references(() => users.id),
+  senderId: integer("sender_id").references(() => users.id).notNull(),
+  receiverId: integer("receiver_id").references(() => users.id),
   content: text("content").notNull(),
   isRead: boolean("is_read").default(false),
   createdAt: timestamp("created_at").defaultNow(),

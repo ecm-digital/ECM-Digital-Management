@@ -41,10 +41,8 @@ async function createTestUser() {
       email,
       password: hashedPassword,
       role: 'client',
-      authMethod: 'local',
       bio: 'Testowe konto użytkownika',
-      createdAt: new Date(),
-      updatedAt: new Date()
+      created_at: new Date()
     }).returning();
     
     console.log("Testowy użytkownik utworzony pomyślnie!");
