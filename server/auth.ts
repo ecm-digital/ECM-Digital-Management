@@ -39,6 +39,8 @@ export function setupSession(app: Express) {
     cookie: {
       httpOnly: true,
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 dni
+      sameSite: 'lax',  // pozwala na przesyłanie ciasteczek w nawigacji
+      path: '/',        // upewniamy się, że ciasteczko jest dostępne dla wszystkich ścieżek
     }
   };
 
@@ -47,6 +49,9 @@ export function setupSession(app: Express) {
     app.set('trust proxy', 1);
     sessionConfig.cookie!.secure = true;
   }
+
+  // Replit działa w środowisku proxy, więc ustawiamy trust proxy również w dev
+  app.set('trust proxy', 1);
 
   app.use(session(sessionConfig));
 }
