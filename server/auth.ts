@@ -8,7 +8,7 @@ import { nanoid } from 'nanoid';
 declare module 'express-session' {
   interface SessionData {
     user?: {
-      id: string;
+      id: number;
       username: string;
       role: string;
     };
@@ -21,7 +21,7 @@ declare global {
     interface Request {
       session: session.Session & { 
         user?: {
-          id: string;
+          id: number;
           username: string;
           role: string;
         }
@@ -123,7 +123,7 @@ export async function loginUser(req: Request, res: Response) {
     
     // Ustaw sesję
     req.session.user = {
-      id: user.id.toString(), // Konwersja ID na string dla sesji
+      id: user.id, // Używamy oryginalnego typu ID (number)
       username: user.username,
       role: user.role || 'client'
     };
@@ -159,7 +159,8 @@ export async function getCurrentUser(req: Request, res: Response) {
     return res.status(401).json({ message: 'Unauthorized' });
   }
   
-  const userId = parseInt(req.session.user.id, 10);
+  // ID jest już liczbą, nie musimy konwertować
+  const userId = req.session.user.id;
   const user = await storage.getUser(userId);
   
   if (!user) {

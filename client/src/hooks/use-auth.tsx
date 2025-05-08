@@ -53,10 +53,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         const errorData = await res.json();
         throw new Error(errorData.message || "Niepowodzenie logowania");
       }
-      return await res.json();
+      const userData = await res.json();
+      console.log("Otrzymane dane użytkownika:", userData);
+      return userData;
     },
-    onSuccess: (user: SelectUser) => {
-      queryClient.setQueryData(["/api/auth/user"], user);
+    onSuccess: (userData: any) => {
+      // Pobierz dane użytkownika po udanym logowaniu
+      queryClient.invalidateQueries({ queryKey: ["/api/auth/user"] });
     },
     onError: (error: Error) => {
       toast({
