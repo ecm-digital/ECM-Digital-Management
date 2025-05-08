@@ -39,16 +39,34 @@ async function comparePasswords(supplied: string, stored: string): Promise<boole
   }
   
   try {
+    console.log("Przechowywane hasło:", stored);
+    console.log("Format hasła (długość):", stored.length);
+    
     const [hashed, salt] = stored.split('.');
+    
+    console.log("Części hasła po rozdzieleniu:", { 
+      hashedLength: hashed?.length, 
+      saltLength: salt?.length 
+    });
     
     if (!salt) {
       console.log("Nieprawidłowy format hasła - brak soli");
       return false;
     }
     
-    const hashedBuf = Buffer.from(hashed, 'hex');
+    // Tworzymy nowe zahasłowane hasło z dostarczonego hasła i zapisanej soli
+    console.log("Używam soli do obliczenia haszu:", salt);
     const suppliedBuf = (await scryptAsync(supplied, salt, 64)) as Buffer;
-    return timingSafeEqual(hashedBuf, suppliedBuf);
+    const hashedSupplied = suppliedBuf.toString('hex');
+    
+    console.log("Oryginalny hasz:", hashed.substring(0, 20) + "...");
+    console.log("Wygenerowany hasz:", hashedSupplied.substring(0, 20) + "...");
+    
+    const hashedBuf = Buffer.from(hashed, 'hex');
+    const match = timingSafeEqual(hashedBuf, suppliedBuf);
+    
+    console.log("Czy hasła się zgadzają:", match);
+    return match;
   } catch (error) {
     console.error("Błąd podczas porównywania haseł:", error);
     return false;
