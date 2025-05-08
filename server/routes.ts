@@ -12,7 +12,8 @@ import { ParsedQs } from "qs";
 import axios from "axios";
 import { db } from "./db";
 import { eq, and, desc, asc } from "drizzle-orm";
-import { setupAuth, isAuthenticated, ensureAuthenticated } from "./replitAuth";
+import { setupAuth, isAuthenticated as isReplitAuthenticated, ensureAuthenticated } from "./replitAuth";
+import { setupSession, setupLocalAuth, isAuthenticated, isAdmin } from "./auth";
 import { WebSocketServer, WebSocket } from "ws";
 import { generateChatResponse, analyzeMessage, createPersonalizedSystemPrompt } from "./anthropic";
 // Tłumaczenia nazw usług
@@ -217,11 +218,16 @@ const orderSubmissionSchema = z.object({
 });
 
 export async function registerRoutes(app: Express): Promise<Server> {
-  // Auth middleware setup
-  await setupAuth(app);
+  // Ustawienie sesji dla lokalnego uwierzytelniania
+  setupSession(app);
+  
+  // Konfiguracja obu metod uwierzytelniania
+  await setupAuth(app); // Replit Auth
+  setupLocalAuth(app);  // Lokalne uwierzytelnianie
 
-  // Auth route for client panel
-  app.get('/api/auth/user', isAuthenticated, async (req: any, res) => {
+  // Auth route for Replit Auth (isReplitAuthenticated) 
+  // Zachowujemy kompatybilność z istniejącym kodem
+  app.get('/api/auth/replit-user', isReplitAuthenticated, async (req: any, res) => {
     try {
       const userId = req.user.claims.sub;
       const user = await storage.getUser(userId);
@@ -232,10 +238,23 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Client panel protected route
-  app.get('/api/client/dashboard', isAuthenticated, async (req: any, res) => {
+  // Client panel protected route - kompatybilne z oboma rodzajami uwierzytelniania
+  app.get('/api/client/dashboard', async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      let userId: string;
+      
+      // Sprawdź, który typ uwierzytelniania jest używany
+      if (req.user?.claims?.sub) {
+        // Uwierzytelnianie przez Replit Auth
+        userId = req.user.claims.sub;
+      } else if (req.session?.user?.id) {
+        // Uwierzytelnianie przez lokalne logowanie
+        userId = req.session.user.id;
+      } else {
+        // Brak uwierzytelnienia
+        return res.status(401).json({ message: "Unauthorized" });
+      }
+      
       // Fetch client-specific data
       const orders = await storage.getOrdersByUserId(userId);
       const messages = await storage.getMessagesByReceiverId(userId);

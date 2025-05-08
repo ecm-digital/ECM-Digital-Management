@@ -225,6 +225,46 @@ export class DatabaseStorage implements IStorage {
     return await db.select().from(users);
   }
   
+  async createLocalUser(username: string, email: string, password: string): Promise<User> {
+    // Sprawdź czy użytkownik o takiej nazwie użytkownika lub emailu już istnieje
+    const existingUser = await this.getUserByUsername(username) || await this.getUserByEmail(email);
+    if (existingUser) {
+      throw new Error('Użytkownik o takiej nazwie lub adresie email już istnieje');
+    }
+    
+    // Zahaszuj hasło
+    const hashedPassword = await hashPassword(password);
+    
+    // Wygeneruj unikalny identyfikator dla użytkownika (podobny do implementacji z Replit Auth)
+    const userId = `local_${username}_${nanoid(8)}`;
+    
+    const [user] = await db
+      .insert(users)
+      .values({
+        id: userId,
+        username,
+        email,
+        password: hashedPassword,
+        authMethod: 'local',
+        role: 'client',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      })
+      .returning();
+    
+    return user;
+  }
+  
+  async validatePassword(username: string, password: string): Promise<User | null> {
+    const user = await this.getUserByUsername(username);
+    if (!user || !user.password) {
+      return null;
+    }
+    
+    const isValid = await comparePasswords(password, user.password);
+    return isValid ? user : null;
+  }
+  
   // Order operations
   async getOrder(id: number): Promise<Order | undefined> {
     const [order] = await db.select().from(orders).where(eq(orders.id, id));
