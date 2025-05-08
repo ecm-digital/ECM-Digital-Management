@@ -123,7 +123,7 @@ export async function loginUser(req: Request, res: Response) {
     
     // Ustaw sesję
     req.session.user = {
-      id: typeof user.id === 'string' ? user.id : user.id.toString(), // Konwersja ID na string dla sesji
+      id: user.id.toString(), // Konwersja ID na string dla sesji
       username: user.username,
       role: user.role || 'client'
     };
@@ -159,9 +159,7 @@ export async function getCurrentUser(req: Request, res: Response) {
     return res.status(401).json({ message: 'Unauthorized' });
   }
   
-  const userId = typeof req.session.user.id === 'string' 
-    ? parseInt(req.session.user.id, 10) 
-    : req.session.user.id;
+  const userId = parseInt(req.session.user.id, 10);
   const user = await storage.getUser(userId);
   
   if (!user) {

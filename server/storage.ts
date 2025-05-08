@@ -269,13 +269,11 @@ export class DatabaseStorage implements IStorage {
     // Zahaszuj hasło
     const hashedPassword = await hashPassword(password);
     
-    // Wygeneruj unikalny identyfikator dla użytkownika (podobny do implementacji z Replit Auth)
-    const userId = `local_${username}_${nanoid(8)}`;
+    // Nie musimy generować ID, ponieważ jest to serial/autoincrement w bazie danych
     
     const [user] = await db
       .insert(users)
       .values({
-        id: userId,
         username,
         email,
         password: hashedPassword,
@@ -311,16 +309,6 @@ export class DatabaseStorage implements IStorage {
     
     if (isValid) {
       console.log("Hasło poprawne, logowanie udane");
-      // Jeśli ID użytkownika jest stringiem, musimy dokonać konwersji
-      if (typeof user.id === 'string') {
-        console.log(`Konwersja ID użytkownika z string (${user.id}) na number`);
-        const numericId = parseInt(user.id, 10);
-        if (!isNaN(numericId)) {
-          return { ...user, id: numericId };
-        } else {
-          console.log("Nieprawidłowy format ID - nie można przekonwertować na liczbę");
-        }
-      }
       return user;
     } else {
       console.log("Hasło niepoprawne, logowanie nieudane");
