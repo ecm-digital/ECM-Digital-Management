@@ -241,15 +241,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Client panel protected route - kompatybilne z oboma rodzajami uwierzytelniania
   app.get('/api/client/dashboard', async (req: any, res) => {
     try {
-      let userId: string;
+      let userId: number;
       
       // Sprawdź, który typ uwierzytelniania jest używany
       if (req.user?.claims?.sub) {
         // Uwierzytelnianie przez Replit Auth
-        userId = req.user.claims.sub;
+        userId = parseInt(req.user.claims.sub, 10); // Konwersja na number
       } else if (req.session?.user?.id) {
         // Uwierzytelnianie przez lokalne logowanie
-        userId = req.session.user.id;
+        userId = typeof req.session.user.id === 'string' 
+          ? parseInt(req.session.user.id, 10) 
+          : req.session.user.id;
       } else {
         // Brak uwierzytelnienia
         return res.status(401).json({ message: "Unauthorized" });

@@ -87,7 +87,7 @@ export async function registerUser(req: Request, res: Response) {
     
     // Zaloguj użytkownika automatycznie po rejestracji
     req.session.user = {
-      id: user.id,
+      id: user.id, // Poprawny typ: number
       username: user.username,
       role: user.role || 'client'
     };
@@ -118,7 +118,7 @@ export async function loginUser(req: Request, res: Response) {
     
     // Ustaw sesję
     req.session.user = {
-      id: user.id,
+      id: user.id, // Poprawny typ: number
       username: user.username,
       role: user.role || 'client'
     };
@@ -154,7 +154,9 @@ export async function getCurrentUser(req: Request, res: Response) {
     return res.status(401).json({ message: 'Unauthorized' });
   }
   
-  const userId = req.session.user.id;
+  const userId = typeof req.session.user.id === 'string' 
+    ? parseInt(req.session.user.id, 10) 
+    : req.session.user.id;
   const user = await storage.getUser(userId);
   
   if (!user) {
