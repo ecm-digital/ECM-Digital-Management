@@ -93,7 +93,7 @@ export const messages = pgTable("messages", {
 export const projectNotes = pgTable("project_notes", {
   id: serial("id").primaryKey(),
   orderId: integer("order_id").references(() => orders.id).notNull(),
-  createdById: varchar("created_by_id").references(() => users.id).notNull(),
+  createdById: integer("created_by_id").references(() => users.id).notNull(),
   content: text("content").notNull(),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
@@ -114,7 +114,7 @@ export const projectMilestones = pgTable("project_milestones", {
 // Tabela wiadomości powitalnych
 export const welcomeMessages = pgTable("welcome_messages", {
   id: serial("id").primaryKey(),
-  userId: varchar("user_id").references(() => users.id).notNull(),
+  userId: integer("user_id").references(() => users.id).notNull(),
   step: integer("step").notNull(), // Kolejny krok w sekwencji powitalnej
   title: text("title").notNull(), // Tytuł wiadomości
   content: text("content").notNull(), // Treść wiadomości
