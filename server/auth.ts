@@ -3,6 +3,8 @@ import session from 'express-session';
 import { storage } from './storage';
 import { LoginData, RegisterData } from '@shared/schema';
 import { nanoid } from 'nanoid';
+import connectPgSimple from 'connect-pg-simple';
+import { pool } from './db';
 
 // Rozszerzenie dla Session
 declare module 'express-session' {
@@ -32,15 +34,23 @@ declare global {
 
 // Ustawienie sesji
 export function setupSession(app: Express) {
+  // Inicjalizacja store dla sesji w PostgreSQL
+  const PgStore = connectPgSimple(session);
+
   const sessionConfig: session.SessionOptions = {
     secret: process.env.SESSION_SECRET || 'tajny-klucz-tymczasowy',
     resave: false,
     saveUninitialized: false,
+    store: new PgStore({
+      pool: pool,                         // Używamy pool z db.ts
+      tableName: 'sessions',              // Użyj istniejącej tabeli sessions
+      createTableIfMissing: true,         // Utwórz tabelę, jeśli nie istnieje
+    }),
     cookie: {
       httpOnly: true,
-      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 dni
-      sameSite: 'lax',  // pozwala na przesyłanie ciasteczek w nawigacji
-      path: '/',        // upewniamy się, że ciasteczko jest dostępne dla wszystkich ścieżek
+      maxAge: 7 * 24 * 60 * 60 * 1000,   // 7 dni
+      sameSite: 'lax',                   // pozwala na przesyłanie ciasteczek w nawigacji
+      path: '/',                         // upewniamy się, że ciasteczko jest dostępne dla wszystkich ścieżek
     }
   };
 
@@ -54,6 +64,8 @@ export function setupSession(app: Express) {
   app.set('trust proxy', 1);
 
   app.use(session(sessionConfig));
+  
+  console.log('Konfiguracja sesji PostgreSQL zakończona');
 }
 
 // Middleware sprawdzające czy użytkownik jest zalogowany
