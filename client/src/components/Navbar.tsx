@@ -18,8 +18,7 @@ import {
   Info, 
   BookOpen, 
   BookText, 
-  Phone,
-  LogIn 
+  Phone
 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import LanguageSwitcher from './LanguageSwitcher';
@@ -186,35 +185,7 @@ const Navbar = () => {
               </DropdownMenuContent>
             </DropdownMenu>
             
-            {/* Login/Logout Button */}
-            {!isLoading && (
-              user ? (
-                <Button 
-                  variant="outline" 
-                  size="sm" 
-                  className="rounded-full border border-gray-200 shadow-sm hover:shadow-md ml-2"
-                  onClick={() => window.location.href = '/api/logout'}
-                >
-                  <span className="flex items-center gap-2">
-                    <User className="h-4 w-4" />
-                    {t('auth.logout', 'Wyloguj')}
-                  </span>
-                </Button>
-              ) : (
-                <Link href="/auth">
-                  <Button 
-                    variant="outline" 
-                    size="sm" 
-                    className="rounded-full border border-gray-200 shadow-sm hover:shadow-md ml-2"
-                  >
-                    <span className="flex items-center gap-2">
-                      <LogIn className="h-4 w-4" />
-                      {t('auth.login', 'Zaloguj')}
-                    </span>
-                  </Button>
-                </Link>
-              )
-            )}
+
           </nav>
 
           {/* Mobile Navigation */}
@@ -262,24 +233,7 @@ const Navbar = () => {
                             <Settings className="h-4 w-4" />
                             <span>{t('navigation.adminPanel')}</span>
                           </Link>
-                          
-                          {/* Login/Logout Mobile */}
-                          {!isLoading && (
-                            user ? (
-                              <div 
-                                className="flex items-center gap-2 p-2 hover:bg-gray-100 rounded-md text-gray-700 cursor-pointer"
-                                onClick={() => window.location.href = '/api/logout'}
-                              >
-                                <User className="h-4 w-4" />
-                                <span>{t('auth.logout', 'Wyloguj')}</span>
-                              </div>
-                            ) : (
-                              <Link href="/auth" className="flex items-center gap-2 p-2 hover:bg-gray-100 rounded-md text-gray-700">
-                                <LogIn className="h-4 w-4" />
-                                <span>{t('auth.login', 'Zaloguj')}</span>
-                              </Link>
-                            )
-                          )}
+
                         </div>
                       </div>
                     </nav>
