@@ -22,7 +22,6 @@ async function createTestUser() {
     const email = "test@example.com";
     const password = "testpass";
     const hashedPassword = await hashPassword(password);
-    const userId = `local_${username}_${nanoid(8)}`;
     
     // Sprawdź czy użytkownik już istnieje
     const existingUser = await db.select().from(users).where(sql`${users.username} = ${username}`);
@@ -34,15 +33,14 @@ async function createTestUser() {
       return;
     }
     
-    // Utwórz użytkownika
+    // Utwórz użytkownika - bez podawania id (zostanie automatycznie przypisane przez bazę danych)
     const [user] = await db.insert(users).values({
-      id: userId,
       username,
       email,
       password: hashedPassword,
       role: 'client',
       bio: 'Testowe konto użytkownika',
-      created_at: new Date()
+      createdAt: new Date()
     }).returning();
     
     console.log("Testowy użytkownik utworzony pomyślnie!");

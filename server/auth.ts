@@ -109,16 +109,21 @@ export async function loginUser(req: Request, res: Response) {
   try {
     const { username, password } = req.body as LoginData;
     
+    console.log(`Próba logowania użytkownika: ${username}`);
+    
     // Walidacja hasła
     const user = await storage.validatePassword(username, password);
     
     if (!user) {
+      console.log("Logowanie nieudane - nieprawidłowe dane");
       return res.status(401).json({ message: 'Nieprawidłowa nazwa użytkownika lub hasło' });
     }
     
+    console.log(`Logowanie udane: ${username}, ID: ${user.id}, typ ID: ${typeof user.id}`);
+    
     // Ustaw sesję
     req.session.user = {
-      id: user.id, // Poprawny typ: number
+      id: typeof user.id === 'string' ? user.id : user.id.toString(), // Konwersja ID na string dla sesji
       username: user.username,
       role: user.role || 'client'
     };
@@ -173,7 +178,7 @@ export async function getCurrentUser(req: Request, res: Response) {
     role: user.role,
     firstName: user.firstName,
     lastName: user.lastName,
-    profileImageUrl: user.profileImageUrl
+    profileImageUrl: user.profileImage // Używamy poprawnej nazwy pola
   });
 }
 

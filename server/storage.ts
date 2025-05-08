@@ -33,10 +33,26 @@ async function hashPassword(password: string): Promise<string> {
 
 // Funkcja porównująca hasła
 async function comparePasswords(supplied: string, stored: string): Promise<boolean> {
-  const [hashed, salt] = stored.split('.');
-  const hashedBuf = Buffer.from(hashed, 'hex');
-  const suppliedBuf = (await scryptAsync(supplied, salt, 64)) as Buffer;
-  return timingSafeEqual(hashedBuf, suppliedBuf);
+  if (!stored || !supplied) {
+    console.log("Brak hasła do porównania:", { supplied: !!supplied, stored: !!stored });
+    return false;
+  }
+  
+  try {
+    const [hashed, salt] = stored.split('.');
+    
+    if (!salt) {
+      console.log("Nieprawidłowy format hasła - brak soli");
+      return false;
+    }
+    
+    const hashedBuf = Buffer.from(hashed, 'hex');
+    const suppliedBuf = (await scryptAsync(supplied, salt, 64)) as Buffer;
+    return timingSafeEqual(hashedBuf, suppliedBuf);
+  } catch (error) {
+    console.error("Błąd podczas porównywania haseł:", error);
+    return false;
+  }
 }
 
 // Interface for storage operations
@@ -256,13 +272,42 @@ export class DatabaseStorage implements IStorage {
   }
   
   async validatePassword(username: string, password: string): Promise<User | null> {
+    console.log(`Weryfikacja hasła dla użytkownika: ${username}`);
+    
+    // Pobierz użytkownika po nazwie użytkownika
     const user = await this.getUserByUsername(username);
-    if (!user || !user.password) {
+    
+    // Sprawdź czy użytkownik istnieje i ma hasło
+    if (!user) {
+      console.log("Użytkownik nie znaleziony");
       return null;
     }
     
+    if (!user.password) {
+      console.log("Użytkownik nie ma hasła");
+      return null;
+    }
+    
+    console.log("Porównywanie hasła...");
     const isValid = await comparePasswords(password, user.password);
-    return isValid ? user : null;
+    
+    if (isValid) {
+      console.log("Hasło poprawne, logowanie udane");
+      // Jeśli ID użytkownika jest stringiem, musimy dokonać konwersji
+      if (typeof user.id === 'string') {
+        console.log(`Konwersja ID użytkownika z string (${user.id}) na number`);
+        const numericId = parseInt(user.id, 10);
+        if (!isNaN(numericId)) {
+          return { ...user, id: numericId };
+        } else {
+          console.log("Nieprawidłowy format ID - nie można przekonwertować na liczbę");
+        }
+      }
+      return user;
+    } else {
+      console.log("Hasło niepoprawne, logowanie nieudane");
+      return null;
+    }
   }
   
   // Order operations
