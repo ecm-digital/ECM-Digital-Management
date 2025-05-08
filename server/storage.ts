@@ -12,11 +12,32 @@ import {
   type WelcomeMessage,
   type UpsertUser,
   type BlogPost, type InsertBlogPost,
-  type KnowledgeBase, type InsertKnowledgeBase
+  type KnowledgeBase, type InsertKnowledgeBase,
+  type LoginData
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, and, desc, sql, or, like } from "drizzle-orm";
 import { nanoid } from "nanoid";
+import { scrypt, randomBytes, timingSafeEqual } from "crypto";
+import { promisify } from "util";
+
+// Asynchroniczne funkcje pomocnicze do hashy haseł
+const scryptAsync = promisify(scrypt);
+
+// Funkcja haszująca hasło
+async function hashPassword(password: string): Promise<string> {
+  const salt = randomBytes(16).toString('hex');
+  const buf = (await scryptAsync(password, salt, 64)) as Buffer;
+  return `${buf.toString('hex')}.${salt}`;
+}
+
+// Funkcja porównująca hasła
+async function comparePasswords(supplied: string, stored: string): Promise<boolean> {
+  const [hashed, salt] = stored.split('.');
+  const hashedBuf = Buffer.from(hashed, 'hex');
+  const suppliedBuf = (await scryptAsync(supplied, salt, 64)) as Buffer;
+  return timingSafeEqual(hashedBuf, suppliedBuf);
+}
 
 // Interface for storage operations
 export interface IStorage {
@@ -25,6 +46,8 @@ export interface IStorage {
   getUserByUsername(username: string): Promise<User | undefined>;
   getUserByEmail(email: string): Promise<User | undefined>;
   createUser(user: InsertUser): Promise<User>;
+  createLocalUser(username: string, email: string, password: string): Promise<User>;
+  validatePassword(username: string, password: string): Promise<User | null>;
   upsertUser(userData: UpsertUser): Promise<User>;
   updateUser(id: string, userData: Partial<UpsertUser>): Promise<User | undefined>;
   getAllUsers(role?: string): Promise<User[]>;

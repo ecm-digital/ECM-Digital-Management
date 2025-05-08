@@ -14,17 +14,19 @@ export const sessions = pgTable(
   (table) => [index("IDX_session_expire").on(table.expire)],
 );
 
-// Users table - zmodyfikowana dla Replit Auth
+// Users table - obsługuje zarówno Replit Auth jak i tradycyjne logowanie
 export const users = pgTable("users", {
-  id: varchar("id").primaryKey().notNull(), // ID z Replit Auth (sub z JWT)
+  id: varchar("id").primaryKey().notNull(), // ID z Replit Auth lub generowane lokalnie
   username: varchar("username").unique().notNull(),
   email: varchar("email").unique(),
+  password: varchar("password"), // Dodane pole na hasło (haszowane)
   firstName: varchar("first_name"),
   lastName: varchar("last_name"),
   bio: text("bio"),
   profileImageUrl: varchar("profile_image_url"),
   company: text("company"),
   role: text("role").default("client"), // client, admin, agent
+  authMethod: varchar("auth_method").default("local"), // "local" lub "replit"
   onboardingStep: integer("onboarding_step").default(0), // Śledzenie postępu w sekwencji powitalnej
   onboardingCompleted: boolean("onboarding_completed").default(false), // Czy sekwencja powitalna została ukończona
   preferences: jsonb("preferences"), // Preferencje użytkownika zebrane podczas sekwencji powitalnej
@@ -279,12 +281,28 @@ export const knowledgeBaseRelations = relations(knowledgeBase, ({ one }) => ({
 // Insert schemas
 export const insertServiceSchema = createInsertSchema(services).omit({ id: true, createdAt: true });
 export const insertOrderSchema = createInsertSchema(orders).omit({ id: true, createdAt: true, updatedAt: true });
-export const insertUserSchema = createInsertSchema(users).omit({ createdAt: true });
+export const insertUserSchema = createInsertSchema(users).omit({ createdAt: true, updatedAt: true });
 export const insertProjectFileSchema = createInsertSchema(projectFiles).omit({ id: true, createdAt: true });
 export const insertMessageSchema = createInsertSchema(messages).omit({ id: true, createdAt: true });
 export const insertProjectNoteSchema = createInsertSchema(projectNotes).omit({ id: true, createdAt: true, updatedAt: true });
 export const insertProjectMilestoneSchema = createInsertSchema(projectMilestones).omit({ id: true, createdAt: true });
 export const insertWelcomeMessageSchema = createInsertSchema(welcomeMessages).omit({ id: true, createdAt: true, completedAt: true });
+
+// Schematy uwierzytelniania
+export const loginSchema = z.object({
+  username: z.string().min(1, { message: "Nazwa użytkownika jest wymagana" }),
+  password: z.string().min(8, { message: "Hasło musi zawierać co najmniej 8 znaków" })
+});
+
+export const registerSchema = z.object({
+  username: z.string().min(3, { message: "Nazwa użytkownika musi zawierać co najmniej 3 znaki" }),
+  email: z.string().email({ message: "Podaj prawidłowy adres email" }),
+  password: z.string().min(8, { message: "Hasło musi zawierać co najmniej 8 znaków" }),
+  confirmPassword: z.string()
+}).refine((data) => data.password === data.confirmPassword, {
+  message: "Hasła muszą być identyczne",
+  path: ["confirmPassword"]
+});
 export const insertBlogPostSchema = createInsertSchema(blogPosts).omit({ id: true, createdAt: true, updatedAt: true, viewCount: true });
 export const insertKnowledgeBaseSchema = createInsertSchema(knowledgeBase).omit({ id: true, createdAt: true, updatedAt: true, viewCount: true });
 export const insertLeadSchema = createInsertSchema(leads).omit({ id: true, createdAt: true, convertedAt: true, convertedToCustomer: true });
@@ -300,6 +318,8 @@ export type InsertProjectMilestone = z.infer<typeof insertProjectMilestoneSchema
 export type InsertWelcomeMessage = z.infer<typeof insertWelcomeMessageSchema>;
 export type InsertBlogPost = z.infer<typeof insertBlogPostSchema>;
 export type InsertKnowledgeBase = z.infer<typeof insertKnowledgeBaseSchema>;
+export type LoginData = z.infer<typeof loginSchema>;
+export type RegisterData = z.infer<typeof registerSchema>;
 
 export type Service = typeof services.$inferSelect;
 export type Order = typeof orders.$inferSelect;
