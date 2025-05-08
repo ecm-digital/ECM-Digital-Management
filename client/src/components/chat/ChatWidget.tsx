@@ -1,20 +1,19 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
+import { AnimatePresence, motion } from 'framer-motion';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
-import { ScrollArea } from '@/components/ui/scroll-area';
 import {
   MessageSquare,
-  Send,
+  Bot,
   ChevronDown,
   X,
-  Bot,
+  Send,
   User,
   RefreshCw,
   Loader,
 } from 'lucide-react';
-import { useChatWebSocket } from './useChatWebSocket';
 
 // Tymczasowy hook useAuth do momentu zaimplementowania prawdziwej autoryzacji
 interface User {
@@ -60,22 +59,46 @@ export const ChatWidget: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  // Inicjalizacja websocketa
-  const { 
-    connected,
-    sendMessage,
-    createSession
-  } = useChatWebSocket({
-    onMessage: (msg) => {
-      if (msg.type === 'chat_response') {
-        setMessages(prev => [...prev, msg.message]);
-        setIsLoading(false);
-      } else if (msg.type === 'session_created') {
-        setCurrentSessionId(msg.session.id);
-        setMessages([msg.welcomeMessage]);
-      }
-    }
-  });
+  // Tymczasowa implementacja zamiast WebSocketa
+  const connected = true; // Zakładamy, że jesteśmy połączeni
+  
+  // Funkcja która będzie używana do tworzenia sesji
+  const createSession = (params: { userId?: string | null, name?: string }) => {
+    // Tworzymy tymczasowe ID sesji
+    const sessionId = `temp-${Date.now()}`;
+    setCurrentSessionId(sessionId);
+    
+    // Wiadomość powitalna
+    const welcomeMessage: ChatMessage = {
+      id: Date.now(),
+      sessionId,
+      role: 'assistant',
+      content: 'Witaj! Jestem chatbotem ECM Digital. W czym mogę Ci pomóc? Zapytaj mnie o naszą ofertę, usługi UX/UI, lub inne kwestie.',
+      timestamp: new Date().toISOString(),
+      userId: params.userId || undefined,
+      metadata: { isWelcomeMessage: true }
+    };
+    
+    setMessages([welcomeMessage]);
+  };
+  
+  // Funkcja do wysyłania wiadomości (symulacja odpowiedzi)
+  const sendMessage = (params: any) => {
+    // Symulacja opóźnienia odpowiedzi (0.5-1.5s)
+    setTimeout(() => {
+      const responseMessage: ChatMessage = {
+        id: Date.now(),
+        sessionId: params.sessionId,
+        role: 'assistant',
+        content: 'To jest tymczasowa odpowiedź chatbota. Pełna funkcjonalność zostanie wdrożona wkrótce. Dziękujemy za cierpliwość!',
+        timestamp: new Date().toISOString(),
+        userId: params.userId
+      };
+      
+      setMessages(prev => [...prev, responseMessage]);
+      setIsLoading(false);
+    }, 500 + Math.random() * 1000);
+  };
   
   // Przewijanie na dół po otrzymaniu nowej wiadomości
   useEffect(() => {
