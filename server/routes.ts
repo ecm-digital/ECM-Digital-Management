@@ -2,7 +2,7 @@ import express, { Express, Request, Response, NextFunction } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import * as schema from "@shared/schema";
-import { insertOrderSchema, insertServiceSchema, leads } from "@shared/schema";
+import { insertOrderSchema, insertServiceSchema, leads, insertChatMessageSchema, insertChatSessionSchema } from "@shared/schema";
 import multer from "multer";
 import { z } from "zod";
 import { nanoid } from "nanoid";
@@ -11,8 +11,10 @@ import fs from "fs";
 import { ParsedQs } from "qs";
 import axios from "axios";
 import { db } from "./db";
-import { eq } from "drizzle-orm";
+import { eq, and, desc, asc } from "drizzle-orm";
 import { setupAuth, isAuthenticated, ensureAuthenticated } from "./replitAuth";
+import { WebSocketServer, WebSocket } from "ws";
+import { generateChatResponse, analyzeMessage, createPersonalizedSystemPrompt } from "./anthropic";
 // Tłumaczenia nazw usług
 const serviceTranslations: Record<string, string> = {
   "Audyt UX": "UX-Audit",
@@ -2568,7 +2570,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         exists: existingLead.length > 0,
         isSubscribed: existingLead.length > 0 && existingLead[0].leadType === 'newsletter'
       });
-    } catch (error) {
+    } catch (error: any) {
       console.error('Błąd podczas weryfikacji adresu email:', error);
       return res.status(500).json({ 
         message: 'Wystąpił błąd podczas weryfikacji adresu email',
@@ -2577,6 +2579,399 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // === CHATBOT API ENDPOINTS ===
+
+  // Endpoint do utworzenia nowej sesji czatu
+  app.post('/api/chat/sessions', async (req: Request, res: Response) => {
+    try {
+      const { userId, name = 'Nowa rozmowa' } = req.body;
+      
+      // Generuj unikalne ID sesji
+      const sessionId = nanoid();
+      
+      // Wstaw nową sesję do bazy
+      const [session] = await db
+        .insert(schema.chatSessions)
+        .values({
+          id: sessionId,
+          userId: userId || null,
+          name,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          lastActive: new Date(),
+          isActive: true,
+          metadata: {}
+        })
+        .returning();
+      
+      // Wstaw pierwszą wiadomość systemową
+      const welcomeMessage = 'Witaj! Jestem chatbotem ECM Digital. W czym mogę Ci pomóc? Zapytaj mnie o naszą ofertę, usługi lub inne kwestie związane z UX/UI, AI, marketingiem czy automatyzacją.';
+      
+      await db
+        .insert(schema.chatMessages)
+        .values({
+          sessionId,
+          role: 'assistant',
+          content: welcomeMessage,
+          timestamp: new Date(),
+          userId: userId || null,
+          metadata: { isWelcomeMessage: true }
+        });
+      
+      res.status(201).json({
+        success: true,
+        session,
+        welcomeMessage
+      });
+    } catch (error: any) {
+      console.error('Błąd podczas tworzenia sesji czatu:', error);
+      res.status(500).json({
+        message: 'Wystąpił błąd podczas tworzenia sesji czatu',
+        error: process.env.NODE_ENV === 'development' ? error.message : undefined
+      });
+    }
+  });
+  
+  // Endpoint do pobierania wiadomości z konkretnej sesji czatu
+  app.get('/api/chat/sessions/:sessionId/messages', async (req: Request, res: Response) => {
+    try {
+      const { sessionId } = req.params;
+      
+      // Sprawdź czy sesja istnieje
+      const [session] = await db
+        .select()
+        .from(schema.chatSessions)
+        .where(eq(schema.chatSessions.id, sessionId));
+      
+      if (!session) {
+        return res.status(404).json({ message: 'Sesja czatu nie została znaleziona' });
+      }
+      
+      // Pobierz wiadomości
+      const messages = await db
+        .select()
+        .from(schema.chatMessages)
+        .where(eq(schema.chatMessages.sessionId, sessionId))
+        .orderBy(asc(schema.chatMessages.timestamp));
+      
+      res.json({ success: true, messages });
+    } catch (error: any) {
+      console.error('Błąd podczas pobierania wiadomości:', error);
+      res.status(500).json({
+        message: 'Wystąpił błąd podczas pobierania wiadomości czatu',
+        error: process.env.NODE_ENV === 'development' ? error.message : undefined
+      });
+    }
+  });
+  
+  // Endpoint do pobierania sesji czatu
+  app.get('/api/chat/sessions', async (req: Request, res: Response) => {
+    try {
+      const { userId } = req.query;
+      
+      let query = db.select().from(schema.chatSessions);
+      
+      if (userId) {
+        query = query.where(eq(schema.chatSessions.userId, userId.toString()));
+      }
+      
+      // Sortuj wg ostatniej aktywności
+      const sessions = await query.orderBy(desc(schema.chatSessions.lastActive));
+      
+      res.json({ success: true, sessions });
+    } catch (error: any) {
+      console.error('Błąd podczas pobierania sesji czatu:', error);
+      res.status(500).json({
+        message: 'Wystąpił błąd podczas pobierania sesji czatu',
+        error: process.env.NODE_ENV === 'development' ? error.message : undefined
+      });
+    }
+  });
+  
+  // Endpoint do wysłania nowej wiadomości bezpośrednio przez API (jako alternatywa dla WebSocketa)
+  app.post('/api/chat/sessions/:sessionId/messages', async (req: Request, res: Response) => {
+    try {
+      const { sessionId } = req.params;
+      const { content, userId } = req.body;
+      
+      // Sprawdź czy sesja istnieje
+      const [session] = await db
+        .select()
+        .from(schema.chatSessions)
+        .where(eq(schema.chatSessions.id, sessionId));
+      
+      if (!session) {
+        return res.status(404).json({ message: 'Sesja czatu nie została znaleziona' });
+      }
+      
+      // Zapisz wiadomość użytkownika
+      const [userMessage] = await db
+        .insert(schema.chatMessages)
+        .values({
+          sessionId,
+          role: 'user',
+          content,
+          timestamp: new Date(),
+          userId: userId || null,
+          metadata: {}
+        })
+        .returning();
+      
+      // Aktualizuj czas ostatniej aktywności
+      await db
+        .update(schema.chatSessions)
+        .set({ lastActive: new Date() })
+        .where(eq(schema.chatSessions.id, sessionId));
+        
+      // Pobierz historię wiadomości dla kontekstu
+      const previousMessages = await db
+        .select()
+        .from(schema.chatMessages)
+        .where(eq(schema.chatMessages.sessionId, sessionId))
+        .orderBy(asc(schema.chatMessages.timestamp));
+      
+      // Przygotuj wiadomości w formacie dla API AI
+      const formattedMessages = previousMessages.map(msg => ({
+        role: msg.role,
+        content: msg.content
+      }));
+      
+      // Pobierz dane użytkownika dla personalizacji (jeśli jest)
+      let userData = null;
+      if (userId) {
+        const [user] = await db
+          .select()
+          .from(schema.users)
+          .where(eq(schema.users.id, userId));
+          
+        if (user) {
+          userData = {
+            username: user.username,
+            industry: user.industry,
+            projectType: user.projectType
+          };
+        }
+      }
+      
+      // Stwórz spersonalizowany systemowy prompt
+      const systemPrompt = createPersonalizedSystemPrompt(userData);
+      
+      // Generuj odpowiedź
+      const aiResponse = await generateChatResponse(formattedMessages, systemPrompt);
+      
+      // Zapisz odpowiedź AI
+      const [assistantMessage] = await db
+        .insert(schema.chatMessages)
+        .values({
+          sessionId,
+          role: 'assistant',
+          content: aiResponse.content,
+          timestamp: new Date(),
+          userId: userId || null,
+          metadata: {
+            model: aiResponse.model,
+            provider: aiResponse.provider
+          }
+        })
+        .returning();
+      
+      res.json({ 
+        success: true, 
+        userMessage,
+        assistantMessage
+      });
+    } catch (error: any) {
+      console.error('Błąd podczas wysyłania wiadomości:', error);
+      res.status(500).json({
+        message: 'Wystąpił błąd podczas wysyłania wiadomości',
+        error: process.env.NODE_ENV === 'development' ? error.message : undefined
+      });
+    }
+  });
+
+  // Utwórz serwer HTTP
   const httpServer = createServer(app);
+  
+  // Dodaj WebSocket Server dla czatu - zgodnie z wymaganiami z własną ścieżką różną od Vite HMR
+  const wss = new WebSocketServer({ 
+    server: httpServer, 
+    path: '/ws/chat' 
+  });
+  
+  // Obsługa połączeń WebSocket
+  wss.on('connection', (ws: WebSocket) => {
+    console.log('Nowe połączenie WebSocket ustanowione');
+    
+    ws.on('message', async (message: string) => {
+      try {
+        console.log('Otrzymano wiadomość przez WebSocket:', message);
+        
+        // Parsuj wiadomość
+        const data = JSON.parse(message);
+        
+        // Obsłuż różne typy wiadomości
+        if (data.type === 'chat_message') {
+          const { sessionId, content, userId } = data;
+          
+          // Zapisz wiadomość użytkownika
+          const [userMessage] = await db
+            .insert(schema.chatMessages)
+            .values({
+              sessionId,
+              role: 'user',
+              content,
+              timestamp: new Date(),
+              userId: userId || null,
+              metadata: {}
+            })
+            .returning();
+            
+          // Aktualizuj czas ostatniej aktywności
+          await db
+            .update(schema.chatSessions)
+            .set({ lastActive: new Date() })
+            .where(eq(schema.chatSessions.id, sessionId));
+          
+          // Pobierz historię wiadomości dla kontekstu
+          const previousMessages = await db
+            .select()
+            .from(schema.chatMessages)
+            .where(eq(schema.chatMessages.sessionId, sessionId))
+            .orderBy(asc(schema.chatMessages.timestamp));
+          
+          // Przygotuj wiadomości w formacie dla API AI
+          const formattedMessages = previousMessages.map(msg => ({
+            role: msg.role,
+            content: msg.content
+          }));
+          
+          // Pobierz dane użytkownika dla personalizacji (jeśli jest)
+          let userData = null;
+          if (userId) {
+            const [user] = await db
+              .select()
+              .from(schema.users)
+              .where(eq(schema.users.id, userId));
+              
+            if (user) {
+              userData = {
+                username: user.username,
+                industry: user.industry,
+                projectType: user.projectType
+              };
+            }
+          }
+          
+          // Stwórz spersonalizowany systemowy prompt
+          const systemPrompt = createPersonalizedSystemPrompt(userData);
+          
+          // Najpierw wyślij potwierdzenie otrzymania wiadomości
+          ws.send(JSON.stringify({
+            type: 'message_received', 
+            messageId: userMessage.id
+          }));
+          
+          // Generuj odpowiedź
+          const aiResponse = await generateChatResponse(formattedMessages, systemPrompt);
+          
+          // Zapisz odpowiedź AI
+          const [assistantMessage] = await db
+            .insert(schema.chatMessages)
+            .values({
+              sessionId,
+              role: 'assistant',
+              content: aiResponse.content,
+              timestamp: new Date(),
+              userId: userId || null,
+              metadata: {
+                model: aiResponse.model,
+                provider: aiResponse.provider
+              }
+            })
+            .returning();
+          
+          // Analizuj wiadomość użytkownika
+          const messageAnalysis = await analyzeMessage(content);
+          
+          // Wyślij odpowiedź
+          if (ws.readyState === WebSocket.OPEN) {
+            ws.send(JSON.stringify({
+              type: 'chat_response',
+              message: assistantMessage,
+              analysis: messageAnalysis
+            }));
+          }
+        } else if (data.type === 'create_session') {
+          // Utwórz nową sesję
+          const { userId, name = 'Nowa rozmowa' } = data;
+          
+          // Generuj unikalne ID sesji
+          const sessionId = nanoid();
+          
+          // Wstaw nową sesję do bazy
+          const [session] = await db
+            .insert(schema.chatSessions)
+            .values({
+              id: sessionId,
+              userId: userId || null,
+              name,
+              createdAt: new Date(),
+              updatedAt: new Date(),
+              lastActive: new Date(),
+              isActive: true,
+              metadata: {}
+            })
+            .returning();
+          
+          // Wstaw pierwszą wiadomość systemową
+          const welcomeMessage = 'Witaj! Jestem chatbotem ECM Digital. W czym mogę Ci pomóc? Zapytaj mnie o naszą ofertę, usługi lub inne kwestie związane z UX/UI, AI, marketingiem czy automatyzacją.';
+          
+          const [systemMessage] = await db
+            .insert(schema.chatMessages)
+            .values({
+              sessionId,
+              role: 'assistant',
+              content: welcomeMessage,
+              timestamp: new Date(),
+              userId: userId || null,
+              metadata: { isWelcomeMessage: true }
+            })
+            .returning();
+          
+          // Wyślij odpowiedź z ID sesji i wiadomością powitalną
+          if (ws.readyState === WebSocket.OPEN) {
+            ws.send(JSON.stringify({
+              type: 'session_created',
+              session,
+              welcomeMessage: systemMessage
+            }));
+          }
+        }
+      } catch (error: any) {
+        console.error('Błąd przetwarzania wiadomości WebSocket:', error);
+        
+        // Wyślij informację o błędzie
+        if (ws.readyState === WebSocket.OPEN) {
+          ws.send(JSON.stringify({
+            type: 'error',
+            message: 'Wystąpił błąd podczas przetwarzania wiadomości',
+            error: process.env.NODE_ENV === 'development' ? error.message : undefined
+          }));
+        }
+      }
+    });
+    
+    // Obsłuż rozłączenie
+    ws.on('close', () => {
+      console.log('Połączenie WebSocket zakończone');
+    });
+    
+    // Wyślij potwierdzenie połączenia
+    ws.send(JSON.stringify({
+      type: 'connection_established',
+      timestamp: new Date().toISOString()
+    }));
+  });
+
   return httpServer;
 }

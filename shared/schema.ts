@@ -314,6 +314,66 @@ export type KnowledgeBase = typeof knowledgeBase.$inferSelect;
 export type Lead = typeof leads.$inferSelect;
 export type InsertLead = z.infer<typeof insertLeadSchema>;
 
+// Chatbot - wiadomości czatu
+export const chatMessages = pgTable("chat_messages", {
+  id: serial("id").primaryKey(),
+  sessionId: varchar("session_id").notNull(), // Identyfikator sesji czatu
+  userId: varchar("user_id").references(() => users.id), // Powiązanie z użytkownikiem (opcjonalne)
+  role: varchar("role").notNull(), // 'user', 'assistant', 'system'
+  content: text("content").notNull(), // Treść wiadomości
+  timestamp: timestamp("timestamp").defaultNow(), // Czas wysłania
+  metadata: jsonb("metadata"), // Dodatkowe dane (np. kontekst, typ, źródło wiedzy)
+});
+
+// Sesje czatu dla chatbota
+export const chatSessions = pgTable("chat_sessions", {
+  id: varchar("id").primaryKey(), // UUID sesji
+  userId: varchar("user_id").references(() => users.id), // Powiązanie z użytkownikiem (opcjonalne) 
+  name: text("name"), // Nazwa sesji (opcjonalna)
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+  lastActive: timestamp("last_active").defaultNow(), // Kiedy ostatnio była aktywna
+  metadata: jsonb("metadata"), // Preferencje, kontekst itp.
+  isActive: boolean("is_active").default(true), // Czy sesja jest aktywna
+});
+
+// Relacje dla chatbota
+export const chatMessagesRelations = relations(chatMessages, ({ one }) => ({
+  session: one(chatSessions, {
+    fields: [chatMessages.sessionId],
+    references: [chatSessions.id],
+  }),
+  user: one(users, {
+    fields: [chatMessages.userId],
+    references: [users.id],
+  }),
+}));
+
+export const chatSessionsRelations = relations(chatSessions, ({ many, one }) => ({
+  messages: many(chatMessages),
+  user: one(users, {
+    fields: [chatSessions.userId],
+    references: [users.id],
+  }),
+}));
+
+// Schematy Zod i typy dla chatbota
+export const insertChatMessageSchema = createInsertSchema(chatMessages, {
+  content: z.string().min(1),
+  role: z.enum(['user', 'assistant', 'system']),
+  metadata: z.record(z.any()).optional(),
+}).omit({ id: true, timestamp: true });
+
+export const insertChatSessionSchema = createInsertSchema(chatSessions, {
+  name: z.string().optional(),
+  metadata: z.record(z.any()).optional(),
+}).omit({ createdAt: true, updatedAt: true, lastActive: true });
+
+export type InsertChatMessage = z.infer<typeof insertChatMessageSchema>;
+export type ChatMessage = typeof chatMessages.$inferSelect;
+export type InsertChatSession = z.infer<typeof insertChatSessionSchema>;
+export type ChatSession = typeof chatSessions.$inferSelect;
+
 // Specjalny typ dla użytkownika z Replit Auth
 export type UpsertUser = {
   id: string;
