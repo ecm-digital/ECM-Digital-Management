@@ -28,6 +28,7 @@ const ClientHomePage = lazy(() => import("@/pages/ClientHomePage"));
 const ServicesPage = lazy(() => import("@/pages/ServicesPage"));
 const ServiceDetailsPage = lazy(() => import("@/components/ServiceDetailsPage"));
 const ConfigureServicePage = lazy(() => import("@/pages/ConfigureServicePage"));
+
 const AdminPage = lazy(() => import("@/pages/AdminPage"));
 const AboutPage = lazy(() => import("@/pages/AboutPage"));
 
@@ -36,10 +37,10 @@ const CaseStudyOne = lazy(() => import("@/pages/case-studies/CaseStudyOne"));
 const CaseStudyTwo = lazy(() => import("@/pages/case-studies/CaseStudyTwo"));
 
 // Leniwe ładowanie panelu klienta
-const ClientDashboardPage = lazy(() => import("@/pages/ClientDashboardPage"));
-const ClientOrdersPage = lazy(() => import("@/pages/ClientOrdersPage"));
+const ClientDashboardPage = lazy(() => import("@/components/ClientDashboardPage"));
+const ClientOrdersPage = lazy(() => import("@/components/ClientOrdersPage"));
 const ClientOrderDetailsPage = lazy(() => import("@/pages/ClientOrderDetailsPage"));
-const ClientProfilePage = lazy(() => import("@/pages/ClientProfilePage"));
+const ClientProfilePage = lazy(() => import("@/components/ClientProfilePage"));
 
 // Leniwe ładowanie sekcji blog
 const BlogPage = lazy(() => import("./pages/BlogPage"));
