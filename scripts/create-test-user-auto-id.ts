@@ -1,6 +1,7 @@
 import { Pool, neonConfig } from '@neondatabase/serverless';
 import { drizzle } from 'drizzle-orm/neon-serverless';
 import { users } from '../shared/schema';
+import { eq } from 'drizzle-orm';
 import ws from 'ws';
 import { createHash, randomBytes } from 'crypto';
 
@@ -32,24 +33,41 @@ async function createTestUser() {
   const hashedPassword = await hashPassword("testpass");
   
   try {
-    // Usuwamy użytkownika testowego jeśli istnieje (po nazwie użytkownika)
-    const existingUser = await db.select().from(users).where(users.username === 'testuser');
-    if (existingUser.length > 0) {
-      console.log(`Usuwanie istniejącego użytkownika: ${existingUser[0].username}, ID: ${existingUser[0].id}`);
-      await db.delete(users).where(users.username === 'testuser');
-    }
+    // Sprawdzamy, czy użytkownik testowy już istnieje
+    const existingUser = await db.select().from(users).where(eq(users.username, 'testuser'));
+    let newUser;
     
-    // Tworzymy nowego użytkownika testowego - tutaj id powinno być auto-inkrementowane
-    const [newUser] = await db.insert(users).values({
-      username: 'testuser',
-      email: 'test@example.com',
-      password: hashedPassword,
-      role: 'client',
-      firstName: 'Test',
-      lastName: 'User',
-      authMethod: 'local',
-      createdAt: new Date(),
-    }).returning();
+    if (existingUser.length > 0) {
+      console.log(`Aktualizacja istniejącego użytkownika: ${existingUser[0].username}, ID: ${existingUser[0].id}`);
+      
+      // Aktualizujemy hasło istniejącego użytkownika
+      const [updatedUser] = await db.update(users)
+        .set({
+          password: hashedPassword,
+          email: 'test@example.com',
+          firstName: 'Test',
+          lastName: 'User',
+          authMethod: 'local'
+        })
+        .where(eq(users.username, 'testuser'))
+        .returning();
+      
+      newUser = updatedUser;
+    } else {
+      // Tworzymy nowego użytkownika testowego - tutaj id powinno być auto-inkrementowane
+      const [createdUser] = await db.insert(users).values({
+        username: 'testuser',
+        email: 'test@example.com',
+        password: hashedPassword,
+        role: 'client',
+        firstName: 'Test',
+        lastName: 'User',
+        authMethod: 'local',
+        createdAt: new Date(),
+      }).returning();
+      
+      newUser = createdUser;
+    }
     
     console.log(`Użytkownik testowy utworzony: ID=${newUser.id}, typ ID=${typeof newUser.id}`);
     console.log("Dane użytkownika:", newUser);
