@@ -58,13 +58,13 @@ async function upsertUser(
   claims: any,
 ) {
   await storage.upsertUser({
-    id: claims["sub"],
+    id: parseInt(claims["sub"], 10), // Konwersja string na number
     username: claims["username"],
     email: claims["email"],
     firstName: claims["first_name"],
     lastName: claims["last_name"],
     bio: claims["bio"],
-    profileImageUrl: claims["profile_image_url"],
+    profileImage: claims["profile_image_url"], // Zmiana nazwy pola z profileImageUrl na profileImage
   });
 }
 
