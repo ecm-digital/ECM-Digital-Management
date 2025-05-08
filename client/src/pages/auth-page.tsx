@@ -238,18 +238,32 @@ export default function AuthPage() {
             </TabsContent>
           </Tabs>
           
-          <CardFooter className="flex justify-center border-t pt-6">
-            <p className="text-sm text-gray-500">
-              {tab === "login" 
-                ? "Nie masz jeszcze konta? " 
-                : "Masz już konto? "}
+          <CardFooter className="flex flex-col space-y-4 border-t pt-6">
+            <div className="w-full grid grid-cols-2 gap-4">
+              <Button
+                variant="outline"
+                className="flex items-center justify-center"
+                onClick={() => setLocation("/")}
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M9.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L7.414 9H15a1 1 0 110 2H7.414l2.293 2.293a1 1 0 010 1.414z" clipRule="evenodd" />
+                </svg>
+                Powrót do strony głównej
+              </Button>
+              
               <Button 
-                variant="link" 
-                className="p-0 h-auto text-green-600" 
+                variant="ghost" 
+                className="flex items-center justify-center border border-green-200 hover:bg-green-50"
                 onClick={() => setTab(tab === "login" ? "register" : "login")}
               >
                 {tab === "login" ? "Zarejestruj się" : "Zaloguj się"}
               </Button>
+            </div>
+            
+            <p className="text-sm text-gray-500 text-center pt-2">
+              {tab === "login" 
+                ? "Nie masz jeszcze konta? Zarejestruj się by uzyskać dostęp do panelu klienta." 
+                : "Masz już konto? Zaloguj się by kontynuować."}
             </p>
           </CardFooter>
         </Card>
@@ -301,6 +315,18 @@ export default function AuthPage() {
                 <h3 className="font-semibold text-gray-900">Udostępnianie plików</h3>
                 <p className="text-gray-600">Łatwe przesyłanie materiałów i pobieranie rezultatów pracy</p>
               </div>
+            </div>
+            
+            <div className="mt-8">
+              <Button 
+                onClick={() => setLocation("/")}
+                className="bg-green-600 hover:bg-green-700 text-white py-3 px-6 rounded-md text-lg flex items-center gap-2 shadow-md hover:shadow-lg transition-all"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clipRule="evenodd" />
+                </svg>
+                Wróć na stronę główną
+              </Button>
             </div>
           </div>
         </div>
