@@ -1,55 +1,57 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cedarville+Cursive&family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700;800&family=Circular:wght@300;400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --background: 210 20% 98%; /* #f9fafb */
-  --foreground: 222 47% 11.2%; /* #111827 */
-  --muted: 210 40% 96.1%;
-  --muted-foreground: 215.4 16.3% 46.9%;
+  /* Airbnb-inspired green color palette */
+  --background: 0 0% 100%; /* White background like Airbnb */
+  --foreground: 220 15% 16%; /* #22262E - dark text */
+  --muted: 150 20% 96%;
+  --muted-foreground: 150 10% 40%;
   --popover: 0 0% 100%;
-  --popover-foreground: 222.2 84% 4.9%;
+  --popover-foreground: 220 15% 16%;
   --card: 0 0% 100%;
-  --card-foreground: 222.2 84% 4.9%;
-  --border: 214.3 31.8% 91.4%;
-  --input: 214.3 31.8% 91.4%;
-  --primary: 217 91% 60%; /* #3b82f6 - blue */
-  --primary-foreground: 210 40% 98%;
-  --secondary: 187 100% 42%; /* #06b6d4 - turkusowy */
-  --secondary-foreground: 210 40% 98%;
-  --accent: 187 75% 40%;
-  --accent-foreground: 210 40% 98%;
-  --destructive: 0 84.2% 60.2%;
-  --destructive-foreground: 210 40% 98%;
-  --dark: 220 18% 20%;
-  --dark-light: 220 16% 36%;
-  --light: 210 20% 98%; /* #f9fafb */
-  --ring: 215 20.2% 65.1%;
-  --radius: 1rem;
+  --card-foreground: 220 15% 16%;
+  --border: 150 15% 90%;
+  --input: 150 15% 90%;
+  --primary: 142 76% 36%; /* #15B755 - vibrant green (similar to Airbnb red but green) */
+  --primary-foreground: 0 0% 100%;
+  --secondary: 143 58% 40%; /* #37946e - darker green */
+  --secondary-foreground: 0 0% 100%;
+  --accent: 140 60% 87%; /* #d6f5e6 - light green */
+  --accent-foreground: 143 58% 40%;
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 100%;
+  --dark: 220 15% 16%;
+  --dark-light: 220 13% 28%;
+  --light: 0 0% 100%; /* white */
+  --ring: 142 76% 36%;
+  --radius: 0.75rem; /* Slightly more rounded, similar to Airbnb */
 }
 
 .dark {
-  --background: 222.2 84% 4.9%;
-  --foreground: 210 40% 98%;
-  --muted: 217.2 32.6% 17.5%;
-  --muted-foreground: 215 20.2% 65.1%;
-  --popover: 222.2 84% 4.9%;
-  --popover-foreground: 210 40% 98%;
-  --card: 222.2 84% 4.9%;
-  --card-foreground: 210 40% 98%;
-  --border: 217.2 32.6% 17.5%;
-  --input: 217.2 32.6% 17.5%;
-  --primary: 210 40% 98%;
-  --primary-foreground: 222.2 47.4% 11.2%;
-  --secondary: 217.2 32.6% 17.5%;
-  --secondary-foreground: 210 40% 98%;
-  --accent: 217.2 32.6% 17.5%;
-  --accent-foreground: 210 40% 98%;
+  /* Dark mode with green accents */
+  --background: 220 20% 12%; /* #151a21 - dark background */
+  --foreground: 0 0% 95%; /* #f2f2f2 - light text */
+  --muted: 142 15% 20%;
+  --muted-foreground: 142 10% 70%;
+  --popover: 220 20% 12%;
+  --popover-foreground: 0 0% 95%;
+  --card: 220 20% 14%; /* slightly lighter than background */
+  --card-foreground: 0 0% 95%;
+  --border: 142 15% 25%;
+  --input: 142 15% 25%;
+  --primary: 142 76% 36%; /* Keep the same green as light mode */
+  --primary-foreground: 0 0% 100%;
+  --secondary: 143 30% 25%; /* Darker green */
+  --secondary-foreground: 0 0% 95%; 
+  --accent: 142 30% 22%; /* Dark green accent */
+  --accent-foreground: 0 0% 95%;
   --destructive: 0 62.8% 30.6%;
   --destructive-foreground: 0 85.7% 97.3%;
-  --ring: 217.2 32.6% 17.5%;
+  --ring: 142 76% 36%;
 }
 
 @layer base {
@@ -59,32 +61,49 @@
   
   body {
     @apply bg-background font-sans antialiased text-foreground;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Circular', 'Inter', sans-serif; /* Circular is Airbnb's font, using Inter as fallback */
+    -webkit-font-smoothing: antialiased;
+    letter-spacing: -0.015em;
   }
   
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Poppins', sans-serif;
-    @apply font-semibold tracking-tight;
+    font-family: 'Circular', 'Inter', sans-serif;
+    @apply font-medium tracking-tight;
+    letter-spacing: -0.02em;
   }
   
   h1 {
-    @apply text-4xl md:text-5xl lg:text-6xl font-bold mb-8;
+    @apply text-4xl md:text-5xl lg:text-5xl font-semibold mb-6;
+    line-height: 1.1;
   }
   
   h2 {
-    @apply text-3xl md:text-4xl font-bold mb-6;
+    @apply text-3xl md:text-4xl font-semibold mb-5;
+    line-height: 1.15;
   }
   
   h3 {
-    @apply text-xl md:text-2xl font-semibold mb-4;
+    @apply text-xl md:text-2xl font-medium mb-4;
+    line-height: 1.2;
   }
   
   p {
-    @apply leading-relaxed;
+    @apply leading-relaxed text-base md:text-lg;
+    letter-spacing: -0.011em;
   }
   
   section {
-    @apply py-20;
+    @apply py-16 md:py-24;
+  }
+  
+  /* Define links similar to Airbnb */
+  a {
+    @apply text-primary font-medium;
+    text-underline-offset: 2px;
+  }
+  
+  a:hover {
+    @apply text-primary/90 underline;
   }
 }
 
