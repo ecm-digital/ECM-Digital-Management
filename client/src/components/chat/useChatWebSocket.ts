@@ -24,62 +24,71 @@ export function useChatWebSocket({
 
   // Inicjalizacja WebSocket
   const initializeWebSocket = useCallback(() => {
-    // Zgodnie z blueprint, łączenie z websocket wymaga poprawnego URL
-    const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-    const wsUrl = `${protocol}//${window.location.host}/ws/chat`;
-    
-    if (socketRef.current?.readyState === WebSocket.OPEN) {
-      return; // Jeśli już połączony, nie robimy nic
-    }
-    
-    // Zamknięcie istniejącego połączenia jeśli istnieje
-    if (socketRef.current) {
-      socketRef.current.close();
-    }
-    
-    // Tworzymy nowe połączenie
-    const socket = new WebSocket(wsUrl);
-    socketRef.current = socket;
-    
-    // Zdarzenia WebSocket
-    socket.onopen = () => {
-      console.log('WebSocket połączony');
-      setConnected(true);
-      if (onConnect) onConnect();
+    try {
+      // Zgodnie z blueprint, łączenie z websocket wymaga poprawnego URL
+      const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+      const wsUrl = `${protocol}//${window.location.host}/ws/chat`;
+
+      console.log('Próba połączenia WebSocket:', wsUrl);
       
-      // Jeśli istnieje timeout na reconnect, usuwamy go
-      if (reconnectTimeoutRef.current) {
-        window.clearTimeout(reconnectTimeoutRef.current);
-        reconnectTimeoutRef.current = null;
+      if (socketRef.current?.readyState === WebSocket.OPEN) {
+        console.log('WebSocket już połączony');
+        return; // Jeśli już połączony, nie robimy nic
       }
-    };
-    
-    socket.onclose = () => {
-      console.log('WebSocket rozłączony');
-      setConnected(false);
-      if (onDisconnect) onDisconnect();
       
-      // Automatyczne ponowne połączenie po 3 sekundach
-      reconnectTimeoutRef.current = window.setTimeout(() => {
-        console.log('Próba ponownego połączenia...');
-        initializeWebSocket();
-      }, 3000);
-    };
-    
-    socket.onerror = (error) => {
-      console.error('Błąd WebSocket:', error);
-      if (onError) onError(error);
-    };
-    
-    socket.onmessage = (event) => {
-      try {
-        const data = JSON.parse(event.data);
-        console.log('Otrzymano wiadomość z websocketa:', data);
-        if (onMessage) onMessage(data);
-      } catch (error) {
-        console.error('Błąd parsowania wiadomości WebSocket:', error);
+      // Zamknięcie istniejącego połączenia jeśli istnieje
+      if (socketRef.current) {
+        console.log('Zamykanie istniejącego połączenia WebSocket');
+        socketRef.current.close();
       }
-    };
+      
+      // Tworzymy nowe połączenie
+      console.log('Tworzenie nowego połączenia WebSocket');
+      const socket = new WebSocket(wsUrl);
+      socketRef.current = socket;
+    
+      // Zdarzenia WebSocket
+      socket.onopen = () => {
+        console.log('WebSocket połączony');
+        setConnected(true);
+        if (onConnect) onConnect();
+        
+        // Jeśli istnieje timeout na reconnect, usuwamy go
+        if (reconnectTimeoutRef.current) {
+          window.clearTimeout(reconnectTimeoutRef.current);
+          reconnectTimeoutRef.current = null;
+        }
+      };
+      
+      socket.onclose = () => {
+        console.log('WebSocket rozłączony');
+        setConnected(false);
+        if (onDisconnect) onDisconnect();
+        
+        // Automatyczne ponowne połączenie po 3 sekundach
+        reconnectTimeoutRef.current = window.setTimeout(() => {
+          console.log('Próba ponownego połączenia...');
+          initializeWebSocket();
+        }, 3000);
+      };
+      
+      socket.onerror = (error) => {
+        console.error('Błąd WebSocket:', error);
+        if (onError) onError(error);
+      };
+      
+      socket.onmessage = (event) => {
+        try {
+          const data = JSON.parse(event.data);
+          console.log('Otrzymano wiadomość z websocketa:', data);
+          if (onMessage) onMessage(data);
+        } catch (error) {
+          console.error('Błąd parsowania wiadomości WebSocket:', error);
+        }
+      };
+    } catch (error: any) {
+      console.error('Błąd podczas inicjalizacji WebSocketa:', error);
+    }
   }, [onConnect, onDisconnect, onError, onMessage]);
   
   // Inicjalizacja przy montowaniu komponentu
