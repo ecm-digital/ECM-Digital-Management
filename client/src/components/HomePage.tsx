@@ -88,109 +88,121 @@ export default function HomePage() {
   return (
     <div className="flex flex-col min-h-screen bg-background">
 
-      {/* Hero Section */}
-      <section className="pt-32 pb-36 overflow-hidden relative">
-        {/* Tło z gradientem i kształtami */}
+      {/* Hero Section - Airbnb-inspired with green accents */}
+      <section className="py-20 md:py-28 overflow-hidden relative">
+        {/* Subtle background with green gradient shapes */}
         <div className="absolute inset-0 overflow-hidden">
           <div className="absolute -top-1/4 -right-1/4 w-[600px] h-[600px] rounded-full bg-primary/5 blur-3xl"></div>
-          <div className="absolute top-1/2 left-1/4 w-[400px] h-[400px] rounded-full bg-secondary/5 blur-3xl"></div>
-          <div className="absolute bottom-1/3 right-1/3 w-[300px] h-[300px] rounded-full bg-purple-400/5 blur-3xl"></div>
+          <div className="absolute top-1/2 left-1/4 w-[400px] h-[400px] rounded-full bg-accent/10 blur-3xl"></div>
+          <div className="absolute bottom-1/3 right-1/3 w-[300px] h-[300px] rounded-full bg-secondary/5 blur-3xl"></div>
         </div>
         
         <div className="container-tight relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <div className="space-y-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center">
+            {/* Left column - Main content */}
+            <div className="space-y-6">
               <div>
-                <Badge className="bg-primary/10 text-primary hover:bg-primary/20 transition-colors mb-5 py-1.5 px-4 rounded-full text-sm font-medium">
+                {/* Airbnb-style subtitle badge */}
+                <Badge className="bg-accent text-primary mb-5 py-1.5 px-4 rounded-md text-sm font-medium">
                   {t('home.subtitle')}
                 </Badge>
-                <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight mb-6 text-balance">
-                  <span className="inline heading-gradient">{t('home.title')}</span> <br />
+                
+                {/* Main heading with Airbnb-inspired styling */}
+                <h1 className="text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight mb-4 text-balance leading-tight">
+                  <span className="text-primary">{t('home.title')}</span> <br />
                   {t('home.description')}
                 </h1>
-                <p className="text-xl text-gray-700 leading-relaxed max-w-xl">
+                
+                <p className="text-lg text-gray-600 leading-relaxed max-w-xl">
                   {t('home.description')}
                 </p>
               </div>
               
-              <div className="flex flex-wrap gap-5 pt-4">
+              {/* CTA buttons in Airbnb style */}
+              <div className="flex flex-wrap gap-4 pt-4">
                 <Link href="/services">
-                  <Button className="btn-modern btn-gradient text-white py-6 px-8 text-base">
+                  <Button className="btn-primary rounded-lg py-3 px-6 text-base">
                     {t('services.viewAllServices')} <ArrowRight className="ml-2 h-5 w-5" />
                   </Button>
                 </Link>
                 <a href="#contact-form">
-                  <Button variant="outline" className="btn-modern border-2 py-6 px-8 text-base">
+                  <Button variant="outline" className="btn-secondary rounded-lg py-3 px-6 text-base">
                     {t('home.ctaButton')}
                   </Button>
                 </a>
               </div>
               
-              <div className="grid grid-cols-2 gap-4 pt-6">
+              {/* Feature highlights in Airbnb style */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-6">
                 <div className="flex items-start gap-3">
-                  <div className="w-6 h-6 rounded-full bg-green-100 flex items-center justify-center mt-0.5">
-                    <Check className="h-4 w-4 text-green-600" /> 
+                  <div className="w-8 h-8 rounded-lg bg-accent flex items-center justify-center mt-0.5">
+                    <Check className="h-5 w-5 text-primary" /> 
                   </div>
                   <div>
-                    <p className="font-medium">{t('home.effectiveUX')}</p>
-                    <p className="text-sm text-gray-500">{t('home.dataBasedDesign')}</p>
+                    <p className="font-medium text-gray-800">{t('home.effectiveUX')}</p>
+                    <p className="text-sm text-gray-600">{t('home.dataBasedDesign')}</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
-                  <div className="w-6 h-6 rounded-full bg-blue-100 flex items-center justify-center mt-0.5">
-                    <Check className="h-4 w-4 text-blue-600" /> 
+                  <div className="w-8 h-8 rounded-lg bg-accent flex items-center justify-center mt-0.5">
+                    <Check className="h-5 w-5 text-primary" /> 
                   </div>
                   <div>
-                    <p className="font-medium">{t('home.fastDelivery')}</p>
-                    <p className="text-sm text-gray-500">{t('home.deadlinesAlwaysMet')}</p>
+                    <p className="font-medium text-gray-800">{t('home.fastDelivery')}</p>
+                    <p className="text-sm text-gray-600">{t('home.deadlinesAlwaysMet')}</p>
                   </div>
                 </div>
               </div>
             </div>
             
-            <div className="relative">
-              <div className="absolute -top-20 -right-20 w-96 h-96 bg-gradient-to-br from-primary/20 to-secondary/20 rounded-full blur-3xl"></div>
+            {/* Right column - Featured services card in Airbnb style */}
+            <div className="relative mt-10 lg:mt-0">
+              {/* Subtle glow */}
+              <div className="absolute -top-20 -right-20 w-96 h-96 bg-gradient-to-br from-primary/10 to-secondary/10 rounded-full blur-3xl"></div>
               
-              <div className="relative z-10 rounded-2xl overflow-hidden glassmorphism p-1">
-                <div className="card-modern glassmorphism p-8 sm:p-10 relative border-0 shadow-none">
-                  <div className="grid gap-8">
+              {/* Card in Airbnb style */}
+              <div className="relative z-10 rounded-xl overflow-hidden bg-white border border-gray-100 shadow-lg">
+                <div className="p-6 sm:p-8 relative">
+                  <div className="grid gap-6">
                     <div>
-                      <Badge className="bg-blue-100 text-blue-700 mb-3">{t('home.featuredServices')}</Badge>
-                      <h3 className="text-2xl font-bold mb-4">{t('services.subtitle')}</h3>
-                      <p className="text-gray-600 mb-2">{t('services.title')}</p>
+                      <Badge className="bg-accent text-primary border-0 mb-3 rounded-md">{t('home.featuredServices')}</Badge>
+                      <h3 className="text-xl font-semibold mb-2">{t('services.subtitle')}</h3>
+                      <p className="text-gray-600 mb-4">{t('services.title')}</p>
                     </div>
                     
-                    <div className="space-y-4">
+                    {/* Features with Airbnb-style icons */}
+                    <div className="space-y-3">
                       <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 flex-shrink-0 rounded-full bg-primary/10 flex items-center justify-center">
+                        <div className="w-8 h-8 flex-shrink-0 rounded-lg bg-accent flex items-center justify-center">
                           <CheckCircle className="h-5 w-5 text-primary" />
                         </div>
                         <div>
-                          <p className="font-medium">{t('home.yearsOfExperience')}</p>
+                          <p className="font-medium text-gray-800">{t('home.yearsOfExperience')}</p>
                         </div>
                       </div>
                       
                       <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 flex-shrink-0 rounded-full bg-secondary/10 flex items-center justify-center">
-                          <CheckCircle className="h-5 w-5 text-secondary" />
+                        <div className="w-8 h-8 flex-shrink-0 rounded-lg bg-accent flex items-center justify-center">
+                          <CheckCircle className="h-5 w-5 text-primary" />
                         </div>
                         <div>
-                          <p className="font-medium">{t('home.happyClients')}</p>
+                          <p className="font-medium text-gray-800">{t('home.happyClients')}</p>
                         </div>
                       </div>
                       
                       <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 flex-shrink-0 rounded-full bg-purple-100 flex items-center justify-center">
-                          <CheckCircle className="h-5 w-5 text-purple-600" />
+                        <div className="w-8 h-8 flex-shrink-0 rounded-lg bg-accent flex items-center justify-center">
+                          <CheckCircle className="h-5 w-5 text-primary" />
                         </div>
                         <div>
-                          <p className="font-medium">{t('home.dataBasedApproach')}</p>
+                          <p className="font-medium text-gray-800">{t('home.dataBasedApproach')}</p>
                         </div>
                       </div>
                     </div>
                     
-                    <a href="#contact-form" className="inline-block">
-                      <Button className="w-full btn-gradient btn-modern">
+                    {/* CTA button */}
+                    <a href="#contact-form" className="inline-block pt-2">
+                      <Button className="w-full btn-primary rounded-lg">
                         {t('home.contactUs')}
                       </Button>
                     </a>
@@ -202,55 +214,55 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Features Section */}
-      <section className="py-24 bg-white">
+      {/* Features Section - Airbnb style */}
+      <section className="py-20 md:py-24 bg-white">
         <div className="container-tight">
-          <div className="max-w-3xl mx-auto text-center mb-16">
-            <Badge className="bg-primary/10 text-primary mb-4 py-1 px-3 rounded-full">{t('home.featuredServices')}</Badge>
-            <h2 className="text-3xl md:text-4xl font-bold mb-6 tracking-tight">{t('services.subtitle')}</h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+          <div className="max-w-3xl mx-auto text-center mb-12">
+            <Badge className="bg-accent text-primary mb-4 py-1 px-3 rounded-md text-sm">{t('home.featuredServices')}</Badge>
+            <h2 className="text-2xl md:text-3xl font-semibold mb-4 tracking-tight">{t('services.subtitle')}</h2>
+            <p className="text-base md:text-lg text-gray-600 max-w-2xl mx-auto">
               {t('services.title')}
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="card-modern p-8 relative group">
-              <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-secondary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl"></div>
-              <div className="w-14 h-14 bg-blue-100 rounded-xl flex items-center justify-center mb-6 relative z-10">
-                <CheckCircle className="h-7 w-7 text-primary" />
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+            {/* Feature Card 1 - Airbnb style */}
+            <div className="feature-card relative group">
+              <div className="w-12 h-12 bg-accent rounded-lg flex items-center justify-center mb-5">
+                <CheckCircle className="h-6 w-6 text-primary" />
               </div>
-              <h3 className="text-xl font-semibold mb-3 relative z-10">{t('home.longExperience')}</h3>
-              <p className="text-gray-600 relative z-10">
+              <h3 className="text-lg font-medium mb-3">{t('home.longExperience')}</h3>
+              <p className="text-gray-600 text-sm md:text-base">
                 {t('home.longExperienceDescription')}
               </p>
             </div>
 
-            <div className="card-modern p-8 relative group">
-              <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-secondary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl"></div>
-              <div className="w-14 h-14 bg-purple-100 rounded-xl flex items-center justify-center mb-6 relative z-10">
-                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-purple-600">
+            {/* Feature Card 2 - Airbnb style */}
+            <div className="feature-card relative group">
+              <div className="w-12 h-12 bg-accent rounded-lg flex items-center justify-center mb-5">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-primary">
                   <circle cx="12" cy="12" r="10"></circle>
                   <path d="M12 16v-4"></path>
                   <path d="M12 8h.01"></path>
                 </svg>
               </div>
-              <h3 className="text-xl font-semibold mb-3 relative z-10">{t('home.individualApproach')}</h3>
-              <p className="text-gray-600 relative z-10">
+              <h3 className="text-lg font-medium mb-3">{t('home.individualApproach')}</h3>
+              <p className="text-gray-600 text-sm md:text-base">
                 {t('home.individualApproachDescription')}
               </p>
             </div>
 
-            <div className="card-modern p-8 relative group">
-              <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-secondary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl"></div>
-              <div className="w-14 h-14 bg-secondary/10 rounded-xl flex items-center justify-center mb-6 relative z-10">
-                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-secondary">
+            {/* Feature Card 3 - Airbnb style */}
+            <div className="feature-card relative group">
+              <div className="w-12 h-12 bg-accent rounded-lg flex items-center justify-center mb-5">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-primary">
                   <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
                   <path d="M2 17l10 5 10-5"></path>
                   <path d="M2 12l10 5 10-5"></path>
                 </svg>
               </div>
-              <h3 className="text-xl font-semibold mb-3 relative z-10">{t('home.latestTechnologies')}</h3>
-              <p className="text-gray-600 relative z-10">
+              <h3 className="text-lg font-medium mb-3">{t('home.latestTechnologies')}</h3>
+              <p className="text-gray-600 text-sm md:text-base">
                 {t('home.latestTechnologiesDescription')}
               </p>
             </div>
@@ -258,51 +270,60 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Services Section */}
-      <section id="services" className="py-24 bg-background">
+      {/* Services Section - Airbnb style */}
+      <section id="services" className="py-20 md:py-24 bg-background">
         <div className="container-tight">
-          <div className="max-w-3xl mx-auto text-center mb-16">
-            <Badge className="bg-secondary/10 text-secondary mb-4 py-1 px-3 rounded-full">{t('home.featuredServices')}</Badge>
-            <h2 className="text-3xl md:text-4xl font-bold mb-6 tracking-tight">{t('services.ourOffer')}</h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+          <div className="max-w-3xl mx-auto text-center mb-12">
+            <Badge className="bg-accent text-primary mb-4 py-1 px-3 rounded-md text-sm">{t('home.featuredServices')}</Badge>
+            <h2 className="text-2xl md:text-3xl font-semibold mb-4 tracking-tight">{t('services.ourOffer')}</h2>
+            <p className="text-base md:text-lg text-gray-600 max-w-2xl mx-auto">
               {t('services.offerDescription')}
             </p>
           </div>
 
           {isLoading ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {[...Array(5)].map((_, index) => (
-                <div key={index} className="animate-pulse bg-white rounded-lg shadow-sm p-6">
-                  <div className="h-6 bg-gray-200 rounded w-3/4 mb-4"></div>
-                  <div className="h-4 bg-gray-200 rounded w-1/2 mb-6"></div>
-                  <div className="h-20 bg-gray-200 rounded mb-4"></div>
-                  <div className="h-10 bg-gray-200 rounded mt-6"></div>
+              {[...Array(6)].map((_, index) => (
+                <div key={index} className="animate-pulse bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+                  <div className="h-5 bg-gray-200 rounded-md w-1/4 mb-3"></div>
+                  <div className="h-6 bg-gray-200 rounded-md w-3/4 mb-4"></div>
+                  <div className="h-4 bg-gray-200 rounded-md w-5/6 mb-5"></div>
+                  <div className="space-y-2">
+                    {[...Array(4)].map((_, i) => (
+                      <div key={i} className="flex items-center">
+                        <div className="h-4 w-4 bg-gray-200 rounded-full mr-2"></div>
+                        <div className="h-4 bg-gray-200 rounded-md w-11/12"></div>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="flex justify-between items-center mt-6">
+                    <div className="h-5 bg-gray-200 rounded-md w-1/4"></div>
+                    <div className="h-8 bg-gray-200 rounded-md w-1/3"></div>
+                  </div>
                 </div>
               ))}
             </div>
           ) : (
-            <div className="space-y-16">
-              {/* Wyświetl usługi według głównych kategorii - tak samo jak na stronie Oferta */}
+            <div className="space-y-12">
+              {/* Services by category - Airbnb style */}
               {groupedServices
                 .filter(category => category.services.length > 0)
                 .map((category) => (
-                <div key={category.id} className="mb-10">
+                <div key={category.id} className="mb-8">
                   <div className="flex items-center mb-6">
-                    <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mr-3">
-                      {category.icon}
+                    <div className="w-10 h-10 bg-accent rounded-lg flex items-center justify-center mr-3">
+                      {React.cloneElement(category.icon, { className: 'text-primary' })}
                     </div>
-                    <h2 className="text-2xl font-bold text-gray-900">{category.name}</h2>
+                    <h2 className="text-xl font-semibold text-gray-900">{category.name}</h2>
                   </div>
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {category.services.map((service) => (
-                      <ServiceCard key={service.id} service={service} colorClass={
-                        category.id === 'ux-design' ? 'text-blue-600' : 
-                        category.id === 'web-development' ? 'text-indigo-600' :
-                        category.id === 'social-marketing' ? 'text-purple-600' :
-                        category.id === 'ai-automation' ? 'text-green-600' : 
-                        'text-orange-600'
-                      } />
+                      <ServiceCard 
+                        key={service.id} 
+                        service={service} 
+                        colorClass="text-primary"
+                      />
                     ))}
                   </div>
                 </div>
@@ -312,7 +333,7 @@ export default function HomePage() {
 
           <div className="text-center mt-12">
             <Link href="/services">
-              <Button className="rounded-full bg-primary/10 text-primary hover:bg-primary/20 py-2 px-8">
+              <Button className="btn-primary rounded-lg py-2 px-6">
                 {t('services.viewAllServices')} <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
             </Link>
