@@ -14,8 +14,20 @@ import {
   RefreshCw,
   Loader,
 } from 'lucide-react';
-import { useAuth } from '@/hooks/useAuth';
 import { useChatWebSocket } from './useChatWebSocket';
+
+// Tymczasowy hook useAuth do momentu zaimplementowania prawdziwej autoryzacji
+interface User {
+  id: string;
+  [key: string]: any;
+}
+
+const useAuth = () => {
+  return {
+    user: { id: 'guest-user' } as User,
+    isAuthenticated: false
+  };
+};
 
 // Typ pojedynczej wiadomości
 interface ChatMessage {

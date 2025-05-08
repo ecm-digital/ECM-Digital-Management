@@ -23,6 +23,7 @@ import BlogSearchPage from "./pages/BlogSearchPage";
 import KnowledgeBasePage from "./pages/KnowledgeBasePage";
 import KnowledgeArticlePage from "./pages/KnowledgeArticlePage";
 import KnowledgeSearchPage from "./pages/KnowledgeSearchPage";
+import ChatWidget from "@/components/chat/ChatWidget";
 import NotFound from "@/pages/not-found";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Service } from "@/types";
@@ -527,6 +528,8 @@ function App() {
         <Route path="/knowledge/:slug" component={KnowledgeArticlePage} />
         <Route component={NotFound} />
       </Switch>
+      {/* Chatbot Widget - wyświetlany na każdej stronie */}
+      <ChatWidget />
       <Toaster />
     </TooltipProvider>
   );
