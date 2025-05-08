@@ -276,7 +276,7 @@ export class DatabaseStorage implements IStorage {
     return order || undefined;
   }
   
-  async getOrdersByUserId(userId: string): Promise<Order[]> {
+  async getOrdersByUserId(userId: number): Promise<Order[]> {
     return await db
       .select()
       .from(orders)
@@ -292,7 +292,7 @@ export class DatabaseStorage implements IStorage {
       .orderBy(desc(orders.createdAt));
   }
 
-  async getOrdersByAssignedToId(assignedToId: string): Promise<Order[]> {
+  async getOrdersByAssignedToId(assignedToId: number): Promise<Order[]> {
     return await db
       .select()
       .from(orders)
@@ -588,18 +588,18 @@ export class DatabaseStorage implements IStorage {
   }
 
   // Onboarding operations
-  async getUserOnboardingStep(userId: string): Promise<number> {
+  async getUserOnboardingStep(userId: number): Promise<number> {
     const user = await this.getUser(userId);
     return user?.onboardingStep || 0;
   }
 
-  async updateUserOnboardingStep(userId: string, step: number): Promise<User | undefined> {
+  async updateUserOnboardingStep(userId: number, step: number): Promise<User | undefined> {
     return await this.updateUser(userId, {
       onboardingStep: step
     });
   }
 
-  async completeUserOnboarding(userId: string, preferences: any): Promise<User | undefined> {
+  async completeUserOnboarding(userId: number, preferences: any): Promise<User | undefined> {
     return await this.updateUser(userId, {
       onboardingStep: 999, // Oznacza zakończony onboarding
       onboardingCompleted: true,
@@ -607,7 +607,7 @@ export class DatabaseStorage implements IStorage {
     });
   }
 
-  async getWelcomeMessagesByUserId(userId: string): Promise<WelcomeMessage[]> {
+  async getWelcomeMessagesByUserId(userId: number): Promise<WelcomeMessage[]> {
     return await db
       .select()
       .from(welcomeMessages)
@@ -615,7 +615,7 @@ export class DatabaseStorage implements IStorage {
       .orderBy(welcomeMessages.step);
   }
 
-  async getWelcomeMessageByStep(userId: string, step: number): Promise<WelcomeMessage | undefined> {
+  async getWelcomeMessageByStep(userId: number, step: number): Promise<WelcomeMessage | undefined> {
     const [message] = await db
       .select()
       .from(welcomeMessages)
@@ -629,7 +629,7 @@ export class DatabaseStorage implements IStorage {
   }
 
   async createWelcomeMessage(
-    userId: string, 
+    userId: number, 
     step: number, 
     title: string, 
     content: string, 
