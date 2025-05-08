@@ -14,6 +14,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { useTranslation } from 'react-i18next';
 import i18next from 'i18next';
 import ServiceCard from '../components/ServiceCard.jsx';
+import HomeLeadMagnets from '@/components/home/HomeLeadMagnets';
 
 export default function HomePage() {
   const { t, i18n } = useTranslation();
@@ -389,6 +390,9 @@ export default function HomePage() {
 
         </div>
       </section>
+
+      {/* Lead Magnets Section */}
+      <HomeLeadMagnets />
 
       {/* Contact Section */}
       <section id="contact-form" className="py-24 bg-background">
