@@ -62,8 +62,9 @@ async function comparePasswords(supplied: string, stored: string): Promise<boole
     console.log("Oryginalny hasz:", hashed.substring(0, 20) + "...");
     console.log("Wygenerowany hasz:", hashedSupplied.substring(0, 20) + "...");
     
-    const hashedBuf = Buffer.from(hashed, 'hex');
-    const match = timingSafeEqual(hashedBuf, suppliedBuf);
+    // Zamiast porównywania buforów (co może powodować błędy gdy mają różne długości),
+    // porównajmy bezpośrednio stringi hexadecymalne
+    const match = hashed === hashedSupplied;
     
     console.log("Czy hasła się zgadzają:", match);
     return match;
