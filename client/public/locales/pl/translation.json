@@ -18,6 +18,30 @@
       "3": "Analityka wyników i optymalizacja",
       "4": "Spójny wizerunek marki w social mediach"
     },
+    "KampaniaGoogleAds": {
+      "1": "Skuteczne pozyskiwanie konwertujących klientów",
+      "2": "Optymalizacja budżetu reklamowego",
+      "3": "Precyzyjne targetowanie według intencji",
+      "4": "Stały rozwój kampanii w oparciu o dane"
+    },
+    "FacebookInstagramAds": {
+      "1": "Dotarcie do szerokiej i precyzyjnej grupy odbiorców",
+      "2": "Kreacje reklamowe dopasowane do formatu",
+      "3": "Zaawansowane targetowanie behawioralne",
+      "4": "Śledzenie i optymalizacja wyników kampanii"
+    },
+    "StrategieContentowe": {
+      "1": "Spójna komunikacja marki we wszystkich kanałach",
+      "2": "Treści wartościowe dla Twojej grupy docelowej",
+      "3": "Planowanie contentu opartego na danych",
+      "4": "Automatyzacja procesu produkcji treści"
+    },
+    "NewsletterZInsightami": {
+      "1": "Budowanie lojalnej społeczności odbiorców",
+      "2": "Dostarczanie wartościowych treści branżowych",
+      "3": "Regularna komunikacja z potencjalnymi klientami",
+      "4": "Zwiększenie rozpoznawalności marki jako eksperta"
+    },
     "StronaE-commerce": {
       "1": "Optymalizacja ścieżki zakupowej",
       "2": "Intuicyjny interfejs zwiększający konwersję",
@@ -35,6 +59,30 @@
       "2": "Natychmiastowe odpowiedzi na pytania",
       "3": "Automatyzacja prostych procesów",
       "4": "Zbieranie danych o klientach i ich potrzebach"
+    },
+    "AIUXAssistant": {
+      "1": "Szybkie generowanie pomysłów projektowych",
+      "2": "Automatyczna analiza konkurencji",
+      "3": "Pomoc w projektowaniu interakcji",
+      "4": "Oszczędność czasu w procesie UX"
+    },
+    "StronyWixWebflow": {
+      "1": "Szybkie wdrożenie strony bez długiego developmentu",
+      "2": "Łatwa edycja treści przez klienta",
+      "3": "Nowoczesny design bez wysokich kosztów",
+      "4": "Integracja z narzędziami marketingowymi"
+    },
+    "EcommerceZAI": {
+      "1": "Automatyczne generowanie opisów produktów",
+      "2": "Inteligentne rekomendacje produktowe",
+      "3": "Spersonalizowane doświadczenia zakupowe",
+      "4": "Optymalizacja konwersji oparta na AI"
+    },
+    "PerformanceSEO": {
+      "1": "Zwiększenie widoczności w wyszukiwarkach",
+      "2": "Szybsze ładowanie strony i lepsze UX",
+      "3": "Wyższe pozycje w naturalnych wynikach",
+      "4": "Techniczne optymalizacje dla wyszukiwarek"
     },
     "AILandingPages": {
       "1": "Ekspresowa realizacja w 72 godziny",
@@ -65,6 +113,42 @@
       "2": "Kod gotowy do wdrożenia przez programistów",
       "3": "Responsywność na wszystkich urządzeniach",
       "4": "Zoptymalizowana wydajność i dostępność"
+    },
+    "AutomatyzacjeZapier": {
+      "1": "Automatyczne przesyłanie danych między systemami",
+      "2": "Eliminacja ręcznego wprowadzania informacji",
+      "3": "Integracja dowolnych aplikacji webowych",
+      "4": "Skrócenie czasu wykonywania zadań"
+    },
+    "CustomAITools": {
+      "1": "Narzędzia dostosowane do specyfiki firmy",
+      "2": "Automatyzacja złożonych procesów",
+      "3": "Wykorzystanie danych firmowych do uczenia AI",
+      "4": "Przewaga konkurencyjna dzięki niestandardowym rozwiązaniom"
+    },
+    "ProductDiscoveryWorkshop": {
+      "1": "Jasna wizja produktu i jego wartości",
+      "2": "Identyfikacja potrzeb użytkowników",
+      "3": "Priorytetyzacja funkcji i roadmapa",
+      "4": "Weryfikacja założeń biznesowych"
+    },
+    "MVPzAI": {
+      "1": "Szybsze dostarczenie pierwszej wersji produktu",
+      "2": "Redukcja kosztów początkowego rozwoju",
+      "3": "Wykorzystanie gotowych komponentów AI",
+      "4": "Możliwość szybkiej walidacji na rynku"
+    },
+    "MentoringKonsultacje": {
+      "1": "Wsparcie eksperta przy strategicznych decyzjach",
+      "2": "Transfer wiedzy do zespołu klienta",
+      "3": "Rozwiązywanie konkretnych problemów",
+      "4": "Wzrost kompetencji wewnętrznych"
+    },
+    "TygodniowaOpiekaAIUX": {
+      "1": "Stały dostęp do ekspertów UX i AI",
+      "2": "Ciągłe usprawnianie interfejsu i procesów",
+      "3": "Szybka reakcja na problemy i potrzeby",
+      "4": "Elastyczny pakiet godzin do wykorzystania"
     }
   },
   "navigation": {
