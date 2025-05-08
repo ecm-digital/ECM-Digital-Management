@@ -3,17 +3,20 @@ import { drizzle } from 'drizzle-orm/neon-serverless';
 import { users } from '../shared/schema';
 import { eq } from 'drizzle-orm';
 import ws from 'ws';
-import { createHash, randomBytes } from 'crypto';
+import { randomBytes, scrypt } from 'crypto';
+import { promisify } from 'util';
 
 // Konfiguracja websocketów dla Neon
 neonConfig.webSocketConstructor = ws;
 
-// Funkcja do haszowania hasła
+// Asynchroniczna wersja scrypt
+const scryptAsync = promisify(scrypt);
+
+// Funkcja do haszowania hasła (ta sama co w server/storage.ts)
 async function hashPassword(password: string): Promise<string> {
   const salt = randomBytes(16).toString('hex');
-  const hash = createHash('sha256');
-  hash.update(password + salt);
-  return `${hash.digest('hex')}.${salt}`;
+  const buf = (await scryptAsync(password, salt, 64)) as Buffer;
+  return `${buf.toString('hex')}.${salt}`;
 }
 
 async function createTestUser() {
