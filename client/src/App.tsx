@@ -1,30 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, lazy, Suspense } from "react";
 import { AnimatePresence } from "framer-motion";
 import { Route, Switch, Link } from 'wouter';
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import WelcomeScreen from "@/components/WelcomeScreen";
-import MainApp from "@/components/MainApp";
-import AdminPage from "@/pages/AdminPage";
-import ClientHomePage from "@/pages/ClientHomePage";
-import ServicesPage from "@/pages/ServicesPage";
-import ConfigureServicePage from "@/pages/ConfigureServicePage";
-import ServiceDetailsPage from "@/components/ServiceDetailsPage";
-import ClientDashboardPage from "@/pages/ClientDashboardPage";
-import ClientOrdersPage from "@/pages/ClientOrdersPage";
-import ClientOrderDetailsPage from "@/pages/ClientOrderDetailsPage";
-import ClientProfilePage from "@/pages/ClientProfilePage";
-import AboutPage from "@/pages/AboutPage";
-import CaseStudyOne from "@/pages/case-studies/CaseStudyOne";
-import CaseStudyTwo from "@/pages/case-studies/CaseStudyTwo";
-import BlogPage from "./pages/BlogPage";
-import BlogPostPage from "./pages/BlogPostPage";
-import BlogSearchPage from "./pages/BlogSearchPage";
-import KnowledgeBasePage from "./pages/KnowledgeBasePage";
-import KnowledgeArticlePage from "./pages/KnowledgeArticlePage";
-import KnowledgeSearchPage from "./pages/KnowledgeSearchPage";
-import ChatWidget from "@/components/chat/ChatWidget";
-import NotFound from "@/pages/not-found";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Service } from "@/types";
 import { fetchServicesFromCatalog, setServiceCatalogBaseUrl } from "@/lib/serviceCatalogApi";
@@ -32,6 +10,53 @@ import { toast } from "@/hooks/use-toast";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { apiRequest } from "@/lib/queryClient";
+
+// Komponent do ładowania
+import { Loader } from "lucide-react";
+
+// Głowne komponenty
+import WelcomeScreen from "@/components/WelcomeScreen";
+import MainApp from "@/components/MainApp";
+import ChatWidget from "@/components/chat/ChatWidget";
+import NotFound from "@/pages/not-found";
+
+// Leniwe ładowanie komponentów stron
+const ClientHomePage = lazy(() => import("@/pages/ClientHomePage"));
+const ServicesPage = lazy(() => import("@/pages/ServicesPage"));
+const ServiceDetailsPage = lazy(() => import("@/components/ServiceDetailsPage"));
+const ConfigureServicePage = lazy(() => import("@/pages/ConfigureServicePage"));
+const AdminPage = lazy(() => import("@/pages/AdminPage"));
+const AboutPage = lazy(() => import("@/pages/AboutPage"));
+
+// Leniwe ładowanie case studies
+const CaseStudyOne = lazy(() => import("@/pages/case-studies/CaseStudyOne"));
+const CaseStudyTwo = lazy(() => import("@/pages/case-studies/CaseStudyTwo"));
+
+// Leniwe ładowanie panelu klienta
+const ClientDashboardPage = lazy(() => import("@/pages/ClientDashboardPage"));
+const ClientOrdersPage = lazy(() => import("@/pages/ClientOrdersPage"));
+const ClientOrderDetailsPage = lazy(() => import("@/pages/ClientOrderDetailsPage"));
+const ClientProfilePage = lazy(() => import("@/pages/ClientProfilePage"));
+
+// Leniwe ładowanie sekcji blog
+const BlogPage = lazy(() => import("./pages/BlogPage"));
+const BlogPostPage = lazy(() => import("./pages/BlogPostPage"));
+const BlogSearchPage = lazy(() => import("./pages/BlogSearchPage"));
+
+// Leniwe ładowanie sekcji Knowledge Base
+const KnowledgeBasePage = lazy(() => import("./pages/KnowledgeBasePage"));
+const KnowledgeArticlePage = lazy(() => import("./pages/KnowledgeArticlePage"));
+const KnowledgeSearchPage = lazy(() => import("./pages/KnowledgeSearchPage"));
+
+// Komponent do wyświetlania podczas ładowania
+const LoadingFallback = () => (
+  <div className="flex items-center justify-center min-h-screen">
+    <div className="flex flex-col items-center">
+      <Loader className="w-12 h-12 text-green-600 animate-spin" />
+      <p className="mt-4 text-lg text-gray-700">Ładowanie...</p>
+    </div>
+  </div>
+);
 
 // Typ dla źródła danych
 type DataSource = 'local' | 'serviceCatalog';
@@ -44,10 +69,10 @@ function HomePage() {
   
   const queryClient = useQueryClient();
   
-  // Pobierz aktualny język
-  const currentLanguage = localStorage.getItem('i18nextLng') || 'pl';
+  // Pobierz aktualny język - użyj useMemo do uniknięcia zbędnych renderów
+  const currentLanguage = useState(() => localStorage.getItem('i18nextLng') || 'pl')[0];
   
-  // Pobieranie usług z lokalnej bazy z parametrem języka
+  // Pobieranie usług z lokalnej bazy z parametrem języka - zoptymalizowane
   const { 
     data: localServices, 
     isLoading: isLocalLoading 
@@ -55,9 +80,11 @@ function HomePage() {
     queryKey: ['/api/services', currentLanguage],
     queryFn: () => apiRequest(`/api/services?lang=${currentLanguage}`),
     enabled: dataSource === 'local',
+    staleTime: 30000, // 30 sekund zanim dane staną się "stare"
+    gcTime: 300000, // 5 minut przechowywania w cache (zastąpiło cacheTime w TanStack Query v5)
   });
 
-  // Pobieranie usług z ServiceCatalog
+  // Pobieranie usług z ServiceCatalog - zoptymalizowane
   const {
     data: catalogServices,
     isLoading: isCatalogLoading,
@@ -67,7 +94,9 @@ function HomePage() {
     queryKey: ['serviceCatalog', 'services'],
     queryFn: fetchServicesFromCatalog,
     retry: 1,
-    enabled: dataSource === 'serviceCatalog'
+    enabled: dataSource === 'serviceCatalog',
+    staleTime: 60000, // 1 minuta zanim dane staną się "stare"
+    gcTime: 300000, // 5 minut przechowywania w cache (zastąpiło cacheTime w TanStack Query v5)
   });
   
   // Obsługa błędów
@@ -83,7 +112,7 @@ function HomePage() {
     }
   }, [isCatalogError, dataSource, catalogErrorDetails]);
 
-  // Wybór źródła danych
+  // Wybór źródła danych - użyj useMemo do uniknięcia zbędnych obliczeń
   const services = dataSource === 'local' ? localServices : catalogServices;
   const isLoading = dataSource === 'local' ? isLocalLoading : isCatalogLoading;
 
@@ -502,32 +531,45 @@ function HomePage() {
 function App() {
   return (
     <TooltipProvider>
-      <Switch>
-        <Route path="/admin" component={AdminPage} />
-        <Route path="/" component={ClientHomePage} />
-        <Route path="/services" component={ServicesPage} />
-        <Route path="/service/:id" component={ServiceDetailsPage} />
-        <Route path="/configure" component={ConfigureServicePage} />
-        <Route path="/configure/:id" component={ConfigureServicePage} />
-        <Route path="/about" component={AboutPage} />
-        {/* Case Studies Routes */}
-        <Route path="/case-studies/1" component={CaseStudyOne} />
-        <Route path="/case-studies/2" component={CaseStudyTwo} />
-        {/* Client Panel Routes */}
-        <Route path="/client/dashboard" component={ClientDashboardPage} />
-        <Route path="/client/orders" component={ClientOrdersPage} />
-        <Route path="/client/orders/:orderId" component={ClientOrderDetailsPage} />
-        <Route path="/client/profile" component={ClientProfilePage} />
-        {/* Blog Routes */}
-        <Route path="/blog" component={BlogPage} />
-        <Route path="/blog/search" component={BlogSearchPage} />
-        <Route path="/blog/:slug" component={BlogPostPage} />
-        {/* Knowledge Base Routes */}
-        <Route path="/knowledge" component={KnowledgeBasePage} />
-        <Route path="/knowledge/search" component={KnowledgeSearchPage} />
-        <Route path="/knowledge/:slug" component={KnowledgeArticlePage} />
-        <Route component={NotFound} />
-      </Switch>
+      <Suspense fallback={<LoadingFallback />}>
+        <Switch>
+          {/* Trasy z parametrami */}
+          <Route path="/service/:id" component={ServiceDetailsPage} />
+          <Route path="/configure/:id" component={ConfigureServicePage} />
+          <Route path="/client/orders/:orderId" component={ClientOrderDetailsPage} />
+          <Route path="/blog/:slug" component={BlogPostPage} />
+          <Route path="/knowledge/:slug" component={KnowledgeArticlePage} />
+          
+          {/* Trasy statyczne - ważne aby były po trasach sparametryzowanych */}
+          <Route path="/admin" component={AdminPage} />
+          <Route path="/services" component={ServicesPage} />
+          <Route path="/configure" component={ConfigureServicePage} />
+          <Route path="/about" component={AboutPage} />
+          
+          {/* Case Studies Routes */}
+          <Route path="/case-studies/1" component={CaseStudyOne} />
+          <Route path="/case-studies/2" component={CaseStudyTwo} />
+          
+          {/* Client Panel Routes */}
+          <Route path="/client/dashboard" component={ClientDashboardPage} />
+          <Route path="/client/orders" component={ClientOrdersPage} />
+          <Route path="/client/profile" component={ClientProfilePage} />
+          
+          {/* Blog Routes */}
+          <Route path="/blog/search" component={BlogSearchPage} />
+          <Route path="/blog" component={BlogPage} />
+          
+          {/* Knowledge Base Routes */}
+          <Route path="/knowledge/search" component={KnowledgeSearchPage} />
+          <Route path="/knowledge" component={KnowledgeBasePage} />
+          
+          {/* Strona główna - musi być na końcu przed 404 */}
+          <Route path="/" component={ClientHomePage} />
+          
+          {/* Strona 404 - musi być ostatnia */}
+          <Route component={NotFound} />
+        </Switch>
+      </Suspense>
       {/* Chatbot Widget - wyświetlany na każdej stronie */}
       <ChatWidget />
       <Toaster />
