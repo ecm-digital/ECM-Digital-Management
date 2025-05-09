@@ -6,6 +6,12 @@
       "3": "Verbesserung der Benutzererfahrung",
       "4": "Steigerung von Konversionen und Umsatz"
     },
+    "AudytWCAG": {
+      "1": "Einhaltung von Barrierefreiheitsvorschriften und -standards",
+      "2": "Verbessertes Nutzungserlebnis für Menschen mit Behinderungen",
+      "3": "Erweiterter Nutzerkreis für Ihre Website",
+      "4": "Aufbau eines positiven Markenimages"
+    },
     "AudytUX": {
       "1": "Identifizierung von UX-Problemen, die Konversionen blockieren",
       "2": "Analyse von Benutzerreisen und Schmerzpunkten",
@@ -306,14 +312,16 @@
       "webDevelopment": "Webdesign und -entwicklung",
       "socialMedia": "Social Media & Werbekampagnen",
       "aiIntegration": "KI-Integrationen und Automatisierungen",
-      "startupOffer": "Startup-Angebot und Discovery"
+      "startupOffer": "Startup-Angebot und Discovery",
+      "accessibility": "Barrierefreiheit und WCAG"
     },
     "descriptions": {
       "uxDesign": "Wir gestalten nicht nur schöne, sondern vor allem effektive Nutzererfahrungen, die die Conversion steigern.",
       "webDevelopment": "Wir erstellen moderne, responsive Websites und Online-Shops mit Fokus auf Performance und SEO.",
       "socialMedia": "Wir steigern Reichweite und Umsatz durch ausgefeilte Werbekampagnen und Content.",
       "aiIntegration": "Wir optimieren Unternehmensprozesse durch intelligente Automatisierungen und KI-Agenten.",
-      "startupOffer": "Wir helfen Startups, ein erfolgreiches Produkt schneller und kostengünstiger zu entwickeln."
+      "startupOffer": "Wir helfen Startups, ein erfolgreiches Produkt schneller und kostengünstiger zu entwickeln.",
+      "accessibility": "Wir sorgen für digitale Zugänglichkeit gemäß WCAG-Standards, damit Ihre Produkte alle Nutzergruppen erreichen."
     },
     "servicesList": {
       "uxAudit": {
@@ -1202,7 +1210,8 @@
       "uxui": "UX/UI Design",
       "webDevelopment": "Webentwicklung",
       "marketing": "Marketing",
-      "aiAutomation": "KI & Automatisierung"
+      "aiAutomation": "KI & Automatisierung",
+      "accessibility": "Barrierefreiheit und WCAG"
     },
     "companyLinks": {
       "team": "Team",
