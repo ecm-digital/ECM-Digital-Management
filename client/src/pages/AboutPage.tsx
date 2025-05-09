@@ -73,7 +73,7 @@ const AboutPage: React.FC = () => {
       description: currentLanguage === 'de' 
         ? "Kreative UX/UI Designerin mit einem scharfen Auge für Detail und einer Leidenschaft für benutzerorientiertes Design. Spezialisiert auf die Schaffung intuitiver und ästhetisch ansprechender digitaler Erlebnisse." 
         : "Kreatywna projektantka UX/UI z bystrym okiem do detali i pasją do projektowania zorientowanego na użytkownika. Specjalizuje się w tworzeniu intuicyjnych i estetycznych doświadczeń cyfrowych.",
-      linkedin: "https://www.linkedin.com/in/martagorska",
+      linkedin: "https://www.linkedin.com/in/marta-g%C3%B3rska-b962009b/",
       github: "https://github.com/martagorska",
       website: "https://ecm-digital.com",
       customStyles: true // Flaga do identyfikacji niestandardowego stylowania
