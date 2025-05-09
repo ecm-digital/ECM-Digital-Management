@@ -71,8 +71,8 @@ const AboutPage: React.FC = () => {
       role: currentLanguage === 'de' ? "UX/UI Designer" : "UX/UI Designer",
       imageSrc: martaImage,
       description: currentLanguage === 'de' 
-        ? "Kreative UX/UI Designerin mit einem scharfen Auge für Detail und einer Leidenschaft für benutzerorientiertes Design. Spezialisiert auf die Schaffung intuitiver und ästhetisch ansprechender digitaler Erlebnisse." 
-        : "Kreatywna projektantka UX/UI z bystrym okiem do detali i pasją do projektowania zorientowanego na użytkownika. Specjalizuje się w tworzeniu intuicyjnych i estetycznych doświadczeń cyfrowych.",
+        ? "Kreative UX/UI Designerin mit einem scharfen Auge für Detail und einer Leidenschaft für benutzerorientiertes Design. Spezialisiert auf die Schaffung intuitiver und ästhetisch ansprechender digitaler Erlebnisse mit besonderem Fokus auf WCAG-Richtlinien und barrierefreies Design." 
+        : "Kreatywna projektantka UX/UI z bystrym okiem do detali i pasją do projektowania zorientowanego na użytkownika. Specjalizuje się w tworzeniu intuicyjnych i estetycznych doświadczeń cyfrowych oraz tematyce WCAG i projektowaniu dostępnych interfejsów.",
       linkedin: "https://www.linkedin.com/in/marta-g%C3%B3rska-b962009b/",
       github: "https://github.com/martagorska",
       website: "https://ecm-digital.com"
