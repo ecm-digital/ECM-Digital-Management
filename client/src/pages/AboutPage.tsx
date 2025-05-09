@@ -17,6 +17,7 @@ import { motion } from 'framer-motion';
 import marioImage from '@/assets/mario.png';
 import michalImage from '@/assets/michal.png';
 import tomaszImage from '@/assets/tomasz.png';
+import martaImage from '@/assets/marta.png';
 
 const AboutPage: React.FC = () => {
   const { t, i18n } = useTranslation();
@@ -64,6 +65,17 @@ const AboutPage: React.FC = () => {
       linkedin: "https://www.linkedin.com/in/bieguszewski/",
       github: "https://github.com/michalbieguszewski",
       website: "https://ecm-digital.com"
+    },
+    {
+      name: "Marta Górska",
+      role: currentLanguage === 'de' ? "UX/UI Designer" : "UX/UI Designer",
+      imageSrc: martaImage,
+      description: currentLanguage === 'de' 
+        ? "Kreative UX/UI Designerin mit einem scharfen Auge für Detail und einer Leidenschaft für benutzerorientiertes Design. Spezialisiert auf die Schaffung intuitiver und ästhetisch ansprechender digitaler Erlebnisse." 
+        : "Kreatywna projektantka UX/UI z bystrym okiem do detali i pasją do projektowania zorientowanego na użytkownika. Specjalizuje się w tworzeniu intuicyjnych i estetycznych doświadczeń cyfrowych.",
+      linkedin: "https://www.linkedin.com/in/martagorska",
+      github: "https://github.com/martagorska",
+      website: "https://ecm-digital.com"
     }
   ];
 
@@ -81,7 +93,7 @@ const AboutPage: React.FC = () => {
       label: currentLanguage === 'de' ? "Kundenzufriedenheit" : "Zadowolonych klientów"
     },
     {
-      number: "3",
+      number: "4",
       label: currentLanguage === 'de' ? "Spezialisierte Experten" : "Wyspecjalizowanych ekspertów"
     }
   ];
