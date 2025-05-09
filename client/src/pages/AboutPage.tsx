@@ -17,7 +17,7 @@ import { motion } from 'framer-motion';
 import marioImage from '@/assets/mario.png';
 import michalImage from '@/assets/michal.png';
 import tomaszImage from '@/assets/tomasz.png';
-import martaImage from '@/assets/marta.png';
+import martaImage from '@/assets/marta_new.png';
 
 const AboutPage: React.FC = () => {
   const { t, i18n } = useTranslation();
@@ -75,8 +75,7 @@ const AboutPage: React.FC = () => {
         : "Kreatywna projektantka UX/UI z bystrym okiem do detali i pasją do projektowania zorientowanego na użytkownika. Specjalizuje się w tworzeniu intuicyjnych i estetycznych doświadczeń cyfrowych.",
       linkedin: "https://www.linkedin.com/in/marta-g%C3%B3rska-b962009b/",
       github: "https://github.com/martagorska",
-      website: "https://ecm-digital.com",
-      customStyles: true // Flaga do identyfikacji niestandardowego stylowania
+      website: "https://ecm-digital.com"
     }
   ];
 
@@ -390,15 +389,9 @@ const AboutPage: React.FC = () => {
                   <motion.img 
                     src={member.imageSrc} 
                     alt={member.name} 
-                    className={`w-full h-full object-cover ${member.customStyles ? 'object-top' : 'object-center'}`}
+                    className="w-full h-full object-cover object-center"
                     whileHover={{ scale: 1.1 }}
                     transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                    style={member.customStyles ? { 
-                      objectPosition: 'center top',
-                      marginLeft: '5%', // Przesunięcie w lewo, aby ukryć napis OPENTOWORK
-                      width: '110%', // Powiększenie obrazu, aby pomieścić przesunięcie
-                      filter: 'brightness(1.05)' // Lekkie rozjaśnienie obrazu
-                    } : undefined}
                   />
                   <motion.div
                     className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
