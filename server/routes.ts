@@ -50,7 +50,8 @@ const serviceTranslations: Record<string, string> = {
   "AI Prototypy UI": "AI UI-Prototypen",
   "Kampanie graficzne z AI": "KI-gestützte Grafikdesign-Kampagnen",
   "Ilustracje & ikony": "Illustrationen & Icons",
-  "Pixel-perfect Dev Ready": "Pixel-perfect Dev Ready"
+  "Pixel-perfect Dev Ready": "Pixel-perfect Dev Ready",
+  "Audyt dostępności WCAG": "WCAG-Zugänglichkeitsaudit"
 };
 
 // Tłumaczenia kategorii
@@ -63,6 +64,7 @@ const categoryTranslations: Record<string, string> = {
   "Automatyzacja": "Automatisierung",
   "Consulting": "Beratung",
   "Development": "Entwicklung",
+  "Dostępność": "Barrierefreiheit",
   "Inne": "Andere"
 };
 
@@ -111,7 +113,10 @@ const serviceNameToKey: Record<string, string> = {
   "AI Prototypy UI": "aiUiPrototypes",
   "Kampanie graficzne z AI": "aiGraphicCampaigns",
   "Ilustracje & ikony": "illustrationsIcons",
-  "Pixel-perfect Dev Ready": "pixelPerfectDevReady"
+  "Pixel-perfect Dev Ready": "pixelPerfectDevReady",
+  
+  // Dostępność
+  "Audyt dostępności WCAG": "wcagAudit"
 };
 
 // Funkcja pomocnicza do pobierania tłumaczeń usługi z pliku

@@ -6,6 +6,12 @@
       "3": "Poprawa doświadczenia użytkownika",
       "4": "Wzrost konwersji i sprzedaży"
     },
+    "AudytWCAG": {
+      "1": "Zgodność z przepisami i normami dostępności",
+      "2": "Poprawa doświadczenia osób z niepełnosprawnościami",
+      "3": "Zwiększenie grona odbiorców Twojej witryny",
+      "4": "Budowanie pozytywnego wizerunku marki"
+    },
     "AudytUX": {
       "1": "Identyfikacja problemów UX blokujących konwersję",
       "2": "Analiza ścieżek użytkowników i punktów bólu",
@@ -281,14 +287,16 @@
       "webDevelopment": "Projektowanie i rozwój stron internetowych",
       "socialMedia": "Social Media & Kampanie Reklamowe",
       "aiIntegration": "Integracje AI i Automatyzacje",
-      "startupOffer": "Oferta Startupowa i Discovery"
+      "startupOffer": "Oferta Startupowa i Discovery",
+      "accessibility": "Dostępność i WCAG"
     },
     "descriptions": {
       "uxDesign": "Projektujemy nie tylko ładne, ale przede wszystkim skuteczne doświadczenia użytkownika, które zwiększają konwersję.",
       "webDevelopment": "Tworzymy nowoczesne, responsywne strony i sklepy internetowe z myślą o wydajności i SEO.",
       "socialMedia": "Zwiększamy zasięg i sprzedaż dzięki dopracowanym kampaniom reklamowym i contentowi.",
       "aiIntegration": "Usprawniamy procesy w firmach dzięki inteligentnym automatyzacjom i agentom AI.",
-      "startupOffer": "Pomagamy startupom zbudować trafiony produkt szybciej i taniej."
+      "startupOffer": "Pomagamy startupom zbudować trafiony produkt szybciej i taniej.",
+      "accessibility": "Dbamy o dostępność cyfrową zgodną ze standardami WCAG, aby Twoje produkty docierały do wszystkich grup użytkowników."
     }
   },
   "contact": {
@@ -332,7 +340,8 @@
       "uxui": "UX/UI Design",
       "webDevelopment": "Web Development",
       "marketing": "Marketing",
-      "aiAutomation": "AI & Automatyzacja"
+      "aiAutomation": "AI & Automatyzacja",
+      "accessibility": "Dostępność i WCAG"
     },
     "companyLinks": {
       "team": "Zespół",
