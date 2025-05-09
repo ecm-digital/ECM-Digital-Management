@@ -575,6 +575,33 @@
           "Unterstützung des Entwicklerteams während der Implementierung"
         ]
       },
+      "wcagAudit": {
+        "name": "WCAG-Barrierefreiheitsaudit",
+        "shortDescription": "Umfassende Analyse der Konformität Ihrer Website mit WCAG-Richtlinien und barrierefreien Standards",
+        "description": "WCAG-Barrierefreiheitsaudit - Detaillierte Analyse und Bewertung Ihrer Website entsprechend den aktuellen WCAG-Richtlinien mit konkreten Verbesserungsvorschlägen.",
+        "longDescription": "Unser WCAG-Barrierefreiheitsaudit bietet eine gründliche Überprüfung Ihrer digitalen Plattform auf Konformität mit den Web Content Accessibility Guidelines (WCAG). Wir analysieren alle Aspekte der Zugänglichkeit, identifizieren Probleme und Barrieren und bieten konkrete Verbesserungsvorschläge, um sicherzustellen, dass Ihre Website für alle Benutzer, einschließlich Menschen mit verschiedenen Behinderungen, zugänglich ist. Der Audit umfasst eine Bewertung der Tastaturnavigation, Screenreader-Kompatibilität, Farbkontraste, Textgröße, Alt-Texte für Bilder und weitere kritische Barrierefreiheitsaspekte.",
+        "features": [
+          "Vollständige Bewertung nach WCAG 2.1 AA-Standards",
+          "Überprüfung der Screenreader-Kompatibilität",
+          "Analyse von Kontrastverhältnissen und Farbnutzung",
+          "Bewertung der Tastaturnavigation und -zugänglichkeit",
+          "Prüfung der Formularfunktionalität und -beschriftung"
+        ],
+        "benefits": [
+          "Einhaltung von Barrierefreiheitsvorschriften und -standards",
+          "Verbessertes Nutzungserlebnis für Menschen mit Behinderungen",
+          "Erweiterter Nutzerkreis für Ihre Website",
+          "Aufbau eines positiven Markenimages"
+        ],
+        "scope": [
+          "Anfängliche Bewertung der Website anhand von WCAG-Richtlinien",
+          "Detaillierte Analyse der wichtigsten Seiten und Funktionen",
+          "Identifizierung und Dokumentation von Barrierefreiheitsproblemen",
+          "Priorisierte Liste von Verbesserungsvorschlägen",
+          "Abschlussbericht mit praktischen Implementierungsschritten",
+          "Optional: Nachfolgende Überprüfung nach Umsetzung der Änderungen"
+        ]
+      },
       "aiEcommerce": {
         "name": "E-Commerce mit KI",
         "shortDescription": "KI-optimierter Online-Shop für höhere Umsätze",
