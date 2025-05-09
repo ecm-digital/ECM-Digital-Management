@@ -75,7 +75,8 @@ const AboutPage: React.FC = () => {
         : "Kreatywna projektantka UX/UI z bystrym okiem do detali i pasją do projektowania zorientowanego na użytkownika. Specjalizuje się w tworzeniu intuicyjnych i estetycznych doświadczeń cyfrowych.",
       linkedin: "https://www.linkedin.com/in/martagorska",
       github: "https://github.com/martagorska",
-      website: "https://ecm-digital.com"
+      website: "https://ecm-digital.com",
+      customStyles: true // Flaga do identyfikacji niestandardowego stylowania
     }
   ];
 
@@ -389,9 +390,15 @@ const AboutPage: React.FC = () => {
                   <motion.img 
                     src={member.imageSrc} 
                     alt={member.name} 
-                    className="w-full h-full object-cover object-center"
+                    className={`w-full h-full object-cover ${member.customStyles ? 'object-top' : 'object-center'}`}
                     whileHover={{ scale: 1.1 }}
                     transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                    style={member.customStyles ? { 
+                      objectPosition: 'center top',
+                      marginLeft: '5%', // Przesunięcie w lewo, aby ukryć napis OPENTOWORK
+                      width: '110%', // Powiększenie obrazu, aby pomieścić przesunięcie
+                      filter: 'brightness(1.05)' // Lekkie rozjaśnienie obrazu
+                    } : undefined}
                   />
                   <motion.div
                     className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
