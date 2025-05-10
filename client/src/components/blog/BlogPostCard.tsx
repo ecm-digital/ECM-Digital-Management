@@ -36,6 +36,10 @@ export default function BlogPostCard({ post }: BlogPostCardProps) {
           src={thumbnailUrl || '/images/placeholder-blog.jpg'} 
           alt={title}
           className="w-full h-full object-cover"
+          onError={(e) => {
+            e.currentTarget.src = '/images/placeholder-blog.jpg';
+            e.currentTarget.onerror = null; // prevents looping
+          }}
         />
         <div className="absolute top-4 left-4">
           <Badge className="bg-blue-600 hover:bg-blue-700">{category}</Badge>

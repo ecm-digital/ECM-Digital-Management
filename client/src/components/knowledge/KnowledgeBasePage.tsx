@@ -85,7 +85,7 @@ export default function KnowledgeBasePage() {
 
   return (
     <div className="py-12">
-      <div className="container">
+      <div className="container max-w-6xl mx-auto px-4">
         {/* Nagłówek sekcji */}
         <div className="mb-12 text-center">
           <h1 className="text-4xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-violet-500">
@@ -139,7 +139,7 @@ export default function KnowledgeBasePage() {
         {/* Wyświetl popularne artykuły */}
         {articles && articles.length > 0 && (
           <div className="mb-12">
-            <h2 className="text-2xl font-bold mb-6">{t('knowledge.popularArticles', 'Popularne artykuły')}</h2>
+            <h2 className="text-2xl font-bold mb-6 text-center">{t('knowledge.popularArticles', 'Popularne artykuły')}</h2>
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
               {articles.slice(0, 6).map((article) => (
                 <KnowledgeArticleCard key={article.id} article={article} />
@@ -151,7 +151,7 @@ export default function KnowledgeBasePage() {
         {/* Wyświetl najnowsze artykuły */}
         {articles && articles.length > 0 && (
           <div className="mb-12">
-            <h2 className="text-2xl font-bold mb-6">{t('knowledge.latestArticles', 'Najnowsze artykuły')}</h2>
+            <h2 className="text-2xl font-bold mb-6 text-center">{t('knowledge.latestArticles', 'Najnowsze artykuły')}</h2>
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
               {[...articles]
                 .sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime())

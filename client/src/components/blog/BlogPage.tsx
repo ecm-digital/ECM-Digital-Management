@@ -71,7 +71,7 @@ export default function BlogPage() {
 
   return (
     <div className="py-12">
-      <div className="container">
+      <div className="container max-w-6xl mx-auto px-4">
         {/* Nagłówek sekcji */}
         <div className="mb-12 text-center">
           <h1 className="text-4xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-cyan-500">
@@ -100,7 +100,7 @@ export default function BlogPage() {
         {/* Wyświetl najnowszy wpis jako wyróżniony */}
         {blogPosts && blogPosts.length > 0 && (
           <div className="mb-12">
-            <h2 className="text-2xl font-bold mb-6">{t('blog.featuredPost', 'Wyróżniony wpis')}</h2>
+            <h2 className="text-2xl font-bold mb-6 text-center">{t('blog.featuredPost', 'Wyróżniony wpis')}</h2>
             <div className="bg-white rounded-xl shadow-lg overflow-hidden">
               <div className="md:flex">
                 <div className="md:w-1/2">
@@ -108,6 +108,10 @@ export default function BlogPage() {
                     src={blogPosts[0].thumbnailUrl || '/images/placeholder-blog.jpg'}
                     alt={blogPosts[0].title}
                     className="h-64 w-full object-cover md:h-full"
+                    onError={(e) => {
+                      e.currentTarget.src = '/images/placeholder-blog.jpg';
+                      e.currentTarget.onerror = null; // prevents looping
+                    }}
                   />
                 </div>
                 <div className="p-8 md:w-1/2">
@@ -115,9 +119,9 @@ export default function BlogPage() {
                     {blogPosts[0].category}
                   </div>
                   <Link href={`/blog/${blogPosts[0].slug}`}>
-                    <a className="block mt-1 text-2xl font-medium text-black hover:text-blue-600 transition">
+                    <span className="block mt-1 text-2xl font-medium text-black hover:text-blue-600 transition cursor-pointer">
                       {blogPosts[0].title}
-                    </a>
+                    </span>
                   </Link>
                   <p className="mt-3 text-gray-600">
                     {blogPosts[0].excerpt}
@@ -149,7 +153,7 @@ export default function BlogPage() {
         {Object.keys(groupedPosts).length > 0 ? (
           Object.keys(groupedPosts).map((category) => (
             <div key={category} className="mb-12">
-              <h2 className="text-2xl font-bold mb-6">{category}</h2>
+              <h2 className="text-2xl font-bold mb-6 text-center">{category}</h2>
               <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                 {groupedPosts[category].map((post) => (
                   <BlogPostCard key={post.id} post={post} />
