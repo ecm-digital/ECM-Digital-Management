@@ -10,7 +10,7 @@ interface BlogPost {
   slug: string;
   excerpt: string;
   content: string;
-  imageUrl: string;
+  thumbnailUrl: string;
   authorId: string;
   authorName: string;
   publishedAt: string;
@@ -24,7 +24,7 @@ interface BlogPostCardProps {
 
 export default function BlogPostCard({ post }: BlogPostCardProps) {
   const { t } = useTranslation();
-  const { title, slug, excerpt, imageUrl, authorName, publishedAt, category, tags } = post;
+  const { title, slug, excerpt, thumbnailUrl, authorName, publishedAt, category, tags } = post;
   
   // Konwersja daty publikacji na lokalny format
   const formattedDate = new Date(publishedAt).toLocaleDateString();
@@ -33,7 +33,7 @@ export default function BlogPostCard({ post }: BlogPostCardProps) {
     <div className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
       <div className="relative h-48">
         <img 
-          src={imageUrl || '/images/placeholder-blog.jpg'} 
+          src={thumbnailUrl || '/images/placeholder-blog.jpg'} 
           alt={title}
           className="w-full h-full object-cover"
         />

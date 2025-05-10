@@ -15,7 +15,7 @@ interface BlogPost {
   slug: string;
   excerpt: string;
   content: string;
-  imageUrl: string;
+  thumbnailUrl: string;
   authorId: string;
   authorName: string;
   publishedAt: string;
@@ -105,7 +105,7 @@ export default function BlogPage() {
               <div className="md:flex">
                 <div className="md:w-1/2">
                   <img 
-                    src={blogPosts[0].imageUrl || '/images/placeholder-blog.jpg'}
+                    src={blogPosts[0].thumbnailUrl || '/images/placeholder-blog.jpg'}
                     alt={blogPosts[0].title}
                     className="h-64 w-full object-cover md:h-full"
                   />
