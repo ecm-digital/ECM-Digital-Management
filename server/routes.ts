@@ -229,6 +229,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Konfiguracja obu metod uwierzytelniania
   await setupAuth(app); // Replit Auth
   setupLocalAuth(app);  // Lokalne uwierzytelnianie
+  
+  // Dodanie obsługi plików statycznych
+  app.use(express.static('public'));
 
   // Auth route for Replit Auth (isReplitAuthenticated) 
   // Zachowujemy kompatybilność z istniejącym kodem

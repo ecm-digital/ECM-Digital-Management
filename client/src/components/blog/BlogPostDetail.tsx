@@ -107,6 +107,10 @@ export default function BlogPostDetail({ slug }: BlogPostDetailProps) {
                 src={thumbnailUrl} 
                 alt={title}
                 className="w-full h-auto rounded-xl shadow-md"
+                onError={(e) => {
+                  e.currentTarget.src = '/images/placeholders/placeholder-blog.jpg';
+                  e.currentTarget.onerror = null; // prevents looping
+                }}
               />
             </div>
           )}
