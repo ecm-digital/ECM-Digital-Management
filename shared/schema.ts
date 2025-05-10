@@ -322,8 +322,15 @@ export type Message = typeof messages.$inferSelect;
 export type ProjectNote = typeof projectNotes.$inferSelect;
 export type ProjectMilestone = typeof projectMilestones.$inferSelect;
 export type WelcomeMessage = typeof welcomeMessages.$inferSelect;
-export type BlogPost = typeof blogPosts.$inferSelect;
-export type KnowledgeBase = typeof knowledgeBase.$inferSelect;
+// BlogPost rozszerzony o pole authorName z join'a
+export type BlogPost = typeof blogPosts.$inferSelect & {
+  authorName?: string;
+};
+
+// KnowledgeBase rozszerzony o pole authorName z join'a
+export type KnowledgeBase = typeof knowledgeBase.$inferSelect & {
+  authorName?: string;
+};
 export type Lead = typeof leads.$inferSelect;
 export type InsertLead = z.infer<typeof insertLeadSchema>;
 

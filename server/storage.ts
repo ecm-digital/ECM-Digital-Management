@@ -967,8 +967,31 @@ export class DatabaseStorage implements IStorage {
   
   // Knowledge base operations
   async getKnowledgeBaseArticle(id: number): Promise<KnowledgeBase | undefined> {
-    const [article] = await db.select().from(knowledgeBase).where(eq(knowledgeBase.id, id));
-    return article || undefined;
+    const articles = await db
+      .select({
+        id: knowledgeBase.id,
+        slug: knowledgeBase.slug,
+        title: knowledgeBase.title,
+        excerpt: knowledgeBase.excerpt,
+        content: knowledgeBase.content,
+        category: knowledgeBase.category,
+        authorId: knowledgeBase.authorId,
+        thumbnailUrl: knowledgeBase.thumbnailUrl,
+        tags: knowledgeBase.tags,
+        status: knowledgeBase.status,
+        viewCount: knowledgeBase.viewCount,
+        publishedAt: knowledgeBase.publishedAt,
+        createdAt: knowledgeBase.createdAt,
+        updatedAt: knowledgeBase.updatedAt,
+        authorName: sql`CONCAT(${users.firstName}, ' ', ${users.lastName})`.as('authorName')
+      })
+      .from(knowledgeBase)
+      .leftJoin(users, eq(knowledgeBase.authorId, users.id))
+      .where(eq(knowledgeBase.id, id));
+    
+    if (!articles.length) return undefined;
+    
+    return articles[0] as unknown as KnowledgeBase;
   }
 
   async getKnowledgeBaseArticleBySlug(slug: string): Promise<KnowledgeBase | undefined> {
