@@ -18,6 +18,7 @@ import marioImage from '@/assets/mario.png';
 import michalImage from '@/assets/michal.png';
 import tomaszImage from '@/assets/tomasz.png';
 import martaImage from '@/assets/marta_new.png';
+import karolImage from '/images/team/karol_czechowski.png';
 
 const AboutPage: React.FC = () => {
   const { t, i18n } = useTranslation();
@@ -76,6 +77,17 @@ const AboutPage: React.FC = () => {
       linkedin: "https://www.linkedin.com/in/marta-g%C3%B3rska-b962009b/",
       github: "https://github.com/martagorska",
       website: "https://ecm-digital.com"
+    },
+    {
+      name: "Karol Czechowski",
+      role: currentLanguage === 'de' ? "Qualitätsspezialist" : "Specjalista ds. Jakości",
+      imageSrc: karolImage,
+      description: currentLanguage === 'de' 
+        ? "Erfahrener Qualitätsspezialist mit Expertise in der Analyse und Optimierung von Entwicklungsprozessen. Sorgt für höchste Qualitätsstandards in allen Projekten durch rigorose Tests und Qualitätssicherung." 
+        : "Doświadczony specjalista ds. jakości z ekspertyzą w analizie i optymalizacji procesów rozwojowych. Zapewnia najwyższe standardy jakości we wszystkich projektach poprzez rygorystyczne testy i kontrolę jakości.",
+      linkedin: "https://www.linkedin.com/",
+      github: "https://github.com/",
+      website: "https://ecm-digital.com"
     }
   ];
 
@@ -93,7 +105,7 @@ const AboutPage: React.FC = () => {
       label: currentLanguage === 'de' ? "Kundenzufriedenheit" : "Zadowolonych klientów"
     },
     {
-      number: "4",
+      number: "5",
       label: currentLanguage === 'de' ? "Spezialisierte Experten" : "Wyspecjalizowanych ekspertów"
     }
   ];
