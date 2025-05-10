@@ -18,7 +18,7 @@ import marioImage from '@/assets/mario.png';
 import michalImage from '@/assets/michal.png';
 import tomaszImage from '@/assets/tomasz.png';
 import martaImage from '@/assets/marta_new.png';
-import karolImage from '/images/team/karol_czechowski.png';
+import karolImage from '@/assets/karol.png';
 
 const AboutPage: React.FC = () => {
   const { t, i18n } = useTranslation();
