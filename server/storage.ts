@@ -730,39 +730,111 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getBlogPostBySlug(slug: string): Promise<BlogPost | undefined> {
-    const [post] = await db.select({
-      ...blogPosts,
-      authorName: sql`CONCAT(${users.firstName}, ' ', ${users.lastName})`.as('authorName'),
-      authorBio: users.bio
+    const posts = await db.select({
+      id: blogPosts.id,
+      slug: blogPosts.slug,
+      title: blogPosts.title,
+      excerpt: blogPosts.excerpt,
+      content: blogPosts.content,
+      authorId: blogPosts.authorId,
+      thumbnailUrl: blogPosts.thumbnailUrl,
+      tags: blogPosts.tags,
+      category: blogPosts.category,
+      status: blogPosts.status,
+      viewCount: blogPosts.viewCount,
+      publishedAt: blogPosts.publishedAt,
+      createdAt: blogPosts.createdAt,
+      updatedAt: blogPosts.updatedAt,
+      authorName: sql`CONCAT(${users.firstName}, ' ', ${users.lastName})`.as('authorName')
     })
     .from(blogPosts)
     .leftJoin(users, eq(blogPosts.authorId, users.id))
     .where(eq(blogPosts.slug, slug));
     
-    return post || undefined;
+    if (posts.length === 0) return undefined;
+    
+    // Konwertuj wynik na oczekiwany format BlogPost
+    const post = posts[0] as unknown as BlogPost;
+    return post;
   }
 
   async getAllBlogPosts(status: string = 'published'): Promise<BlogPost[]> {
-    return await db
-      .select()
+    const posts = await db
+      .select({
+        id: blogPosts.id,
+        slug: blogPosts.slug,
+        title: blogPosts.title,
+        excerpt: blogPosts.excerpt,
+        content: blogPosts.content,
+        authorId: blogPosts.authorId,
+        thumbnailUrl: blogPosts.thumbnailUrl,
+        tags: blogPosts.tags,
+        category: blogPosts.category,
+        status: blogPosts.status,
+        viewCount: blogPosts.viewCount,
+        publishedAt: blogPosts.publishedAt,
+        createdAt: blogPosts.createdAt,
+        updatedAt: blogPosts.updatedAt,
+        authorName: sql`CONCAT(${users.firstName}, ' ', ${users.lastName})`.as('authorName')
+      })
       .from(blogPosts)
+      .leftJoin(users, eq(blogPosts.authorId, users.id))
       .where(status ? eq(blogPosts.status, status) : undefined)
       .orderBy(desc(blogPosts.publishedAt));
+    
+    // Konwertuj wyniki na oczekiwany format
+    return posts as unknown as BlogPost[];
   }
 
   async getRecentBlogPosts(limit: number = 5, status: string = 'published'): Promise<BlogPost[]> {
-    return await db
-      .select()
+    const posts = await db
+      .select({
+        id: blogPosts.id,
+        slug: blogPosts.slug,
+        title: blogPosts.title,
+        excerpt: blogPosts.excerpt,
+        content: blogPosts.content,
+        authorId: blogPosts.authorId,
+        thumbnailUrl: blogPosts.thumbnailUrl,
+        tags: blogPosts.tags,
+        category: blogPosts.category,
+        status: blogPosts.status,
+        viewCount: blogPosts.viewCount,
+        publishedAt: blogPosts.publishedAt,
+        createdAt: blogPosts.createdAt,
+        updatedAt: blogPosts.updatedAt,
+        authorName: sql`CONCAT(${users.firstName}, ' ', ${users.lastName})`.as('authorName')
+      })
       .from(blogPosts)
+      .leftJoin(users, eq(blogPosts.authorId, users.id))
       .where(status ? eq(blogPosts.status, status) : undefined)
       .orderBy(desc(blogPosts.publishedAt))
       .limit(limit);
+      
+    return posts as unknown as BlogPost[];
   }
 
   async getBlogPostsByCategory(category: string, status: string = 'published'): Promise<BlogPost[]> {
-    return await db
-      .select()
+    const posts = await db
+      .select({
+        id: blogPosts.id,
+        slug: blogPosts.slug,
+        title: blogPosts.title,
+        excerpt: blogPosts.excerpt,
+        content: blogPosts.content,
+        authorId: blogPosts.authorId,
+        thumbnailUrl: blogPosts.thumbnailUrl,
+        tags: blogPosts.tags,
+        category: blogPosts.category,
+        status: blogPosts.status,
+        viewCount: blogPosts.viewCount,
+        publishedAt: blogPosts.publishedAt,
+        createdAt: blogPosts.createdAt,
+        updatedAt: blogPosts.updatedAt,
+        authorName: sql`CONCAT(${users.firstName}, ' ', ${users.lastName})`.as('authorName')
+      })
       .from(blogPosts)
+      .leftJoin(users, eq(blogPosts.authorId, users.id))
       .where(
         and(
           eq(blogPosts.category, category),
@@ -770,13 +842,32 @@ export class DatabaseStorage implements IStorage {
         )
       )
       .orderBy(desc(blogPosts.publishedAt));
+      
+    return posts as unknown as BlogPost[];
   }
 
   async getBlogPostsByTag(tag: string, status: string = 'published'): Promise<BlogPost[]> {
     // Wyszukiwanie po tagach (pole tags jest tablicą)
-    return await db
-      .select()
+    const posts = await db
+      .select({
+        id: blogPosts.id,
+        slug: blogPosts.slug,
+        title: blogPosts.title,
+        excerpt: blogPosts.excerpt,
+        content: blogPosts.content,
+        authorId: blogPosts.authorId,
+        thumbnailUrl: blogPosts.thumbnailUrl,
+        tags: blogPosts.tags,
+        category: blogPosts.category,
+        status: blogPosts.status,
+        viewCount: blogPosts.viewCount,
+        publishedAt: blogPosts.publishedAt,
+        createdAt: blogPosts.createdAt,
+        updatedAt: blogPosts.updatedAt,
+        authorName: sql`CONCAT(${users.firstName}, ' ', ${users.lastName})`.as('authorName')
+      })
       .from(blogPosts)
+      .leftJoin(users, eq(blogPosts.authorId, users.id))
       .where(
         and(
           sql`${tag} = ANY(${blogPosts.tags})`,
@@ -784,6 +875,8 @@ export class DatabaseStorage implements IStorage {
         )
       )
       .orderBy(desc(blogPosts.publishedAt));
+      
+    return posts as unknown as BlogPost[];
   }
 
   async createBlogPost(post: InsertBlogPost): Promise<BlogPost> {
@@ -860,16 +953,60 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getKnowledgeBaseArticleBySlug(slug: string): Promise<KnowledgeBase | undefined> {
-    const [article] = await db.select().from(knowledgeBase).where(eq(knowledgeBase.slug, slug));
-    return article || undefined;
+    const articles = await db
+      .select({
+        id: knowledgeBase.id,
+        slug: knowledgeBase.slug,
+        title: knowledgeBase.title,
+        excerpt: knowledgeBase.excerpt,
+        content: knowledgeBase.content,
+        category: knowledgeBase.category,
+        authorId: knowledgeBase.authorId,
+        thumbnailUrl: knowledgeBase.thumbnailUrl,
+        tags: knowledgeBase.tags,
+        status: knowledgeBase.status,
+        viewCount: knowledgeBase.viewCount,
+        publishedAt: knowledgeBase.publishedAt,
+        createdAt: knowledgeBase.createdAt,
+        updatedAt: knowledgeBase.updatedAt,
+        authorName: sql`CONCAT(${users.firstName}, ' ', ${users.lastName})`.as('authorName')
+      })
+      .from(knowledgeBase)
+      .leftJoin(users, eq(knowledgeBase.authorId, users.id))
+      .where(eq(knowledgeBase.slug, slug));
+      
+    if (articles.length === 0) return undefined;
+    
+    // Konwertuj wynik na oczekiwany format
+    const article = articles[0] as unknown as KnowledgeBase;
+    return article;
   }
 
   async getAllKnowledgeBaseArticles(status: string = 'published'): Promise<KnowledgeBase[]> {
-    return await db
-      .select()
+    const articles = await db
+      .select({
+        id: knowledgeBase.id,
+        slug: knowledgeBase.slug,
+        title: knowledgeBase.title,
+        excerpt: knowledgeBase.excerpt,
+        content: knowledgeBase.content,
+        category: knowledgeBase.category,
+        authorId: knowledgeBase.authorId,
+        thumbnailUrl: knowledgeBase.thumbnailUrl,
+        tags: knowledgeBase.tags,
+        status: knowledgeBase.status,
+        viewCount: knowledgeBase.viewCount,
+        publishedAt: knowledgeBase.publishedAt,
+        createdAt: knowledgeBase.createdAt,
+        updatedAt: knowledgeBase.updatedAt,
+        authorName: sql`CONCAT(${users.firstName}, ' ', ${users.lastName})`.as('authorName')
+      })
       .from(knowledgeBase)
+      .leftJoin(users, eq(knowledgeBase.authorId, users.id))
       .where(status ? eq(knowledgeBase.status, status) : undefined)
       .orderBy(desc(knowledgeBase.updatedAt));
+      
+    return articles as unknown as KnowledgeBase[];
   }
 
   async getKnowledgeBaseArticlesByCategory(category: string, status: string = 'published'): Promise<KnowledgeBase[]> {
