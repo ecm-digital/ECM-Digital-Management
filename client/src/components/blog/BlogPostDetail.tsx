@@ -18,7 +18,7 @@ interface BlogPost {
   slug: string;
   excerpt: string;
   content: string;
-  imageUrl: string;
+  thumbnailUrl: string;
   authorId: string;
   authorName: string;
   publishedAt: string;
@@ -66,7 +66,7 @@ export default function BlogPostDetail({ slug }: BlogPostDetailProps) {
     );
   }
 
-  const { title, content, imageUrl, authorName, publishedAt, category, tags } = post;
+  const { title, content, thumbnailUrl, authorName, publishedAt, category, tags } = post;
   const formattedDate = new Date(publishedAt).toLocaleDateString();
   const readingTime = calculateReadingTime(content);
 
@@ -101,10 +101,10 @@ export default function BlogPostDetail({ slug }: BlogPostDetailProps) {
             <h1 className="text-4xl font-bold mb-4">{title}</h1>
           </div>
           
-          {imageUrl && (
+          {thumbnailUrl && (
             <div className="mb-8">
               <img 
-                src={imageUrl} 
+                src={thumbnailUrl} 
                 alt={title}
                 className="w-full h-auto rounded-xl shadow-md"
               />

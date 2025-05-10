@@ -81,7 +81,7 @@ export default function KnowledgeArticleDetail({ slug }: KnowledgeArticleDetailP
     );
   }
 
-  const { title, content, publishedAt, category, tags } = article;
+  const { title, content, publishedAt, category, tags, thumbnailUrl, authorName } = article;
   const formattedDate = new Date(publishedAt).toLocaleDateString();
   const readingTime = calculateReadingTime(content);
 
@@ -119,6 +119,30 @@ export default function KnowledgeArticleDetail({ slug }: KnowledgeArticleDetailP
             </div>
             
             <h1 className="text-4xl font-bold mb-4">{title}</h1>
+            
+            {authorName && (
+              <div className="flex items-center mb-6">
+                <div className="flex-shrink-0">
+                  <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600">
+                    {authorName.substring(0, 1)}
+                  </div>
+                </div>
+                <div className="ml-3">
+                  <p className="text-sm font-medium text-gray-900">{authorName}</p>
+                  <p className="text-xs text-gray-500">{t('knowledge.author', 'Autor')}</p>
+                </div>
+              </div>
+            )}
+            
+            {thumbnailUrl && (
+              <div className="mb-8 mt-4 rounded-xl overflow-hidden">
+                <img 
+                  src={thumbnailUrl} 
+                  alt={title}
+                  className="w-full h-auto max-h-96 object-cover"
+                />
+              </div>
+            )}
           </div>
           
           {/* Spis treści (jeśli artykuł ma więcej niż 1 sekcję) */}
