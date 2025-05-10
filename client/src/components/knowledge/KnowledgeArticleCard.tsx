@@ -10,6 +10,7 @@ interface KnowledgeArticle {
   slug: string;
   excerpt: string;
   content: string;
+  thumbnailUrl: string;
   authorId: string;
   authorName: string;
   publishedAt: string;
@@ -23,22 +24,44 @@ interface KnowledgeArticleCardProps {
 
 export default function KnowledgeArticleCard({ article }: KnowledgeArticleCardProps) {
   const { t } = useTranslation();
-  const { title, slug, excerpt, publishedAt, category, tags } = article;
+  const { title, slug, excerpt, publishedAt, category, tags, thumbnailUrl, authorName } = article;
   
   // Konwersja daty publikacji na lokalny format
   const formattedDate = new Date(publishedAt).toLocaleDateString();
 
   return (
     <div className="bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden">
+      {thumbnailUrl && (
+        <div className="relative h-48">
+          <img 
+            src={thumbnailUrl || '/images/placeholder-knowledge.jpg'} 
+            alt={title}
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute top-4 left-4">
+            <Badge className="bg-blue-600 hover:bg-blue-700">{category}</Badge>
+          </div>
+        </div>
+      )}
       <div className="p-6">
         <div className="flex items-center mb-3 text-sm text-gray-500">
-          <Badge className="mr-2 bg-blue-100 text-blue-800 hover:bg-blue-200 border-none">
-            {category}
-          </Badge>
+          {!thumbnailUrl && (
+            <Badge className="mr-2 bg-blue-100 text-blue-800 hover:bg-blue-200 border-none">
+              {category}
+            </Badge>
+          )}
           <div className="flex items-center">
             <Calendar className="h-4 w-4 mr-1" />
             {formattedDate}
           </div>
+          {authorName && (
+            <>
+              <span className="mx-2">•</span>
+              <div className="flex items-center">
+                {authorName}
+              </div>
+            </>
+          )}
         </div>
         
         <Link href={`/knowledge/${slug}`}>

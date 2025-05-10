@@ -18,6 +18,7 @@ interface KnowledgeArticle {
   slug: string;
   excerpt: string;
   content: string;
+  thumbnailUrl: string;
   authorId: string;
   authorName: string;
   publishedAt: string;
