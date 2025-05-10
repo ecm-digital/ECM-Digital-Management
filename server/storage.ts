@@ -930,9 +930,26 @@ export class DatabaseStorage implements IStorage {
   }
 
   async searchBlogPosts(query: string, status: string = 'published'): Promise<BlogPost[]> {
-    return await db
-      .select()
+    const posts = await db
+      .select({
+        id: blogPosts.id,
+        slug: blogPosts.slug,
+        title: blogPosts.title,
+        excerpt: blogPosts.excerpt,
+        content: blogPosts.content,
+        category: blogPosts.category,
+        authorId: blogPosts.authorId,
+        thumbnailUrl: blogPosts.thumbnailUrl,
+        tags: blogPosts.tags,
+        status: blogPosts.status,
+        viewCount: blogPosts.viewCount,
+        publishedAt: blogPosts.publishedAt,
+        createdAt: blogPosts.createdAt,
+        updatedAt: blogPosts.updatedAt,
+        authorName: sql`CONCAT(${users.firstName}, ' ', ${users.lastName})`.as('authorName')
+      })
       .from(blogPosts)
+      .leftJoin(users, eq(blogPosts.authorId, users.id))
       .where(
         and(
           or(
@@ -944,6 +961,8 @@ export class DatabaseStorage implements IStorage {
         )
       )
       .orderBy(desc(blogPosts.publishedAt));
+      
+    return posts as unknown as BlogPost[];
   }
   
   // Knowledge base operations
@@ -1010,9 +1029,26 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getKnowledgeBaseArticlesByCategory(category: string, status: string = 'published'): Promise<KnowledgeBase[]> {
-    return await db
-      .select()
+    const articles = await db
+      .select({
+        id: knowledgeBase.id,
+        slug: knowledgeBase.slug,
+        title: knowledgeBase.title,
+        excerpt: knowledgeBase.excerpt,
+        content: knowledgeBase.content,
+        category: knowledgeBase.category,
+        authorId: knowledgeBase.authorId,
+        thumbnailUrl: knowledgeBase.thumbnailUrl,
+        tags: knowledgeBase.tags,
+        status: knowledgeBase.status,
+        viewCount: knowledgeBase.viewCount,
+        publishedAt: knowledgeBase.publishedAt,
+        createdAt: knowledgeBase.createdAt,
+        updatedAt: knowledgeBase.updatedAt,
+        authorName: sql`CONCAT(${users.firstName}, ' ', ${users.lastName})`.as('authorName')
+      })
       .from(knowledgeBase)
+      .leftJoin(users, eq(knowledgeBase.authorId, users.id))
       .where(
         and(
           eq(knowledgeBase.category, category),
@@ -1020,13 +1056,32 @@ export class DatabaseStorage implements IStorage {
         )
       )
       .orderBy(desc(knowledgeBase.updatedAt));
+      
+    return articles as unknown as KnowledgeBase[];
   }
 
   async getKnowledgeBaseArticlesByTag(tag: string, status: string = 'published'): Promise<KnowledgeBase[]> {
     // Wyszukiwanie po tagach (pole tags jest tablicą)
-    return await db
-      .select()
+    const articles = await db
+      .select({
+        id: knowledgeBase.id,
+        slug: knowledgeBase.slug,
+        title: knowledgeBase.title,
+        excerpt: knowledgeBase.excerpt,
+        content: knowledgeBase.content,
+        category: knowledgeBase.category,
+        authorId: knowledgeBase.authorId,
+        thumbnailUrl: knowledgeBase.thumbnailUrl,
+        tags: knowledgeBase.tags,
+        status: knowledgeBase.status,
+        viewCount: knowledgeBase.viewCount,
+        publishedAt: knowledgeBase.publishedAt,
+        createdAt: knowledgeBase.createdAt,
+        updatedAt: knowledgeBase.updatedAt,
+        authorName: sql`CONCAT(${users.firstName}, ' ', ${users.lastName})`.as('authorName')
+      })
       .from(knowledgeBase)
+      .leftJoin(users, eq(knowledgeBase.authorId, users.id))
       .where(
         and(
           sql`${tag} = ANY(${knowledgeBase.tags})`,
@@ -1034,6 +1089,8 @@ export class DatabaseStorage implements IStorage {
         )
       )
       .orderBy(desc(knowledgeBase.updatedAt));
+      
+    return articles as unknown as KnowledgeBase[];
   }
 
   async createKnowledgeBaseArticle(article: InsertKnowledgeBase): Promise<KnowledgeBase> {
@@ -1087,9 +1144,26 @@ export class DatabaseStorage implements IStorage {
   }
 
   async searchKnowledgeBaseArticles(query: string, status: string = 'published'): Promise<KnowledgeBase[]> {
-    return await db
-      .select()
+    const articles = await db
+      .select({
+        id: knowledgeBase.id,
+        slug: knowledgeBase.slug,
+        title: knowledgeBase.title,
+        excerpt: knowledgeBase.excerpt,
+        content: knowledgeBase.content,
+        category: knowledgeBase.category,
+        authorId: knowledgeBase.authorId,
+        thumbnailUrl: knowledgeBase.thumbnailUrl,
+        tags: knowledgeBase.tags,
+        status: knowledgeBase.status,
+        viewCount: knowledgeBase.viewCount,
+        publishedAt: knowledgeBase.publishedAt,
+        createdAt: knowledgeBase.createdAt,
+        updatedAt: knowledgeBase.updatedAt,
+        authorName: sql`CONCAT(${users.firstName}, ' ', ${users.lastName})`.as('authorName')
+      })
       .from(knowledgeBase)
+      .leftJoin(users, eq(knowledgeBase.authorId, users.id))
       .where(
         and(
           or(
@@ -1101,6 +1175,8 @@ export class DatabaseStorage implements IStorage {
         )
       )
       .orderBy(desc(knowledgeBase.updatedAt));
+      
+    return articles as unknown as KnowledgeBase[];
   }
 }
 
