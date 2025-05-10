@@ -96,7 +96,7 @@ export default function KnowledgeArticleDetail({ slug }: KnowledgeArticleDetailP
 
   return (
     <div className="py-12">
-      <div className="container max-w-4xl">
+      <div className="container max-w-4xl mx-auto px-4">
         <div className="mb-8">
           <Link href="/knowledge">
             <Button variant="ghost" size="sm" className="group mb-4">
@@ -140,6 +140,10 @@ export default function KnowledgeArticleDetail({ slug }: KnowledgeArticleDetailP
                   src={thumbnailUrl} 
                   alt={title}
                   className="w-full h-auto max-h-96 object-cover"
+                  onError={(e) => {
+                    e.currentTarget.src = '/images/placeholder-knowledge.jpg';
+                    e.currentTarget.onerror = null; // prevents looping
+                  }}
                 />
               </div>
             )}

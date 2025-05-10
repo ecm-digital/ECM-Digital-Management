@@ -72,7 +72,7 @@ export default function BlogPostDetail({ slug }: BlogPostDetailProps) {
 
   return (
     <div className="py-12">
-      <div className="container max-w-4xl">
+      <div className="container max-w-4xl mx-auto px-4">
         <div className="mb-8">
           <Link href="/blog">
             <Button variant="ghost" size="sm" className="group mb-4">
