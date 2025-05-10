@@ -730,7 +730,15 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getBlogPostBySlug(slug: string): Promise<BlogPost | undefined> {
-    const [post] = await db.select().from(blogPosts).where(eq(blogPosts.slug, slug));
+    const [post] = await db.select({
+      ...blogPosts,
+      authorName: sql`CONCAT(${users.firstName}, ' ', ${users.lastName})`.as('authorName'),
+      authorBio: users.bio
+    })
+    .from(blogPosts)
+    .leftJoin(users, eq(blogPosts.authorId, users.id))
+    .where(eq(blogPosts.slug, slug));
+    
     return post || undefined;
   }
 
