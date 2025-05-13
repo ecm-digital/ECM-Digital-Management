@@ -1,4 +1,5 @@
 import { Client } from "@notionhq/client";
+import type { BlockObjectResponse, DatabaseObjectResponse } from "@notionhq/client/build/src/api-endpoints";
 
 // Inicjalizacja klienta Notion
 export const notion = new Client({
@@ -19,11 +20,11 @@ export const NOTION_PAGE_ID = extractPageIdFromUrl(process.env.NOTION_PAGE_URL!)
 
 /**
  * Pobiera listę wszystkich baz danych na stronie Notion
- * @returns {Promise<Array<{id: string, title: string}>>} - Tablica obiektów zawierających id i tytuł bazy danych
+ * @returns {Promise<Array<DatabaseObjectResponse>>} - Tablica obiektów baz danych
  */
 export async function getNotionDatabases() {
     // Tablica do przechowywania baz danych
-    const childDatabases = [];
+    const childDatabases: DatabaseObjectResponse[] = [];
 
     try {
         // Pobierz wszystkie bloki podrzędne na określonej stronie
@@ -39,7 +40,7 @@ export async function getNotionDatabases() {
             // Przetwarzanie wyników
             for (const block of response.results) {
                 // Sprawdź, czy blok jest bazą danych
-                if (block.type === "child_database") {
+                if ('type' in block && block.type === "child_database") {
                     const databaseId = block.id;
 
                     // Pobierz informacje o bazie danych
@@ -49,7 +50,7 @@ export async function getNotionDatabases() {
                         });
 
                         // Dodaj bazę danych do listy
-                        childDatabases.push(databaseInfo);
+                        childDatabases.push(databaseInfo as DatabaseObjectResponse);
                     } catch (error) {
                         console.error(`Błąd podczas pobierania bazy danych ${databaseId}:`, error);
                     }
@@ -73,8 +74,9 @@ export async function findDatabaseByTitle(title: string) {
     const databases = await getNotionDatabases();
 
     for (const db of databases) {
-        if (db.title && Array.isArray(db.title) && db.title.length > 0) {
-            const dbTitle = db.title[0]?.plain_text?.toLowerCase() || "";
+        const titleProperty = db.title || [];
+        if (titleProperty.length > 0) {
+            const dbTitle = titleProperty[0]?.plain_text?.toLowerCase() || "";
             if (dbTitle === title.toLowerCase()) {
                 return db;
             }
@@ -107,7 +109,7 @@ export async function createDatabaseIfNotExists(title: string, properties: any) 
     });
 }
 
-// Przykładowa funkcja do pobierania danych z bazy danych Notion
+// Pobieranie danych z bazy danych Notion
 export async function getDataFromDatabase(databaseId: string) {
     try {
         const response = await notion.databases.query({
@@ -135,5 +137,139 @@ export async function saveToNotion(databaseId: string, data: any) {
     } catch (error) {
         console.error("Błąd podczas zapisywania danych do Notion:", error);
         throw new Error("Nie udało się zapisać danych do Notion");
+    }
+}
+
+// Synchronizuj zawartość z Notion do lokalnej bazy danych
+export async function syncBlogPostsFromNotion(databaseId: string) {
+    try {
+        const pages = await getDataFromDatabase(databaseId);
+        const blogPosts = [];
+
+        for (const page of pages) {
+            // Konwersja strony Notion na format lokalnej bazy danych
+            if ('properties' in page) {
+                const properties = page.properties;
+                const title = properties.Tytuł?.title?.[0]?.plain_text || 'Bez tytułu';
+                const slug = properties.Slug?.rich_text?.[0]?.plain_text || title.toLowerCase().replace(/\s+/g, '-');
+                const content = properties.Treść?.rich_text?.[0]?.plain_text || '';
+                const excerpt = properties.SkróconyOpis?.rich_text?.[0]?.plain_text || '';
+                const category = properties.Kategoria?.select?.name || 'Inne';
+                const author = properties.Autor?.rich_text?.[0]?.plain_text || 'Admin';
+                const thumbnailUrl = properties.ObrazekURL?.url || '';
+                const isPublished = properties.Opublikowany?.checkbox || false;
+                const publishedDate = properties.DataPublikacji?.date?.start 
+                    ? new Date(properties.DataPublikacji.date.start) 
+                    : new Date();
+
+                blogPosts.push({
+                    notionPageId: page.id,
+                    title,
+                    slug,
+                    content,
+                    excerpt,
+                    category,
+                    author,
+                    thumbnailUrl,
+                    isPublished,
+                    publishedDate
+                });
+            }
+        }
+
+        return blogPosts;
+    } catch (error) {
+        console.error("Błąd podczas synchronizacji wpisów z Notion:", error);
+        throw new Error("Nie udało się zsynchronizować wpisów z Notion");
+    }
+}
+
+// Synchronizuj zawartość z lokalnej bazy danych do Notion
+export async function syncBlogPostToNotion(databaseId: string, blogPost: any) {
+    try {
+        // Konwersja wpisu na format Notion
+        const properties = {
+            Tytuł: {
+                title: [
+                    {
+                        text: {
+                            content: blogPost.title
+                        }
+                    }
+                ]
+            },
+            Slug: {
+                rich_text: [
+                    {
+                        text: {
+                            content: blogPost.slug
+                        }
+                    }
+                ]
+            },
+            Treść: {
+                rich_text: [
+                    {
+                        text: {
+                            content: blogPost.content.substring(0, 2000) // Ograniczenie do 2000 znaków
+                        }
+                    }
+                ]
+            },
+            SkróconyOpis: {
+                rich_text: [
+                    {
+                        text: {
+                            content: blogPost.excerpt || ''
+                        }
+                    }
+                ]
+            },
+            Kategoria: {
+                select: {
+                    name: blogPost.category || 'Inne'
+                }
+            },
+            Autor: {
+                rich_text: [
+                    {
+                        text: {
+                            content: blogPost.author || 'Admin'
+                        }
+                    }
+                ]
+            },
+            ObrazekURL: {
+                url: blogPost.thumbnailUrl || ''
+            },
+            Opublikowany: {
+                checkbox: blogPost.status === 'published'
+            },
+            DataPublikacji: {
+                date: {
+                    start: blogPost.publishedAt?.toISOString() || new Date().toISOString()
+                }
+            }
+        };
+
+        // Sprawdź, czy wpis już istnieje w Notion
+        if (blogPost.notionPageId) {
+            // Aktualizuj istniejącą stronę
+            return await notion.pages.update({
+                page_id: blogPost.notionPageId,
+                properties
+            });
+        } else {
+            // Utwórz nową stronę
+            return await notion.pages.create({
+                parent: {
+                    database_id: databaseId,
+                },
+                properties
+            });
+        }
+    } catch (error) {
+        console.error("Błąd podczas synchronizacji wpisu do Notion:", error);
+        throw new Error("Nie udało się zsynchronizować wpisu do Notion");
     }
 }

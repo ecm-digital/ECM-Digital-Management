@@ -1,4 +1,5 @@
 import { notion, NOTION_PAGE_ID, getNotionDatabases } from "./notion";
+import type { DatabaseObjectResponse } from "@notionhq/client/build/src/api-endpoints";
 
 // Funkcja testująca połączenie z Notion
 async function testNotionConnection() {
@@ -9,7 +10,10 @@ async function testNotionConnection() {
         console.log(`Pobieranie informacji o stronie (ID: ${NOTION_PAGE_ID})...`);
         const pageInfo = await notion.pages.retrieve({ page_id: NOTION_PAGE_ID });
         console.log("✅ Udało się pobrać informacje o stronie");
-        console.log("Tytuł strony:", pageInfo.url);
+        
+        if ('properties' in pageInfo) {
+            console.log("ID strony:", pageInfo.id);
+        }
         
         // Test 2: Pobierz bazy danych na stronie
         console.log("\nPobieranie baz danych na stronie...");
@@ -19,9 +23,13 @@ async function testNotionConnection() {
         if (databases.length > 0) {
             console.log("\nZnalezione bazy danych:");
             for (const db of databases) {
-                const dbTitle = db.title && Array.isArray(db.title) && db.title.length > 0 
-                    ? db.title[0]?.plain_text 
-                    : "Bez tytułu";
+                let dbTitle = "Bez tytułu";
+                
+                // Sprawdź, czy to pełny obiekt bazy danych z właściwością title
+                if ('title' in db && Array.isArray(db.title) && db.title.length > 0) {
+                    dbTitle = db.title[0]?.plain_text || "Bez tytułu";
+                }
+                
                 console.log(`- ${dbTitle} (ID: ${db.id})`);
             }
         }
