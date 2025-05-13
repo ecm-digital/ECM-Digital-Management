@@ -230,6 +230,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
   await setupAuth(app); // Replit Auth
   setupLocalAuth(app);  // Lokalne uwierzytelnianie
   
+  // Rejestracja tras API dla integracji z Notion
+  const { registerNotionRoutes } = await import('./notion-api');
+  registerNotionRoutes(app);
+  
   // Dodanie obsługi plików statycznych
   app.use(express.static('public'));
 
