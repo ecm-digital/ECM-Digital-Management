@@ -14,7 +14,7 @@ import Layout from '@/components/Layout';
 import { motion } from 'framer-motion';
 
 // Import team member images
-import marioImage from '@/assets/mario.png';
+import stefanImage from '@/assets/stefan.png';
 import michalImage from '@/assets/michal.png';
 import tomaszImage from '@/assets/tomasz.png';
 import martaImage from '@/assets/marta_new.png';
@@ -48,7 +48,7 @@ const AboutPage: React.FC = () => {
     {
       name: "Stefan Mueller",
       role: currentLanguage === 'de' ? "Client Partner" : "Client Partner",
-      imageSrc: marioImage,
+      imageSrc: stefanImage,
       description: currentLanguage === 'de' 
         ? "Erfahrener Client Partner mit Fokus auf strategische Kundenbeziehungen und Projektmanagement. Spezialisiert auf die Verbindung von technischen Lösungen mit Geschäftszielen." 
         : "Doświadczony Client Partner skupiający się na strategicznych relacjach z klientami i zarządzaniu projektami. Specjalizuje się w łączeniu rozwiązań technicznych z celami biznesowymi.",
