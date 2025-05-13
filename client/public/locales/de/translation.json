@@ -1232,7 +1232,7 @@
     "phone": "Telefon",
     "phoneValue": "+49 309 1234567",
     "address": "Adresse",
-    "addressValue": "Frankfurt am Main, Deutschland",
+    "addressValue": "Taunusanlage 8, 60329 Frankfurt am Main, Deutschland",
     "serviceCategories": {
       "uxui": "UX/UI Design",
       "webDevelopment": "Webentwicklung",
@@ -1363,5 +1363,36 @@
     "details": "Details",
     "viewOrder": "Bestellung anzeigen",
     "noMilestones": "Sie haben keine kommenden Projektphasen."
+  },
+  
+  "validation": {
+    "invalidEmail": "Ungültige E-Mail-Adresse",
+    "required": "Dieses Feld ist erforderlich",
+    "consentRequired": "Zustimmung ist erforderlich"
+  },
+  
+  "leadMagnets": {
+    "sectionTitle": "Kostenlose Materialien und Ressourcen",
+    "sectionDescription": "Nutzen Sie unsere kostenlosen Materialien, die Ihnen helfen, Ihr Online-Geschäft zu entwickeln. Melden Sie sich an, um Zugang zu erhalten.",
+    "newsletterTab": "UX/AI Newsletter",
+    "ebookTab": "Kostenloses E-Book",
+    "newsletter": {
+      "title": "Abonnieren Sie den UX/AI Insights Newsletter",
+      "description": "Jede Woche versenden wir einen kurzen Newsletter mit den interessantesten UX- und AI-Trends, die Unternehmen zu besseren Ergebnissen verhelfen. Schließen Sie sich über 1500 Fachleuten an, die unseren Newsletter lesen!",
+      "emailPlaceholder": "Ihre E-Mail-Adresse...",
+      "buttonText": "Newsletter abonnieren",
+      "consentText": "Ich stimme dem Erhalt des UX/AI Insights Newsletters zu und akzeptiere die Datenschutzrichtlinie.",
+      "successTitle": "Vielen Dank für Ihre Anmeldung!",
+      "successMessage": "Bitte überprüfen Sie Ihren E-Mail-Eingang, um die Anmeldung zum Newsletter zu bestätigen. Den nächsten Newsletter senden wir am kommenden Dienstag."
+    },
+    "ebook": {
+      "title": "Kostenloses E-Book \"UX + AI: Guide 2025\" herunterladen",
+      "description": "In unserem neuesten E-Book finden Sie einen Überblick über die 10 effektivsten Strategien zur Kombination von UX mit AI-Tools, die Conversion und Benutzerzufriedenheit steigern. Das Material enthält praktische Tipps und Implementierungsbeispiele.",
+      "emailPlaceholder": "Wohin sollen wir das E-Book senden?",
+      "buttonText": "E-Book kostenlos herunterladen",
+      "consentText": "Ich stimme dem Erhalt des E-Books und zugehöriger Marketingmaterialien zu.",
+      "successTitle": "E-Book gesendet!",
+      "successMessage": "Ihr E-Book steht zum Download bereit. Bitte überprüfen Sie auch Ihren E-Mail-Eingang, wir haben eine Kopie der Datei dorthin gesendet."
+    }
   }
 }
