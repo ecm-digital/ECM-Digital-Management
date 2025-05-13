@@ -46,14 +46,14 @@ const AboutPage: React.FC = () => {
       website: "https://ecm-digital.com"
     },
     {
-      name: "Mario Rifaat",
+      name: "Stefan Mueller",
       role: currentLanguage === 'de' ? "Client Partner" : "Client Partner",
       imageSrc: marioImage,
       description: currentLanguage === 'de' 
         ? "Erfahrener Client Partner mit Fokus auf strategische Kundenbeziehungen und Projektmanagement. Spezialisiert auf die Verbindung von technischen Lösungen mit Geschäftszielen." 
         : "Doświadczony Client Partner skupiający się na strategicznych relacjach z klientami i zarządzaniu projektami. Specjalizuje się w łączeniu rozwiązań technicznych z celami biznesowymi.",
-      linkedin: "https://www.linkedin.com/in/mario-rifaat-4b8460164/",
-      github: "https://github.com/mariorifaat",
+      linkedin: "https://www.linkedin.com/in/stefanmueller/",
+      github: "https://github.com/stefanmueller",
       website: "https://ecm-digital.com"
     },
     {
