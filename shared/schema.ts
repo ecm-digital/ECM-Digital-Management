@@ -394,6 +394,44 @@ export type ChatMessage = typeof chatMessages.$inferSelect;
 export type InsertChatSession = z.infer<typeof insertChatSessionSchema>;
 export type ChatSession = typeof chatSessions.$inferSelect;
 
+// Notion integration tables
+export const notionSyncStatus = pgTable("notion_sync_status", {
+  id: serial("id").primaryKey(),
+  resourceType: varchar("resource_type").notNull(), // "blog", "knowledge_base", "lead_magnet", etc.
+  notionDatabaseId: varchar("notion_database_id").notNull(),
+  lastSyncedAt: timestamp("last_synced_at").defaultNow(),
+  status: varchar("status").default("active").notNull(), // "active", "paused", "error"
+  errorMessage: text("error_message"),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export const notionItemMapping = pgTable("notion_item_mapping", {
+  id: serial("id").primaryKey(),
+  resourceType: varchar("resource_type").notNull(), // "blog", "knowledge_base", "lead_magnet", etc.
+  localId: integer("local_id").notNull(), // ID of the local record (blog post, knowledge base article, etc.)
+  notionPageId: varchar("notion_page_id").notNull(), // ID of the Notion page
+  lastSyncedAt: timestamp("last_synced_at").defaultNow(),
+  syncDirection: varchar("sync_direction").default("notion_to_local").notNull(), // "notion_to_local", "local_to_notion", "bidirectional"
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+// Schematy dla tabel Notion
+export const insertNotionSyncStatusSchema = createInsertSchema(notionSyncStatus).omit({
+  id: true, createdAt: true, updatedAt: true, lastSyncedAt: true
+});
+
+export const insertNotionItemMappingSchema = createInsertSchema(notionItemMapping).omit({
+  id: true, createdAt: true, updatedAt: true, lastSyncedAt: true
+});
+
+// Typy dla tabel Notion
+export type NotionSyncStatus = typeof notionSyncStatus.$inferSelect;
+export type InsertNotionSyncStatus = z.infer<typeof insertNotionSyncStatusSchema>;
+export type NotionItemMapping = typeof notionItemMapping.$inferSelect;
+export type InsertNotionItemMapping = z.infer<typeof insertNotionItemMappingSchema>;
+
 // Specjalny typ dla użytkownika z Replit Auth
 export type UpsertUser = {
   id: number;
