@@ -5,6 +5,7 @@ import ProgressBar from "./ProgressBar";
 import ServiceSelection from "./ServiceSelection";
 import ServiceConfiguration from "./ServiceConfiguration";
 import ContactInformation from "./ContactInformation";
+import StripePayment from "./StripePayment";
 import Summary from "./Summary";
 import NavigationButtons from "./NavigationButtons";
 import useMultiStepForm from "@/hooks/useMultiStepForm";
