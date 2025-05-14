@@ -349,6 +349,38 @@
       "blog": "Blog"
     }
   },
+  "payment": {
+    "title": "Płatność za usługę",
+    "orderSummary": "Podsumowanie zamówienia",
+    "orderSummaryDesc": "Sprawdź szczegóły zamówienia przed dokonaniem płatności",
+    "items": "Pozycje",
+    "total": "Suma",
+    "paymentDetails": "Szczegóły płatności",
+    "paymentDetailsDesc": "Wprowadź dane karty płatniczej",
+    "pay": "Zapłać",
+    "processing": "Przetwarzanie...",
+    "error": "Błąd płatności",
+    "generalError": "Wystąpił problem z płatnością. Spróbuj ponownie lub skontaktuj się z nami.",
+    "success": "Płatność zakończona sukcesem",
+    "successDescription": "Twoja płatność została zrealizowana pomyślnie.",
+    "intentError": "Błąd tworzenia płatności",
+    "intentErrorDescription": "Nie udało się utworzyć płatności. Spróbuj ponownie lub skontaktuj się z nami.",
+    "secureInfo": "Płatności są bezpieczne i szyfrowane"
+  },
+  "paymentSuccess": {
+    "title": "Płatność zakończona sukcesem!",
+    "subtitle": "Dziękujemy za zamówienie",
+    "orderCompleted": "Zamówienie zostało złożone",
+    "orderDetails": "Szczegóły zamówienia",
+    "transactionId": "Identyfikator transakcji",
+    "noTransactionId": "Brak identyfikatora transakcji",
+    "whatHappensNext": "Co dalej?",
+    "step1": "Otrzymasz e-mail z potwierdzeniem zamówienia",
+    "step2": "Nasz zespół skontaktuje się z Tobą w ciągu 24 godzin, aby omówić szczegóły realizacji",
+    "step3": "Rozpoczniemy pracę nad Twoim projektem zgodnie z ustalonym harmonogramem",
+    "viewDashboard": "Przejdź do panelu klienta",
+    "browseMore": "Przeglądaj więcej usług"
+  },
   "figmaAi": {
     "title": "UX + AI Boost z Figma 2025",
     "subtitle": "Wdrażamy najnowsze możliwości Figmy, aby przyspieszyć, zautomatyzować i wznieść Twój projekt na wyższy poziom.",

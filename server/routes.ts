@@ -2823,6 +2823,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Stripe payment routes
+  app.post('/api/payments/create-intent', authenticateClient, createPaymentIntent);
+  app.post('/api/payments/create-customer', authenticateClient, createCustomer);
+  
+  // Stripe webhook endpoint - needs raw body for signature verification
+  app.post('/api/webhooks/stripe', express.raw({ type: 'application/json' }), handleStripeWebhook);
+
   // Utwórz serwer HTTP
   const httpServer = createServer(app);
   
