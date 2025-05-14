@@ -1325,6 +1325,21 @@
         "selectService": "Bitte wählen Sie eine Dienstleistung aus"
       }
     },
+    "configuration": {
+      "title": "Servicekonfiguration",
+      "subtitle": "Passen Sie die Serviceparameter an Ihre Bedürfnisse an",
+      "currentPrice": "Aktueller Preis",
+      "deliveryTime": "Lieferzeit",
+      "workingDays": "Arbeitstage",
+      "selectService": "Bitte wählen Sie einen Service, um fortzufahren",
+      "websiteUrl": "Website-Link",
+      "websiteUrlPlaceholder": "https://ihre-website.de",
+      "projectBrief": "Projektbriefing",
+      "projectGoals": "Projektziele (optional)",
+      "projectGoalsPlaceholder": "Beschreiben Sie die Hauptziele, die Sie erreichen möchten",
+      "additionalFiles": "Zusätzliche Dateien",
+      "selectChoicePlaceholder": "Wählen Sie"
+    },
     "steps": {
       "selectService": "Dienstleistung auswählen",
       "configureService": "Dienstleistung konfigurieren",
