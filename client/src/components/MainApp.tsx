@@ -40,6 +40,7 @@ export default function MainApp({ services, isLoading }: MainAppProps) {
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
   const [totalPrice, setTotalPrice] = useState<number>(0);
   const [paymentPending, setPaymentPending] = useState(false);
+  const [paymentCompleted, setPaymentCompleted] = useState(false);
   const [, setLocation] = useLocation();
 
   // Initial form data
@@ -242,7 +243,19 @@ export default function MainApp({ services, isLoading }: MainAppProps) {
         }}
       />,
       
-      // 4. Summary and Confirmation
+      // 4. Payment with Stripe
+      <StripePayment
+        key="payment"
+        totalPrice={totalPrice}
+        service={selectedService}
+        onPaymentComplete={() => {
+          setPaymentCompleted(true);
+          setPaymentPending(false);
+          next(); // Move to summary after payment
+        }}
+      />,
+      
+      // 5. Summary and Confirmation
       <Summary 
         key="summary"
         serviceOrder={{
@@ -253,11 +266,12 @@ export default function MainApp({ services, isLoading }: MainAppProps) {
           deliveryTime,
           uploadedFile
         }}
+        paymentCompleted={paymentCompleted}
         paymentPending={paymentPending}
         onProceedToPayment={() => {
           if (!selectedService) return;
           setPaymentPending(true);
-          setLocation(`/checkout?order_id=${selectedService.id}&price=${totalPrice}`);
+          back(); // Go back to payment step
         }}
       /> 
     ]);

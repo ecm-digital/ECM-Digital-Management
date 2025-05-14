@@ -14,10 +14,16 @@ import { useTranslation } from "react-i18next";
 interface SummaryProps {
   serviceOrder: ServiceOrder;
   paymentPending?: boolean;
+  paymentCompleted?: boolean;
   onProceedToPayment?: () => void;
 }
 
-export default function Summary({ serviceOrder, paymentPending = false, onProceedToPayment }: SummaryProps) {
+export default function Summary({ 
+  serviceOrder, 
+  paymentPending = false, 
+  paymentCompleted = false, 
+  onProceedToPayment 
+}: SummaryProps) {
   const { t } = useTranslation();
   const { service, configuration, contactInfo, totalPrice, uploadedFile } = serviceOrder;
   const [, setLocation] = useLocation();
