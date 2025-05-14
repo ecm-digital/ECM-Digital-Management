@@ -644,6 +644,7 @@
     "selectService": "Wybierz usługę",
     "configureService": "Skonfiguruj usługę",
     "contactInformation": "Dane kontaktowe",
+    "payment": "Płatność",
     "review": "Podsumowanie"
   },
   "services": {
