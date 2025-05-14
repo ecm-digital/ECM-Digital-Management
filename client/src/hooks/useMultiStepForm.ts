@@ -1,10 +1,10 @@
-import { useState } from "react";
+import { useState, ReactNode } from "react";
 
 interface Step {
-  component: JSX.Element;
+  component?: JSX.Element;
 }
 
-export default function useMultiStepForm(steps: Step[]) {
+export default function useMultiStepForm(steps: ReactNode[]) {
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
 
   function next() {

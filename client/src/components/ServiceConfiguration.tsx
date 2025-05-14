@@ -18,7 +18,7 @@ import i18next from "i18next";
 
 interface ServiceConfigurationProps {
   service: Service | null;
-  onConfigurationChange: (configuration: Record<string, any>, price: number, deliveryTime: number) => void;
+  onConfigurationChange: (configuration: Record<string, any>, price?: number, deliveryTime?: number) => void;
   onFileUpload: (file: File | null) => void;
   configuration?: Record<string, any>;
   initialPrice?: number;
