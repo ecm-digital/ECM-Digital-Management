@@ -233,6 +233,8 @@ export default function MainApp({ services, isLoading }: MainAppProps) {
       <ContactInformation 
         key="contact-information"
         contactInfo={contactInfo}
+        totalPrice={totalPrice}
+        service={selectedService}
         onContactInfoChange={(info) => {
           setContactInfo(info);
           updateFormData({ contactInfo: info });
