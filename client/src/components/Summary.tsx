@@ -287,7 +287,7 @@ export default function Summary({ serviceOrder, paymentPending = false, onProcee
           
           <div className="flex flex-col space-y-3">
             <Button 
-              onClick={() => setLocation(`/checkout?order_id=${service.id}&price=${totalPrice}`)}
+              onClick={onProceedToPayment}
               className="w-full text-center bg-primary hover:bg-primary/90 text-white font-medium rounded-lg py-3 transition-colors"
               disabled={paymentPending}
             >

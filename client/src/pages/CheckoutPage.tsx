@@ -218,7 +218,7 @@ const CheckoutPage = () => {
     };
 
     createPaymentIntent();
-  }, [toast, t]);
+  }, [orderData, toast, t]);
 
   const handlePaymentSuccess = (paymentIntent: PaymentIntentResult) => {
     setPaymentStatus('success');

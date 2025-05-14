@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { useLocation } from "wouter";
 import ProgressBar from "./ProgressBar";
 import ServiceSelection from "./ServiceSelection";
 import ServiceConfiguration from "./ServiceConfiguration";
@@ -37,6 +38,9 @@ export default function MainApp({ services, isLoading }: MainAppProps) {
   const [contactInfo, setContactInfo] = useState<Record<string, any>>({});
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
   const [totalPrice, setTotalPrice] = useState<number>(0);
+  // Stan dla przetwarzania płatności
+  const [paymentPending, setPaymentPending] = useState(false);
+  const [, setLocation] = useLocation();
 
   // Initial form data
   const initialData: FormData = {
@@ -120,8 +124,15 @@ export default function MainApp({ services, isLoading }: MainAppProps) {
           configuration,
           contactInfo,
           totalPrice,
-          uploadedFile
+          uploadedFile,
+          deliveryTime: formData.deliveryTime
         }} 
+        paymentPending={paymentPending}
+        onProceedToPayment={() => {
+          if (!selectedService) return;
+          setPaymentPending(true);
+          setLocation(`/checkout?order_id=${selectedService.id}&price=${totalPrice}`);
+        }}
       /> 
     }
   ]);
