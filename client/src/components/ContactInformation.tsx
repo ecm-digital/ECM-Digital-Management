@@ -10,17 +10,17 @@ import { Service } from "@/types";
 import i18next from "i18next";
 
 interface ContactInformationProps {
-  onChange: (contactInfo: Record<string, any>) => void;
-  initialContactInfo?: Record<string, any>;
-  totalPrice: number;
-  service: Service | null;
+  onContactInfoChange: (contactInfo: Record<string, any>) => void;
+  contactInfo?: Record<string, any>;
+  totalPrice?: number;
+  service?: Service | null;
 }
 
 export default function ContactInformation({
-  onChange,
-  initialContactInfo = {},
-  totalPrice,
-  service
+  onContactInfoChange,
+  contactInfo: initialContactInfo = {},
+  totalPrice = 0,
+  service = null
 }: ContactInformationProps) {
   const [contactInfo, setContactInfo] = useState<Record<string, any>>({
     company: initialContactInfo.company || "",
@@ -36,8 +36,8 @@ export default function ContactInformation({
   });
 
   useEffect(() => {
-    onChange(contactInfo);
-  }, [contactInfo, onChange]);
+    onContactInfoChange(contactInfo);
+  }, [contactInfo, onContactInfoChange]);
 
   const handleInputChange = (field: string, value: string | boolean) => {
     setContactInfo(prev => ({ ...prev, [field]: value }));

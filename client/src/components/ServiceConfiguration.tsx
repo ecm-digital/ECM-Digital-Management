@@ -22,6 +22,7 @@ interface ServiceConfigurationProps {
   onFileUpload: (file: File | null) => void;
   configuration?: Record<string, any>;
   initialPrice?: number;
+  uploadedFile?: File | null;
 }
 
 export default function ServiceConfiguration({
@@ -29,7 +30,8 @@ export default function ServiceConfiguration({
   onConfigurationChange,
   onFileUpload,
   configuration: initialConfiguration = {},
-  initialPrice = 0
+  initialPrice = 0,
+  uploadedFile
 }: ServiceConfigurationProps) {
   const [configuration, setConfiguration] = useState<Record<string, any>>(initialConfiguration);
   const [price, setPrice] = useState<number>(initialPrice || (service?.basePrice || 0));
