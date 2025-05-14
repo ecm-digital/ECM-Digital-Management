@@ -38,7 +38,6 @@ export default function MainApp({ services, isLoading }: MainAppProps) {
   const [contactInfo, setContactInfo] = useState<Record<string, any>>({});
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
   const [totalPrice, setTotalPrice] = useState<number>(0);
-  // Stan dla przetwarzania płatności
   const [paymentPending, setPaymentPending] = useState(false);
   const [, setLocation] = useLocation();
 
@@ -60,82 +59,49 @@ export default function MainApp({ services, isLoading }: MainAppProps) {
     setFormData(prev => ({ ...prev, ...updates }));
   };
 
-  // Multi-step form hook
-  const { 
-    currentStepIndex, 
-    step, 
-    steps, 
-    isFirstStep, 
-    isLastStep, 
-    goTo, 
-    next, 
-    back 
-  } = useMultiStepForm([
-    { 
-      component: <ServiceSelection 
-        services={services} 
-        isLoading={isLoading} 
-        onSelect={(service) => {
-          setSelectedService(service);
-          updateFormData({ 
-            service,
-            totalPrice: service.basePrice,
-            deliveryTime: service.deliveryTime
+  // Track the service delivery time
+  const [deliveryTime, setDeliveryTime] = useState<number>(0);
+
+  // Calculate total price
+  const calculateTotalPrice = (
+    service: Service | null, 
+    configuration: Record<string, any>
+  ): number => {
+    if (!service) return 0;
+    
+    let total = service.basePrice || 0;
+    
+    // Add prices for selected configuration options
+    if (service.configOptions && Object.keys(service.configOptions).length > 0) {
+      Object.entries(configuration).forEach(([key, value]) => {
+        const option = service.configOptions?.[key];
+        if (!option) return;
+        
+        if (Array.isArray(value)) {
+          // For multi-select options
+          value.forEach(selectedValue => {
+            const priceOption = option.options?.find(opt => opt.value === selectedValue);
+            if (priceOption && priceOption.price) {
+              total += priceOption.price;
+            }
           });
-        }} 
-        selectedService={selectedService} 
-      /> 
-    },
-    { 
-      component: <ServiceConfiguration 
-        service={selectedService} 
-        onChange={(config, price, deliveryTime) => {
-          setConfiguration(config);
-          setTotalPrice(price);
-          updateFormData({ 
-            configuration: config,
-            totalPrice: price,
-            deliveryTime
-          });
-        }}
-        onFileUpload={(file) => {
-          setUploadedFile(file);
-          updateFormData({ uploadedFile: file });
-        }}
-        initialConfiguration={configuration}
-        initialPrice={totalPrice}
-      /> 
-    },
-    { 
-      component: <ContactInformation 
-        onChange={(info) => {
-          setContactInfo(info);
-          updateFormData({ contactInfo: info });
-        }}
-        initialContactInfo={contactInfo}
-        totalPrice={totalPrice}
-        service={selectedService}
-      /> 
-    },
-    { 
-      component: <Summary 
-        serviceOrder={{
-          service: selectedService,
-          configuration,
-          contactInfo,
-          totalPrice,
-          uploadedFile,
-          deliveryTime: formData.deliveryTime
-        }} 
-        paymentPending={paymentPending}
-        onProceedToPayment={() => {
-          if (!selectedService) return;
-          setPaymentPending(true);
-          setLocation(`/checkout?order_id=${selectedService.id}&price=${totalPrice}`);
-        }}
-      /> 
+        } else if (typeof value === 'string' || typeof value === 'number') {
+          // For single-select options
+          const priceOption = option.options?.find(opt => opt.value === value);
+          if (priceOption && priceOption.price) {
+            total += priceOption.price;
+          }
+        } else if (typeof value === 'boolean' && value === true) {
+          // For boolean options
+          if (option.price) {
+            total += option.price;
+          }
+        }
+      });
     }
-  ]);
+    
+    return total;
+  };
 
   // Submit order mutation
   const { mutate, isPending } = useMutation({
@@ -144,168 +110,213 @@ export default function MainApp({ services, isLoading }: MainAppProps) {
       let fileUrl = null;
       
       if (data.uploadedFile) {
-        const formData = new FormData();
-        formData.append('file', data.uploadedFile);
-        
-        const response = await fetch('/api/upload', {
-          method: 'POST',
-          body: formData,
-          credentials: 'include'
-        });
-        
-        if (!response.ok) {
-          throw new Error(t('errors.fileUploadFailed'));
-        }
-        
-        const { url } = await response.json();
-        fileUrl = url;
+        // In a real application, you would upload the file to Firebase Storage here
+        // and get the download URL to store in the service order
+        console.log("File would be uploaded here:", data.uploadedFile.name);
+        fileUrl = "https://example.com/uploaded-file";
       }
       
-      // Submit order with file URL if present
-      const orderData = {
-        ...data,
-        fileUrl,
-        uploadedFile: null, // Don't send the file object to the API
-        createdAt: new Date().toISOString()
+      // Create the service order with all the collected data
+      const serviceOrder: ServiceOrder = {
+        serviceId: data.service?.id || "",
+        serviceName: data.service?.name || "",
+        configuration: data.configuration,
+        contactInfo: data.contactInfo,
+        totalPrice: data.totalPrice,
+        uploadedFileUrl: fileUrl,
+        status: "pending",
+        deliveryTime: data.deliveryTime,
+        currency: i18next.language === 'pl' ? 'PLN' : 'EUR', 
+        createdAt: new Date().toISOString(),
       };
       
-      const response = await fetch('/api/orders', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(orderData),
-        credentials: 'include'
-      });
-      
-      if (!response.ok) {
-        throw new Error(t('errors.orderSubmissionFailed'));
-      }
-      
-      return response.json();
+      // Send the service order to the backend
+      const response = await apiRequest("POST", "/api/orders", serviceOrder);
+      return await response.json();
     },
-    onSuccess: () => {
-      // Go to final step (summary)
-      goTo(steps.length - 1);
+    onSuccess: (data) => {
       toast({
-        title: t('configurator.orderSubmitted'),
-        description: t('configurator.orderAccepted'),
+        title: t('order.success.title'),
+        description: t('order.success.description'),
       });
+      
+      // Reset form data after successful submission
+      setFormData(initialData);
+      setSelectedService(null);
+      setConfiguration({});
+      setContactInfo({});
+      setUploadedFile(null);
+      setCurrentStep(0);
     },
     onError: (error) => {
       toast({
-        title: t('common.error'),
-        description: t('configurator.orderError', { error: error.message }),
-        variant: "destructive"
+        title: t('order.error.title'),
+        description: t('order.error.description'),
+        variant: "destructive",
       });
+      console.error("Error creating order:", error);
     }
   });
 
-  // Handle next button
-  const handleNext = () => {
-    if (isLastStep) {
-      // Submit the form
-      mutate(formData);
-    } else {
-      // Validate current step
-      if (currentStepIndex === 0 && !selectedService) {
-        toast({
-          title: t('configurator.selectService'),
-          description: t('configurator.pleaseSelectService'),
-          variant: "destructive"
-        });
-        return;
-      }
+  // Multi-step form setup
+  const [currentStep, setCurrentStep] = useState(0);
+  
+  const { steps, currentStepIndex, step, isFirstStep, isLastStep, back, next } = 
+    useMultiStepForm([
+      // 1. Select a service
+      <ServiceSelection 
+        key="service-selection"
+        services={services}
+        isLoading={isLoading}
+        selectedService={selectedService}
+        onSelectService={(service) => {
+          setSelectedService(service);
+          setDeliveryTime(service?.deliveryTime || 0);
+          setConfiguration({});
+          updateFormData({ 
+            service,
+            configuration: {},
+            deliveryTime: service?.deliveryTime || 0,
+          });
+        }}
+      />,
       
-      if (currentStepIndex === 2) {
-        // Validate contact info
-        const { name, email, company } = contactInfo;
-        if (!name || !email || !company) {
+      // 2. Configure the service
+      <ServiceConfiguration 
+        key="service-configuration"
+        service={selectedService}
+        configuration={configuration}
+        onConfigurationChange={(config) => {
+          setConfiguration(config);
+          const newTotalPrice = calculateTotalPrice(selectedService, config);
+          setTotalPrice(newTotalPrice);
+          updateFormData({ 
+            configuration: config,
+            totalPrice: newTotalPrice
+          });
+        }}
+        uploadedFile={uploadedFile}
+        onFileUpload={(file) => {
+          setUploadedFile(file);
+          updateFormData({ uploadedFile: file });
+        }}
+      />,
+      
+      // 3. Contact Information
+      <ContactInformation 
+        key="contact-information"
+        contactInfo={contactInfo}
+        onContactInfoChange={(info) => {
+          setContactInfo(info);
+          updateFormData({ contactInfo: info });
+        }}
+      />,
+      
+      // 4. Summary and Confirmation
+      <Summary 
+        key="summary"
+        serviceOrder={{
+          serviceId: selectedService?.id || "",
+          serviceName: selectedService?.name || "",
+          configuration,
+          contactInfo,
+          totalPrice,
+          status: "pending",
+          deliveryTime,
+          currency: i18next.language === 'pl' ? 'PLN' : 'EUR',
+          createdAt: new Date().toISOString(),
+        }}
+        paymentPending={paymentPending}
+        onProceedToPayment={() => {
+          if (!selectedService) return;
+          setPaymentPending(true);
+          setLocation(`/checkout?order_id=${selectedService.id}&price=${totalPrice}`);
+        }}
+      /> 
+    ]);
+
+  // Handle next step
+  const handleNext = () => {
+    // Only allow proceeding to the next step if the current step is valid
+    switch (currentStepIndex) {
+      case 0:
+        // Service Selection - can only proceed if a service is selected
+        if (!selectedService) {
           toast({
-            title: t('configurator.completeData'),
-            description: t('configurator.fillRequiredFields'),
-            variant: "destructive"
+            title: t('form.error.title'),
+            description: t('form.error.selectService'),
+            variant: "destructive",
           });
           return;
         }
-      }
-      
-      next();
+        break;
+      case 2:
+        // Contact Information - basic validation
+        if (!contactInfo.name || !contactInfo.email) {
+          toast({
+            title: t('form.error.title'),
+            description: t('form.error.requiredFields'),
+            variant: "destructive",
+          });
+          return;
+        }
+        // Simple email validation
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(contactInfo.email)) {
+          toast({
+            title: t('form.error.title'),
+            description: t('form.error.invalidEmail'),
+            variant: "destructive",
+          });
+          return;
+        }
+        break;
     }
+    
+    // All validations passed, proceed to next step
+    next();
   };
 
-  // Reset application
-  const handleRestart = () => {
-    setSelectedService(null);
-    setConfiguration({});
-    setContactInfo({});
-    setUploadedFile(null);
-    setTotalPrice(0);
-    setFormData(initialData);
-    goTo(0);
+  // Handle submit
+  const handleSubmit = () => {
+    // Submit the completed form
+    mutate(formData);
   };
 
   return (
-    <motion.div 
-      className="flex-1 py-8 px-4"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.5 }}
-    >
-      <div className="max-w-5xl mx-auto">
-        {/* Header with logo */}
-        <header className="flex justify-between items-center mb-12">
-          <div>
-            <h1 className="text-2xl font-bold text-[#0F52BA]">ECM Digital</h1>
-          </div>
-          <div>
-            <button 
-              onClick={handleRestart}
-              className="text-dark-light hover:text-dark text-sm font-medium flex items-center"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-              </svg>
-              {t('configurator.startAgain')}
-            </button>
-          </div>
-        </header>
-
-        {/* Progress Bar */}
+    <div className="container mx-auto px-4 py-8 max-w-4xl">
+      <div className="mb-8">
         <ProgressBar 
-          currentStep={currentStepIndex} 
-          steps={[
-            t('configurator.steps.serviceSelection'), 
-            t('configurator.steps.configuration'), 
-            t('configurator.steps.contactInfo'), 
-            t('configurator.steps.summary')
-          ]} 
+          currentStep={currentStepIndex}
+          totalSteps={steps.length}
+          labels={[
+            t('steps.selectService'),
+            t('steps.configureService'),
+            t('steps.contactInformation'),
+            t('steps.review')
+          ]}
         />
-
-        {/* Step Container */}
-        <motion.div 
-          className="mb-8"
-          key={currentStepIndex}
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          exit={{ opacity: 0, x: -20 }}
-          transition={{ duration: 0.3 }}
-        >
-          {step.component}
-        </motion.div>
-
-        {/* Navigation Buttons */}
-        {!isLastStep && (
-          <NavigationButtons 
-            onPrev={back} 
-            onNext={handleNext} 
-            isFirstStep={isFirstStep} 
-            isLastStep={isLastStep} 
-            isSubmitting={isPending}
-          />
-        )}
       </div>
-    </motion.div>
+      
+      <motion.div
+        key={currentStepIndex}
+        initial={{ opacity: 0, x: 20 }}
+        animate={{ opacity: 1, x: 0 }}
+        exit={{ opacity: 0, x: -20 }}
+        transition={{ duration: 0.3 }}
+        className="bg-white rounded-lg shadow-lg p-6 mb-6"
+      >
+        {step}
+      </motion.div>
+      
+      {!isLastStep && (
+        <NavigationButtons 
+          isFirstStep={isFirstStep}
+          isSubmitting={isPending}
+          onBack={back}
+          onNext={handleNext}
+        />
+      )}
+    </div>
   );
 }
