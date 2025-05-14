@@ -23,8 +23,33 @@ if (!import.meta.env.VITE_STRIPE_PUBLIC_KEY) {
 // Inicjalizuję obiekt Stripe poza komponentem, aby uniknąć ponownej inicjalizacji przy każdym renderowaniu
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
 
+// Interfejs dla orderData
+interface OrderData {
+  amount: number;
+  currency: string;
+  description: string;
+  items: Array<{
+    name: string;
+    price: number;
+  }>;
+}
+
+// Interfejs dla paymentIntent
+interface PaymentIntentResult {
+  id: string;
+  status: string;
+  client_secret?: string;
+  amount: number;
+}
+
 // Komponent formularza płatności Stripe
-const CheckoutForm = ({ orderData, onSuccess }) => {
+const CheckoutForm = ({ 
+  orderData, 
+  onSuccess 
+}: { 
+  orderData: OrderData; 
+  onSuccess: (paymentIntent: PaymentIntentResult) => void;
+}) => {
   const { t } = useTranslation();
   const stripe = useStripe();
   const elements = useElements();
@@ -107,7 +132,7 @@ const CheckoutForm = ({ orderData, onSuccess }) => {
 const CheckoutPage = () => {
   const { t } = useTranslation();
   const [clientSecret, setClientSecret] = useState('');
-  const [orderData, setOrderData] = useState(null);
+  const [orderData, setOrderData] = useState<OrderData | null>(null);
   const [paymentStatus, setPaymentStatus] = useState('initial');
   const { toast } = useToast();
   const [, setLocation] = useLocation();
@@ -115,7 +140,7 @@ const CheckoutPage = () => {
   useEffect(() => {
     // W rzeczywistej implementacji, pobierałbyś dane zamówienia z parametrów URL lub global state
     // Na potrzeby demonstracji używamy danych testowych
-    const testOrderData = {
+    const testOrderData: OrderData = {
       amount: 299.99,
       currency: 'pln',
       description: 'ECM Digital - Audyt UX z elementami AI',
@@ -129,16 +154,19 @@ const CheckoutPage = () => {
     // Utwórz PaymentIntent w Stripe
     const createPaymentIntent = async () => {
       try {
-        const response = await apiRequest('POST', '/api/payments/create-intent', {
+        const response = await apiRequest('POST', '/api/payments/create-intent', JSON.stringify({
           amount: testOrderData.amount,
           currency: testOrderData.currency,
           metadata: {
             order_description: testOrderData.description
           }
+        }), {
+          headers: {
+            'Content-Type': 'application/json'
+          }
         });
         
-        const data = await response.json();
-        setClientSecret(data.clientSecret);
+        setClientSecret(response.clientSecret);
       } catch (error) {
         console.error('Error creating payment intent:', error);
         toast({
@@ -152,7 +180,7 @@ const CheckoutPage = () => {
     createPaymentIntent();
   }, [toast, t]);
 
-  const handlePaymentSuccess = (paymentIntent) => {
+  const handlePaymentSuccess = (paymentIntent: PaymentIntentResult) => {
     setPaymentStatus('success');
     // Tutaj możesz wykonać dodatkowe operacje po sukcesie
   };

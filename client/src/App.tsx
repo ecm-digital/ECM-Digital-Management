@@ -52,6 +52,10 @@ const KnowledgeBasePage = lazy(() => import("./pages/KnowledgeBasePage"));
 const KnowledgeArticlePage = lazy(() => import("./pages/KnowledgeArticlePage"));
 const KnowledgeSearchPage = lazy(() => import("./pages/KnowledgeSearchPage"));
 
+// Leniwe ładowanie stron płatności
+const CheckoutPage = lazy(() => import("./pages/CheckoutPage"));
+const PaymentSuccessPage = lazy(() => import("./pages/PaymentSuccessPage"));
+
 // Komponent do wyświetlania podczas ładowania
 const LoadingFallback = () => (
   <div className="flex items-center justify-center min-h-screen">
@@ -582,6 +586,10 @@ function App() {
             {/* Knowledge Base Routes */}
             <Route path="/knowledge/search" component={KnowledgeSearchPage} />
             <Route path="/knowledge" component={KnowledgeBasePage} />
+            
+            {/* Payment Routes */}
+            <Route path="/checkout" component={CheckoutPage} />
+            <Route path="/payment-success" component={PaymentSuccessPage} />
             
             {/* Strona główna - musi być na końcu przed 404 */}
             <Route path="/" component={ClientHomePage} />
