@@ -13,7 +13,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 import { Loader2 } from 'lucide-react';
-import { apiRequest } from '@/lib/queryClient';
+// Nie używamy apiRequest, używamy bezpośrednio fetch
 
 // Sprawdzam czy klucz publiczny Stripe jest dostępny
 if (!import.meta.env.VITE_STRIPE_PUBLIC_KEY) {
@@ -40,6 +40,12 @@ interface PaymentIntentResult {
   status: string;
   client_secret?: string;
   amount: number;
+}
+
+// Interfejs dla odpowiedzi z API
+interface PaymentIntentResponse {
+  clientSecret: string;
+  id: string;
 }
 
 // Komponent formularza płatności Stripe
@@ -88,7 +94,14 @@ const CheckoutForm = ({
         });
         
         // Przekazanie sukcesu do komponentu nadrzędnego
-        onSuccess(paymentIntent);
+        const result: PaymentIntentResult = {
+          id: paymentIntent.id,
+          status: paymentIntent.status,
+          amount: paymentIntent.amount,
+          client_secret: paymentIntent.client_secret || undefined
+        };
+        
+        onSuccess(result);
         
         // Przekierowanie do strony sukcesu z ID transakcji
         setLocation(`/payment-success?payment_id=${paymentIntent.id}`);
@@ -154,19 +167,23 @@ const CheckoutPage = () => {
     // Utwórz PaymentIntent w Stripe
     const createPaymentIntent = async () => {
       try {
-        const response = await apiRequest('POST', '/api/payments/create-intent', JSON.stringify({
-          amount: testOrderData.amount,
-          currency: testOrderData.currency,
-          metadata: {
-            order_description: testOrderData.description
-          }
-        }), {
+        // użycie metody fetch bezpośrednio zamiast apiRequest
+        const response = await fetch('/api/payments/create-intent', {
+          method: 'POST',
           headers: {
             'Content-Type': 'application/json'
-          }
+          },
+          body: JSON.stringify({
+            amount: testOrderData.amount,
+            currency: testOrderData.currency,
+            metadata: {
+              order_description: testOrderData.description
+            }
+          })
         });
         
-        setClientSecret(response.clientSecret);
+        const data: PaymentIntentResponse = await response.json();
+        setClientSecret(data.clientSecret);
       } catch (error) {
         console.error('Error creating payment intent:', error);
         toast({
@@ -237,10 +254,12 @@ const CheckoutPage = () => {
                     </div>
                   ) : (
                     <Elements stripe={stripePromise} options={{ clientSecret }}>
-                      <CheckoutForm 
-                        orderData={orderData} 
-                        onSuccess={handlePaymentSuccess} 
-                      />
+                      {orderData && (
+                        <CheckoutForm 
+                          orderData={orderData} 
+                          onSuccess={handlePaymentSuccess} 
+                        />
+                      )}
                     </Elements>
                   )}
                 </CardContent>
