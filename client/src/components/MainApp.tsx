@@ -62,7 +62,7 @@ export default function MainApp({ services, isLoading }: MainAppProps) {
   // Track the service delivery time
   const [deliveryTime, setDeliveryTime] = useState<number>(0);
 
-  // Calculate total price
+  // Calculate total price based on service definition and selected options
   const calculateTotalPrice = (
     service: Service | null, 
     configuration: Record<string, any>
@@ -71,30 +71,42 @@ export default function MainApp({ services, isLoading }: MainAppProps) {
     
     let total = service.basePrice || 0;
     
-    // Add prices for selected configuration options
-    if (service.configOptions && Object.keys(service.configOptions).length > 0) {
-      Object.entries(configuration).forEach(([key, value]) => {
-        const option = service.configOptions?.[key];
-        if (!option) return;
+    // Add prices from configuration options based on the service steps
+    if (service.steps && service.steps.length > 0) {
+      Object.entries(configuration).forEach(([optionId, value]) => {
+        // Find the option in any step that matches the id
+        let foundOption = null;
+        
+        for (const step of service.steps || []) {
+          if (step.options) {
+            const option = step.options.find(opt => opt.id === optionId);
+            if (option) {
+              foundOption = option;
+              break;
+            }
+          }
+        }
+        
+        if (!foundOption) return;
         
         if (Array.isArray(value)) {
           // For multi-select options
           value.forEach(selectedValue => {
-            const priceOption = option.options?.find(opt => opt.value === selectedValue);
-            if (priceOption && priceOption.price) {
-              total += priceOption.price;
+            const choice = foundOption?.choices?.find(c => c.value === selectedValue);
+            if (choice && choice.priceAdjustment) {
+              total += choice.priceAdjustment;
             }
           });
         } else if (typeof value === 'string' || typeof value === 'number') {
           // For single-select options
-          const priceOption = option.options?.find(opt => opt.value === value);
-          if (priceOption && priceOption.price) {
-            total += priceOption.price;
+          const choice = foundOption?.choices?.find(c => c.value === value);
+          if (choice && choice.priceAdjustment) {
+            total += choice.priceAdjustment;
           }
         } else if (typeof value === 'boolean' && value === true) {
-          // For boolean options
-          if (option.price) {
-            total += option.price;
+          // For boolean options (checkboxes)
+          if (foundOption?.priceAdjustment) {
+            total += foundOption.priceAdjustment;
           }
         }
       });
@@ -132,8 +144,13 @@ export default function MainApp({ services, isLoading }: MainAppProps) {
       };
       
       // Send the service order to the backend
-      const response = await apiRequest("POST", "/api/orders", serviceOrder);
-      return await response.json();
+      return await apiRequest("/api/orders", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(serviceOrder)
+      });
     },
     onSuccess: (data) => {
       toast({
