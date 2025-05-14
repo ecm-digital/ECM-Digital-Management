@@ -1323,7 +1323,42 @@
       "serviceSelection": "Dienstleistungsauswahl",
       "configuration": "Konfiguration",
       "contactInfo": "Kontaktinformationen",
-      "summary": "Zusammenfassung"
+      "summary": "Zusammenfassung",
+      "selectService": "Dienstleistung auswählen",
+      "configureService": "Dienstleistung konfigurieren",
+      "contactInformation": "Kontaktinformationen",
+      "review": "Überprüfung"
+    },
+    "payment": {
+      "title": "Zahlungsabwicklung",
+      "orderSummary": "Bestellübersicht",
+      "orderSummaryDesc": "Zusammenfassung Ihrer Bestellung",
+      "items": "Artikel",
+      "total": "Gesamtsumme",
+      "paymentDetails": "Zahlungsdetails",
+      "paymentDetailsDesc": "Sichere Zahlung mit Stripe",
+      "secureInfo": "Alle Zahlungen werden sicher verarbeitet",
+      "pay": "Jetzt bezahlen",
+      "processing": "Verarbeitung...",
+      "success": "Zahlung erfolgreich",
+      "successDescription": "Ihre Zahlung wurde erfolgreich verarbeitet",
+      "error": "Fehler bei der Zahlung",
+      "generalError": "Bei der Verarbeitung Ihrer Zahlung ist ein Fehler aufgetreten",
+      "intentError": "Fehler bei der Zahlungsinitialisierung",
+      "intentErrorDescription": "Bei der Initialisierung der Zahlung ist ein Fehler aufgetreten. Bitte versuchen Sie es später erneut."
+    },
+    "paymentSuccess": {
+      "title": "Zahlung erfolgreich abgeschlossen!",
+      "subtitle": "Vielen Dank für Ihre Bestellung",
+      "orderCompleted": "Ihre Bestellung wurde aufgenommen",
+      "orderDetails": "Bestelldetails",
+      "transactionId": "Transaktions-ID",
+      "orderDate": "Bestelldatum",
+      "orderItems": "Bestellte Artikel",
+      "backToServices": "Zurück zu den Dienstleistungen",
+      "viewOrders": "Bestellungen anzeigen",
+      "contactUs": "Bei Fragen kontaktieren Sie uns",
+      "support": "Support"
     }
   },
   "cta": {
