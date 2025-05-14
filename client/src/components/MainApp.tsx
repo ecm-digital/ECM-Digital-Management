@@ -345,6 +345,7 @@ export default function MainApp({ services, isLoading }: MainAppProps) {
             t('steps.selectService'),
             t('steps.configureService'),
             t('steps.contactInformation'),
+            t('steps.payment', 'Płatność'),
             t('steps.review')
           ]}
         />
