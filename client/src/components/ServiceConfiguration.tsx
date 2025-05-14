@@ -71,10 +71,16 @@ export default function ServiceConfiguration({
       setPrice(calculatedPrice);
       setDeliveryTime(calculatedDeliveryTime);
       
-      // Call the onChange callback with initial values
-      onConfigurationChange(defaultConfig, calculatedPrice, calculatedDeliveryTime);
+      // Call the onChange callback with initial values - but just once
+      // to avoid excessive re-renders
+      const timeoutId = setTimeout(() => {
+        onConfigurationChange(defaultConfig, calculatedPrice, calculatedDeliveryTime);
+      }, 0);
+      
+      return () => clearTimeout(timeoutId);
     }
-  }, [service, initialConfiguration, onConfigurationChange]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [service, initialConfiguration]);
 
   // Calculate price and update configuration when options change
   const handleOptionChange = (optionId: string, value: any, option: ConfigOption) => {

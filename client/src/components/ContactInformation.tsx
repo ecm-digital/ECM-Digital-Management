@@ -23,6 +23,7 @@ export default function ContactInformation({
   totalPrice = 0,
   service = null
 }: ContactInformationProps) {
+  const { t } = useTranslation();
   const [contactInfo, setContactInfo] = useState<Record<string, any>>({
     company: initialContactInfo.company || "",
     website: initialContactInfo.website || "",
@@ -69,12 +70,12 @@ export default function ContactInformation({
     >
       <div className="flex justify-between items-start mb-8">
         <div>
-          <h2 className="text-3xl font-bold text-dark mb-3">Dane kontaktowe</h2>
-          <p className="text-dark-light">Podaj dane kontaktowe, abyśmy mogli przygotować ofertę</p>
+          <h2 className="text-3xl font-bold text-dark mb-3">{t('contact.title')}</h2>
+          <p className="text-dark-light">{t('contact.subtitle')}</p>
         </div>
         <Card className="shadow-md min-w-[200px]">
           <CardContent className="pt-4">
-            <p className="text-sm text-dark-light mb-1">Wartość zamówienia:</p>
+            <p className="text-sm text-dark-light mb-1">{t('summary.totalPrice')}:</p>
             <p className="text-2xl font-bold text-dark">
               {totalPrice.toLocaleString()} {i18next.language === 'de' ? '€' : 'PLN'}
             </p>
@@ -84,17 +85,17 @@ export default function ContactInformation({
       </div>
 
       <motion.div variants={itemVariants} className="bg-white rounded-xl p-8 shadow-sm mb-8">
-        <h3 className="text-xl font-semibold mb-6">Informacje o firmie</h3>
+        <h3 className="text-xl font-semibold mb-6">{t('contact.company')}</h3>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
           <div>
             <Label htmlFor="company" className="block text-dark-light mb-2 font-medium">
-              Nazwa firmy*
+              {t('contact.company')}*
             </Label>
             <Input 
               id="company"
               type="text"
-              placeholder="Nazwa Twojej firmy"
+              placeholder={t('contact.inputPlaceholders.company')}
               required
               value={contactInfo.company}
               onChange={(e) => handleInputChange("company", e.target.value)}
@@ -104,12 +105,12 @@ export default function ContactInformation({
           
           <div>
             <Label htmlFor="website" className="block text-dark-light mb-2 font-medium">
-              Strona internetowa
+              {t('contact.website')}
             </Label>
             <Input 
               id="website"
               type="url"
-              placeholder="https://twoja-strona.pl"
+              placeholder={t('contact.inputPlaceholders.website')}
               value={contactInfo.website}
               onChange={(e) => handleInputChange("website", e.target.value)}
               className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
@@ -118,44 +119,44 @@ export default function ContactInformation({
           
           <div>
             <Label htmlFor="industry" className="block text-dark-light mb-2 font-medium">
-              Branża*
+              {t('contact.industry')}*
             </Label>
             <Select
               value={contactInfo.industry}
               onValueChange={(value) => handleInputChange("industry", value)}
             >
               <SelectTrigger id="industry" className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
-                <SelectValue placeholder="Wybierz branżę" />
+                <SelectValue placeholder={t('contact.industry')} />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="ecommerce">E-commerce</SelectItem>
-                <SelectItem value="services">Usługi</SelectItem>
-                <SelectItem value="manufacturing">Produkcja</SelectItem>
-                <SelectItem value="healthcare">Ochrona zdrowia</SelectItem>
-                <SelectItem value="education">Edukacja</SelectItem>
-                <SelectItem value="technology">Technologia</SelectItem>
-                <SelectItem value="other">Inna</SelectItem>
+                <SelectItem value="ecommerce">{t('contact.industryOptions.ecommerce')}</SelectItem>
+                <SelectItem value="services">{t('contact.industryOptions.services')}</SelectItem>
+                <SelectItem value="manufacturing">{t('contact.industryOptions.manufacturing')}</SelectItem>
+                <SelectItem value="healthcare">{t('contact.industryOptions.healthcare')}</SelectItem>
+                <SelectItem value="education">{t('contact.industryOptions.education')}</SelectItem>
+                <SelectItem value="technology">{t('contact.industryOptions.technology')}</SelectItem>
+                <SelectItem value="other">{t('contact.industryOptions.other')}</SelectItem>
               </SelectContent>
             </Select>
           </div>
           
           <div>
             <Label htmlFor="companySize" className="block text-dark-light mb-2 font-medium">
-              Wielkość firmy*
+              {t('contact.companySize')}*
             </Label>
             <Select
               value={contactInfo.companySize}
               onValueChange={(value) => handleInputChange("companySize", value)}
             >
               <SelectTrigger id="companySize" className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
-                <SelectValue placeholder="Wybierz wielkość" />
+                <SelectValue placeholder={t('contact.companySize')} />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="solo">Jednoosobowa</SelectItem>
-                <SelectItem value="micro">Mikro (do 10 pracowników)</SelectItem>
-                <SelectItem value="small">Mała (10-50 pracowników)</SelectItem>
-                <SelectItem value="medium">Średnia (50-250 pracowników)</SelectItem>
-                <SelectItem value="large">Duża (powyżej 250 pracowników)</SelectItem>
+                <SelectItem value="solo">{t('contact.companySizeOptions.solo')}</SelectItem>
+                <SelectItem value="small">{t('contact.companySizeOptions.small')}</SelectItem>
+                <SelectItem value="medium">{t('contact.companySizeOptions.medium')}</SelectItem>
+                <SelectItem value="large">{t('contact.companySizeOptions.large')}</SelectItem>
+                <SelectItem value="enterprise">{t('contact.companySizeOptions.enterprise')}</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -163,17 +164,17 @@ export default function ContactInformation({
       </motion.div>
       
       <motion.div variants={itemVariants} className="bg-white rounded-xl p-8 shadow-sm mb-8">
-        <h3 className="text-xl font-semibold mb-6">Dane kontaktowe</h3>
+        <h3 className="text-xl font-semibold mb-6">{t('contact.title')}</h3>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
           <div>
             <Label htmlFor="name" className="block text-dark-light mb-2 font-medium">
-              Imię i nazwisko*
+              {t('contact.name')}*
             </Label>
             <Input 
               id="name"
               type="text"
-              placeholder="Jan Kowalski"
+              placeholder={t('contact.inputPlaceholders.name')}
               required
               value={contactInfo.name}
               onChange={(e) => handleInputChange("name", e.target.value)}
@@ -183,7 +184,7 @@ export default function ContactInformation({
           
           <div>
             <Label htmlFor="position" className="block text-dark-light mb-2 font-medium">
-              Stanowisko
+              {t('contact.position', 'Stanowisko')}
             </Label>
             <Input 
               id="position"
@@ -197,12 +198,12 @@ export default function ContactInformation({
           
           <div>
             <Label htmlFor="email" className="block text-dark-light mb-2 font-medium">
-              Email*
+              {t('contact.email')}*
             </Label>
             <Input 
               id="email"
               type="email"
-              placeholder="jan.kowalski@firma.pl"
+              placeholder={t('contact.inputPlaceholders.email')}
               required
               value={contactInfo.email}
               onChange={(e) => handleInputChange("email", e.target.value)}
@@ -212,12 +213,12 @@ export default function ContactInformation({
           
           <div>
             <Label htmlFor="phone" className="block text-dark-light mb-2 font-medium">
-              Telefon
+              {t('contact.phone')}
             </Label>
             <Input 
               id="phone"
               type="tel"
-              placeholder="+48 123 456 789"
+              placeholder={t('contact.inputPlaceholders.phone')}
               value={contactInfo.phone}
               onChange={(e) => handleInputChange("phone", e.target.value)}
               className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
@@ -227,12 +228,12 @@ export default function ContactInformation({
         
         <div className="mb-6">
           <Label htmlFor="additionalInfo" className="block text-dark-light mb-2 font-medium">
-            Dodatkowe informacje
+            {t('contact.message')}
           </Label>
           <Textarea 
             id="additionalInfo"
             rows={3}
-            placeholder="Dodatkowe informacje, które mogą być istotne dla realizacji zamówienia..."
+            placeholder={t('contact.inputPlaceholders.message')}
             value={contactInfo.additionalInfo}
             onChange={(e) => handleInputChange("additionalInfo", e.target.value)}
             className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
@@ -252,11 +253,11 @@ export default function ContactInformation({
               htmlFor="consent"
               className="ml-2 text-dark-light text-sm cursor-pointer"
             >
-              Wyrażam zgodę na przetwarzanie moich danych osobowych w celu przygotowania oferty zgodnie z{" "}
+              {t('contact.consent')}{" "}
               <a href="#" className="text-primary">
-                polityką prywatności
+                {t('common.privacyPolicy', 'polityką prywatności')}
               </a>
-              .*
+              *
             </Label>
           </div>
         </div>
