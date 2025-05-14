@@ -16,6 +16,7 @@ import { setupAuth, isAuthenticated as isReplitAuthenticated, ensureAuthenticate
 import { setupSession, setupLocalAuth, isAuthenticated, isAdmin } from "./auth";
 import { WebSocketServer, WebSocket } from "ws";
 import { generateChatResponse, analyzeMessage, createPersonalizedSystemPrompt } from "./anthropic";
+import { createPaymentIntent, createCustomer, handleStripeWebhook } from "./stripe";
 // Tłumaczenia nazw usług
 const serviceTranslations: Record<string, string> = {
   "Audyt UX": "UX-Audit",
