@@ -118,16 +118,12 @@ export default function MainApp({ services, isLoading }: MainAppProps) {
       
       // Create the service order with all the collected data
       const serviceOrder: ServiceOrder = {
-        serviceId: data.service?.id || "",
-        serviceName: data.service?.name || "",
+        service: data.service,
         configuration: data.configuration,
         contactInfo: data.contactInfo,
         totalPrice: data.totalPrice,
-        uploadedFileUrl: fileUrl,
-        status: "pending",
         deliveryTime: data.deliveryTime,
-        currency: i18next.language === 'pl' ? 'PLN' : 'EUR', 
-        createdAt: new Date().toISOString(),
+        uploadedFile: data.uploadedFile
       };
       
       // Send the service order to the backend
@@ -312,6 +308,7 @@ export default function MainApp({ services, isLoading }: MainAppProps) {
       {!isLastStep && (
         <NavigationButtons 
           isFirstStep={isFirstStep}
+          isLastStep={isLastStep}
           isSubmitting={isPending}
           onBack={back}
           onNext={handleNext}
