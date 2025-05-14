@@ -292,17 +292,35 @@ export default function Summary({
           </div>
           
           <div className="flex flex-col space-y-3">
-            <Button 
-              onClick={onProceedToPayment}
-              className="w-full text-center bg-primary hover:bg-primary/90 text-white font-medium rounded-lg py-3 transition-colors"
-              disabled={paymentPending}
-            >
-              {paymentPending ? t('payment.processing') : t('payment.payNow')}
-            </Button>
+            {paymentCompleted ? (
+              <>
+                <div className="p-4 border border-green-200 bg-green-50 rounded-lg flex items-center">
+                  <CheckCircle2 className="h-5 w-5 text-green-500 mr-3" />
+                  <p className="text-green-800 font-medium">
+                    {t('payment.completed', 'Płatność została zrealizowana pomyślnie')}
+                  </p>
+                </div>
+                <Link href="/">
+                  <Button className="w-full text-center bg-primary hover:bg-primary/90 text-white font-medium rounded-lg py-3 transition-colors">
+                    {t('common.backToHome', 'Wróć do strony głównej')}
+                  </Button>
+                </Link>
+              </>
+            ) : (
+              <Button 
+                onClick={onProceedToPayment}
+                className="w-full text-center bg-primary hover:bg-primary/90 text-white font-medium rounded-lg py-3 transition-colors"
+                disabled={paymentPending}
+              >
+                {paymentPending ? 
+                  t('payment.processing', 'Przetwarzanie płatności...') : 
+                  t('payment.payNow', 'Zapłać teraz')}
+              </Button>
+            )}
             
             <Link href="/">
               <Button variant="outline" className="w-full text-center border-gray-300 text-gray-700 hover:bg-gray-50 font-medium rounded-lg py-3 transition-colors">
-                {t('common.backToHome')}
+                {t('common.backToHome', 'Wróć do strony głównej')}
               </Button>
             </Link>
           </div>

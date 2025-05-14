@@ -358,14 +358,20 @@
     "paymentDetails": "Szczegóły płatności",
     "paymentDetailsDesc": "Wprowadź dane karty płatniczej",
     "pay": "Zapłać",
-    "processing": "Przetwarzanie...",
+    "payNow": "Zapłać teraz",
+    "processing": "Przetwarzanie płatności...",
     "error": "Błąd płatności",
     "generalError": "Wystąpił problem z płatnością. Spróbuj ponownie lub skontaktuj się z nami.",
     "success": "Płatność zakończona sukcesem",
     "successDescription": "Twoja płatność została zrealizowana pomyślnie.",
     "intentError": "Błąd tworzenia płatności",
     "intentErrorDescription": "Nie udało się utworzyć płatności. Spróbuj ponownie lub skontaktuj się z nami.",
-    "secureInfo": "Płatności są bezpieczne i szyfrowane"
+    "secureInfo": "Płatności są bezpieczne i szyfrowane",
+    "completed": "Płatność została zrealizowana pomyślnie",
+    "required": {
+      "title": "Wymagana płatność",
+      "description": "Aby kontynuować, należy dokończyć proces płatności"
+    }
   },
   "paymentSuccess": {
     "title": "Płatność zakończona sukcesem!",

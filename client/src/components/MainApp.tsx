@@ -312,6 +312,17 @@ export default function MainApp({ services, isLoading }: MainAppProps) {
           return;
         }
         break;
+      case 3:
+        // Payment step - can only proceed if payment is completed
+        if (!paymentCompleted) {
+          toast({
+            title: t('payment.required.title', 'Wymagana płatność'),
+            description: t('payment.required.description', 'Aby kontynuować, należy dokończyć proces płatności'),
+            variant: "destructive",
+          });
+          return;
+        }
+        break;
     }
     
     // All validations passed, proceed to next step
