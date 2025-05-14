@@ -7,15 +7,20 @@ import {
   Info,
   CheckCircle2
 } from "lucide-react";
-import { Link } from "wouter";
+import { Link, useLocation } from "wouter";
 import i18next from "i18next";
+import { useTranslation } from "react-i18next";
 
 interface SummaryProps {
   serviceOrder: ServiceOrder;
+  paymentPending?: boolean;
+  onProceedToPayment?: () => void;
 }
 
-export default function Summary({ serviceOrder }: SummaryProps) {
+export default function Summary({ serviceOrder, paymentPending = false, onProceedToPayment }: SummaryProps) {
+  const { t } = useTranslation();
   const { service, configuration, contactInfo, totalPrice, uploadedFile } = serviceOrder;
+  const [, setLocation] = useLocation();
 
   if (!service) {
     return <div>Nie wybrano usługi</div>;
@@ -268,7 +273,7 @@ export default function Summary({ serviceOrder }: SummaryProps) {
                 <div className="bg-accent/10 rounded-full w-6 h-6 flex items-center justify-center flex-shrink-0 mt-0.5">
                   <span className="text-accent font-medium text-sm">3</span>
                 </div>
-                <p className="ml-3 text-dark-light">Po potwierdzeniu szczegółów otrzymasz fakturę pro-forma.</p>
+                <p className="ml-3 text-dark-light">Możesz teraz przejść do płatności online lub poczekać na kontakt z naszej strony.</p>
               </li>
               
               <li className="flex">
@@ -280,11 +285,21 @@ export default function Summary({ serviceOrder }: SummaryProps) {
             </ul>
           </div>
           
-          <Link href="/">
-            <Button className="w-full text-center bg-primary hover:bg-primary/90 text-white font-medium rounded-lg py-3 transition-colors">
-              Wróć do strony głównej
+          <div className="flex flex-col space-y-3">
+            <Button 
+              onClick={() => setLocation(`/checkout?order_id=${service.id}&price=${totalPrice}`)}
+              className="w-full text-center bg-primary hover:bg-primary/90 text-white font-medium rounded-lg py-3 transition-colors"
+              disabled={paymentPending}
+            >
+              {paymentPending ? t('payment.processing') : t('payment.payNow')}
             </Button>
-          </Link>
+            
+            <Link href="/">
+              <Button variant="outline" className="w-full text-center border-gray-300 text-gray-700 hover:bg-gray-50 font-medium rounded-lg py-3 transition-colors">
+                {t('common.backToHome')}
+              </Button>
+            </Link>
+          </div>
         </motion.div>
       </div>
     </motion.div>

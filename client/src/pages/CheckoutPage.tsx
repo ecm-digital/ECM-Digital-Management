@@ -151,18 +151,36 @@ const CheckoutPage = () => {
   const [, setLocation] = useLocation();
 
   useEffect(() => {
-    // W rzeczywistej implementacji, pobierałbyś dane zamówienia z parametrów URL lub global state
-    // Na potrzeby demonstracji używamy danych testowych
-    const testOrderData: OrderData = {
-      amount: 299.99,
-      currency: 'pln',
-      description: 'ECM Digital - Audyt UX z elementami AI',
-      items: [
-        { name: 'Audyt UX z elementami AI', price: 299.99 }
-      ]
-    };
+    // Pobieranie informacji o zamówieniu z parametrów URL
+    const params = new URLSearchParams(window.location.search);
+    const orderId = params.get('order_id');
+    const price = params.get('price');
     
-    setOrderData(testOrderData);
+    if (orderId && price) {
+      // Przekształcenie danych zamówienia na potrzeby płatności
+      const orderData: OrderData = {
+        amount: parseFloat(price),
+        currency: i18next.language === 'de' ? 'eur' : 'pln',
+        description: `ECM Digital - Service ID: ${orderId}`,
+        items: [
+          { name: `Service ID: ${orderId}`, price: parseFloat(price) }
+        ]
+      };
+      
+      setOrderData(orderData);
+    } else {
+      // W przypadku braku parametrów, używamy domyślnych danych testowych
+      const testOrderData: OrderData = {
+        amount: 299.99,
+        currency: 'pln',
+        description: 'ECM Digital - Demo Service',
+        items: [
+          { name: 'Demo Service', price: 299.99 }
+        ]
+      };
+      
+      setOrderData(testOrderData);
+    }
 
     // Utwórz PaymentIntent w Stripe
     const createPaymentIntent = async () => {
