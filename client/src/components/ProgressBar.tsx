@@ -2,16 +2,21 @@ import { motion } from "framer-motion";
 
 interface ProgressBarProps {
   currentStep: number;
-  steps: string[];
+  totalSteps: number;
+  labels?: string[];
 }
 
-export default function ProgressBar({ currentStep, steps }: ProgressBarProps) {
+export default function ProgressBar({ currentStep, totalSteps, labels }: ProgressBarProps) {
+  // Create default step labels if translations are missing
+  const defaultLabels = Array.from({ length: totalSteps }, (_, i) => `Step ${i + 1}`);
+  const steps = labels || defaultLabels;
+  
   return (
     <div className="mb-12 relative">
       <div className="flex justify-between relative">
         {steps.map((stepName, index) => (
           <div 
-            key={stepName} 
+            key={index} 
             className="progress-bar-item relative flex flex-col items-center z-10"
           >
             <motion.div 
@@ -39,7 +44,7 @@ export default function ProgressBar({ currentStep, steps }: ProgressBarProps) {
       <motion.div 
         className="absolute top-5 left-0 h-0.5 bg-primary" 
         initial={{ width: 0 }}
-        animate={{ width: `${(currentStep / (steps.length - 1)) * 100}%` }}
+        animate={{ width: `${(currentStep / (totalSteps - 1)) * 100}%` }}
         transition={{ duration: 0.5 }}
       />
     </div>

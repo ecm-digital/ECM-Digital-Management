@@ -1,0 +1,34 @@
+i18next::translator: missingKey de translation services.backToDetails services.backToDetails
+i18next::translator: missingKey de translation services.configurator.title services.configurator.title
+i18next::translator: missingKey de translation services.configurator.customizeSelectedService services.configurator.customizeSelectedService
+i18next::translator: missingKey de translation navigation.blog Blog
+i18next::translator: missingKey de translation navigation.knowledge Baza Wiedzy
+i18next::translator: missingKey de translation steps.selectService steps.selectService
+i18next::translator: missingKey de translation steps.configureService steps.configureService
+i18next::translator: missingKey de translation steps.contactInformation steps.contactInformation
+i18next::translator: missingKey de translation steps.review steps.review
+Cannot read properties of undefined (reading 'map')
+The above error occurred in the <ProgressBar> component:
+
+    at ProgressBar (https://1b96d7ce-883e-43ed-b1f4-4de84a16b941-00-1cr7e0fdfvpq5.picard.replit.dev/src/components/ProgressBar.tsx:18:39)
+    at div
+    at div
+    at MainApp (https://1b96d7ce-883e-43ed-b1f4-4de84a16b941-00-1cr7e0fdfvpq5.picard.replit.dev/src/components/MainApp.tsx:33:35)
+    at div
+    at div
+    at main
+    at div
+    at Layout (https://1b96d7ce-883e-43ed-b1f4-4de84a16b941-00-1cr7e0fdfvpq5.picard.replit.dev/src/components/Layout.tsx:19:34)
+    at ConfigureServicePage (https://1b96d7ce-883e-43ed-b1f4-4de84a16b941-00-1cr7e0fdfvpq5.picard.replit.dev/src/pages/ConfigureServicePage.tsx:28:17)
+    at Route (https://1b96d7ce-883e-43ed-b1f4-4de84a16b941-00-1cr7e0fdfvpq5.picard.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/wouter.js?v=d44fa1dd:338:16)
+    at Switch (https://1b96d7ce-883e-43ed-b1f4-4de84a16b941-00-1cr7e0fdfvpq5.picard.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/wouter.js?v=d44fa1dd:394:17)
+    at Suspense
+    at Provider (https://1b96d7ce-883e-43ed-b1f4-4de84a16b941-00-1cr7e0fdfvpq5.picard.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-VFYO4PQK.js?v=d44fa1dd:38:15)
+    at TooltipProvider (https://1b96d7ce-883e-43ed-b1f4-4de84a16b941-00-1cr7e0fdfvpq5.picard.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@radix-ui_react-tooltip.js?v=d44fa1dd:61:5)
+    at AuthProvider (https://1b96d7ce-883e-43ed-b1f4-4de84a16b941-00-1cr7e0fdfvpq5.picard.replit.dev/src/hooks/use-auth.tsx:26:32)
+    at App
+    at QueryClientProvider (https://1b96d7ce-883e-43ed-b1f4-4de84a16b941-00-1cr7e0fdfvpq5.picard.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@tanstack_react-query.js?v=d44fa1dd:2805:3)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries.
+Cannot read properties of undefined (reading 'map')
