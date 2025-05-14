@@ -619,6 +619,21 @@
       "invalidEmail": "Podaj prawidłowy adres email"
     }
   },
+  "configuration": {
+    "title": "Konfiguracja usługi",
+    "subtitle": "Dostosuj parametry usługi do Twoich potrzeb",
+    "currentPrice": "Aktualna wycena",
+    "deliveryTime": "Czas realizacji",
+    "workingDays": "dni roboczych",
+    "selectService": "Proszę wybrać usługę, aby kontynuować",
+    "websiteUrl": "Link do strony",
+    "websiteUrlPlaceholder": "https://twoja-strona.pl",
+    "projectBrief": "Brief projektu",
+    "projectGoals": "Cele projektu (opcjonalnie)",
+    "projectGoalsPlaceholder": "Opisz główne cele, które chcesz osiągnąć dzięki",
+    "additionalFiles": "Dodatkowe pliki",
+    "selectChoicePlaceholder": "Wybierz"
+  },
   "steps": {
     "selectService": "Wybierz usługę",
     "configureService": "Skonfiguruj usługę",

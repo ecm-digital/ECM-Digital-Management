@@ -14,6 +14,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Textarea } from "@/components/ui/textarea";
 import FileUpload from "./FileUpload";
 import { Card, CardContent } from "@/components/ui/card";
+import { useTranslation } from "react-i18next";
 import i18next from "i18next";
 
 interface ServiceConfigurationProps {
@@ -33,6 +34,7 @@ export default function ServiceConfiguration({
   initialPrice = 0,
   uploadedFile
 }: ServiceConfigurationProps) {
+  const { t } = useTranslation();
   const [configuration, setConfiguration] = useState<Record<string, any>>(initialConfiguration);
   const [price, setPrice] = useState<number>(initialPrice || (service?.basePrice || 0));
   const [deliveryTime, setDeliveryTime] = useState<number>(service?.deliveryTime || 0);
@@ -169,7 +171,7 @@ export default function ServiceConfiguration({
   };
 
   if (!service) {
-    return <div>Proszę wybrać usługę, aby kontynuować.</div>;
+    return <div>{t('configuration.selectService')}</div>;
   }
 
   return (
@@ -180,19 +182,19 @@ export default function ServiceConfiguration({
     >
       <div className="flex justify-between items-start mb-8">
         <div>
-          <h2 className="text-3xl font-bold text-dark mb-3">Konfiguracja usługi</h2>
+          <h2 className="text-3xl font-bold text-dark mb-3">{t('configuration.title')}</h2>
           <p className="text-dark-light">
-            Dostosuj parametry usługi <span className="font-medium text-primary">{service.name}</span> do Twoich potrzeb
+            {t('configuration.subtitle')} <span className="font-medium text-primary">{service.name}</span>
           </p>
         </div>
         <Card className="shadow-md min-w-[200px]">
           <CardContent className="pt-4">
-            <p className="text-sm text-dark-light mb-1">Aktualna wycena:</p>
+            <p className="text-sm text-dark-light mb-1">{t('configuration.currentPrice')}:</p>
             <p className="text-2xl font-bold text-dark">
               {price.toLocaleString()} {i18next.language === 'de' ? '€' : 'PLN'}
             </p>
             <p className="text-xs text-dark-light">
-              Czas realizacji: <span>{deliveryTime} dni roboczych</span>
+              {t('configuration.deliveryTime')}: <span>{deliveryTime} {t('configuration.workingDays')}</span>
             </p>
           </CardContent>
         </Card>
@@ -224,13 +226,13 @@ export default function ServiceConfiguration({
 
       {/* Website URL input */}
       <motion.div variants={itemVariants} className="bg-white rounded-xl p-6 shadow-sm mb-8">
-        <h3 className="text-xl font-semibold mb-4">Link do strony</h3>
+        <h3 className="text-xl font-semibold mb-4">{t('configuration.websiteUrl')}</h3>
         <div className="mb-6">
-          <Label htmlFor="website-url">Link do strony</Label>
+          <Label htmlFor="website-url">{t('configuration.websiteUrl')}</Label>
           <Input
             id="website-url"
             type="url"
-            placeholder="https://twoja-strona.pl"
+            placeholder={t('configuration.websiteUrlPlaceholder')}
             value={websiteUrl}
             onChange={handleWebsiteUrlChange}
             className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
@@ -240,14 +242,14 @@ export default function ServiceConfiguration({
 
       {/* Brief and file upload */}
       <motion.div variants={itemVariants} className="bg-white rounded-xl p-6 shadow-sm">
-        <h3 className="text-xl font-semibold mb-4">Brief projektu</h3>
+        <h3 className="text-xl font-semibold mb-4">{t('configuration.projectBrief')}</h3>
         
         <div className="mb-6">
-          <Label htmlFor="brief">Cele projektu (opcjonalnie)</Label>
+          <Label htmlFor="brief">{t('configuration.projectGoals')}</Label>
           <Textarea
             id="brief"
             rows={3}
-            placeholder={`Opisz główne cele, które chcesz osiągnąć dzięki ${service.name}...`}
+            placeholder={`${t('configuration.projectGoalsPlaceholder')} ${service.name}...`}
             value={configuration.brief || ''}
             onChange={handleBriefChange}
             className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
@@ -255,7 +257,7 @@ export default function ServiceConfiguration({
         </div>
         
         <div>
-          <Label>Dodatkowe pliki</Label>
+          <Label>{t('configuration.additionalFiles')}</Label>
           <FileUpload onFileUpload={onFileUpload} />
         </div>
       </motion.div>
@@ -275,7 +277,7 @@ export default function ServiceConfiguration({
               onValueChange={(value) => handleOptionChange(option.id, value, option)}
             >
               <SelectTrigger className="w-full border border-gray-300 rounded-lg px-4 py-6 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
-                <SelectValue placeholder={`Wybierz ${option.label.toLowerCase()}`} />
+                <SelectValue placeholder={`${t('configuration.selectChoicePlaceholder')} ${option.label.toLowerCase()}`} />
               </SelectTrigger>
               <SelectContent>
                 {option.choices?.map((choice) => (
