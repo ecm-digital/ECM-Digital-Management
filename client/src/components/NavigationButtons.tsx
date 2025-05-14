@@ -3,25 +3,25 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, ArrowLeft, Loader2 } from "lucide-react";
 
 interface NavigationButtonsProps {
-  onPrev: () => void;
+  onBack: () => void;
   onNext: () => void;
   isFirstStep: boolean;
-  isLastStep: boolean;
+  isLastStep?: boolean;
   isSubmitting: boolean;
 }
 
 export default function NavigationButtons({
-  onPrev,
+  onBack,
   onNext,
   isFirstStep,
-  isLastStep,
+  isLastStep = false,
   isSubmitting
 }: NavigationButtonsProps) {
   return (
     <div className="flex justify-between">
       <Button
         variant="outline"
-        onClick={onPrev}
+        onClick={onBack}
         disabled={isFirstStep || isSubmitting}
         style={{ visibility: isFirstStep ? "hidden" : "visible" }}
         className="px-6 py-3 border border-gray-300 text-dark-light font-medium rounded-lg hover:bg-gray-50 transition-colors flex items-center"
