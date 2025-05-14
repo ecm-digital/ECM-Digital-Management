@@ -6,14 +6,14 @@ import { Skeleton } from "@/components/ui/skeleton";
 interface ServiceSelectionProps {
   services: Service[];
   isLoading: boolean;
-  onSelect: (service: Service) => void;
+  onSelectService: (service: Service) => void;
   selectedService: Service | null;
 }
 
 export default function ServiceSelection({
   services,
   isLoading,
-  onSelect,
+  onSelectService,
   selectedService,
 }: ServiceSelectionProps) {
   // Map service IDs to icons
@@ -90,7 +90,7 @@ export default function ServiceSelection({
                   ? "border-primary shadow-md"
                   : "border-gray-200"
               } hover:border-primary hover:shadow-md transition-all cursor-pointer`}
-              onClick={() => onSelect(service)}
+              onClick={() => onSelectService(service)}
             >
               <div className="flex items-start mb-4">
                 <div className="bg-primary/10 p-3 rounded-lg">

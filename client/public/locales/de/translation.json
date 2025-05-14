@@ -1319,6 +1319,12 @@
     "completeData": "Daten vervollständigen",
     "fillRequiredFields": "Bitte füllen Sie alle erforderlichen Felder aus",
     "startAgain": "Neu starten",
+    "form": {
+      "error": {
+        "title": "Fehler im Formular",
+        "selectService": "Bitte wählen Sie eine Dienstleistung aus"
+      }
+    },
     "steps": {
       "serviceSelection": "Dienstleistungsauswahl",
       "configuration": "Konfiguration",
