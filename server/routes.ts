@@ -514,6 +514,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   // Serve uploaded files
   app.use('/uploads', express.static(uploadDir));
+
+  // Stripe payment endpoints
+  app.post('/api/create-payment-intent', createPaymentIntent);
+  app.post('/api/create-customer', createCustomer);
+  app.post('/api/webhook', handleStripeWebhook);
   
   // Test endpoint for development - do not use in production
   app.get('/api/test/client-panel-data', async (req, res) => {
