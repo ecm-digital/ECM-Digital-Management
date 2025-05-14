@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import i18next from 'i18next';
 import { useLocation } from 'wouter';
 import { loadStripe } from '@stripe/stripe-js';
 import {
@@ -170,7 +171,7 @@ const CheckoutPage = () => {
       setOrderData(orderData);
     } else {
       // W przypadku braku parametrów, używamy domyślnych danych testowych
-      const testOrderData: OrderData = {
+      const defaultOrderData: OrderData = {
         amount: 299.99,
         currency: 'pln',
         description: 'ECM Digital - Demo Service',
@@ -179,10 +180,14 @@ const CheckoutPage = () => {
         ]
       };
       
-      setOrderData(testOrderData);
+      setOrderData(defaultOrderData);
     }
+  }, []);
 
-    // Utwórz PaymentIntent w Stripe
+  // Utwórz PaymentIntent w Stripe po ustawieniu orderData
+  useEffect(() => {
+    if (!orderData) return;
+    
     const createPaymentIntent = async () => {
       try {
         // użycie metody fetch bezpośrednio zamiast apiRequest
@@ -192,10 +197,10 @@ const CheckoutPage = () => {
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            amount: testOrderData.amount,
-            currency: testOrderData.currency,
+            amount: orderData?.amount || 0,
+            currency: orderData?.currency || 'pln',
             metadata: {
-              order_description: testOrderData.description
+              order_description: orderData?.description || 'Unknown service'
             }
           })
         });
