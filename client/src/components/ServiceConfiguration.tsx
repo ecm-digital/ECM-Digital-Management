@@ -18,17 +18,17 @@ import i18next from "i18next";
 
 interface ServiceConfigurationProps {
   service: Service | null;
-  onChange: (configuration: Record<string, any>, price: number, deliveryTime: number) => void;
+  onConfigurationChange: (configuration: Record<string, any>, price: number, deliveryTime: number) => void;
   onFileUpload: (file: File | null) => void;
-  initialConfiguration?: Record<string, any>;
+  configuration?: Record<string, any>;
   initialPrice?: number;
 }
 
 export default function ServiceConfiguration({
   service,
-  onChange,
+  onConfigurationChange,
   onFileUpload,
-  initialConfiguration = {},
+  configuration: initialConfiguration = {},
   initialPrice = 0
 }: ServiceConfigurationProps) {
   const [configuration, setConfiguration] = useState<Record<string, any>>(initialConfiguration);
@@ -117,8 +117,8 @@ export default function ServiceConfiguration({
     const newConfig = { ...configuration, [optionId]: value };
     setConfiguration(newConfig);
     
-    // Call parent onChange callback
-    onChange(newConfig, price, deliveryTime);
+    // Call parent onConfigurationChange callback
+    onConfigurationChange(newConfig, price, deliveryTime);
   };
 
   const handleWebsiteUrlChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -126,14 +126,14 @@ export default function ServiceConfiguration({
     setWebsiteUrl(url);
     const newConfig = { ...configuration, websiteUrl: url };
     setConfiguration(newConfig);
-    onChange(newConfig, price, deliveryTime);
+    onConfigurationChange(newConfig, price, deliveryTime);
   };
 
   const handleBriefChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const brief = e.target.value;
     const newConfig = { ...configuration, brief };
     setConfiguration(newConfig);
-    onChange(newConfig, price, deliveryTime);
+    onConfigurationChange(newConfig, price, deliveryTime);
   };
 
   const containerVariants = {

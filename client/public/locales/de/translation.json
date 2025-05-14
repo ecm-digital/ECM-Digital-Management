@@ -1326,14 +1326,14 @@
       }
     },
     "steps": {
-      "serviceSelection": "Dienstleistungsauswahl",
-      "configuration": "Konfiguration",
-      "contactInfo": "Kontaktinformationen",
-      "summary": "Zusammenfassung",
       "selectService": "Dienstleistung auswählen",
       "configureService": "Dienstleistung konfigurieren",
       "contactInformation": "Kontaktinformationen",
-      "review": "Überprüfung"
+      "review": "Zusammenfassung",
+      "serviceSelection": "Dienstleistungsauswahl",
+      "configuration": "Konfiguration",
+      "contactInfo": "Kontaktinformationen",
+      "summary": "Zusammenfassung"
     },
     "payment": {
       "title": "Zahlungsabwicklung",
