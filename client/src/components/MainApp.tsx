@@ -117,13 +117,18 @@ export default function MainApp({ services, isLoading }: MainAppProps) {
       }
       
       // Create the service order with all the collected data
-      const serviceOrder: ServiceOrder = {
+      const serviceOrder = {
         service: data.service,
         configuration: data.configuration,
         contactInfo: data.contactInfo,
         totalPrice: data.totalPrice,
         deliveryTime: data.deliveryTime,
-        uploadedFile: data.uploadedFile
+        uploadedFile: data.uploadedFile ? {
+          name: data.uploadedFile.name,
+          size: data.uploadedFile.size,
+          type: data.uploadedFile.type,
+          url: fileUrl
+        } : null
       };
       
       // Send the service order to the backend
@@ -212,15 +217,12 @@ export default function MainApp({ services, isLoading }: MainAppProps) {
       <Summary 
         key="summary"
         serviceOrder={{
-          serviceId: selectedService?.id || "",
-          serviceName: selectedService?.name || "",
+          service: selectedService,
           configuration,
           contactInfo,
           totalPrice,
-          status: "pending",
           deliveryTime,
-          currency: i18next.language === 'pl' ? 'PLN' : 'EUR',
-          createdAt: new Date().toISOString(),
+          uploadedFile
         }}
         paymentPending={paymentPending}
         onProceedToPayment={() => {
