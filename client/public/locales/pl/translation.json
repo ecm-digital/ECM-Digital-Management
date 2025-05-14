@@ -550,5 +550,23 @@
   },
   "leadMagnet": {
     "emailLabel": "Adres email"
+  },
+  "steps": {
+    "selectService": "Wybierz usługę",
+    "configureService": "Skonfiguruj usługę",
+    "contactInformation": "Dane kontaktowe",
+    "review": "Podsumowanie"
+  },
+  "services": {
+    "configurator": {
+      "title": "Konfigurator usług",
+      "chooseService": "Wybierz usługę",
+      "customizeSelectedService": "Dostosuj wybraną usługę"
+    },
+    "backToDetails": "Powrót do szczegółów"
+  },
+  "navigation": {
+    "blog": "Blog",
+    "knowledge": "Baza Wiedzy"
   }
 }
