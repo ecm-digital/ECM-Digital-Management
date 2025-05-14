@@ -224,6 +224,10 @@ const orderSubmissionSchema = z.object({
 });
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  // Endpoints płatności Stripe - dostępne publicznie dla testowania
+  app.post('/api/payments/create-intent', createPaymentIntent);
+  app.post('/api/payments/create-customer', createCustomer);
+  app.post('/api/payments/webhook', express.raw({type: 'application/json'}), handleStripeWebhook);
   // Ustawienie sesji dla lokalnego uwierzytelniania
   setupSession(app);
   
