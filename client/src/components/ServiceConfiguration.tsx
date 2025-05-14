@@ -42,6 +42,9 @@ export default function ServiceConfiguration({
     if (service && Object.keys(initialConfiguration).length === 0) {
       // Initialize configuration with default values if not already set
       const defaultConfig: Record<string, any> = {};
+      let calculatedPrice = service.basePrice || 0;
+      let calculatedDeliveryTime = service.deliveryTime || 0;
+      
       service.steps?.forEach(step => {
         step.options?.forEach(option => {
           if (option.type === 'select' && option.choices && option.choices.length > 0) {
@@ -50,12 +53,12 @@ export default function ServiceConfiguration({
             
             // Apply initial price from default selection
             if (firstChoice && firstChoice.priceAdjustment) {
-              setPrice(prev => prev + firstChoice.priceAdjustment!);
+              calculatedPrice += firstChoice.priceAdjustment;
             }
             
             // Apply initial delivery time from default selection
             if (firstChoice && firstChoice.deliveryTimeAdjustment) {
-              setDeliveryTime(prev => prev + firstChoice.deliveryTimeAdjustment!);
+              calculatedDeliveryTime += firstChoice.deliveryTimeAdjustment;
             }
           } else if (option.type === 'checkbox') {
             defaultConfig[option.id] = false;
@@ -63,11 +66,15 @@ export default function ServiceConfiguration({
         });
       });
       
+      // Set state
       setConfiguration(defaultConfig);
-      setPrice(service.basePrice);
-      setDeliveryTime(service.deliveryTime);
+      setPrice(calculatedPrice);
+      setDeliveryTime(calculatedDeliveryTime);
+      
+      // Call the onChange callback with initial values
+      onConfigurationChange(defaultConfig, calculatedPrice, calculatedDeliveryTime);
     }
-  }, [service, initialConfiguration]);
+  }, [service, initialConfiguration, onConfigurationChange]);
 
   // Calculate price and update configuration when options change
   const handleOptionChange = (optionId: string, value: any, option: ConfigOption) => {

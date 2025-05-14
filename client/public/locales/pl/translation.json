@@ -551,6 +551,73 @@
   "leadMagnet": {
     "emailLabel": "Adres email"
   },
+  "contact": {
+    "title": "Dane kontaktowe",
+    "subtitle": "Podaj informacje kontaktowe",
+    "company": "Nazwa firmy",
+    "website": "Strona www",
+    "industry": "Branża",
+    "companySize": "Wielkość firmy",
+    "name": "Imię i nazwisko",
+    "email": "Email",
+    "phone": "Telefon",
+    "message": "Dodatkowe informacje",
+    "consent": "Wyrażam zgodę na przetwarzanie moich danych osobowych",
+    "newsletterConsent": "Chcę otrzymywać newsletter z poradami UX/UI",
+    "inputPlaceholders": {
+      "company": "Nazwa Twojej firmy",
+      "website": "https://twoja-firma.pl",
+      "name": "Imię i nazwisko",
+      "email": "twoj@email.pl",
+      "phone": "Numer telefonu",
+      "message": "Dodatkowe informacje dla nas..."
+    },
+    "industryOptions": {
+      "ecommerce": "E-commerce",
+      "finance": "Finanse i bankowość",
+      "healthcare": "Opieka zdrowotna",
+      "technology": "Technologia",
+      "education": "Edukacja",
+      "manufacturing": "Produkcja",
+      "retail": "Handel detaliczny",
+      "services": "Usługi",
+      "other": "Inna"
+    },
+    "companySizeOptions": {
+      "solo": "Jednoosobowa",
+      "small": "Mała (2-10)",
+      "medium": "Średnia (11-50)",
+      "large": "Duża (51-200)",
+      "enterprise": "Korporacja (200+)"
+    }
+  },
+  "summary": {
+    "title": "Podsumowanie zamówienia",
+    "subtitle": "Sprawdź swoje zamówienie przed zatwierdzeniem",
+    "service": "Usługa",
+    "configuration": "Konfiguracja",
+    "option": "Opcja",
+    "value": "Wartość",
+    "contactDetails": "Dane kontaktowe",
+    "pricing": "Wycena",
+    "basePrice": "Cena podstawowa",
+    "additionalOptions": "Dodatkowe opcje",
+    "totalPrice": "Suma",
+    "deliveryTime": "Czas realizacji",
+    "days": "dni roboczych",
+    "termsAndConditions": "Zapoznałem/am się z regulaminem i polityką prywatności",
+    "submitOrder": "Złóż zamówienie",
+    "paymentMethod": "Metoda płatności",
+    "proceedToPayment": "Przejdź do płatności"
+  },
+  "form": {
+    "error": {
+      "title": "Błąd formularza",
+      "selectService": "Wybierz usługę",
+      "requiredFields": "Wypełnij wszystkie wymagane pola",
+      "invalidEmail": "Podaj prawidłowy adres email"
+    }
+  },
   "steps": {
     "selectService": "Wybierz usługę",
     "configureService": "Skonfiguruj usługę",
@@ -563,7 +630,19 @@
       "chooseService": "Wybierz usługę",
       "customizeSelectedService": "Dostosuj wybraną usługę"
     },
-    "backToDetails": "Powrót do szczegółów"
+    "backToDetails": "Powrót do szczegółów",
+    "categories": {
+      "uxDesign": "UX/UI Design",
+      "webDevelopment": "Web Development",
+      "socialMedia": "Social Media",
+      "aiIntegration": "AI Integracja",
+      "startupOffer": "Oferta dla Startupów"
+    },
+    "viewAllServices": "Zobacz wszystkie usługi",
+    "subtitle": "Nasze usługi",
+    "title": "Co możemy dla Ciebie zrobić?",
+    "ourOffer": "Nasza oferta",
+    "offerDescription": "Kompleksowe usługi dla Twojego biznesu online"
   },
   "navigation": {
     "blog": "Blog",

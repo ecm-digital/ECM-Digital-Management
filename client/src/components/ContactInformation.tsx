@@ -7,6 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Service } from "@/types";
+import { useTranslation } from "react-i18next";
 import i18next from "i18next";
 
 interface ContactInformationProps {

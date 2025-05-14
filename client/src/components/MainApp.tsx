@@ -204,13 +204,22 @@ export default function MainApp({ services, isLoading }: MainAppProps) {
         key="service-configuration"
         service={selectedService}
         configuration={configuration}
-        onConfigurationChange={(config) => {
+        onConfigurationChange={(config, price, deliveryTime) => {
           setConfiguration(config);
-          const newTotalPrice = calculateTotalPrice(selectedService, config);
+          
+          // Use provided price if available, otherwise calculate
+          const newTotalPrice = price || calculateTotalPrice(selectedService, config);
           setTotalPrice(newTotalPrice);
+          
+          // Use provided delivery time if available
+          if (deliveryTime) {
+            setDeliveryTime(deliveryTime);
+          }
+          
           updateFormData({ 
             configuration: config,
-            totalPrice: newTotalPrice
+            totalPrice: newTotalPrice,
+            deliveryTime: deliveryTime || formData.deliveryTime
           });
         }}
         uploadedFile={uploadedFile}
