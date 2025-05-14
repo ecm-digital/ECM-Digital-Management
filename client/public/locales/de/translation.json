@@ -1394,5 +1394,37 @@
       "successTitle": "E-Book gesendet!",
       "successMessage": "Ihr E-Book steht zum Download bereit. Bitte überprüfen Sie auch Ihren E-Mail-Eingang, wir haben eine Kopie der Datei dorthin gesendet."
     }
+  },
+  "payment": {
+    "title": "Zahlung für Dienstleistung",
+    "orderSummary": "Bestellübersicht",
+    "orderSummaryDesc": "Überprüfen Sie Ihre Bestelldetails vor der Zahlung",
+    "items": "Artikel",
+    "total": "Gesamtbetrag",
+    "paymentDetails": "Zahlungsdetails",
+    "paymentDetailsDesc": "Geben Sie Ihre Kartendaten ein",
+    "pay": "Bezahlen",
+    "processing": "Verarbeitung...",
+    "error": "Zahlungsfehler",
+    "generalError": "Bei der Zahlung ist ein Problem aufgetreten. Bitte versuchen Sie es erneut oder kontaktieren Sie uns.",
+    "success": "Zahlung erfolgreich",
+    "successDescription": "Ihre Zahlung wurde erfolgreich verarbeitet.",
+    "intentError": "Fehler bei der Zahlungserstellung",
+    "intentErrorDescription": "Die Zahlung konnte nicht erstellt werden. Bitte versuchen Sie es erneut oder kontaktieren Sie uns.",
+    "secureInfo": "Zahlungen sind sicher und verschlüsselt"
+  },
+  "paymentSuccess": {
+    "title": "Zahlung erfolgreich!",
+    "subtitle": "Vielen Dank für Ihre Bestellung",
+    "orderCompleted": "Bestellung abgeschlossen",
+    "orderDetails": "Bestelldetails",
+    "transactionId": "Transaktions-ID",
+    "noTransactionId": "Keine Transaktions-ID",
+    "whatHappensNext": "Was passiert als Nächstes?",
+    "step1": "Sie erhalten eine Bestätigungs-E-Mail zu Ihrer Bestellung",
+    "step2": "Unser Team wird sich innerhalb von 24 Stunden mit Ihnen in Verbindung setzen, um die Details zu besprechen",
+    "step3": "Wir beginnen mit der Arbeit an Ihrem Projekt gemäß dem vereinbarten Zeitplan",
+    "viewDashboard": "Zum Kundenbereich",
+    "browseMore": "Weitere Dienstleistungen durchsuchen"
   }
 }
