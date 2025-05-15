@@ -18,7 +18,8 @@ import {
   Info, 
   BookOpen, 
   BookText, 
-  Phone
+  Phone,
+  Calendar
 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import LanguageSwitcher from './LanguageSwitcher';
@@ -121,6 +122,12 @@ const Navbar = () => {
       label: t('navigation.knowledge', 'Baza Wiedzy'),
       isActive: location === '/knowledge',
       icon: <BookText className="h-4 w-4" />
+    },
+    { 
+      href: "/discovery-call", 
+      label: t('navigation.discoveryCall', 'Darmowa konsultacja'),
+      isActive: location === '/discovery-call',
+      icon: <Calendar className="h-4 w-4" />
     },
     { 
       href: location === '/' ? "#contact-form" : "/#contact-form", 

@@ -73,7 +73,7 @@ export default function DiscoveryCallPage() {
             <div className="p-2">
               <CalendlySchedule 
                 url="https://calendly.com/ecm-digital/discovery-call" 
-                type="inline"
+                height="600px"
               />
             </div>
           </motion.div>
