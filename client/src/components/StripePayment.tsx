@@ -116,14 +116,14 @@ export default function StripePayment({
   useEffect(() => {
     const createPaymentIntent = async () => {
       try {
-        const response = await fetch("/api/create-payment-intent", { 
+        const response = await fetch("/api/payments/create-intent", { 
           method: "POST",
           headers: {
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
             amount: totalPrice,
-            serviceId: service?.id
+            metadata: { serviceId: service?.id }
           }),
           credentials: "include"
         });
