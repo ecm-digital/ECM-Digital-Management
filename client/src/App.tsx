@@ -56,6 +56,9 @@ const KnowledgeSearchPage = lazy(() => import("./pages/KnowledgeSearchPage"));
 const CheckoutPage = lazy(() => import("./pages/CheckoutPage"));
 const PaymentSuccessPage = lazy(() => import("./pages/PaymentSuccessPage"));
 
+// Leniwe ładowanie strony Discovery Call
+const DiscoveryCallPage = lazy(() => import("./pages/DiscoveryCallPage"));
+
 // Komponent do wyświetlania podczas ładowania
 const LoadingFallback = () => (
   <div className="flex items-center justify-center min-h-screen">
@@ -590,6 +593,9 @@ function App() {
             {/* Payment Routes */}
             <Route path="/checkout" component={CheckoutPage} />
             <Route path="/payment-success" component={PaymentSuccessPage} />
+            
+            {/* Discovery Call Route */}
+            <Route path="/discovery-call" component={DiscoveryCallPage} />
             
             {/* Strona główna - musi być na końcu przed 404 */}
             <Route path="/" component={ClientHomePage} />
