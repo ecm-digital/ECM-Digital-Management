@@ -1488,6 +1488,44 @@
     "step1": "Sie erhalten eine Bestätigungs-E-Mail zu Ihrer Bestellung",
     "step2": "Unser Team wird sich innerhalb von 24 Stunden mit Ihnen in Verbindung setzen, um die Details zu besprechen",
     "step3": "Wir beginnen mit der Arbeit an Ihrem Projekt gemäß dem vereinbarten Zeitplan",
+  
+  "navigation": {
+    "blog": "Blog",
+    "knowledge": "Wissensdatenbank",
+    "home": "Startseite",
+    "about": "Über uns",
+    "services": "Dienstleistungen",
+    "caseStudies": "Fallstudien",
+    "contact": "Kontakt",
+    "clientPanel": "Kundenbereich",
+    "adminPanel": "Administrationsbereich",
+    "discoveryCall": "Kostenloses Beratungsgespräch"
+  },
+  
+  "calendly": {
+    "scheduleCall": "Beratungsgespräch vereinbaren",
+    "eventScheduled": "Termin vereinbart!",
+    "confirmationMessage": "Die Details des Termins wurden an Ihre E-Mail-Adresse gesendet."
+  },
+  
+  "discoveryCall": {
+    "title": "Vereinbaren Sie ein kostenloses Beratungsgespräch",
+    "subtitle": "Was ist ein Discovery Call?",
+    "description": "Ein Discovery Call ist ein kostenloses 30-minütiges Beratungsgespräch, bei dem wir Ihre Bedürfnisse, Geschäftsziele und Herausforderungen kennenlernen. Dies ist der erste Schritt zur Entwicklung einer effektiven Lösung für Ihr Unternehmen.",
+    "benefit1": "Individueller Ansatz und Verständnis Ihrer einzigartigen Bedürfnisse",
+    "benefit2": "Erste Vorschläge für Strategien und Lösungen",
+    "benefit3": "Möglichkeit, Fragen an die Experten von ECM Digital zu stellen",
+    "benefit4": "Keine Verpflichtungen - das Gespräch ist völlig kostenlos",
+    "scheduleTitle": "Wählen Sie einen passenden Termin",
+    "scheduleDescription": "Reservieren Sie 30 Minuten, die Ihr Geschäft verändern können. Wählen Sie einen passenden Termin aus dem Kalender unten.",
+    "howItWorks": "Wie läuft ein Discovery Call ab?",
+    "step1Title": "Terminvereinbarung",
+    "step1Description": "Wählen Sie einen passenden Termin und Uhrzeit in unserem Kalender",
+    "step2Title": "Gespräch",
+    "step2Description": "Wir sprechen über Ihre Bedürfnisse und geschäftlichen Herausforderungen",
+    "step3Title": "Empfehlungen",
+    "step3Description": "Sie erhalten erste Vorschläge und nächste Schritte für die Umsetzung"
+  },
     "viewDashboard": "Zum Kundenbereich",
     "browseMore": "Weitere Dienstleistungen durchsuchen"
   }

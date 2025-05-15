@@ -676,7 +676,31 @@
     "caseStudies": "Case Studies",
     "contact": "Kontakt",
     "clientPanel": "Panel klienta",
-    "adminPanel": "Panel administratora"
+    "adminPanel": "Panel administratora",
+    "discoveryCall": "Darmowa konsultacja"
+  },
+  "calendly": {
+    "scheduleCall": "Umów konsultację",
+    "eventScheduled": "Spotkanie zaplanowane!",
+    "confirmationMessage": "Szczegóły spotkania zostały wysłane na Twój adres email."
+  },
+  "discoveryCall": {
+    "title": "Umów bezpłatną konsultację",
+    "subtitle": "Czym jest Discovery Call?",
+    "description": "Discovery Call to bezpłatna, 30-minutowa konsultacja, podczas której poznamy Twoje potrzeby, cele biznesowe i wyzwania, z którymi się mierzysz. To pierwszy krok do opracowania skutecznego rozwiązania dla Twojej firmy.",
+    "benefit1": "Indywidualne podejście i zrozumienie Twoich unikalnych potrzeb",
+    "benefit2": "Wstępne sugestie dotyczące strategii i rozwiązań",
+    "benefit3": "Możliwość zadawania pytań ekspertom ECM Digital",
+    "benefit4": "Brak jakichkolwiek zobowiązań - spotkanie jest całkowicie bezpłatne",
+    "scheduleTitle": "Wybierz dogodny termin",
+    "scheduleDescription": "Zarezerwuj 30 minut, które mogą odmienić Twój biznes. Wybierz dogodny termin z poniższego kalendarza.",
+    "howItWorks": "Jak przebiega Discovery Call?",
+    "step1Title": "Rezerwacja",
+    "step1Description": "Wybierz dogodny termin i godzinę w naszym kalendarzu",
+    "step2Title": "Rozmowa",
+    "step2Description": "Porozmawiamy o Twoich potrzebach i wyzwaniach biznesowych",
+    "step3Title": "Rekomendacje",
+    "step3Description": "Otrzymasz wstępne sugestie i następne kroki do realizacji"
   },
   "chat": {
     "openChat": "Otwórz czat"
